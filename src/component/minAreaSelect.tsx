@@ -12,7 +12,8 @@ const useStyles = makeStyles((theme:Theme) =>
         },
         selectEmpty: {
             color: "#5A4628",
-            fontSize: "14px"
+            fontSize: "14px",
+            padding: '-2px 7px'
         },
 
 }));
@@ -38,9 +39,9 @@ export default function MinAreaSelect() {
                     <MenuItem value="">
                         <em>下限なし</em>
                     </MenuItem>
-                    <MenuItem value={10}>10m^2</MenuItem>
-                    <MenuItem value={20}>15m^2</MenuItem>
-                    <MenuItem value={30}>20m^2</MenuItem>
+                    <MenuItem value={10}>10m<sup>2</sup></MenuItem>
+                    <MenuItem value={15}>15m<sup>2</sup></MenuItem>
+                    <MenuItem value={20}>20m<sup>2</sup></MenuItem>
                 </Select>
             </FormControl>
         </div>

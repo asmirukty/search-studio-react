@@ -9,20 +9,18 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 const Accordion = withStyles({
     root: {
-        width: '100%',
-        border: '1px solid',
-        borderColor: '#D7D2C8',
         boxShadow: 'none',
-        height: 'fit-content',
-        '&:not(:last-child)': {
-            borderBottom: 0,
-        },
         '&:before': {
             display: 'none',
         },
         '&$expanded': {
             margin: 'auto',
-            height: 'fit-content'
+        },
+        '&:last-child': {
+            borderBottom: '1px solid #D7D2C8',
+            '&$expanded': {
+                borderBottom: 0
+            },
         },
     },
     expanded: {},
@@ -33,9 +31,10 @@ const AccordionSummary = withStyles({
         fontSize: '14px',
         color: '#5A4628',
         backgroundColor: '#F9F5F0',
-        height: '25px',
+        borderTop: '1px solid #D7D2C8',
+        minHeight: 20,
         '&$expanded': {
-            height: '16px',
+            minHeight: 20
         },
     },
     content: {
@@ -55,6 +54,7 @@ const AccordionSummary = withStyles({
 const AccordionDetails = withStyles({
     root: {
         padding: 0,
+        minHeight: 16,
     },
 })(MuiAccordionDetails);
 
@@ -69,9 +69,7 @@ export default function AreaAccordions() {
         <div>
             <Accordion square expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}
-                                  aria-label="Expand"
-                                  aria-controls="panel1d-content"
-                >
+                                  aria-controls="panel1d-content" id="panel1d-header">
                     <Typography variant='subtitle2'>北海道・東北</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
@@ -79,7 +77,6 @@ export default function AreaAccordions() {
             </Accordion>
             <Accordion square expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}
-                                  aria-label="Expand"
                                   aria-controls="panel2d-content" id="panel2d-header">
                     <Typography variant='subtitle2'>関東</Typography>
                 </AccordionSummary>
@@ -89,7 +86,6 @@ export default function AreaAccordions() {
             </Accordion>
             <Accordion square expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}
-                                  aria-label="Expand"
                                   aria-controls="panel3d-content" id="panel3d-header">
                     <Typography variant='subtitle2'>中部</Typography>
                 </AccordionSummary>

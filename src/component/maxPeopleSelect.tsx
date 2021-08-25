@@ -11,8 +11,10 @@ const useStyles = makeStyles((theme:Theme) =>
             minWidth: 120,
         },
         selectEmpty: {
+            backgroundColor: 'white',
             color: "#5A4628",
-            fontSize: "14px"
+            fontSize: "14px",
+            padding: '2px 7px'
         },
 
 }));
@@ -38,9 +40,9 @@ export default function MaxPeopleSelect() {
                     <MenuItem value="">
                         <em>上限なし</em>
                     </MenuItem>
-                    <MenuItem value={10}>1人</MenuItem>
-                    <MenuItem value={20}>3人</MenuItem>
-                    <MenuItem value={30}>5人</MenuItem>
+                    <MenuItem value={1}>1人</MenuItem>
+                    <MenuItem value={3}>3人</MenuItem>
+                    <MenuItem value={5}>5人</MenuItem>
                 </Select>
             </FormControl>
         </div>

@@ -36,7 +36,10 @@ export default function StudioName() {
                 size="small"
                 placeholder="スタジオ名を入力"
                 inputProps={{
-                    style: {color: '#5A4628', fontSize: '14px', padding: '10px'}
+                    style: {color: '#5A4628',
+                            fontSize: '14px',
+                            padding: '10px',
+                    }
                 }}
                 variant="outlined"
             />

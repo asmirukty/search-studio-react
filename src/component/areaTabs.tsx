@@ -10,15 +10,22 @@ import AreaAccordions from "./areaAccordion";
 const useStyles = makeStyles(()=>
     createStyles( {
         root: {
+            backgroundColor: '#F9F5F0',
             flexGrow: 1,
             height: '80vh',
-            backgroundColor: '#F9F5F0',
-            color: "#5A4628"
+            color: "#5A4628",
+        },
+        appBar: {
+            borderColor: "#5A4628"
         },
         tabs: {
+            borderColor: "#5A4628",
             backgroundColor: '#F9F5F0',
             color: "#5A4628",
         },
+        tab: {
+            flexGrow: 1
+        }
 }));
 
 interface TabPanelProps {
@@ -64,12 +71,12 @@ export default function AreaTabs() {
 
     return (
         <div className={classes.root}>
-            <AppBar position="static">
+            <AppBar className={classes.appBar} position="static">
                 <Tabs className={classes.tabs}
                       TabIndicatorProps={{style: {backgroundColor: '#1D356A'}}}
                       value={value} onChange={handleChange} aria-label="simple tabs example">
-                    <Tab label="エリア" {...a11yProps(0)} />
-                    <Tab label="沿線・駅" {...a11yProps(1)} />
+                    <Tab label="エリア" {...a11yProps(0)} className={classes.tab}/>
+                    <Tab label="沿線・駅" {...a11yProps(1)} className={classes.tab}/>
                 </Tabs>
             </AppBar>
             <TabPanel value={value} index={0}>

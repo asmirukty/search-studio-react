@@ -9,6 +9,7 @@ import AreaDialog from "./areaDialog";
 import SpaceDialog from "./spaceDialog";
 import DateDialog from "./dateDialog";
 import DetailDialog from "./detailDialog";
+import DateMatchRadio from "./dateMatchRadio";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -16,7 +17,7 @@ const useStyles = makeStyles(() =>
             minWidth: 275
         },
         title: {
-            color: '#5A4628'
+            color: "#5A4628"
         },
         box: {
             fieldset: {
@@ -24,10 +25,6 @@ const useStyles = makeStyles(() =>
             }},
         pos: {
             marginBottom: 12,
-        },
-        btn: {
-            fontSize: 14,
-            color: "#5A4628",
         },
         searchBtn: {
             fontSize: 16,
@@ -58,6 +55,7 @@ export default function StudioPageCard() {
                     日時
                 </Typography>
                 <DateDialog/>
+                <DateMatchRadio/>
                 <DetailDialog/>
                 <Button className={classes.searchBtn}>検索</Button>
             </CardContent>

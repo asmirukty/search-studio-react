@@ -3,6 +3,7 @@ import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import {InputLabel} from "@material-ui/core";
 
 const useStyles = makeStyles((theme:Theme) =>
     createStyles( {
@@ -15,22 +16,25 @@ const useStyles = makeStyles((theme:Theme) =>
             fontSize: "14px",
             padding: '2px 7px'
         },
+        label: {
+            color: '#5A4628'
+        }
+    }));
 
-}));
-
-export default function MinPeopleSelect() {
+export default function MinMirrorSelect() {
     const classes = useStyles();
-    const [people, setPeople] = React.useState('');
+    const [mirror, setMirror] = React.useState('');
 
     const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-        setPeople(event.target.value as string);
+        setMirror(event.target.value as string);
     };
 
     return (
         <div>
             <FormControl className={classes.formControl}>
+                <InputLabel shrink className={classes.label}>横幅</InputLabel>
                 <Select
-                    value={people}
+                    value={mirror}
                     onChange={handleChange}
                     displayEmpty
                     className={classes.selectEmpty}
@@ -39,9 +43,16 @@ export default function MinPeopleSelect() {
                     <MenuItem value="">
                         <em>下限なし</em>
                     </MenuItem>
-                    <MenuItem value={1}>1人</MenuItem>
-                    <MenuItem value={3}>3人</MenuItem>
-                    <MenuItem value={5}>5人</MenuItem>
+                    <MenuItem value={5}>5m</MenuItem>
+                    <MenuItem value={10}>10m</MenuItem>
+                    <MenuItem value={15}>15m</MenuItem>
+                    <MenuItem value={20}>20m</MenuItem>
+                    <MenuItem value={25}>25m</MenuItem>
+                    <MenuItem value={30}>30m</MenuItem>
+                    <MenuItem value={35}>35m</MenuItem>
+                    <MenuItem value={40}>40m</MenuItem>
+                    <MenuItem value={45}>45m</MenuItem>
+                    <MenuItem value={50}>50m</MenuItem>
                 </Select>
             </FormControl>
         </div>
