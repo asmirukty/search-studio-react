@@ -26,7 +26,7 @@ export default function ButtonAppBar() {
 
     return (
         <div className={classes.root}>
-            <AppBar position="static">
+            <AppBar position="fixed">
                 <Toolbar className={classes.bar}>
                     <Typography variant="h6" className={classes.title}>
                         Dance Search
