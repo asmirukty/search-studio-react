@@ -42,16 +42,26 @@ function count (str:string) {
 interface SearchCheckboxProps{
     item: string;
     pref?: boolean;
+    checked: boolean;
+    itemChecked: (value?: any) => void;
+    itemUnChecked: (value?: any) => void;
 }
 
-export default function SearchCheckbox(props: SearchCheckboxProps) {
+export default function NewSearchCheckbox(props: SearchCheckboxProps) {
     const classes = useStyles()
-    const {item, pref} = props;
-
+    const {item, pref, checked: checkedProp, itemChecked, itemUnChecked} = props;
     const [checked, setChecked] = React.useState(false)
+
+    React.useEffect(() => setChecked(checkedProp));
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setChecked( event.target.checked );
+        if (!checked) {
+            itemChecked(item)
+        }
+        if (checked) {
+            itemUnChecked(item)
+        }
     };
 
     return (
@@ -66,7 +76,7 @@ export default function SearchCheckbox(props: SearchCheckboxProps) {
                         size='small'
                         checked={checked}
                         onChange={handleChange}
-                        name={item}
+                        value={item}
                         color="primary"
                     />}
                 label={item}
@@ -79,7 +89,7 @@ export default function SearchCheckbox(props: SearchCheckboxProps) {
                         size='small'
                         checked={checked}
                         onChange={handleChange}
-                        name={item}
+                        value={item}
                         color="primary"
                     />
                 }

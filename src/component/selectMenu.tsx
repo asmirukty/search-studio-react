@@ -4,6 +4,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import {InputLabel} from "@material-ui/core";
+import useActionValue from "./use-action";
 
 const useStyles = makeStyles((theme:Theme) =>
     createStyles( {
@@ -26,7 +27,6 @@ const useStyles = makeStyles((theme:Theme) =>
     }));
 
 interface SelectMenuProps {
-    children?: React.ReactNode;
     label: string;
     initialState: string;
     options: any[];
@@ -34,20 +34,19 @@ interface SelectMenuProps {
 
 export default function SelectMenu(props: SelectMenuProps) {
     const classes = useStyles();
-    const [state, setState] = React.useState(props.initialState);
+    const [select, changeSelect] = useActionValue(props.initialState);
 
-    const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-        setState(event.target.value as string);
-    };
-
+    //const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    //    setState(event.target.value as string);
+    //};
     return (
         <FormControl className={classes.formControl}>
             {props.label !== 'none' && (
                 <InputLabel shrink className={classes.label}>{props.label}</InputLabel>
             )}
             <Select
-                value={state}
-                onChange={handleChange}
+                value={select}
+                onChange={changeSelect}
                 displayEmpty
                 className={classes.selectEmpty}
                 MenuProps={{ classes: { paper: classes.menuPaper } }}
@@ -55,7 +54,6 @@ export default function SelectMenu(props: SelectMenuProps) {
                 {props.options.map((option) => (
                     <MenuItem value={option}>{option}</MenuItem>
                 ))}
-
             </Select>
         </FormControl>
     );

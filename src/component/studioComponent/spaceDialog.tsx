@@ -1,11 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Typography, DialogContent } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import MinAreaSelect from "./spaceDialogComponent/minAreaSelect";
 import MaxAreaSelect from "./spaceDialogComponent/maxAreaSelect";
 import MinPeopleSelect from "./spaceDialogComponent/minPeopleSelect";
 import MaxPeopleSelect from "./spaceDialogComponent/maxPeopleSelect";
-import StudioDialog from "../searchDialog";
+import SearchDialog from "../searchDialog";
 import MinMaxSelect from "../minMaxSelect";
 
 const useStyles = makeStyles(() =>
@@ -25,14 +25,18 @@ const useStyles = makeStyles(() =>
 export default function SpaceDialog() {
     const classes = useStyles()
 
+    const [minArea, setMinArea] = useState()
+
     return (
-        <StudioDialog label={'面積/人数を選択'} btn={'btn'}>
-                <DialogContent className={classes.content}>
-                    <Typography className={classes.typ} variant={'subtitle1'}>面積</Typography>
-                    <MinMaxSelect min={<MinAreaSelect/>} max={<MaxAreaSelect/>}/>
-                    <Typography className={classes.typ} variant={'subtitle1'}>人数</Typography>
-                    <MinMaxSelect min={<MinPeopleSelect/>} max={<MaxPeopleSelect/>}/>
-                </DialogContent>
-        </StudioDialog>
+        <div>
+            <SearchDialog label={'面積/人数を選択'} btn={'btn'}>
+                    <DialogContent className={classes.content}>
+                        <Typography className={classes.typ} variant={'subtitle1'}>面積</Typography>
+                        <MinMaxSelect min={<MinAreaSelect/>} max={<MaxAreaSelect/>}/>
+                        <Typography className={classes.typ} variant={'subtitle1'}>人数</Typography>
+                        <MinMaxSelect min={<MinPeopleSelect/>} max={<MaxPeopleSelect/>}/>
+                    </DialogContent>
+            </SearchDialog>
+        </div>
     );
 }

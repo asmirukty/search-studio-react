@@ -34,8 +34,12 @@ function a11yProps(index: any) {
         'aria-controls': `simple-tabpanel-${index}`,
     };
 }
+interface AreaTabsProps {
+    area: any;
+    line: any;
+}
 
-export default function AreaTabs() {
+export default function AreaTabs(props: AreaTabsProps) {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
 
@@ -54,10 +58,10 @@ export default function AreaTabs() {
                 </Tabs>
             </AppBar>
             <TabPanel value={value} index={0}>
-                <AreaAccordions/>
+                {props.area}
             </TabPanel>
             <TabPanel value={value} index={1}>
-                <LineAccordions/>
+                {props.line}
             </TabPanel>
         </div>
     );

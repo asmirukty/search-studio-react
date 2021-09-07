@@ -10,6 +10,8 @@ import DateMatchRadio from "./studioComponent/dateMatchRadio";
 import DetailDialog from "./studioComponent/detailDialog";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
+import NewSpaceDialog from "./studioComponent/newSpaceDialog";
+import NewAreaDialog from "./studioComponent/newAreaDialog";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -48,11 +50,13 @@ function StudioPage() {
                         場所
                     </Typography>
                     <AreaDialog/>
+                    <NewAreaDialog label={'エリア/沿線、駅を選択'} btn={'btn'}/>
                     <StudioName/>
                     <Typography variant='subtitle1' className={classes.title}>
                         広さ
                     </Typography>
                     <SpaceDialog/>
+                    <NewSpaceDialog label={'面積/人数を選択'} btn={'btn'}/>
                     <Typography variant='subtitle1' className={classes.title}>
                         日時
                     </Typography>
