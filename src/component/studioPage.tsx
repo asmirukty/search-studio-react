@@ -12,6 +12,7 @@ import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import NewSpaceDialog from "./studioComponent/newSpaceDialog";
 import NewAreaDialog from "./studioComponent/newAreaDialog";
+import NewDateDialog from "./studioComponent/newDateDialog";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -61,6 +62,7 @@ function StudioPage() {
                         日時
                     </Typography>
                     <DateDialog/>
+                    <NewDateDialog label={'日時を選択'} btn={'btn'}/>
                     <DateMatchRadio/>
                     <DetailDialog/>
                     <Button className={classes.searchBtn}>検索</Button>
