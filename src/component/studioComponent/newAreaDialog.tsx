@@ -64,7 +64,7 @@ export default function NewAreaDialog(props: AreaDialogProps) {
         }
     };
 
-    const handleAreaDelete = (item: string) => (event: any) => {
+    const handleAreaDelete = (item: string) => () => {
         setArea(prevState => (
             prevState.filter((element: string) => element != item)
         ))}

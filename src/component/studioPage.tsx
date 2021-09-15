@@ -13,6 +13,8 @@ import Card from "@material-ui/core/Card";
 import NewSpaceDialog from "./studioComponent/newSpaceDialog";
 import NewAreaDialog from "./studioComponent/newAreaDialog";
 import NewDateDialog from "./studioComponent/newDateDialog";
+import Space from "./studioComponent/Space";
+import NewDetailDialog from "./studioComponent/newDetailDialog";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -47,6 +49,7 @@ function StudioPage() {
             <h3 style={{textAlign: 'center'}}>スタジオを検索</h3>
             <Card className={classes.root}>
                 <CardContent>
+                    <Space/>
                     <Typography variant='subtitle1' className={classes.title}>
                         場所
                     </Typography>
@@ -65,6 +68,7 @@ function StudioPage() {
                     <NewDateDialog label={'日時を選択'} btn={'btn'}/>
                     <DateMatchRadio/>
                     <DetailDialog/>
+                    <NewDetailDialog label={'もっとしぼり込む >'} btn={'detailBtn'}/>
                     <Button className={classes.searchBtn}>検索</Button>
                 </CardContent>
             </Card>
