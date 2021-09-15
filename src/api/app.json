@@ -1,0 +1,82 @@
+{
+  "total_pages": 4,
+  "studios": [
+    {
+      "studio_id": "99999999",
+      "studio_name": "Mission",
+      "address": {
+        "address": "東京都渋谷区x-x-xxx",
+        "prefecture": {
+          "id": "A01",
+          "name": "東京"
+        },
+        "city": {
+          "id": "S001",
+          "name": "渋谷区"
+        },
+        "line": {
+          "id": "A001",
+          "name": "山手線"
+        },
+        "station": {
+          "id": "S0001",
+          "name": "渋谷駅"
+        },
+        "exit": {
+          "id": "E001",
+          "name": "東口"
+        },
+        "minutes_from_station": 5
+      },
+      "studio_facilities": [
+        {
+          "name": "male-changing-room",
+          "count": 1,
+          "price": 0
+        }
+      ],
+      "room_name": "A01",
+      "floor_area": 22.4,
+      "mirror_length": 12,
+      "min_people": 0,
+      "max_people": 0,
+      "room_img": [
+        {
+          "name": "間取り",
+          "description": "あれば",
+          "path": "https://xxx.s3.amazonaws.com/xxx"
+        }
+      ],
+      "free_cancel": true,
+      "reservation": [
+        "this-reserve"
+      ],
+      "room_facilities": [
+        {
+          "name": "two-sides-mirror",
+          "count": 1,
+          "price": 0
+        }
+      ],
+      "amenities": [
+        {
+          "name": "stand-light",
+          "count": 1,
+          "price": 0
+        }
+      ],
+      "floor_material": "flooring",
+      "slots": [
+        {
+          "workload": 0.5,
+          "time_begin": 1627000000,
+          "time_end": 1627060000,
+          "price": 600,
+          "count": 2
+        }
+      ],
+      "min_reserve_minutes": 60,
+      "reserve_url": "string"
+    }
+  ]
+}
