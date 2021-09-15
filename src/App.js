@@ -1,12 +1,15 @@
 import './App.css';
-import MenuTabs from './component/menuTabs';
-import TitleBar from './component/titleBar';
+import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
+import SearchPage from "./component/pages/searchPage";
+import ResultPage from "./component/pages/resultPage";
 
 export default function App() {
   return (
-      <div>
-        <TitleBar/>
-        <MenuTabs/>
-      </div>
+      <Router>
+          <Switch>
+              <Route pass="/" component={SearchPage} exact />
+              <Route pass="/studios" component={ResultPage} exact />
+          </Switch>
+      </Router>
   );
 }

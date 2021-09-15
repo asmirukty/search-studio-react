@@ -41,7 +41,7 @@ const useStyles = makeStyles(() =>
         }
     }));
 
-function StudioPage() {
+function Studio() {
     const classes = useStyles();
 
     return (
@@ -76,4 +76,4 @@ function StudioPage() {
     )
 }
 
-export default StudioPage
+export default Studio

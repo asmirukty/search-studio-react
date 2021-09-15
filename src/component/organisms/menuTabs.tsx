@@ -4,7 +4,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import TabPanel from "./tabPanel";
-import StudioPage from './studioPage'
+import Studio from './studio'
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -54,7 +54,7 @@ export default function MenuTabs() {
             </AppBar>
             <div className={classes.content}>
                 <TabPanel value={value} index={0}>
-                    <StudioPage/>
+                    <Studio/>
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                     レッスン・練習会を探す
