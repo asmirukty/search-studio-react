@@ -5,7 +5,7 @@ export default function SearchPage() {
     return (
         <div>
             <TitleBar/>
-            <MenuTabs/>
+            <MenuTabs page={'search'}/>
         </div>
     );
 }

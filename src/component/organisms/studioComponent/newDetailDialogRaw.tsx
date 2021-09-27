@@ -5,7 +5,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import Dialog from '@material-ui/core/Dialog';
 import {Close} from "@material-ui/icons";
-import {Typography} from "@material-ui/core";
+import {InputLabel, Typography} from "@material-ui/core";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -53,7 +53,6 @@ const useStyles = makeStyles(() =>
         select: {
             display: 'flex',
             alignItems: 'baseline',
-            justifyContent: 'center',
             marginBottom: 12
         },
         formControl: {
@@ -266,6 +265,7 @@ export default function NewDetailDialogRaw(props: DetailDialogRawProps) {
                                    itemChecked={checked} itemUnChecked={unChecked}/>
                 <div className={classes.select}>
                     <FormControl className={classes.formControl}>
+                        <InputLabel shrink>30分あたりの料金</InputLabel>
                         <Select
                             //ref={radioGroupRef}
                             value={minPrice}
@@ -318,6 +318,7 @@ export default function NewDetailDialogRaw(props: DetailDialogRawProps) {
                                    itemChecked={checked} itemUnChecked={unChecked}/>
                 <div className={classes.select}>
                     <FormControl className={classes.formControl}>
+                        <InputLabel shrink>横幅</InputLabel>
                         <Select
                             //ref={radioGroupRef}
                             value={minMirror}

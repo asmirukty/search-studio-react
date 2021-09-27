@@ -18,9 +18,13 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true
+    "noEmit": true,
+    "typeRoots": [
+      "./typings",
+      "./node_modules/@types/"
+    ]
   },
   "include": [
     "src"
-  ]
+  ],
 }

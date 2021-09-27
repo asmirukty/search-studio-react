@@ -5,6 +5,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import TabPanel from "./tabPanel";
 import Studio from './studio'
+import StudioResult from "./studioResult";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -33,7 +34,11 @@ function a11yProps(index: any) {
     };
 }
 
-export default function MenuTabs() {
+interface MenuTabsProps {
+    page: string
+}
+
+export default function MenuTabs(props: MenuTabsProps) {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
 
@@ -54,7 +59,8 @@ export default function MenuTabs() {
             </AppBar>
             <div className={classes.content}>
                 <TabPanel value={value} index={0}>
-                    <Studio/>
+                    {props.page == 'search' && <Studio/>}
+                    {props.page == 'result' && <StudioResult/>}
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                     レッスン・練習会を探す

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from 'react-router-dom';
 import {createStyles, makeStyles} from "@material-ui/core/styles";
 import CardContent from "@material-ui/core/CardContent";
 import {Typography} from "@material-ui/core";
@@ -6,7 +7,6 @@ import AreaDialog from "./studioComponent/areaDialog";
 import StudioName from "./studioComponent/studioNameTextField";
 import SpaceDialog from "./studioComponent/spaceDialog";
 import DateDialog from "./studioComponent/dateDialog";
-import DateMatchRadio from "./studioComponent/dateMatchRadio";
 import DetailDialog from "./studioComponent/detailDialog";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
@@ -66,10 +66,12 @@ function Studio() {
                     </Typography>
                     <DateDialog/>
                     <NewDateDialog label={'日時を選択'} btn={'btn'}/>
-                    <DateMatchRadio/>
                     <DetailDialog/>
                     <NewDetailDialog label={'もっとしぼり込む >'} btn={'detailBtn'}/>
-                    <Button className={classes.searchBtn}>検索</Button>
+                    <Button className={classes.searchBtn}
+                            component={Link}
+                            to="/studios"
+                    >検索</Button>
                 </CardContent>
             </Card>
         </div>

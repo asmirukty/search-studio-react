@@ -8,7 +8,8 @@ import EventIcon from '@material-ui/icons/Event';
 const useStyles = makeStyles(() =>
     createStyles({
         root: {
-            marginLeft: 12
+            marginLeft: 12,
+            paddingBottom: 8
         }
     }));
 

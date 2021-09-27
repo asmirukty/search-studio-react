@@ -13,8 +13,10 @@
     "date-fns": "^2.23.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-material-ui-carousel": "^2.3.5",
     "react-router-dom": "^5.3.0",
     "react-scripts": "4.0.3",
+    "swiper": "^7.0.6",
     "web-vitals": "^1.1.2"
   },
   "scripts": {
@@ -42,6 +44,9 @@
     ]
   },
   "devDependencies": {
+    "@types/react-router-dom": "^5.1.9",
+    "css-loader": "^6.3.0",
+    "style-loader": "^3.3.0",
     "typescript": "^4.3.5"
   }
 }

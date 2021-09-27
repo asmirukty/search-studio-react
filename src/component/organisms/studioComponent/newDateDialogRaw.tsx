@@ -48,12 +48,12 @@ const useStyles = makeStyles(() =>
         content: {
             color: "#5A4628",
             padding: '24px 24px 8px',
-            boxShadow: '0px 4px 8px -2px rgba(0, 0, 0, 0.1)inset'
+            boxShadow: '0px 4px 8px -2px rgba(0, 0, 0, 0.1)inset',
+
         },
         select: {
             display: 'flex',
             alignItems: 'baseline',
-            justifyContent: 'center',
             marginBottom: 12
         },
         formControl: {

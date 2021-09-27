@@ -5,7 +5,7 @@ export default function ResultPage() {
     return (
         <div>
             <TitleBar/>
-            <MenuTabs/>
+            <MenuTabs page={'result'}/>
         </div>
     );
 }

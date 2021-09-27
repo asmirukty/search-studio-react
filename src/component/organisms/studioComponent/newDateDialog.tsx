@@ -3,6 +3,7 @@ import React from "react";
 import NewDateDialogRaw from "./newDateDialogRaw";
 import Button from "@material-ui/core/Button";
 import MuiChip from "@material-ui/core/Chip";
+import DateMatchRadio from "./dateMatchRadio";
 
 const Chip = withStyles({
     root: {
@@ -112,7 +113,7 @@ export default function NewDateDialog(props: SpaceDialogProps) {
                     {date !== null && startTime !== '指定なし' && endTime !== '指定なし' &&
                     (<Chip size="small" label={<span>{date.getMonth()+1}/{date.getDate()}({dayString(date)}) {startTime}~{endTime}</span>} onDelete={handleDateDelete}/>)}
                 </Button>
-            )}
+                )}
             {props.btn === 'detailBtn' && (
                 <div className={classes.right}>
                     <Button className={classes.detailBtn} onClick={handleClickOpen}>
@@ -134,6 +135,8 @@ export default function NewDateDialog(props: SpaceDialogProps) {
                     startTime={startTime}
                     endTime={endTime}
                 />
+            {!(date === null && startTime === '指定なし' && endTime === '指定なし') &&
+            <DateMatchRadio/>}
         </div>
     );
 }
