@@ -103,8 +103,33 @@ const items = [
 
 ]
 
+type SearchResult =  {
+    totalPages: number,
+    studios: Studio[]
+};
+
 export default function StudioResult() {
     const classes = useStyles();
+    const f = async () => {
+        await fetch('http://localhost:3000/sample.json', {
+            method: 'GET',
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('networkError')
+                }
+                return response.json()
+            })
+            .then(response => {
+                console.log(response)
+            })
+    }
+
+    f()
 
     return (
         <div style={{padding: 24}}>
