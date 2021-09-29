@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {Card, CardContent, Typography, Chip, Button, TableContainer, Paper, Table, TableBody, TableRow, TableCell} from "@material-ui/core";
 import {makeStyles, createStyles} from "@material-ui/core/styles";
 import {PeopleAlt, Place, AccessTime} from "@material-ui/icons";
@@ -322,7 +322,7 @@ export default function StudioResult() {
             .then(response => {
                 setSearchResult({
                     total_pages: response.total_pages,
-                    studios: [
+                    studios:
                         response.studios.map((studio: Studio) => ({
                             studio_id: studio.studio_id,
                             studio_name: studio.studio_name,
@@ -398,18 +398,18 @@ export default function StudioResult() {
                             min_reserve_minutes: studio.min_reserve_minutes,
                             reserve_url: studio.reserve_url,
                         }))
-                    ]
+
                 })
             })
-    }
+    };
 
-    f()
+    f();
 
     return (
         <div style={{padding: 24}}>
             <h3 style={{textAlign: 'center'}}>検索結果</h3>
             {
-                searchResult.studios.map(row => (
+                searchResult.studios.map((row) => (
                         <Card>
                             <CardContent className={classes.card}>
                                 <div className={classes.header}>
@@ -417,7 +417,8 @@ export default function StudioResult() {
                                         <Typography variant='subtitle1'>{row.studio_name}</Typography>
                                         <Typography variant='caption'>
                                             <Place fontSize='small'/>
-                                            {row.address.station.name}{row.address.exit.name}徒歩{row.address.minutes_from_station}分</Typography>
+                                            {row.address.station.name}{row.address.exit.name}徒歩{row.address.minutes_from_station}分
+                                        </Typography>
                                     </div>
                                     {
                                         row.studio_facilities.map(facility => (
@@ -453,7 +454,7 @@ export default function StudioResult() {
                                         }
                                     </Carousel>
                                     {
-                                        row.room_facilities.map(facility => (
+                                        row.room_facilities.map((facility) => (
                                             <Chip size="small" label={facility.name} className={classes.chip}/>
                                         ))
                                     }
