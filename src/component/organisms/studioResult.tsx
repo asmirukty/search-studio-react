@@ -87,8 +87,6 @@ const useStyles = makeStyles(() =>
         },
         cell: {
             position: 'relative',
-            justifyContent: 'center',
-            alignItems: 'center',
             minWidth: 20,
             maxWidth: 20,
             color: '#5A4628',
@@ -100,6 +98,7 @@ const useStyles = makeStyles(() =>
             left: 2,
             color: '#5A4628',
             backgroundColor: '#e7e1d8',
+            zIndex: 1000,
         },
         cellTitle: {
             minWidth: 60,
@@ -510,13 +509,15 @@ export default function StudioResult() {
                                                     {row.slots.map((slot, index, array) => {
                                                         if (!array[index-1] || slot.price !== array[index-1].price) {
                                                             return <TableCell className={classes.cell} size='small'>
+                                                                <div style={{display: 'flex', alignItems: 'center'}}>
                                                                     <Chip size="small" label={`${slot.price}円`}
                                                                           className={classes.cellChip}/>
+                                                                </div>
                                                                 </TableCell>
                                                         }
                                                         else if (!array[index+1] || slot.price !== array[index+1].price) {
                                                             return <TableCell className={classes.cell} size='small'>
-                                                                <div style={{position: 'absolute', display: 'flex', alignItems: 'center'}}>
+                                                                <div style={{display: 'flex', alignItems: 'center'}}>
                                                                     <div style={{margin: 0, flexGrow: 1}}>
                                                                         <hr color='#5A4628'/>
                                                                     </div>
@@ -527,7 +528,7 @@ export default function StudioResult() {
                                                         else {
                                                             return <TableCell className={classes.cell} size='small'>
                                                                 <div style={{display: 'flex', alignItems: 'center'}}>
-                                                                    <div style={{margin: 0, flexGrow: 1}}>
+                                                                    <div style={{zIndex: 1, margin: 0, flexGrow: 1}}>
                                                                         <hr color='#5A4628'/>
                                                                     </div>
                                                                 </div>
