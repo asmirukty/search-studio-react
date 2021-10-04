@@ -68,9 +68,170 @@
       "floor_material": "flooring",
       "slots": [
         {
+          "workload": 0.05,
+          "time_begin": 1635692400,
+          "time_end": 1635694200,
+          "price": 300,
+          "count": 2
+        },
+        {
+          "workload": 0.05,
+          "time_begin": 1635694200,
+          "time_end": 1635696000,
+          "price": 300,
+          "count": 2
+        },
+        {
+          "workload": 0.05,
+          "time_begin": 1635696000,
+          "time_end": 1635697800,
+          "price": 300,
+          "count": 2
+        },
+        {
+          "workload": 0.05,
+          "time_begin": 1635697800,
+          "time_end": 1635699600,
+          "price": 300,
+          "count": 2
+        },
+        {
+          "workload": 0.1,
+          "time_begin": 1635699600,
+          "time_end": 1635701400,
+          "price": 300,
+          "count": 2
+        },
+        {
+          "workload": 0.1,
+          "time_begin": 1635701400,
+          "time_end": 1635703200,
+          "price": 300,
+          "count": 2
+        },
+        {
+          "workload": 0.1,
+          "time_begin": 1635703200,
+          "time_end": 1635705000,
+          "price": 300,
+          "count": 2
+        },
+        {
+          "workload": 0.1,
+          "time_begin": 1635705000,
+          "time_end": 1635706800,
+          "price": 300,
+          "count": 2
+        },
+        {
+          "workload": 0.1,
+          "time_begin": 1635706800,
+          "time_end": 1635708600,
+          "price": 300,
+          "count": 2
+        },
+        {
+          "workload": 0.1,
+          "time_begin": 1635708600,
+          "time_end": 1635710400,
+          "price": 300,
+          "count": 2
+        },
+        {
+          "workload": 0.1,
+          "time_begin": 1635710400,
+          "time_end": 1635712200,
+          "price": 300,
+          "count": 2
+        },
+        {
+          "workload": 0.1,
+          "time_begin": 1635712200,
+          "time_end": 1635714000,
+          "price": 300,
+          "count": 2
+        },
+        {
           "workload": 0.5,
-          "time_begin": 1627000000,
-          "time_end": 1627060000,
+          "time_begin": 1635714000,
+          "time_end": 1635715800,
+          "price": 600,
+          "count": 2
+        },
+        {
+          "workload": 0.5,
+          "time_begin": 1635715800,
+          "time_end": 1635717600,
+          "price": 600,
+          "count": 2
+        },
+        {
+          "workload": 0.5,
+          "time_begin": 1635717600,
+          "time_end": 1635719400,
+          "price": 600,
+          "count": 2
+        },
+        {
+          "workload": 0.5,
+          "time_begin": 1635719400,
+          "time_end": 1635721200,
+          "price": 600,
+          "count": 2
+        },
+        {
+          "workload": 0.5,
+          "time_begin": 1635721200,
+          "time_end": 1635723000,
+          "price": 600,
+          "count": 2
+        },
+        {
+          "workload": 0.5,
+          "time_begin": 1635723000,
+          "time_end": 1635724800,
+          "price": 600,
+          "count": 2
+        },
+        {
+          "workload": 0.5,
+          "time_begin": 1635724800,
+          "time_end": 1635726600,
+          "price": 600,
+          "count": 2
+        },
+        {
+          "workload": 0.5,
+          "time_begin": 1635726600,
+          "time_end": 1635728400,
+          "price": 600,
+          "count": 2
+        },
+        {
+          "workload": 0.5,
+          "time_begin": 1635728400,
+          "time_end": 1635730200,
+          "price": 600,
+          "count": 2
+        },
+        {
+          "workload": 0.5,
+          "time_begin": 1635730200,
+          "time_end": 1635732000,
+          "price": 600,
+          "count": 2
+        },
+        {
+          "workload": 0.5,
+          "time_begin": 1635732000,
+          "time_end": 1635733800,
+          "price": 600,
+          "count": 2
+        },
+        {
+          "workload": 0.5,
+          "time_begin": 1635733800,
+          "time_end": 1635735600,
           "price": 600,
           "count": 2
         }

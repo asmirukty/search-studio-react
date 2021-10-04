@@ -372,7 +372,7 @@ export default function NewDetailDialogRaw(props: DetailDialogRawProps) {
                                        itemChecked={checked} itemUnChecked={unChecked}/>
                 ))}
                 </div>
-                <Typography className={classes.typ} variant={'subtitle2'}>その他備品</Typography>
+                <Typography className={classes.typ} variant={'subtitle2'}>その他設備・備品</Typography>
                 <div className={classes.checkArray}>
                     {amenities.map((item) => (
                     <NewSearchCheckbox item={item}

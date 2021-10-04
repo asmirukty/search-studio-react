@@ -1,8 +1,22 @@
 import React, {useState, useEffect} from "react";
-import {Card, CardContent, Typography, Chip, Button, TableContainer, Paper, Table, TableBody, TableRow, TableCell} from "@material-ui/core";
+import {
+    Card,
+    CardContent,
+    Typography,
+    Chip,
+    Button,
+    TableContainer,
+    Paper,
+    Table,
+    TableBody,
+    TableRow,
+    TableCell,
+    TableHead
+} from "@material-ui/core";
 import {makeStyles, createStyles} from "@material-ui/core/styles";
 import {PeopleAlt, Place, AccessTime} from "@material-ui/icons";
 import Carousel from 'react-material-ui-carousel';
+import axios from 'axios';
 import {coerceBooleanProperty} from "swiper/angular/angular/src/utils/utils";
 
 const useStyles = makeStyles(() =>
@@ -63,14 +77,29 @@ const useStyles = makeStyles(() =>
             color: '#5A4628',
             opacity: 1
         },
-        tableRow: {
+        headCell: {
             color: '#5A4628',
+            fontSize: 8,
+            padding: 0
+        },
+        tableRow: {
             border: '1px solid #D7D2C8'
         },
         cell: {
+            position: 'relative',
+            justifyContent: 'center',
+            alignItems: 'center',
+            minWidth: 20,
+            maxWidth: 20,
             color: '#5A4628',
-            padding: 4,
+            padding: '4px 0',
             borderRight: '1px solid #D7D2C8'
+        },
+        cellChip: {
+            position: 'absolute',
+            left: 2,
+            color: '#5A4628',
+            backgroundColor: '#e7e1d8',
         },
         cellTitle: {
             minWidth: 60,
@@ -93,17 +122,14 @@ const useStyles = makeStyles(() =>
     }))
 
 const items = [
-    {time: 0, price: 500},
-    {time: 5, price: 500},
-    {time: 10, price: 500},
-    {time: 15, price: 500},
-    {time: 20, price: 400},
-    {time: 25, price: 400},
-    {time: 30, price: 400},
-    {time: 35, price: 400},
+    500, 500, 500, 500, 400, 400, 300, 300
 ]
 
-type Prefecture = {
+const times = [
+     '0:00', '1:00', '2:00', '3:00', '4:00', '5:00', '6:00', '7:00', '8:00', '9:00', ' 10:00', '11:00', '12:00'
+]
+
+interface Prefecture {
     id: string,
     name: string,
 }
@@ -113,7 +139,7 @@ let initialPrefecture: Prefecture = {
     name: '',
 }
 
-type City = {
+interface City {
     id: string,
     name: string,
 }
@@ -123,7 +149,7 @@ let initialCity: City = {
     name: '',
 }
 
-type Line = {
+interface Line {
     id: string,
     name: string,
 }
@@ -133,7 +159,7 @@ let initialLine: Line = {
     name: '',
 }
 
-type Station = {
+interface Station {
     id: string,
     name: string,
 }
@@ -143,7 +169,7 @@ let initialStation: Station= {
     name: '',
 }
 
-type Exit = {
+interface Exit {
     id: string,
     name: string,
 }
@@ -153,7 +179,7 @@ let initialExit: Exit = {
     name: '',
 }
 
-type Address = {
+interface Address {
     address: string,
     prefecture: Prefecture,
     city: City,
@@ -173,7 +199,7 @@ let initialAddress: Address = {
     minutes_from_station: 0,
 }
 
-type StudioFacility = {
+interface StudioFacility {
     name: string,
     count: number,
     price: number,
@@ -185,7 +211,7 @@ let initialStudioFacility: StudioFacility = {
     price: 0,
 }
 
-type RoomImg = {
+interface RoomImg {
     name: string,
     description: string,
     path :string,
@@ -197,7 +223,7 @@ let initialRoomImg: RoomImg = {
     path: '',
 }
 
-type RoomFacility = {
+interface RoomFacility {
     name: string,
     count: number,
     price: number,
@@ -209,7 +235,7 @@ let initialRoomFacility: RoomFacility = {
     price: 0,
 }
 
-type Amenity = {
+interface Amenity {
     name: string,
     count: number,
     price: number,
@@ -221,7 +247,7 @@ let initialAmenity: Amenity = {
     price: 0,
 }
 
-type Slot = {
+interface Slot {
     workload: number,
     time_begin: number,
     time_end: number,
@@ -237,7 +263,7 @@ let initialSlot: Slot = {
     count: 0,
 }
 
-type Studio = {
+interface Studio {
     studio_id: string,
     studio_name: string,
     address: Address,
@@ -289,10 +315,10 @@ let initialStudio: Studio = {
     reserve_url: '',
 }
 
-type SearchResult =  {
+interface SearchResult {
     total_pages: number,
     studios: Studio[],
-};
+}
 
 let initialSearchResult: SearchResult = {
     total_pages: 0,
@@ -303,9 +329,9 @@ let initialSearchResult: SearchResult = {
 
 export default function StudioResult() {
     const classes = useStyles();
-    const [searchResult, setSearchResult] = useState(initialSearchResult)
+    const [searchResult, setSearchResult] = useState(initialSearchResult);
 
-    const f = async () => {
+    {/**const f = async () => {
         await fetch('http://localhost:3000/sample.json', {
             method: 'GET',
             mode: 'cors',
@@ -322,88 +348,92 @@ export default function StudioResult() {
             .then(response => {
                 setSearchResult({
                     total_pages: response.total_pages,
-                    studios:
-                        response.studios.map((studio: Studio) => ({
-                            studio_id: studio.studio_id,
-                            studio_name: studio.studio_name,
-                            address: {
-                                address: studio.address.address,
-                                prefecture: {
-                                    id: studio.address.prefecture.id,
-                                    name: studio.address.prefecture.name,
-                                },
-                                city: {
-                                    id: studio.address.city.id,
-                                    name: studio.address.city.name,
-                                },
-                                line: {
-                                    id: studio.address.line.id,
-                                    name: studio.address.line.name,
-                                },
-                                station: {
-                                    id: studio.address.station.id,
-                                    name: studio.address.station.name,
-                                },
-                                exit: {
-                                    id: studio.address.exit.id,
-                                    name: studio.address.exit.name,
-                                },
-                                minutes_from_station: studio.address.minutes_from_station,
+                    studios: response.studios.map((studio: Studio) => ({
+                        studio_id: studio.studio_id,
+                        studio_name: studio.studio_name,
+                        address: {
+                            address: studio.address.address,
+                            prefecture: {
+                                id: studio.address.prefecture.id,
+                                name: studio.address.prefecture.name,
                             },
-                            studio_facilities: [
-                                studio.studio_facilities.map((studioFacility: StudioFacility) => ({
-                                    name: studioFacility.name,
-                                    count: studioFacility.count,
-                                    price: studioFacility.price,
-                                }))
-                            ],
-                            room_name: studio.room_name,
-                            floor_area: studio.floor_area,
-                            mirror_length: studio.mirror_length,
-                            min_people: studio.min_people,
-                            max_people: studio.max_people,
-                            room_img: [
-                                studio.room_img.map((roomImg: RoomImg) => ({
-                                    name: roomImg.name,
-                                    description: roomImg.description,
-                                    path: roomImg.path,
-                                }))
-                            ],
-                            free_cancel: studio.free_cancel,
-                            reservation: studio.reservation,
-                            room_facilities: [
-                                studio.room_facilities.map((roomFacility: RoomFacility) => ({
-                                    name: roomFacility.name,
-                                    count: roomFacility.count,
-                                    price: roomFacility.price,
-                                }))
-                            ],
-                            amenities: [
-                                studio.amenities.map((amenity: Amenity) => ({
-                                    name: amenity.name,
-                                    count: amenity.count,
-                                    price: amenity.price,
-                                }))
-                            ],
-                            floor_material: studio.floor_material,
-                            slots: [
-                                studio.slots.map((slot: Slot) => ({
-                                    workload: slot.workload,
-                                    time_begin: slot.time_begin,
-                                    time_end: slot.time_end,
-                                    price: slot.price,
-                                    count: slot.count,
-                                }))
-                            ],
-                            min_reserve_minutes: studio.min_reserve_minutes,
-                            reserve_url: studio.reserve_url,
-                        }))
+                            city: {
+                                id: studio.address.city.id,
+                                name: studio.address.city.name,
+                            },
+                            line: {
+                                id: studio.address.line.id,
+                                name: studio.address.line.name,
+                            },
+                            station: {
+                                id: studio.address.station.id,
+                                name: studio.address.station.name,
+                            },
+                            exit: {
+                                id: studio.address.exit.id,
+                                name: studio.address.exit.name,
+                            },
+                            minutes_from_station: studio.address.minutes_from_station,
+                        },
+                        studio_facilities: [
+                            studio.studio_facilities.map((studioFacility: StudioFacility) => ({
+                                name: studioFacility.name,
+                                count: studioFacility.count,
+                                price: studioFacility.price,
+                            }))
+                        ],
+                        room_name: studio.room_name,
+                        floor_area: studio.floor_area,
+                        mirror_length: studio.mirror_length,
+                        min_people: studio.min_people,
+                        max_people: studio.max_people,
+                        room_img: [
+                            studio.room_img.map((roomImg: RoomImg) => ({
+                                name: roomImg.name,
+                                description: roomImg.description,
+                                path: roomImg.path,
+                            }))
+                        ],
+                        free_cancel: studio.free_cancel,
+                        reservation: studio.reservation,
+                        room_facilities: [
+                            studio.room_facilities.map((roomFacility: RoomFacility) => ({
+                                name: roomFacility.name,
+                                count: roomFacility.count,
+                                price: roomFacility.price,
+                            }))
+                        ],
+                        amenities: [
+                            studio.amenities.map((amenity: Amenity) => ({
+                                name: amenity.name,
+                                count: amenity.count,
+                                price: amenity.price,
+                            }))
+                        ],
+                        floor_material: studio.floor_material,
+                        slots: [
+                            studio.slots.map((slot: Slot) => ({
+                                workload: slot.workload,
+                                time_begin: slot.time_begin,
+                                time_end: slot.time_end,
+                                price: slot.price,
+                                count: slot.count,
+                            }))
+                        ],
+                        min_reserve_minutes: studio.min_reserve_minutes,
+                        reserve_url: studio.reserve_url,
+                    }))
 
                 })
-            })
+                })
     };
 
-    f();
+
+    f();**/}
+    axios.get('http://localhost:3000/sample.json')
+        .then(response => {
+            setSearchResult(response.data)
+        })
 
     return (
         <div style={{padding: 24}}>
@@ -458,14 +488,52 @@ export default function StudioResult() {
                                             <Chip size="small" label={facility.name} className={classes.chip}/>
                                         ))
                                     }
-                                    <TableContainer component={Paper} style={{padding: 4}}>
+                                    {
+                                        row.amenities.map((amenity) => (
+                                            <Chip size="small" label={amenity.name} className={classes.chip}/>
+                                        ))
+                                    }
+                                    <TableContainer component={Paper} style={{margin: 4}}>
                                         <Table>
+                                            <TableHead>
+                                                <TableRow>
+                                                    <TableCell className={classes.headCell} align='left' size='small'> </TableCell>
+                                                    {times.map((time) =>
+                                                            <TableCell className={classes.headCell} colSpan={2} align='left' size='small'>{time}</TableCell>
+                                                   )}
+                                                </TableRow>
+                                            </TableHead>
                                             <TableBody>
                                                 <TableRow className={classes.tableRow}>
                                                     {/** TODO : ここにslotを書く **/}
                                                     <TableCell className={classes.cellTitle} size='small'>日にち</TableCell>
-                                                    {items.map ((item) =>
-                                                        <TableCell className={classes.cell} size='small'>{item.price}</TableCell>
+                                                    {row.slots.map((slot, index, array) => {
+                                                        if (!array[index-1] || slot.price !== array[index-1].price) {
+                                                            return <TableCell className={classes.cell} size='small'>
+                                                                    <Chip size="small" label={`${slot.price}円`}
+                                                                          className={classes.cellChip}/>
+                                                                </TableCell>
+                                                        }
+                                                        else if (!array[index+1] || slot.price !== array[index+1].price) {
+                                                            return <TableCell className={classes.cell} size='small'>
+                                                                <div style={{position: 'absolute', display: 'flex', alignItems: 'center'}}>
+                                                                    <div style={{margin: 0, flexGrow: 1}}>
+                                                                        <hr color='#5A4628'/>
+                                                                    </div>
+                                                                    <div style={{padding: 0}}>▶︎</div>
+                                                                </div>
+                                                            </TableCell>
+                                                        }
+                                                        else {
+                                                            return <TableCell className={classes.cell} size='small'>
+                                                                <div style={{display: 'flex', alignItems: 'center'}}>
+                                                                    <div style={{margin: 0, flexGrow: 1}}>
+                                                                        <hr color='#5A4628'/>
+                                                                    </div>
+                                                                </div>
+                                                            </TableCell>
+                                                        }
+                                                    }
                                                     )}
                                                 </TableRow>
                                             </TableBody>
