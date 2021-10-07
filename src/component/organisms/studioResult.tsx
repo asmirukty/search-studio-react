@@ -2,43 +2,19 @@ import React, {useState, useEffect} from "react";
 import {
     Card,
     CardContent,
-    Typography,
-    Chip,
     Button,
-    TableContainer,
-    Paper,
-    Table,
-    TableBody,
-    TableRow,
-    TableCell,
-    TableHead
 } from "@material-ui/core";
 import {makeStyles, createStyles} from "@material-ui/core/styles";
-import {PeopleAlt, Place, AccessTime} from "@material-ui/icons";
-import Carousel from 'react-material-ui-carousel';
 import axios from 'axios';
-import {coerceBooleanProperty} from "swiper/angular/angular/src/utils/utils";
+import StudioTitle from "./studioResultComponent/studioTitle";
+import RoomTitle from "./studioResultComponent/roomTitle";
+import RoomContent from "./studioResultComponent/roomContent";
 
 const useStyles = makeStyles(() =>
     createStyles({
         card: {
             color: "#5A4628",
             padding: 0
-        },
-        header: {
-            padding: '12px 16px',
-            boxShadow: '0px 2px 4px 2px rgba(0, 0, 0, 0.1)'
-        },
-        top: {
-            display: 'flex',
-            justifyContent: 'space-between',
-            borderBottom: '1px solid #D7D2C8',
-            marginBottom: 4
-        },
-        chip: {
-            color: '#5A4628',
-            backgroundColor: '#e7e1d8',
-            marginRight: 4
         },
         btn: {
             color: '#5A4628',
@@ -55,60 +31,6 @@ const useStyles = makeStyles(() =>
             display: 'flex',
             justifyContent: 'space-between',
         },
-        navBtn: {
-            backgroundColor: '#5A4628',
-            opacity: 0.8,
-            padding: 2,
-            margin: 0,
-        },
-        navIndicator: {
-            color: '#5A4628',
-            opacity: 0.5,
-            '&:hover': {
-                color: '#5A4628',
-                opacity: 1
-            },
-            '&:active': {
-                color: '#5A4628',
-                opacity: 1
-            }
-        },
-        navActiveIndicator: {
-            color: '#5A4628',
-            opacity: 1
-        },
-        headCell: {
-            color: '#5A4628',
-            fontSize: 8,
-            padding: 0
-        },
-        tableRow: {
-            border: '1px solid #D7D2C8'
-        },
-        cell: {
-            position: 'relative',
-            minWidth: 20,
-            maxWidth: 20,
-            color: '#5A4628',
-            padding: '4px 0',
-            borderRight: '1px solid #D7D2C8'
-        },
-        cellChip: {
-            position: 'absolute',
-            left: 2,
-            color: '#5A4628',
-            backgroundColor: '#e7e1d8',
-            zIndex: 1000,
-        },
-        cellTitle: {
-            minWidth: 60,
-            color: '#5A4628',
-            padding: 4,
-            borderRight: '1px solid #D7D2C8'
-        },
-        tableDesc: {
-            textAlign: 'right'
-        },
         reserveBtn: {
             fontSize: 16,
             fontWeight: 'bold',
@@ -120,12 +42,8 @@ const useStyles = makeStyles(() =>
         }
     }))
 
-const items = [
-    500, 500, 500, 500, 400, 400, 300, 300
-]
-
 const times = [
-     '0:00', '1:00', '2:00', '3:00', '4:00', '5:00', '6:00', '7:00', '8:00', '9:00', ' 10:00', '11:00', '12:00'
+     '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ' 10', '11'
 ]
 
 interface Prefecture {
@@ -438,119 +356,32 @@ export default function StudioResult() {
         <div style={{padding: 24}}>
             <h3 style={{textAlign: 'center'}}>検索結果</h3>
             {
-                searchResult.studios.map((row) => (
-                        <Card>
+                searchResult.studios.map((row, index, array) => (
+                    <Card style={{marginBottom: 8}}>
                             <CardContent className={classes.card}>
-                                <div className={classes.header}>
-                                    <div className={classes.top}>
-                                        <Typography variant='subtitle1'>{row.studio_name}</Typography>
-                                        <Typography variant='caption'>
-                                            <Place fontSize='small'/>
-                                            {row.address.station.name}{row.address.exit.name}徒歩{row.address.minutes_from_station}分
-                                        </Typography>
-                                    </div>
-                                    {
-                                        row.studio_facilities.map(facility => (
-                                            <Chip size="small" label={facility.name} className={classes.chip}/>
-                                        ))
-                                    }
-                                </div>
+                                <StudioTitle studio={row.studio_name}
+                                             station={row.address.station.name}
+                                             exit={row.address.exit.name}
+                                             fromStation={row.address.minutes_from_station}
+                                             facilities={row.studio_facilities}/>
                                 <div className={classes.content}>
                                     <div className={classes.roomTop}>
-                                        <div style={{display: 'flex'}}>
-                                            <Typography variant='subtitle2'>{row.room_name}</Typography>
-                                            <Typography variant='caption' style={{margin: '0px 8px'}}>⊿ {row.floor_area}m²</Typography>
-                                            <PeopleAlt fontSize='small'/>
-                                            <Typography variant='caption'>
-                                                {row.min_people > 0 && row.min_people + "人"}
-                                                ~
-                                                {row.max_people > 0 && row.max_people + "人"}
-                                            </Typography>
-                                        </div>
+                                        <RoomTitle room={row.room_name}
+                                                   floorArea={row.floor_area}
+                                                   minPeople={row.min_people}
+                                                   maxPeople={row.max_people}/>
                                         <Button className={classes.btn}>詳しく見る</Button>
                                     </div>
-                                    <Carousel fullHeightHover={false} autoPlay={false}
-                                              navButtonsAlwaysVisible
-                                              navButtonsProps={{className: classes.navBtn}}
-                                              indicatorIconButtonProps={{className: classes.navIndicator}}
-                                              activeIndicatorIconButtonProps={{className: classes.navActiveIndicator}}>
-                                        {
-                                            row.room_img.map((img, index) => (
-                                                <div style={{margin: 'auto', paddingTop: 50, height: 100, textAlign: 'center'}}>
-                                                    <img alt={'img' + index} src={img.path}/>
-                                                </div>
-                                            ))
-                                        }
-                                    </Carousel>
-                                    {
-                                        row.room_facilities.map((facility) => (
-                                            <Chip size="small" label={facility.name} className={classes.chip}/>
-                                        ))
-                                    }
-                                    {
-                                        row.amenities.map((amenity) => (
-                                            <Chip size="small" label={amenity.name} className={classes.chip}/>
-                                        ))
-                                    }
-                                    <TableContainer component={Paper} style={{margin: 4}}>
-                                        <Table>
-                                            <TableHead>
-                                                <TableRow>
-                                                    <TableCell className={classes.headCell} align='left' size='small'> </TableCell>
-                                                    {times.map((time) =>
-                                                            <TableCell className={classes.headCell} colSpan={2} align='left' size='small'>{time}</TableCell>
-                                                   )}
-                                                </TableRow>
-                                            </TableHead>
-                                            <TableBody>
-                                                <TableRow className={classes.tableRow}>
-                                                    {/** TODO : ここにslotを書く **/}
-                                                    <TableCell className={classes.cellTitle} size='small'>日にち</TableCell>
-                                                    {row.slots.map((slot, index, array) => {
-                                                        if (!array[index-1] || slot.price !== array[index-1].price) {
-                                                            return <TableCell className={classes.cell} size='small'>
-                                                                <div style={{display: 'flex', alignItems: 'center'}}>
-                                                                    <Chip size="small" label={`${slot.price}円`}
-                                                                          className={classes.cellChip}/>
-                                                                </div>
-                                                                </TableCell>
-                                                        }
-                                                        else if (!array[index+1] || slot.price !== array[index+1].price) {
-                                                            return <TableCell className={classes.cell} size='small'>
-                                                                <div style={{display: 'flex', alignItems: 'center'}}>
-                                                                    <div style={{margin: 0, flexGrow: 1}}>
-                                                                        <hr color='#5A4628'/>
-                                                                    </div>
-                                                                    <div style={{padding: 0}}>▶︎</div>
-                                                                </div>
-                                                            </TableCell>
-                                                        }
-                                                        else {
-                                                            return <TableCell className={classes.cell} size='small'>
-                                                                <div style={{display: 'flex', alignItems: 'center'}}>
-                                                                    <div style={{zIndex: 1, margin: 0, flexGrow: 1}}>
-                                                                        <hr color='#5A4628'/>
-                                                                    </div>
-                                                                </div>
-                                                            </TableCell>
-                                                        }
-                                                    }
-                                                    )}
-                                                </TableRow>
-                                            </TableBody>
-                                        </Table>
-                                    </TableContainer>
-                                    <div　className={classes.tableDesc}>
-                                        <Typography variant='caption'>
-                                            <AccessTime fontSize='small'/>{row.min_reserve_minutes + "分~"}
-                                        </Typography>
-                                    </div>
+                                    <RoomContent roomImg={row.room_img}
+                                                 facilities={row.room_facilities}
+                                                 amenities={row.amenities}
+                                                 minReserveMinutes={row.min_reserve_minutes}
+                                                 slots={row.slots}/>
                                     <Button className={classes.reserveBtn}>予約画面へ</Button>
                                 </div>
                             </CardContent>
                         </Card>
-                    )
-                )
+                ))
             }
         </div>
     )
