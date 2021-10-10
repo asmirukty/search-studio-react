@@ -1,20 +1,26 @@
 import React, {useState, useEffect} from "react";
-import {
-    Card,
-    CardContent,
-    Button,
-} from "@material-ui/core";
+import {Card, Chip, CardContent, Button, Typography,} from "@material-ui/core";
 import {makeStyles, createStyles} from "@material-ui/core/styles";
 import axios from 'axios';
 import StudioTitle from "./studioResultComponent/studioTitle";
 import RoomTitle from "./studioResultComponent/roomTitle";
 import RoomContent from "./studioResultComponent/roomContent";
 
+import {useParams} from 'react-router-dom'
+
 const useStyles = makeStyles(() =>
     createStyles({
         card: {
             color: "#5A4628",
-            padding: 0
+            padding: 0,
+            '&:last-child': {
+                paddingBottom: 0
+            }
+        },
+        chip: {
+            color: '#5A4628',
+            backgroundColor: '#e7e1d8',
+            marginRight: 4
         },
         btn: {
             color: '#5A4628',
@@ -37,8 +43,8 @@ const useStyles = makeStyles(() =>
             color: '#F9F5F0',
             backgroundColor: '#1D356A',
             display: 'flex',
-            margin: 'auto',
-            padding: '6px 12px'
+            margin: '4px auto 8px',
+            padding: '6px 16px'
         }
     }))
 
@@ -244,9 +250,14 @@ let initialSearchResult: SearchResult = {
     ]
 }
 
+
 export default function StudioResult() {
+    const id: {id: string}  = useParams();
     const classes = useStyles();
     const [searchResult, setSearchResult] = useState(initialSearchResult);
+
+    const items = id.id.split(',')
+
 
     {/**const f = async () => {
         await fetch('http://localhost:3000/sample.json', {
@@ -347,17 +358,29 @@ export default function StudioResult() {
 
 
     f();**/}
-    axios.get('http://localhost:3000/sample.json')
-        .then(response => {
-            setSearchResult(response.data)
-        })
+    useEffect(() => {
+        axios.get('http://localhost:3000/sample.json')
+            .then(response => {
+                setSearchResult(response.data)
+            })
+    })
 
     return (
         <div style={{padding: 24}}>
-            <h3 style={{textAlign: 'center'}}>検索結果</h3>
+            <Card style={{padding: 12}}>
+                <CardContent className={classes.card}>
+                    <Typography variant='subtitle1' style={{fontWeight: 'bold'}}>検索条件</Typography>
+                    {items.map((item) =>
+                    <Chip size='small' label={item} className={classes.chip}/>)}
+                </CardContent>
+            </Card>
+            <h3 style={{textAlign: 'center'}}>
+                検索結果
+                <div style={{fontSize: 12}}>全{searchResult.total_pages}件</div>
+            </h3>
             {
                 searchResult.studios.map((row, index, array) => (
-                    <Card style={{marginBottom: 8}}>
+                    <Card style={{marginBottom: 24}}>
                             <CardContent className={classes.card}>
                                 <StudioTitle studio={row.studio_name}
                                              station={row.address.station.name}

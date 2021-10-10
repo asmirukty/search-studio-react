@@ -46,6 +46,8 @@ interface AreaDialogProps {
     children?: React.ReactNode;
     label: string;
     btn: string;
+    addItems: (value?: any) => void;
+    deleteItems: (value?: any) => void;
 }
 
 export default function NewAreaDialog(props: AreaDialogProps) {
@@ -61,13 +63,16 @@ export default function NewAreaDialog(props: AreaDialogProps) {
         setOpen(false);
         if (newArea) {
             setArea(newArea)
+            props.addItems(newArea)
         }
     };
 
     const handleAreaDelete = (item: string) => () => {
         setArea(prevState => (
             prevState.filter((element: string) => element != item)
-        ))}
+        ))
+        props.deleteItems(item)
+    }
 
     return (
         <div>

@@ -8,7 +8,7 @@ export default function App() {
       <Router>
           <Switch>
               <Route path="/" component={SearchPage} exact />
-              <Route path="/studios" component={ResultPage} exact />
+              <Route path="/studios/:id" component={ResultPage} exact />
           </Switch>
       </Router>
   );

@@ -11,7 +11,7 @@ const useStyles = makeStyles(() =>
     createStyles({
         root: {
             flexGrow: 1,
-            height: '100vh',
+            minHeight: '100vh',
             backgroundColor: '#F9F5F0',
             color: '#5A4628'
         },
@@ -35,7 +35,7 @@ function a11yProps(index: any) {
 }
 
 interface MenuTabsProps {
-    page: string
+    page: string,
 }
 
 export default function MenuTabs(props: MenuTabsProps) {
