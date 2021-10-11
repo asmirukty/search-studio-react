@@ -78,13 +78,11 @@ interface SpaceDialogRawProps {
     classes: Record<'paper', string>;
     id: string;
     keepMounted: boolean;
-    minArea: string;
-    maxArea: string;
+    area: string;
     minPeople: string;
     maxPeople: string;
     open: boolean;
-    minAreaOnClose: (value?: any) => void;
-    maxAreaOnClose: (value?: any) => void;
+    areaOnClose: (value?: any) => void;
     minPeopleOnClose: (value?: any) => void;
     maxPeopleOnClose: (value?: any) => void;
 }
@@ -111,8 +109,8 @@ const maxPeopleOptions = [
 
 export default function NewSpaceDialogRaw(props: SpaceDialogRawProps) {
     const classes = useStyles()
-    const { minAreaOnClose, maxAreaOnClose, minPeopleOnClose, maxPeopleOnClose,
-        minArea: minAreaProp, maxArea: maxAreaProp, minPeople: minPeopleProp, maxPeople: maxPeopleProp,
+    const { areaOnClose, minPeopleOnClose, maxPeopleOnClose,
+        area: areaProp, minPeople: minPeopleProp, maxPeople: maxPeopleProp,
         open, ...other } = props;
     const [minArea, setMinArea] = React.useState('下限なし');
     const [maxArea, setMaxArea] = React.useState('上限なし');
@@ -122,12 +120,14 @@ export default function NewSpaceDialogRaw(props: SpaceDialogRawProps) {
 
     React.useEffect(() => {
         if (!open) {
-            setMinArea(minAreaProp);
-            setMaxArea(maxAreaProp);
+            if (areaProp === '') {
+                setMinArea('下限なし');
+                setMaxArea('上限なし');
+            }
             setMinPeople(minPeopleProp);
             setMaxPeople(maxPeopleProp);
         }
-    }, [minAreaProp, maxAreaProp, minPeopleProp, maxPeopleProp, open]);
+    }, [areaProp, minPeopleProp, maxPeopleProp, open]);
 
     //const handleEntering = () => {
     //    if (radioGroupRef.current != null) {
@@ -135,15 +135,21 @@ export default function NewSpaceDialogRaw(props: SpaceDialogRawProps) {
     //    }};
 
     const handleCancel = () => {
-        minAreaOnClose();
-        maxAreaOnClose();
+        areaOnClose();
         minPeopleOnClose();
         maxPeopleOnClose();
     };
 
     const handleOk = () => {
-        minAreaOnClose(minArea);
-        maxAreaOnClose(maxArea);
+        if (minArea !== '下限なし' && maxArea !== '上限なし') {
+            areaOnClose(minArea + '~' + maxArea);
+        }
+        else if (minArea !== '下限なし' && maxArea === '上限なし') {
+            areaOnClose(minArea + '~')
+        }
+        else if (minArea === '下限なし' && maxArea !== '上限なし') {
+            areaOnClose('~' + maxArea)
+        }
         minPeopleOnClose(minPeople);
         maxPeopleOnClose(maxPeople);
     };

@@ -46,13 +46,13 @@ interface SpaceDialogProps {
     children?: React.ReactNode;
     label: string;
     btn: string;
+    addSpace: (value?: any) => void;
 }
 
 export default function NewSpaceDialog(props: SpaceDialogProps) {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
-    const [minArea, setMinArea] = React.useState('下限なし');
-    const [maxArea, setMaxArea] = React.useState('上限なし');
+    const [area, setArea] = React.useState('');
     const [minPeople, setMinPeople] = React.useState('下限なし');
     const [maxPeople, setMaxPeople] = React.useState('上限なし');
 
@@ -60,19 +60,12 @@ export default function NewSpaceDialog(props: SpaceDialogProps) {
         setOpen(true);
     };
 
-    const minAreaHandleClose = (newMinArea?: string) => {
+    const areaHandleClose = (newArea?: string) => {
         setOpen(false);
 
-        if (newMinArea) {
-            setMinArea(newMinArea);
-        }
-    };
-
-    const maxAreaHandleClose = (newMaxArea?: string) => {
-        setOpen(false);
-
-        if (newMaxArea) {
-            setMaxArea(newMaxArea);
+        if (newArea) {
+            setArea(newArea);
+            props.addSpace(newArea)
         }
     };
 
@@ -92,8 +85,8 @@ export default function NewSpaceDialog(props: SpaceDialogProps) {
         }
     };
     const handleAreaDelete = () => {
-        setMinArea('下限なし');
-        setMaxArea('上限なし');
+        setArea('');
+        props.addSpace()
     }
     const handlePeopleDelete = () => {
         setMinPeople('下限なし');
@@ -104,14 +97,10 @@ export default function NewSpaceDialog(props: SpaceDialogProps) {
         <div>
             {props.btn === 'btn' && (
                 <Button fullWidth variant="outlined" className={classes.btn} onClick={handleClickOpen}>
-                    {minArea === '下限なし' && maxArea === '上限なし' && minPeople === '下限なし' && maxPeople === '上限なし' &&
+                    { area === '' && minPeople === '下限なし' && maxPeople === '上限なし' &&
                     (props.label) }
-                    {minArea === '下限なし' && maxArea !== '上限なし' &&
-                        (<Chip size="small" label={<span>~{maxArea}</span>} onDelete={handleAreaDelete}/>)}
-                    {minArea !== '下限なし' && maxArea === '上限なし' &&
-                    (<Chip size="small" label={<span>{minArea}~</span>} onDelete={handleAreaDelete}/>)}
-                    {minArea !== '下限なし' && maxArea !== '上限なし' &&
-                    (<Chip size="small" label={<span>{minArea}~{maxArea}</span>} onDelete={handleAreaDelete}/>)}
+                    {area !== '' &&
+                    (<Chip size="small" label={<span>{area}</span>} onDelete={handleAreaDelete}/>)}
                     {minPeople === '下限なし' && maxPeople !== '上限なし' &&
                     (<Chip size="small" label={<span>~{maxPeople}</span>} onDelete={handlePeopleDelete}/>)}
                     {minPeople !== '下限なし' && maxPeople === '上限なし' &&
@@ -134,12 +123,10 @@ export default function NewSpaceDialog(props: SpaceDialogProps) {
                     id="ringtone-menu"
                     keepMounted
                     open={open}
-                    minAreaOnClose={minAreaHandleClose}
-                    maxAreaOnClose={maxAreaHandleClose}
+                    areaOnClose={areaHandleClose}
                     minPeopleOnClose={minPeopleHandleClose}
                     maxPeopleOnClose={maxPeopleHandleClose}
-                    minArea={minArea}
-                    maxArea={maxArea}
+                    area={area}
                     minPeople={minPeople}
                     maxPeople={maxPeople}
                 />

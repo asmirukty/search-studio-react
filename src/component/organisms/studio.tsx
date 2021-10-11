@@ -39,22 +39,33 @@ const useStyles = makeStyles(() =>
 
 export default function Studio() {
     const classes = useStyles();
-    const [items, setItems] = useState<any[]>([]);
+    const [area, setArea] = useState<any[]>([]);
+    const [space, setSpace] = React.useState<string>('');
+    const [people, setPeople] = React.useState();
 
-    const addItems = (newItems?: any) => {
-        if (newItems) {
-            setItems(newItems)
+    const addItems = (newArea?: any) => {
+        if (newArea) {
+            setArea(newArea)
         }
-        console.log(items)
     };
 
-    const deleteItems = (item?: string) => {
-        if (item) {
-            setItems(prevState => (
-                prevState.filter((element: string) => element != item)
+    const deleteItems = (area?: string) => {
+        if (area) {
+            setArea(prevState => (
+                prevState.filter((element: string) => element != area)
             ))
         }
     };
+
+    const addSpace = (newSpace?: string) => {
+        if (newSpace) {
+            setSpace(','+newSpace)
+        }
+        else {
+            setSpace('')
+        }
+    }
+
 
     return (
         <div style={{padding: 24}}>
@@ -70,7 +81,7 @@ export default function Studio() {
                     <Typography variant='subtitle1' className={classes.title}>
                         広さ
                     </Typography>
-                    <NewSpaceDialog label={'面積/人数を選択'} btn={'btn'}/>
+                    <NewSpaceDialog label={'面積/人数を選択'} btn={'btn'} addSpace={addSpace}/>
                     <Typography variant='subtitle1' className={classes.title}>
                         日時
                     </Typography>
@@ -79,7 +90,7 @@ export default function Studio() {
                     <div style={{display: 'flex'}}>
                         <Button className={classes.searchBtn}
                                 component={Link}
-                                to={`/studios/${items}`}>
+                                to={`/studios/${area}${space}`}>
                             検 索
                         </Button>
                     </div>
