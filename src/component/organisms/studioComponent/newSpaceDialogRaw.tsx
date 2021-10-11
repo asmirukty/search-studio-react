@@ -79,12 +79,10 @@ interface SpaceDialogRawProps {
     id: string;
     keepMounted: boolean;
     area: string;
-    minPeople: string;
-    maxPeople: string;
+    people: string;
     open: boolean;
     areaOnClose: (value?: any) => void;
-    minPeopleOnClose: (value?: any) => void;
-    maxPeopleOnClose: (value?: any) => void;
+    peopleOnClose: (value?: any) => void;
 }
 
 const minAreaOptions = [
@@ -109,8 +107,8 @@ const maxPeopleOptions = [
 
 export default function NewSpaceDialogRaw(props: SpaceDialogRawProps) {
     const classes = useStyles()
-    const { areaOnClose, minPeopleOnClose, maxPeopleOnClose,
-        area: areaProp, minPeople: minPeopleProp, maxPeople: maxPeopleProp,
+    const { areaOnClose, peopleOnClose,
+        area: areaProp, people: peopleProp,
         open, ...other } = props;
     const [minArea, setMinArea] = React.useState('下限なし');
     const [maxArea, setMaxArea] = React.useState('上限なし');
@@ -124,20 +122,17 @@ export default function NewSpaceDialogRaw(props: SpaceDialogRawProps) {
                 setMinArea('下限なし');
                 setMaxArea('上限なし');
             }
-            setMinPeople(minPeopleProp);
-            setMaxPeople(maxPeopleProp);
+            if (peopleProp === '') {
+                setMinPeople('下限なし');
+                setMaxPeople('上限なし');
+            }
         }
-    }, [areaProp, minPeopleProp, maxPeopleProp, open]);
+    }, [areaProp, peopleProp, open]);
 
-    //const handleEntering = () => {
-    //    if (radioGroupRef.current != null) {
-    //        radioGroupRef.current.focus();
-    //    }};
 
     const handleCancel = () => {
         areaOnClose();
-        minPeopleOnClose();
-        maxPeopleOnClose();
+        peopleOnClose();
     };
 
     const handleOk = () => {
@@ -150,8 +145,15 @@ export default function NewSpaceDialogRaw(props: SpaceDialogRawProps) {
         else if (minArea === '下限なし' && maxArea !== '上限なし') {
             areaOnClose('~' + maxArea)
         }
-        minPeopleOnClose(minPeople);
-        maxPeopleOnClose(maxPeople);
+        if (minPeople !== '下限なし' && maxPeople !== '上限なし') {
+            peopleOnClose(minPeople + '~' + maxPeople);
+        }
+        else if (minPeople !== '下限なし' && maxPeople === '上限なし') {
+            peopleOnClose(minPeople + '~')
+        }
+        else if (minPeople === '下限なし' && maxPeople !== '上限なし') {
+            peopleOnClose('~' + maxPeople)
+        }
     };
 
     const minAreaHandleChange = (event: any) : void => {

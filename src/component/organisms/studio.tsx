@@ -40,8 +40,8 @@ const useStyles = makeStyles(() =>
 export default function Studio() {
     const classes = useStyles();
     const [area, setArea] = useState<any[]>([]);
-    const [space, setSpace] = React.useState<string>('');
-    const [people, setPeople] = React.useState();
+    const [space, setSpace] = React.useState('');
+    const [people, setPeople] = React.useState('');
 
     const addItems = (newArea?: any) => {
         if (newArea) {
@@ -66,6 +66,14 @@ export default function Studio() {
         }
     }
 
+    const addPeople = (newPeople?: string) => {
+        if (newPeople) {
+            setPeople(','+newPeople)
+        }
+        else {
+            setPeople('')
+        }
+    }
 
     return (
         <div style={{padding: 24}}>
@@ -81,7 +89,7 @@ export default function Studio() {
                     <Typography variant='subtitle1' className={classes.title}>
                         広さ
                     </Typography>
-                    <NewSpaceDialog label={'面積/人数を選択'} btn={'btn'} addSpace={addSpace}/>
+                    <NewSpaceDialog label={'面積/人数を選択'} btn={'btn'} addSpace={addSpace} addPeople={addPeople}/>
                     <Typography variant='subtitle1' className={classes.title}>
                         日時
                     </Typography>
@@ -90,7 +98,7 @@ export default function Studio() {
                     <div style={{display: 'flex'}}>
                         <Button className={classes.searchBtn}
                                 component={Link}
-                                to={`/studios/${area}${space}`}>
+                                to={`/studios/${area}${space}${people}`}>
                             検 索
                         </Button>
                     </div>
