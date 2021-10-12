@@ -160,7 +160,7 @@ export default function RoomContent(props: RoomContentProps) {
                     <TableBody>
                         <TableRow className={classes.tableRow}>
                             <TableCell className={classes.cellTitle} size='small'>
-                                <DateConvert date={props.slots[0].time_begin*1000}/>
+                                {DateConvert(props.slots[0].time_begin * 1000)}
                             </TableCell>
                             {
                                 props.slots.map((slot, index, array) => {

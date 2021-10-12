@@ -3,7 +3,6 @@ import React from 'react';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
 import {createStyles, makeStyles} from "@material-ui/core/styles";
-import EventIcon from '@material-ui/icons/Event';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -20,7 +19,6 @@ interface DateSelectProps {
 
 export default function NewDateSelect(props: DateSelectProps) {
     const classes = useStyles();
-    // The first commit of Material-UI
     const { dateOnClose, date: dateProp,  ...other } = props;
     const [selectedDate, setSelectedDate] = React.useState<Date | null>(null);
 

@@ -256,7 +256,7 @@ export default function StudioResult() {
     const classes = useStyles();
     const [searchResult, setSearchResult] = useState(initialSearchResult);
 
-    const items = id.id.split(',')
+    const items = id.id.split(',');
 
 
     {/**const f = async () => {
@@ -363,6 +363,7 @@ export default function StudioResult() {
             .then(response => {
                 setSearchResult(response.data)
             })
+        console.log(items)
     })
 
     return (
@@ -371,7 +372,7 @@ export default function StudioResult() {
                 <CardContent className={classes.card}>
                     <Typography variant='subtitle1' style={{fontWeight: 'bold'}}>検索条件</Typography>
                     {items.map((item) =>
-                    <Chip size='small' label={item} className={classes.chip}/>)}
+                    <Chip size='small' label={item.replace('_', '/')} className={classes.chip}/>)}
                 </CardContent>
             </Card>
             <h3 style={{textAlign: 'center'}}>

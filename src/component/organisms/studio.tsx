@@ -42,6 +42,7 @@ export default function Studio() {
     const [area, setArea] = useState<any[]>([]);
     const [space, setSpace] = React.useState('');
     const [people, setPeople] = React.useState('');
+    const [date, setDate] = React.useState('');
 
     const addItems = (newArea?: any) => {
         if (newArea) {
@@ -64,7 +65,7 @@ export default function Studio() {
         else {
             setSpace('')
         }
-    }
+    };
 
     const addPeople = (newPeople?: string) => {
         if (newPeople) {
@@ -73,7 +74,16 @@ export default function Studio() {
         else {
             setPeople('')
         }
-    }
+    };
+
+    const addDate = (newDate?: string) => {
+        if (newDate) {
+            setDate(','+newDate.replace('/', '_'))
+        }
+        else {
+            setDate('')
+        }
+    };
 
     return (
         <div style={{padding: 24}}>
@@ -93,12 +103,12 @@ export default function Studio() {
                     <Typography variant='subtitle1' className={classes.title}>
                         日時
                     </Typography>
-                    <NewDateDialog label={'日時を選択'} btn={'btn'}/>
+                    <NewDateDialog label={'日時を選択'} btn={'btn'} addDate={addDate}/>
                     <NewDetailDialog label={'もっとしぼり込む >'} btn={'detailBtn'}/>
                     <div style={{display: 'flex'}}>
                         <Button className={classes.searchBtn}
                                 component={Link}
-                                to={`/studios/${area}${space}${people}`}>
+                                to={`/studios/${area}${space}${people}${date}`}>
                             検 索
                         </Button>
                     </div>

@@ -92,7 +92,7 @@ export default function NewSpaceDialog(props: SpaceDialogProps) {
         <div>
             {props.btn === 'btn' && (
                 <Button fullWidth variant="outlined" className={classes.btn} onClick={handleClickOpen}>
-                    { area === '' && people === '' && (props.label) }
+                    {area === '' && people === '' && (props.label) }
                     {area !== '' &&
                     (<Chip size="small" label={<span>{area}</span>} onDelete={handleAreaDelete}/>)}
                     {people !== '' &&

@@ -10,6 +10,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import NewDateSelect from "./newDateSelect";
+import DateConvert from "../dateConvert";
 
 const useStyles = makeStyles(() =>
     createStyles( {
@@ -83,12 +84,8 @@ interface DateDialogRawProps {
     id: string;
     keepMounted: boolean;
     date: any;
-    startTime: string;
-    endTime: string;
     open: boolean;
     dateOnClose: (value?: any) => void;
-    startTimeOnClose: (value?: any) => void;
-    endTimeOnClose: (value?: any) => void;
     }
 
 const startTimeOptions = [
@@ -109,37 +106,38 @@ const endTimeOptions = [
 
 export default function NewDateDialogRaw(props: DateDialogRawProps) {
     const classes = useStyles()
-    const { dateOnClose, startTimeOnClose, endTimeOnClose,
-        date: dateProp, startTime: startTimeProp, endTime: endTimeProp,
-        open, ...other } = props;
+    const { dateOnClose, date: dateProp, open, ...other } = props;
     const [date, setDate] = React.useState<Date | null>(null);
     const [startTime, setStartTime] = React.useState('指定なし');
     const [endTime, setEndTime] = React.useState('指定なし');
-   //const radioGroupRef = React.useRef<HTMLElement>(null);
 
     React.useEffect(() => {
         if (!open) {
-            setDate(dateProp);
-            setStartTime(startTimeProp);
-            setEndTime(endTimeProp);
+            if (dateProp === '') {
+                setDate(null)
+                setStartTime('指定なし');
+                setEndTime('指定なし');
+            }
         }
-    }, [dateProp, startTimeProp, endTimeProp, open]);
-
-    //const handleEntering = () => {
-    //    if (radioGroupRef.current != null) {
-    //        radioGroupRef.current.focus();
-    //    }};
+    }, [dateProp, open]);
 
     const handleCancel = () => {
         dateOnClose();
-        startTimeOnClose();
-        endTimeOnClose();
     };
 
     const handleOk = () => {
-        dateOnClose(date);
-        startTimeOnClose(startTime);
-        endTimeOnClose(endTime);
+        if (date !== null && startTime !== '指定なし' && endTime !== '指定なし') {
+            dateOnClose(DateConvert(date) + startTime + '~' + endTime);
+        }
+        else if (date !== null && startTime !== '指定なし' && endTime === '指定なし') {
+            dateOnClose(DateConvert(date) + startTime + '~')
+        }
+        else if (date !== null && startTime === '指定なし' && endTime !== '指定なし') {
+            dateOnClose(DateConvert(date) + '~' + endTime)
+        }
+        else if (date !== null) {
+            dateOnClose(DateConvert(date))
+        }
     };
 
     const startTimeHandleChange = (event: any) : void => {
@@ -164,8 +162,7 @@ export default function NewDateDialogRaw(props: DateDialogRawProps) {
 
     return (
         <Dialog PaperProps={{style: {margin: 12, flexGrow: 1}}}
-               // onEntering={handleEntering}
-            aria-labelledby="confirmation-dialog-title"
+               aria-labelledby="confirmation-dialog-title"
             open={open}
             {...other}
         >
@@ -184,7 +181,6 @@ export default function NewDateDialogRaw(props: DateDialogRawProps) {
                     <FormControl className={classes.formControl}>
                         <InputLabel shrink className={classes.label}>開始時間</InputLabel>
                         <Select
-                            //ref={radioGroupRef}
                             value={startTime}
                             onChange={startTimeHandleChange}
                             displayEmpty
@@ -200,7 +196,6 @@ export default function NewDateDialogRaw(props: DateDialogRawProps) {
                     <FormControl className={classes.formControl}>
                         <InputLabel shrink className={classes.label}>終了時間</InputLabel>
                         <Select
-                            //ref={radioGroupRef}
                                 value={endTime}
                                 onChange={endTimeHandleChange}
                                 displayEmpty
