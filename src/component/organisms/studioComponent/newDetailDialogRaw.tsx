@@ -83,17 +83,13 @@ interface DetailDialogRawProps {
     id: string;
     keepMounted: boolean;
     fromStation: string;
-    minPrice: string;
-    maxPrice: string;
-    minMirror: string;
-    maxMirror: string;
+    price: string;
+    mirror: string;
     checkedItem: string[];
     open: boolean;
     fromStationOnClose: (value?: any) => void;
-    minPriceOnClose: (value?: any) => void;
-    maxPriceOnClose: (value?: any) => void;
-    minMirrorOnClose: (value?: any) => void;
-    maxMirrorOnClose: (value?: any) => void;
+    priceOnClose: (value?: any) => void;
+    mirrorOnClose: (value?: any) => void;
     checkedItemOnClose: (value?: any) => void;
 }
 
@@ -151,8 +147,8 @@ const amenities = [
 
 export default function NewDetailDialogRaw(props: DetailDialogRawProps) {
     const classes = useStyles()
-    const { fromStationOnClose, minPriceOnClose, maxPriceOnClose, minMirrorOnClose, maxMirrorOnClose, checkedItemOnClose,
-        fromStation: fromStationProp, minPrice: minPriceProp, maxPrice: maxPriceProp, minMirror: minMirrorProp, maxMirror: maxMirrorProp, checkedItem: checkedItemProp,
+    const { fromStationOnClose, priceOnClose, mirrorOnClose, checkedItemOnClose,
+        fromStation: fromStationProp, price: priceProp, mirror: mirrorProp, checkedItem: checkedItemProp,
         open, ...other } = props;
     const [fromStation, setFromStation] = React.useState('指定なし');
     const [minPrice, setMinPrice] = React.useState('下限なし');
@@ -164,29 +160,45 @@ export default function NewDetailDialogRaw(props: DetailDialogRawProps) {
     React.useEffect(() => {
         if (!open) {
             setFromStation(fromStationProp);
-            setMinPrice(minPriceProp);
-            setMaxPrice(maxPriceProp);
-            setMinMirror(minMirrorProp);
-            setMaxMirror(maxMirrorProp);
+            if (priceProp === '') {
+                setMinPrice('下限なし');
+                setMaxPrice('上限なし');
+            }
+            if (mirrorProp === '') {
+                setMinMirror('下限なし');
+                setMaxMirror('上限なし');
+            }
             setCheckedItem(checkedItemProp);
         }
-    }, [fromStationProp, minPriceProp, maxPriceProp, minMirrorProp, maxMirrorProp, checkedItemProp, open]);
+    }, [fromStationProp, priceProp, mirrorProp, checkedItemProp, open]);
 
     const handleCancel = () => {
         fromStationOnClose();
-        minPriceOnClose();
-        maxPriceOnClose();
-        minMirrorOnClose();
-        maxMirrorOnClose();
+        priceOnClose();
+        mirrorOnClose();
         checkedItemOnClose();
     };
 
     const handleOk = () => {
         fromStationOnClose(fromStation);
-        minPriceOnClose(minPrice);
-        maxPriceOnClose(maxPrice);
-        minMirrorOnClose(minMirror);
-        maxMirrorOnClose(maxMirror);
+        if (minPrice !== '下限なし' && maxPrice !== '上限なし') {
+            priceOnClose(minPrice + '~' + maxPrice);
+        }
+        else if (minPrice !== '下限なし' && maxPrice === '上限なし') {
+            priceOnClose(minPrice + '~')
+        }
+        else if (minPrice === '下限なし' && maxPrice !== '上限なし') {
+            priceOnClose('~' + maxPrice)
+        }
+        if (minMirror !== '下限なし' && maxMirror !== '上限なし') {
+            mirrorOnClose(minMirror + '~' + maxMirror);
+        }
+        else if (minMirror !== '下限なし' && maxMirror === '上限なし') {
+            mirrorOnClose(minMirror + '~')
+        }
+        else if (minMirror === '下限なし' && maxMirror !== '上限なし') {
+            mirrorOnClose('~' + maxMirror)
+        }
         checkedItemOnClose(checkedItem);
     };
 

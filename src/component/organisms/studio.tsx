@@ -43,6 +43,8 @@ export default function Studio() {
     const [space, setSpace] = React.useState('');
     const [people, setPeople] = React.useState('');
     const [date, setDate] = React.useState('');
+    const [price, setPrice] = React.useState('');
+    const [mirror, setMirror] = React.useState('');
 
     const addItems = (newArea?: any) => {
         if (newArea) {
@@ -85,6 +87,24 @@ export default function Studio() {
         }
     };
 
+    const addPrice = (newPrice?: string) => {
+        if (newPrice) {
+            setPrice(','+newPrice)
+        }
+        else {
+            setPrice('')
+        }
+    };
+
+    const addMirror = (newMirror?: string) => {
+        if (newMirror) {
+            setMirror(','+newMirror)
+        }
+        else {
+            setMirror('')
+        }
+    };
+
     return (
         <div style={{padding: 24}}>
             <h3 style={{textAlign: 'center'}}>スタジオを検索</h3>
@@ -104,11 +124,11 @@ export default function Studio() {
                         日時
                     </Typography>
                     <NewDateDialog label={'日時を選択'} btn={'btn'} addDate={addDate}/>
-                    <NewDetailDialog label={'もっとしぼり込む >'} btn={'detailBtn'}/>
+                    <NewDetailDialog label={'もっとしぼり込む >'} btn={'detailBtn'} addPrice={addPrice} addMirror={addMirror}/>
                     <div style={{display: 'flex'}}>
                         <Button className={classes.searchBtn}
                                 component={Link}
-                                to={`/studios/${area}${space}${people}${date}`}>
+                                to={`/studios/${area}${space}${people}${date}${price}${mirror}`}>
                             検 索
                         </Button>
                     </div>

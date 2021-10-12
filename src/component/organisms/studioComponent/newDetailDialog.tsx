@@ -48,16 +48,16 @@ interface DetailDialogProps {
     children?: React.ReactNode;
     label: string;
     btn: string;
+    addPrice: (value?: any) => void;
+    addMirror: (value?: any) => void;
 }
 
 export default function NewDetailDialog(props: DetailDialogProps) {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
     const [fromStation, setFromStation] = React.useState('指定なし');
-    const [minPrice, setMinPrice] = React.useState('下限なし');
-    const [maxPrice, setMaxPrice] = React.useState('上限なし');
-    const [minMirror, setMinMirror] = React.useState('下限なし');
-    const [maxMirror, setMaxMirror] = React.useState('上限なし');
+    const [price, setPrice] = React.useState('');
+    const [mirror, setMirror] = React.useState('');
     const [checkedItem, setCheckedItem] = React.useState<string[]>([]);
 
     const handleClickOpen = () => {
@@ -72,35 +72,21 @@ export default function NewDetailDialog(props: DetailDialogProps) {
         }
     };
 
-    const minPriceHandleClose = (newMinPrice?: string) => {
+    const priceHandleClose = (newPrice?: string) => {
         setOpen(false);
 
-        if (newMinPrice) {
-            setMinPrice(newMinPrice);
+        if (newPrice) {
+            setPrice(newPrice);
+            props.addPrice(newPrice)
         }
     };
 
-    const maxPriceHandleClose = (newMaxPrice?: string) => {
+    const mirrorHandleClose = (newMirror?: string) => {
         setOpen(false);
 
-        if (newMaxPrice) {
-            setMaxPrice(newMaxPrice);
-        }
-    };
-
-    const minMirrorHandleClose = (newMinMirror?: string) => {
-        setOpen(false);
-
-        if (newMinMirror) {
-            setMinMirror(newMinMirror);
-        }
-    };
-
-    const maxMirrorHandleClose = (newMaxMirror?: string) => {
-        setOpen(false);
-
-        if (newMaxMirror) {
-            setMaxMirror(newMaxMirror);
+        if (newMirror) {
+            setMirror(newMirror);
+            props.addMirror(newMirror)
         }
     };
 
@@ -117,13 +103,13 @@ export default function NewDetailDialog(props: DetailDialogProps) {
     };
 
     const handlePriceDelete = () => {
-        setMinPrice('下限なし');
-        setMaxPrice('上限なし');
+        setPrice('');
+        props.addPrice()
     };
 
     const handleMirrorDelete = () => {
-        setMinMirror('下限なし');
-        setMaxMirror('上限なし');
+        setMirror('');
+        props.addMirror()
     }
 
     const handleItemDelete = (item: string) => () => {
@@ -143,18 +129,10 @@ export default function NewDetailDialog(props: DetailDialogProps) {
                     <div>
                         {fromStation !== '指定なし' &&
                         (<Chip size="small" label={<span>{fromStation}</span>} onDelete={handleFromStationDelete}/>)}
-                        {minPrice === '下限なし' && maxPrice !== '上限なし' &&
-                        (<Chip size="small" label={<span>~{maxPrice}</span>} onDelete={handlePriceDelete}/>)}
-                        {minPrice !== '下限なし' && maxPrice === '上限なし' &&
-                        (<Chip size="small" label={<span>{minPrice}~</span>} onDelete={handlePriceDelete}/>)}
-                        {minPrice !== '下限なし' && maxPrice !== '上限なし' &&
-                        (<Chip size="small" label={<span>{minPrice}~{maxPrice}</span>} onDelete={handlePriceDelete}/>)}
-                        {minMirror === '下限なし' && maxMirror !== '上限なし' &&
-                        (<Chip size="small" label={<span>~{maxMirror}</span>} onDelete={handleMirrorDelete}/>)}
-                        {minMirror !== '下限なし' && maxMirror === '上限なし' &&
-                        (<Chip size="small" label={<span>{minMirror}~</span>} onDelete={handleMirrorDelete}/>)}
-                        {minMirror !== '下限なし' && maxMirror !== '上限なし' &&
-                        (<Chip size="small" label={<span>{minMirror}~{maxMirror}</span>} onDelete={handleMirrorDelete}/>)}
+                        {price !== '' &&
+                        (<Chip size="small" label={<span>{price}</span>} onDelete={handlePriceDelete}/>)}
+                        {mirror !== '' &&
+                        (<Chip size="small" label={<span>{mirror}</span>} onDelete={handleMirrorDelete}/>)}
                         {checkedItem.length !== 0 &&
                         (checkedItem.map((item) =>
                                 (<Chip size="small" label={item} onDelete={handleItemDelete(item)}/>))
@@ -175,16 +153,12 @@ export default function NewDetailDialog(props: DetailDialogProps) {
                 keepMounted
                 open={open}
                 fromStationOnClose={fromStationHandleClose}
-                minPriceOnClose={minPriceHandleClose}
-                maxPriceOnClose={maxPriceHandleClose}
-                minMirrorOnClose={minMirrorHandleClose}
-                maxMirrorOnClose={maxMirrorHandleClose}
+                priceOnClose={priceHandleClose}
+                mirrorOnClose={mirrorHandleClose}
                 checkedItemOnClose={checkedItemHandleClose}
                 fromStation={fromStation}
-                minPrice={minPrice}
-                maxPrice={maxPrice}
-                minMirror={minMirror}
-                maxMirror={maxMirror}
+                price={price}
+                mirror={mirror}
                 checkedItem={checkedItem}
             />
         </div>
