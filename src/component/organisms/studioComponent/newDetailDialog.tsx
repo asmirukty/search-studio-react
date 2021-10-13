@@ -18,9 +18,6 @@ const Chip = withStyles({
 
 const useStyles = makeStyles(() =>
     createStyles({
-        right: {
-            textAlign: 'right'
-        },
         btn: {
             borderColor: '#D7D2C8',
             color: '#9B8C7D',
@@ -29,10 +26,9 @@ const useStyles = makeStyles(() =>
         detailBtn: {
             color: '#5A4628',
             fontSize: 14,
-            padding: '3px 4px',
-            margin: '0 0 8px',
-            display: 'flex',
-            flex: 'wrap'
+            padding: '0 4px',
+            margin: '2px 0 8px',
+            right: 0
         },
         paper: {
             margin: 12,
@@ -48,14 +44,17 @@ interface DetailDialogProps {
     children?: React.ReactNode;
     label: string;
     btn: string;
+    addFromStation: (value?: any) => void;
     addPrice: (value?: any) => void;
     addMirror: (value?: any) => void;
+    addCheckedItem: (value?: any) => void;
+    deleteCheckedItem: (value?: any) => void;
 }
 
 export default function NewDetailDialog(props: DetailDialogProps) {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
-    const [fromStation, setFromStation] = React.useState('指定なし');
+    const [fromStation, setFromStation] = React.useState('');
     const [price, setPrice] = React.useState('');
     const [mirror, setMirror] = React.useState('');
     const [checkedItem, setCheckedItem] = React.useState<string[]>([]);
@@ -69,6 +68,7 @@ export default function NewDetailDialog(props: DetailDialogProps) {
 
         if (newFromStation) {
             setFromStation(newFromStation);
+            props.addFromStation(newFromStation)
         }
     };
 
@@ -95,11 +95,13 @@ export default function NewDetailDialog(props: DetailDialogProps) {
 
         if (newItem) {
             setCheckedItem(newItem);
+            props.addCheckedItem(newItem)
         }
     };
 
     const handleFromStationDelete = () => {
-        setFromStation('指定なし');
+        setFromStation('');
+        props.addFromStation()
     };
 
     const handlePriceDelete = () => {
@@ -116,6 +118,7 @@ export default function NewDetailDialog(props: DetailDialogProps) {
         setCheckedItem(prevState => (
             prevState.filter((element: string) => element != item)
         ))
+        props.deleteCheckedItem(item)
     }
 
     return (
@@ -126,8 +129,8 @@ export default function NewDetailDialog(props: DetailDialogProps) {
             )}
             {props.btn === 'detailBtn' && (
                 <div>
-                    <div>
-                        {fromStation !== '指定なし' &&
+                    <div style={{marginTop: 4}}>
+                        {fromStation !== '' &&
                         (<Chip size="small" label={<span>{fromStation}</span>} onDelete={handleFromStationDelete}/>)}
                         {price !== '' &&
                         (<Chip size="small" label={<span>{price}</span>} onDelete={handlePriceDelete}/>)}
@@ -138,7 +141,7 @@ export default function NewDetailDialog(props: DetailDialogProps) {
                                 (<Chip size="small" label={item} onDelete={handleItemDelete(item)}/>))
                         )}
                     </div>
-                    <div className={classes.right}>
+                    <div style={{textAlign: 'right'}}>
                         <Button className={classes.detailBtn} onClick={handleClickOpen}>
                             {props.label}
                         </Button>

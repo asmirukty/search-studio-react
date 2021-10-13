@@ -43,16 +43,18 @@ export default function Studio() {
     const [space, setSpace] = React.useState('');
     const [people, setPeople] = React.useState('');
     const [date, setDate] = React.useState('');
+    const [fromStation, setFromStation] = React.useState('');
     const [price, setPrice] = React.useState('');
     const [mirror, setMirror] = React.useState('');
+    const [checkedItem, setCheckedItem] = React.useState<string[]>([]);
 
-    const addItems = (newArea?: any) => {
+    const addArea = (newArea?: any) => {
         if (newArea) {
             setArea(newArea)
         }
     };
 
-    const deleteItems = (area?: string) => {
+    const deleteArea = (area?: string) => {
         if (area) {
             setArea(prevState => (
                 prevState.filter((element: string) => element != area)
@@ -87,6 +89,15 @@ export default function Studio() {
         }
     };
 
+    const addFromStation = (newFromStation?: string) => {
+        if (newFromStation) {
+            setFromStation(','+newFromStation)
+        }
+        else {
+            setFromStation('')
+        }
+    };
+
     const addPrice = (newPrice?: string) => {
         if (newPrice) {
             setPrice(','+newPrice)
@@ -105,6 +116,20 @@ export default function Studio() {
         }
     };
 
+    const addCheckedItem = (newCheckedItem?: any) => {
+        if (newCheckedItem) {
+            setCheckedItem([ '', ...newCheckedItem])
+        }
+    };
+
+    const deleteCheckedItem = (checkedItem?: string) => {
+        if (checkedItem) {
+            setCheckedItem(prevState => (
+                prevState.filter((element: string) => element != checkedItem)
+            ))
+        }
+    };
+
     return (
         <div style={{padding: 24}}>
             <h3 style={{textAlign: 'center'}}>スタジオを検索</h3>
@@ -114,7 +139,7 @@ export default function Studio() {
                     <Typography variant='subtitle1' className={classes.title}>
                         場所
                     </Typography>
-                    <NewAreaDialog label={'エリア/沿線、駅を選択'} btn={'btn'} addItems={addItems} deleteItems={deleteItems}/>
+                    <NewAreaDialog label={'エリア/沿線、駅を選択'} btn={'btn'} addItems={addArea} deleteItems={deleteArea}/>
                     <StudioName/>
                     <Typography variant='subtitle1' className={classes.title}>
                         広さ
@@ -124,11 +149,13 @@ export default function Studio() {
                         日時
                     </Typography>
                     <NewDateDialog label={'日時を選択'} btn={'btn'} addDate={addDate}/>
-                    <NewDetailDialog label={'もっとしぼり込む >'} btn={'detailBtn'} addPrice={addPrice} addMirror={addMirror}/>
+                    <NewDetailDialog label={'もっとしぼり込む >'} btn={'detailBtn'}
+                                     addFromStation={addFromStation} addPrice={addPrice} addMirror={addMirror}
+                                     addCheckedItem={addCheckedItem} deleteCheckedItem={deleteCheckedItem}/>
                     <div style={{display: 'flex'}}>
                         <Button className={classes.searchBtn}
                                 component={Link}
-                                to={`/studios/${area}${space}${people}${date}${price}${mirror}`}>
+                                to={`/studios/${area}${space}${people}${date}${fromStation}${price}${mirror}${checkedItem}`}>
                             検 索
                         </Button>
                     </div>

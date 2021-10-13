@@ -159,7 +159,9 @@ export default function NewDetailDialogRaw(props: DetailDialogRawProps) {
 
     React.useEffect(() => {
         if (!open) {
-            setFromStation(fromStationProp);
+            if (fromStationProp === '') {
+                setFromStation('指定なし');
+            }
             if (priceProp === '') {
                 setMinPrice('下限なし');
                 setMaxPrice('上限なし');
@@ -180,7 +182,10 @@ export default function NewDetailDialogRaw(props: DetailDialogRawProps) {
     };
 
     const handleOk = () => {
-        fromStationOnClose(fromStation);
+        if (fromStation !== '指定なし') {
+            fromStationOnClose('駅'+fromStation);
+        }
+
         if (minPrice !== '下限なし' && maxPrice !== '上限なし') {
             priceOnClose(minPrice + '~' + maxPrice);
         }
@@ -190,15 +195,17 @@ export default function NewDetailDialogRaw(props: DetailDialogRawProps) {
         else if (minPrice === '下限なし' && maxPrice !== '上限なし') {
             priceOnClose('~' + maxPrice)
         }
+
         if (minMirror !== '下限なし' && maxMirror !== '上限なし') {
-            mirrorOnClose(minMirror + '~' + maxMirror);
+            mirrorOnClose('鏡' + minMirror + '~' + maxMirror);
         }
         else if (minMirror !== '下限なし' && maxMirror === '上限なし') {
-            mirrorOnClose(minMirror + '~')
+            mirrorOnClose('鏡' + minMirror + '~')
         }
         else if (minMirror === '下限なし' && maxMirror !== '上限なし') {
-            mirrorOnClose('~' + maxMirror)
+            mirrorOnClose('鏡' + '~' + maxMirror)
         }
+
         checkedItemOnClose(checkedItem);
     };
 
@@ -239,7 +246,6 @@ export default function NewDetailDialogRaw(props: DetailDialogRawProps) {
 
     return (
         <Dialog PaperProps={{style: {margin: 12, flexGrow: 1}}}
-            // onEntering={handleEntering}
                 aria-labelledby="confirmation-dialog-title"
                 open={open}
                 {...other}
@@ -256,7 +262,6 @@ export default function NewDetailDialogRaw(props: DetailDialogRawProps) {
                 <Typography className={classes.typ} variant={'subtitle1'}>駅から徒歩</Typography>
                 <FormControl className={classes.formControl}>
                     <Select
-                        //ref={radioGroupRef}
                         value={fromStation}
                         onChange={fromStationHandleChange}
                         displayEmpty
@@ -276,7 +281,6 @@ export default function NewDetailDialogRaw(props: DetailDialogRawProps) {
                     <FormControl className={classes.formControl}>
                         <InputLabel shrink>30分あたりの料金</InputLabel>
                         <Select
-                            //ref={radioGroupRef}
                             value={minPrice}
                             onChange={minPriceHandleChange}
                             displayEmpty
@@ -291,7 +295,6 @@ export default function NewDetailDialogRaw(props: DetailDialogRawProps) {
                     <p>~</p>
                     <FormControl className={classes.formControl}>
                         <Select
-                            //ref={radioGroupRef}
                             value={maxPrice}
                             onChange={maxPriceHandleChange}
                             displayEmpty
@@ -323,7 +326,7 @@ export default function NewDetailDialogRaw(props: DetailDialogRawProps) {
                 <Typography className={classes.typ} variant={'subtitle1'}>部屋設備・備品</Typography>
                 <Typography className={classes.typ} variant={'subtitle2'}>鏡</Typography>
                 <NewSearchCheckbox item='2面'
-                                   checked={(checkedItem.includes('2面') && true)}
+                                   checked={(checkedItem.includes('2面'))}
                                    itemChecked={checked} itemUnChecked={unChecked}/>
                 <div className={classes.select}>
                     <FormControl className={classes.formControl}>
@@ -344,7 +347,6 @@ export default function NewDetailDialogRaw(props: DetailDialogRawProps) {
                     <p>~</p>
                     <FormControl className={classes.formControl}>
                         <Select
-                            //ref={radioGroupRef}
                             value={maxMirror}
                             onChange={maxMirrorHandleChange}
                             displayEmpty
