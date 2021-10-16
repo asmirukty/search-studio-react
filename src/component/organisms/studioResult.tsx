@@ -363,7 +363,6 @@ export default function StudioResult() {
             .then(response => {
                 setSearchResult(response.data)
             })
-        console.log(items)
     })
 
     return (

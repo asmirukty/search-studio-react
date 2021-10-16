@@ -179,19 +179,12 @@ export default function NewAreaDialogRaw(props: AreaDialogRawProps) {
     const classes = useStyles()
     const { areaOnClose, area: areaProp, open, ...other } = props;
     const [area, setArea] = React.useState<string[]>([]);
-    const radioGroupRef = React.useRef<HTMLElement>(null);
 
     React.useEffect(() => {
         if (!open) {
             setArea([...areaProp]);
         }
     }, [areaProp, open]);
-
-    const handleEntering = () => {
-        if (radioGroupRef.current != null) {
-            radioGroupRef.current.focus();
-        }
-    };
 
     const handleCancel = () => {
         areaOnClose();
@@ -220,7 +213,6 @@ export default function NewAreaDialogRaw(props: AreaDialogRawProps) {
 
     return (
         <Dialog PaperProps={{style: {flexGrow: 1}}}
-                onEntering={handleEntering}
             aria-labelledby="confirmation-dialog-title"
             open={open}
             {...other}

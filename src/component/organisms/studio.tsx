@@ -20,6 +20,11 @@ const useStyles = makeStyles(() =>
         title: {
             color: "#5A4628"
         },
+        require: {
+            color: "#5A4628",
+            fontSize: 10,
+            marginLeft: 8
+        },
         box: {
             fieldset: {
                 borderColor: '#D7D2C8'
@@ -34,23 +39,30 @@ const useStyles = makeStyles(() =>
             color: '#F9F5F0',
             backgroundColor: '#1D356A',
             margin: 'auto',
+            '&.Mui-disabled': {
+                color: '#F9F5F0',
+                opacity: .6
+            }
         }
     }));
 
 export default function Studio() {
     const classes = useStyles();
     const [area, setArea] = useState<any[]>([]);
-    const [space, setSpace] = React.useState('');
-    const [people, setPeople] = React.useState('');
-    const [date, setDate] = React.useState('');
-    const [fromStation, setFromStation] = React.useState('');
-    const [price, setPrice] = React.useState('');
-    const [mirror, setMirror] = React.useState('');
-    const [checkedItem, setCheckedItem] = React.useState<string[]>([]);
+    const [studio, setStudio] = useState<string | null>(null);
+    const [place, setPlace] = useState<any[]>([])
+    const [space, setSpace] = useState('');
+    const [people, setPeople] = useState('');
+    const [date, setDate] = useState('');
+    const [fromStation, setFromStation] = useState('');
+    const [price, setPrice] = useState('');
+    const [mirror, setMirror] = useState('');
+    const [checkedItem, setCheckedItem] = useState<string[]>([]);
 
-    const addArea = (newArea?: any) => {
+    const addArea = (newArea?: string[]) => {
         if (newArea) {
             setArea(newArea)
+            setPlace([...newArea, studio])
         }
     };
 
@@ -59,6 +71,19 @@ export default function Studio() {
             setArea(prevState => (
                 prevState.filter((element: string) => element != area)
             ))
+            setPlace(prevState => (
+                prevState.filter((element: string) => element != area)
+            ))
+        }
+    };
+
+    const studioText = (text?: string) => {
+        if (text === '') {
+            setPlace([...area])
+        }
+        else if (text) {
+            setStudio(text)
+            setPlace([...area, text])
         }
     };
 
@@ -136,11 +161,16 @@ export default function Studio() {
             <Card className={classes.root}>
                 <CardContent>
                     <Space/>
-                    <Typography variant='subtitle1' className={classes.title}>
-                        場所
-                    </Typography>
+                    <div style={{display: 'flex', alignItems: 'flex-end'}}>
+                        <Typography variant='subtitle1' className={classes.title}>
+                            場所
+                        </Typography>
+                        <Typography variant='caption' className={classes.require}>
+                            ※必ず<span style={{fontSize: 12}}>エリア/沿線、駅</span>または<span style={{fontSize: 12}}>スタジオ</span>を指定
+                        </Typography>
+                    </div>
                     <NewAreaDialog label={'エリア/沿線、駅を選択'} btn={'btn'} addItems={addArea} deleteItems={deleteArea}/>
-                    <StudioName/>
+                    <StudioName studioText={studioText}/>
                     <Typography variant='subtitle1' className={classes.title}>
                         広さ
                     </Typography>
@@ -154,8 +184,9 @@ export default function Studio() {
                                      addCheckedItem={addCheckedItem} deleteCheckedItem={deleteCheckedItem}/>
                     <div style={{display: 'flex'}}>
                         <Button className={classes.searchBtn}
+                                disabled={place.length === 0}
                                 component={Link}
-                                to={`/studios/${area}${space}${people}${date}${fromStation}${price}${mirror}${checkedItem}`}>
+                                to={`/studios/${place}${space}${people}${date}${fromStation}${price}${mirror}${checkedItem}`}>
                             検 索
                         </Button>
                     </div>
