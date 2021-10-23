@@ -4,6 +4,7 @@ import NewDateDialogRaw from "./newDateDialogRaw";
 import Button from "@material-ui/core/Button";
 import MuiChip from "@material-ui/core/Chip";
 import DateMatchRadio from "./dateMatchRadio";
+import DateTimeConvert from "../dateTimeConvert";
 
 const Chip = withStyles({
     root: {
@@ -46,60 +47,91 @@ const useStyles = makeStyles(() =>
 interface SpaceDialogProps {
     children?: React.ReactNode;
     label: string;
-    btn: string;
-    addDate: (value?: any) => void;
+    addDate: (value?: any[]) => void;
 }
 
 export default function NewDateDialog(props: SpaceDialogProps) {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
-    const [date, setDate] = React.useState('');
+    const [date, setDate] = React.useState<any[]>([]);
 
     const handleClickOpen = () => {
         setOpen(true);
     };
 
-    const dateHandleClose = (newDate?: any) => {
+    const dateHandleClose = (newDate?: {date: Date, startTime: string, endTime: string}[]) => {
         setOpen(false);
 
         if (newDate) {
+            newDate.sort(function(a,b) {
+                if (a.date.getFullYear() > b.date.getFullYear()) {
+                    return -1
+                }
+                if (a.date.getFullYear() < b.date.getFullYear()) {
+                    return 1
+                }
+                // yearが同じの時
+                if (a.date.getMonth() > b.date.getMonth()) {
+                    return -1
+                }
+                if (a.date.getMonth() < b.date.getMonth()) {
+                    return 1
+                }
+                // monthが同じの時
+                if (a.date.getDate() > b.date.getDate()) {
+                    return -1
+                }
+                if (a.date.getDate() < b.date.getDate()) {
+                    return 1
+                }
+                // dateが同じの時
+                if (a.startTime > b.startTime) {
+                    return -1
+                }
+                if (a.startTime < b.startTime) {
+                    return 1
+                }
+                //startTimeが同じ時
+                if (a.endTime < b.endTime) {
+                    return -1
+                }
+                if (a.endTime < b.endTime) {
+                    return 1
+                }
+                return 0
+            })
             setDate(newDate);
+            conlose.log(newDate)
             props.addDate(newDate)
         }
     };
 
     const handleDateDelete = () => {
-        setDate('');
+        setDate([]);
         props.addDate()
     }
 
     return (
         <div>
-            {props.btn === 'btn' && (
-                <Button fullWidth variant="outlined" className={classes.btn} onClick={handleClickOpen}>
-                    {date === '' && (props.label) }
-                    {date !== '' &&
-                    (<Chip size="small" label={date} onDelete={handleDateDelete}/>)}
-                </Button>
-                )}
-            {props.btn === 'detailBtn' && (
-                <div className={classes.right}>
-                    <Button className={classes.detailBtn} onClick={handleClickOpen}>
-                        {props.label}
-                    </Button>
-                </div>
-            )}
-                <NewDateDialogRaw
-                    classes={{
-                        paper: classes.paper,
-                    }}
-                    id="ringtone-menu"
-                    keepMounted
-                    open={open}
-                    dateOnClose={dateHandleClose}
-                    date={date}
-                />
-            {date !== '' && <DateMatchRadio/>}
+            <Button fullWidth variant="outlined" className={classes.btn} onClick={handleClickOpen}>
+                {
+                    date.length === 0 ? (props.label) :
+                    date.map((date: {date: Date, startTime: string, endTime: string}) => (
+                        <Chip size="small" label={DateTimeConvert({date: date.date, startTime: date.startTime, endTime: date.endTime})} onDelete={handleDateDelete}/>
+                    ))
+                }
+            </Button>
+            <NewDateDialogRaw
+                classes={{
+                    paper: classes.paper,
+                }}
+                id="ringtone-menu"
+                keepMounted
+                open={open}
+                dateOnClose={dateHandleClose}
+                date={date}
+            />
+            {date.length > 0 && <DateMatchRadio/>}
         </div>
     );
 }

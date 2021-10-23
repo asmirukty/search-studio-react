@@ -357,7 +357,7 @@ export default function StudioResult() {
     };
 
 
-    f();**/}
+    f();*/}
     useEffect(() => {
         axios.get('http://localhost:3000/sample.json')
             .then(response => {

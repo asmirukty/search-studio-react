@@ -42,6 +42,11 @@ const useStyles = makeStyles(() =>
             '&.Mui-disabled': {
                 color: '#F9F5F0',
                 opacity: .6
+            },
+            '&:hover': {
+                color: '#F9F5F0',
+                backgroundColor: '#1D356A',
+                opacity: .8
             }
         }
     }));
@@ -105,7 +110,7 @@ export default function Studio() {
         }
     };
 
-    const addDate = (newDate?: string) => {
+    const addDate = (newDate?: any[]) => {
         if (newDate) {
             setDate(','+newDate.replace('/', '_'))
         }
@@ -160,7 +165,6 @@ export default function Studio() {
             <h3 style={{textAlign: 'center'}}>スタジオを検索</h3>
             <Card className={classes.root}>
                 <CardContent>
-                    <Space/>
                     <div style={{display: 'flex', alignItems: 'flex-end'}}>
                         <Typography variant='subtitle1' className={classes.title}>
                             場所
@@ -169,17 +173,17 @@ export default function Studio() {
                             ※必ず<span style={{fontSize: 12}}>エリア/沿線、駅</span>または<span style={{fontSize: 12}}>スタジオ</span>を指定
                         </Typography>
                     </div>
-                    <NewAreaDialog label={'エリア/沿線、駅を選択'} btn={'btn'} addItems={addArea} deleteItems={deleteArea}/>
+                    <NewAreaDialog label={'エリア/沿線、駅を選択'} addItems={addArea} deleteItems={deleteArea}/>
                     <StudioName studioText={studioText}/>
                     <Typography variant='subtitle1' className={classes.title}>
                         広さ
                     </Typography>
-                    <NewSpaceDialog label={'面積/人数を選択'} btn={'btn'} addSpace={addSpace} addPeople={addPeople}/>
+                    <NewSpaceDialog label={'面積/人数を選択'} addSpace={addSpace} addPeople={addPeople}/>
                     <Typography variant='subtitle1' className={classes.title}>
                         日時
                     </Typography>
-                    <NewDateDialog label={'日時を選択'} btn={'btn'} addDate={addDate}/>
-                    <NewDetailDialog label={'もっとしぼり込む >'} btn={'detailBtn'}
+                    <NewDateDialog label={'日時を選択'} addDate={addDate}/>
+                    <NewDetailDialog label={'もっとしぼり込む >'}
                                      addFromStation={addFromStation} addPrice={addPrice} addMirror={addMirror}
                                      addCheckedItem={addCheckedItem} deleteCheckedItem={deleteCheckedItem}/>
                     <div style={{display: 'flex'}}>

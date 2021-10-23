@@ -26,6 +26,13 @@ const useStyles = makeStyles(() =>
             color: '#9B8C7D',
             fontSize: '14px',
         },
+        btnChip: {
+            borderColor: '#D7D2C8',
+            color: '#9B8C7D',
+            fontSize: '14px',
+            justifyContent: 'start',
+            padding: 5
+        },
         detailBtn: {
             color: '#5A4628',
             fontSize: 14,
@@ -45,7 +52,6 @@ const useStyles = makeStyles(() =>
 interface SpaceDialogProps {
     children?: React.ReactNode;
     label: string;
-    btn: string;
     addSpace: (value?: any) => void;
     addPeople: (value?: any) => void;
 }
@@ -90,22 +96,23 @@ export default function NewSpaceDialog(props: SpaceDialogProps) {
 
     return (
         <div>
-            {props.btn === 'btn' && (
-                <Button fullWidth variant="outlined" className={classes.btn} onClick={handleClickOpen}>
-                    {area === '' && people === '' && (props.label) }
-                    {area !== '' &&
-                    (<Chip size="small" label={<span>{area}</span>} onDelete={handleAreaDelete}/>)}
-                    {people !== '' &&
-                    (<Chip size="small" label={<span>{people}</span>} onDelete={handlePeopleDelete}/>)}
-                </Button>
-            )}
-            {props.btn === 'detailBtn' && (
-                <div className={classes.right}>
-                    <Button className={classes.detailBtn} onClick={handleClickOpen}>
+            {
+                area === '' && people === '' ?
+                    <Button fullWidth variant="outlined" className={classes.btn} onClick={handleClickOpen}>
                         {props.label}
                     </Button>
-                </div>
-            )}
+            :
+                    <Button fullWidth variant="outlined" className={classes.btnChip} onClick={handleClickOpen}>
+                    {
+                        area !== '' &&
+                        <Chip size="small" label={<span>{area}</span>} onDelete={handleAreaDelete}/>
+                    }
+                    {
+                        people !== '' &&
+                        <Chip size="small" label={<span>{people}</span>} onDelete={handlePeopleDelete}/>
+                    }
+                    </Button>
+            }
                 <NewSpaceDialogRaw
                     classes={{
                         paper: classes.paper,

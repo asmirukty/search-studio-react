@@ -28,7 +28,7 @@ const useStyles = makeStyles(() =>
             fontSize: 14,
             padding: '0 4px',
             margin: '2px 0 8px',
-            right: 0
+            right: 0,
         },
         paper: {
             margin: 12,
@@ -43,7 +43,6 @@ const useStyles = makeStyles(() =>
 interface DetailDialogProps {
     children?: React.ReactNode;
     label: string;
-    btn: string;
     addFromStation: (value?: any) => void;
     addPrice: (value?: any) => void;
     addMirror: (value?: any) => void;
@@ -123,31 +122,25 @@ export default function NewDetailDialog(props: DetailDialogProps) {
 
     return (
         <div>
-            {props.btn === 'btn' && (
-                <Button fullWidth variant="outlined" className={classes.btn} onClick={handleClickOpen}>
-                </Button>
-            )}
-            {props.btn === 'detailBtn' && (
-                <div>
-                    <div style={{marginTop: 4}}>
-                        {fromStation !== '' &&
-                        (<Chip size="small" label={<span>{fromStation}</span>} onDelete={handleFromStationDelete}/>)}
-                        {price !== '' &&
-                        (<Chip size="small" label={<span>{price}</span>} onDelete={handlePriceDelete}/>)}
-                        {mirror !== '' &&
-                        (<Chip size="small" label={<span>{mirror}</span>} onDelete={handleMirrorDelete}/>)}
-                        {checkedItem.length !== 0 &&
-                        (checkedItem.map((item) =>
-                                (<Chip size="small" label={item} onDelete={handleItemDelete(item)}/>))
-                        )}
-                    </div>
-                    <div style={{textAlign: 'right'}}>
-                        <Button className={classes.detailBtn} onClick={handleClickOpen}>
-                            {props.label}
-                        </Button>
-                    </div>
+            <div>
+                <div style={{marginTop: 6}}>
+                    {fromStation !== '' &&
+                    (<Chip size="small" label={<span>{fromStation}</span>} onDelete={handleFromStationDelete}/>)}
+                    {price !== '' &&
+                    (<Chip size="small" label={<span>{price}</span>} onDelete={handlePriceDelete}/>)}
+                    {mirror !== '' &&
+                    (<Chip size="small" label={<span>{mirror}</span>} onDelete={handleMirrorDelete}/>)}
+                    {checkedItem.length !== 0 &&
+                    (checkedItem.map((item) =>
+                            (<Chip size="small" label={item} onDelete={handleItemDelete(item)}/>))
+                    )}
                 </div>
-            )}
+                <div style={{textAlign: 'right'}}>
+                    <Button className={classes.detailBtn} onClick={handleClickOpen}>
+                        {props.label}
+                    </Button>
+                </div>
+            </div>
             <NewDetailDialogRaw
                 classes={{
                     paper: classes.paper,

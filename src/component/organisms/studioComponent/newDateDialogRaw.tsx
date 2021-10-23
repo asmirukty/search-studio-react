@@ -5,12 +5,9 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import Dialog from '@material-ui/core/Dialog';
 import {Close} from "@material-ui/icons";
-import {InputLabel, Typography} from "@material-ui/core";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
+import {Typography} from "@material-ui/core";
 import NewDateSelect from "./newDateSelect";
-import DateConvert from "../dateConvert";
+import DateTimeConvert from "../dateTimeConvert";
 
 const useStyles = makeStyles(() =>
     createStyles( {
@@ -52,30 +49,10 @@ const useStyles = makeStyles(() =>
             boxShadow: '0px 4px 8px -2px rgba(0, 0, 0, 0.1)inset',
 
         },
-        select: {
-            display: 'flex',
-            alignItems: 'baseline',
-            marginBottom: 12
-        },
-        formControl: {
-            margin: 4,
-            minWidth: 120,
-        },
-        selectEmpty: {
-            color: "#5A4628",
-            fontSize: "14px",
-            padding: '2px 7px'
-        },
         typ: {
             color: "#5A4628",
             fontWeight: 'bold',
             marginRight: 12
-        },
-        label: {
-            color: '#5A4628'
-        },
-        menuPaper: {
-            maxHeight: 300
         }
     }));
 
@@ -85,38 +62,22 @@ interface DateDialogRawProps {
     keepMounted: boolean;
     date: any;
     open: boolean;
-    dateOnClose: (value?: any) => void;
+    dateOnClose: (value?: any[]) => void;
     }
-
-const startTimeOptions = [
-    '0:00', '0:30', '1:00', '1:30', '2:00', '2:30', '3:00', '3:30', '4:00', '4:30',
-    '5:00', '5:30', '6:00', '6:30', '7:00', '7:30', '8:00', '8:30', '9:00', '9:30',
-    '10:00', '10:30', '11:00', '11:30', '指定なし', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30',
-    '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30',
-    '20:00', '20:30', '21:00', '21:30', '22:00', '22:30', '23:00', '23:30',
-];
-
-const endTimeOptions = [
-    '0:30', '1:00', '1:30', '2:00', '2:30', '3:00', '3:30', '4:00', '4:30',
-    '5:00', '5:30', '6:00', '6:30', '7:00', '7:30', '8:00', '8:30', '9:00', '9:30',
-    '10:00', '10:30', '11:00', '11:30', '12:00', '指定なし', '12:30', '13:00', '13:30', '14:00', '14:30',
-    '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30',
-    '20:00', '20:30', '21:00', '21:30', '22:00', '22:30', '23:00', '23:30',　'24:00'
-];
 
 export default function NewDateDialogRaw(props: DateDialogRawProps) {
     const classes = useStyles()
     const { dateOnClose, date: dateProp, open, ...other } = props;
-    const [date, setDate] = React.useState<Date | null>(null);
-    const [startTime, setStartTime] = React.useState('指定なし');
-    const [endTime, setEndTime] = React.useState('指定なし');
+    const [dateA, setDateA] = React.useState<any>();
+    const [dateB, setDateB] = React.useState<any>();
+    const [dateC, setDateC] = React.useState<any>();
+    const [dateD, setDateD] = React.useState<any>();
+    const [dateE, setDateE] = React.useState<any>();
 
     React.useEffect(() => {
         if (!open) {
             if (dateProp === '') {
-                setDate(null)
-                setStartTime('指定なし');
-                setEndTime('指定なし');
+                setDateA(null)
             }
         }
     }, [dateProp, open]);
@@ -126,40 +87,33 @@ export default function NewDateDialogRaw(props: DateDialogRawProps) {
     };
 
     const handleOk = () => {
-        if (date !== null && startTime !== '指定なし' && endTime !== '指定なし') {
-            dateOnClose(DateConvert(date) + startTime + '~' + endTime);
+        if (dateA) {
+            dateOnClose([dateA, dateB, dateC, dateD, dateE]);
         }
-        else if (date !== null && startTime !== '指定なし' && endTime === '指定なし') {
-            dateOnClose(DateConvert(date) + startTime + '~')
-        }
-        else if (date !== null && startTime === '指定なし' && endTime !== '指定なし') {
-            dateOnClose(DateConvert(date) + '~' + endTime)
-        }
-        else if (date !== null) {
-            dateOnClose(DateConvert(date))
+        else {
+            dateOnClose();
         }
     };
 
-    const startTimeHandleChange = (event: any) : void => {
-        setStartTime((event.target as HTMLInputElement).value);
-        if (date === null) {
-            setDate(new Date())
-        }
+    const dateChangeA = (newDate: Date, newStartTime: string, newEndTime: string) => {
+        setDateA({date: newDate, startTime: newStartTime, endTime: newEndTime})
     };
 
-    const endTimeHandleChange = (event: any) : void => {
-        setEndTime((event.target as HTMLInputElement).value);
-        if (date === null) {
-            setDate(new Date())
-        }
+    const dateChangeB = (newDate: Date, newStartTime: string, newEndTime: string) => {
+        setDateB({date: newDate, startTime: newStartTime, endTime: newEndTime})
     };
 
-    const dateHandleClose = (newDate?: any) => {
-        if (newDate) {
-            setDate(newDate)
-        }
+    const dateChangeC = (newDate: Date, newStartTime: string, newEndTime: string) => {
+        setDateC({date: newDate, startTime: newStartTime, endTime: newEndTime})
     };
 
+    const dateChangeD = (newDate: Date, newStartTime: string, newEndTime: string) => {
+        setDateD({date: newDate, startTime: newStartTime, endTime: newEndTime})
+    };
+
+    const dateChangeE = (newDate: Date, newStartTime: string, newEndTime: string) => {
+        setDateE({date: newDate, startTime: newStartTime, endTime: newEndTime})
+    };
     return (
         <Dialog PaperProps={{style: {margin: 12, flexGrow: 1}}}
                aria-labelledby="confirmation-dialog-title"
@@ -176,39 +130,11 @@ export default function NewDateDialogRaw(props: DateDialogRawProps) {
             </DialogActions>
             <DialogContent className={classes.content}>
                 <Typography className={classes.typ} variant={'subtitle1'}>日時</Typography>
-                <NewDateSelect date={date} dateOnClose={dateHandleClose}/>
-                <div className={classes.select}>
-                    <FormControl className={classes.formControl}>
-                        <InputLabel shrink className={classes.label}>開始時間</InputLabel>
-                        <Select
-                            value={startTime}
-                            onChange={startTimeHandleChange}
-                            displayEmpty
-                            className={classes.selectEmpty}
-                            MenuProps={{ classes: { paper: classes.menuPaper } }}
-                        >
-                            {startTimeOptions.map((option: any) => (
-                                <MenuItem value={option}>{option}</MenuItem>
-                            ))}
-                        </Select>
-                        </FormControl>
-                    <p>~</p>
-                    <FormControl className={classes.formControl}>
-                        <InputLabel shrink className={classes.label}>終了時間</InputLabel>
-                        <Select
-                                value={endTime}
-                                onChange={endTimeHandleChange}
-                                displayEmpty
-                                className={classes.selectEmpty}
-                                MenuProps={{ classes: { paper: classes.menuPaper } }}
-                        >
-                            {endTimeOptions.map((option: any) => (
-                                <MenuItem value={option}>{option}</MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                </div>
-
+                <NewDateSelect date={dateA} dateChange={dateChangeA}/>
+                <NewDateSelect date={dateB} dateChange={dateChangeB}/>
+                <NewDateSelect date={dateC} dateChange={dateChangeC}/>
+                <NewDateSelect date={dateD} dateChange={dateChangeD}/>
+                <NewDateSelect date={dateE} dateChange={dateChangeE}/>
             </DialogContent>
 
         </Dialog>

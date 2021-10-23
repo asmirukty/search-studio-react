@@ -26,6 +26,18 @@ const useStyles = makeStyles(() =>
             color: '#9B8C7D',
             fontSize: '14px',
         },
+        btnChip: {
+            borderColor: '#D7D2C8',
+            color: '#9B8C7D',
+            fontSize: '14px',
+            justifyContent: 'start',
+            padding: '0 5px'
+        },
+        wrapChip: {
+            overflow: 'scroll',
+            display: 'flex',
+            padding: 5
+        },
         detailBtn: {
             color: '#5A4628',
             fontSize: 14,
@@ -45,7 +57,6 @@ const useStyles = makeStyles(() =>
 interface AreaDialogProps {
     children?: React.ReactNode;
     label: string;
-    btn: string;
     addItems: (value?: any) => void;
     deleteItems: (value?: any) => void;
 }
@@ -76,21 +87,19 @@ export default function NewAreaDialog(props: AreaDialogProps) {
 
     return (
         <div>
-            {props.btn === 'btn' && (
+            {
+                area.length === 0 ?
                 <Button fullWidth variant="outlined" className={classes.btn} onClick={handleClickOpen}>
-                    {area.length === 0 ? (props.label) :
-                    (area.map((item) =>
-                        (<Chip size="small" label={item} onDelete={handleAreaDelete(item)}/>))
-                    )}
-                    </Button>
-            )}
-            {props.btn === 'detailBtn' && (
-                <div className={classes.right}>
-                    <Button className={classes.detailBtn} onClick={handleClickOpen}>
-                        {props.label}
-                    </Button>
-                </div>
-            )}
+                    {props.label}
+                </Button> :
+                <Button fullWidth variant="outlined" className={classes.btnChip} onClick={handleClickOpen}>
+                    <div className={classes.wrapChip}>
+                        {area.map((item) => (
+                            <Chip size="small" label={item} onDelete={handleAreaDelete(item)}/>
+                        ))}
+                    </div>
+                </Button>
+            }
             <NewAreaDialogRaw
                 classes={{
                     paper: classes.paper,
