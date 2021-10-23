@@ -76,8 +76,12 @@ export default function NewDateDialogRaw(props: DateDialogRawProps) {
 
     React.useEffect(() => {
         if (!open) {
-            if (dateProp === '') {
-                setDateA(null)
+            if (dateProp) {
+                setDateA(dateProp[0])
+                setDateB(dateProp[1])
+                setDateC(dateProp[2])
+                setDateD(dateProp[3])
+                setDateE(dateProp[4])
             }
         }
     }, [dateProp, open]);
@@ -87,12 +91,9 @@ export default function NewDateDialogRaw(props: DateDialogRawProps) {
     };
 
     const handleOk = () => {
-        if (dateA) {
-            dateOnClose([dateA, dateB, dateC, dateD, dateE]);
-        }
-        else {
-            dateOnClose();
-        }
+        dateOnClose(
+            [dateA, dateB, dateC, dateD, dateE].filter((element: any[]) => element != undefined)
+        );
     };
 
     const dateChangeA = (newDate: Date, newStartTime: string, newEndTime: string) => {

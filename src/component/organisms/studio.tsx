@@ -112,7 +112,7 @@ export default function Studio() {
 
     const addDate = (newDate?: any[]) => {
         if (newDate) {
-            setDate(','+newDate.replace('/', '_'))
+            //setDate(','+newDate.replace('/', '_'))
         }
         else {
             setDate('')
