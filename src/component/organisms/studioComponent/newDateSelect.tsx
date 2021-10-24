@@ -9,6 +9,8 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import DateConvert from "../dateConvert";
 import DateTimeConvert from "../dateTimeConvert";
+import Button from "@material-ui/core/Button";
+import ClearIcon from '@material-ui/icons/Clear';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -19,7 +21,6 @@ const useStyles = makeStyles(() =>
         select: {
             display: 'flex',
             alignItems: 'baseline',
-            marginBottom: 12
         },
         formControl: {
             margin: 4,
@@ -35,6 +36,18 @@ const useStyles = makeStyles(() =>
         },
         menuPaper: {
             maxHeight: 300
+        },
+        addBtn: {
+            borderColor: '#D7D2C8',
+            color: '#5A4628',
+            fontSize: '14px',
+            padding: 0,
+            margin: 4
+        },
+        resetBtn: {
+            color: '#5A4628',
+            fontSize: 8,
+            padding: 0,
         }
     }));
 
@@ -47,7 +60,12 @@ const endTimeOptions = [
 ];
 
 interface DateSelectProps {
-    date: any;
+    //open: boolean,
+    date: {
+        date: Date,
+        startTime: string,
+        endTime: string
+    };
     dateChange: (Date: Date, startTime: string, endTime: string) => void;
 }
 
@@ -57,14 +75,24 @@ export default function NewDateSelect(props: DateSelectProps) {
     const [selectedDate, setSelectedDate] = React.useState<Date | null>(null);
     const [startTime, setStartTime] = React.useState('指定なし');
     const [endTime, setEndTime] = React.useState('指定なし');
+    //const [open, setOpen] = React.useState(true)
 
     React.useEffect(() => {
+        //setOpen(openProp)
+
         if (!dateProp) {
             setSelectedDate(null)
             setStartTime('指定なし');
             setEndTime('指定なし');
         }
+        else {
+            setSelectedDate(dateProp.date)
+            setStartTime(dateProp.startTime)
+            setEndTime(dateProp.endTime)
+        }
     }, [dateProp]);
+
+    //const addClick = () => {setOpen(true)}
 
     const handleDateChange = (date: any) => {
         if (date) {
@@ -72,6 +100,12 @@ export default function NewDateSelect(props: DateSelectProps) {
             dateChange(date, startTime, endTime)
         }
     };
+
+    const resetClick = () => {
+        setSelectedDate(null)
+    //    setStartTime('指定なし')
+    //    setEndTime('指定なし')
+    }
 
     const startTimeHandleChange = (event: any) : void => {
         setStartTime((event.target as HTMLInputElement).value);
@@ -98,53 +132,66 @@ export default function NewDateSelect(props: DateSelectProps) {
     };
 
     return (
-        <div>
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <DatePicker
-                    className={classes.root}
-                    disableToolbar
-                    variant="inline"
-                    format="yyyy/MM/dd"
-                    id="date-picker-inline"
-                    emptyLabel='年/月/日'
-                    value={selectedDate}
-                    inputProps={{
-                        style: {color: '#5A4628',
-                            borderColor: '#5A4628'}
-                    }}
-                    onChange={handleDateChange}
-                />
-            </MuiPickersUtilsProvider>
-            <div className={classes.select}>
-                <FormControl className={classes.formControl}>
-                    <InputLabel shrink className={classes.label}>開始時間</InputLabel>
-                    <Select
+        //(!open) ?
+        //        <Button onClick={addClick} className={classes.addBtn} variant="outlined">+ 追加</Button>
+        //        :
+                <div>
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <DatePicker
+                        className={classes.root}
+                        disableToolbar
+                        variant="inline"
+                        format="yyyy/MM/dd"
+                        id="date-picker-inline"
+                        emptyLabel='日にちを選択'
+                        minDate={new Date()}
+                        maxDate={new Date().setMonth(new Date().getMonth() + 2)}
+                        value={selectedDate}
+                        inputProps={{
+                            style: {
+                                color: '#5A4628',
+                                borderColor: '#5A4628'
+                            }
+                        }}
+                        onChange={handleDateChange}
+                    />
+                    {
+                        selectedDate &&
+                        <Button onClick={resetClick} className={classes.resetBtn}><ClearIcon/></Button>
+                    }
+                    </MuiPickersUtilsProvider>
+                    <div className={classes.select}>
+                        <FormControl className={classes.formControl}>
+                        <InputLabel shrink className={classes.label}>開始時間</InputLabel>
+                        <Select
                         value={startTime}
                         onChange={startTimeHandleChange}
                         displayEmpty
                         className={classes.selectEmpty}
-                        MenuProps={{ classes: { paper: classes.menuPaper } }}
-                    >
-                        {startTimeOptions.map((option: any) => (
-                            <MenuItem value={option}>{option}</MenuItem>
+                        MenuProps={{classes: {paper: classes.menuPaper}}}
+                        >
+                    {startTimeOptions.map((option: any) => (
+                        <MenuItem value={option}>{option}</MenuItem>
                         ))}
-                    </Select>
-                </FormControl>
-                <p>~</p>
-                <FormControl className={classes.formControl}>
+                        </Select>
+                        </FormControl>
+                        <p>~</p>
+                        <FormControl className={classes.formControl}>
                     <InputLabel shrink className={classes.label}>終了時間</InputLabel>
                     <Select
-                        value={endTime}
-                        onChange={endTimeHandleChange}
-                        displayEmpty
-                        className={classes.selectEmpty}
-                        MenuProps={{ classes: { paper: classes.menuPaper } }}
+                    value={endTime}
+                    onChange={endTimeHandleChange}
+                    displayEmpty
+                    className={classes.selectEmpty}
+                    MenuProps={{classes: {paper: classes.menuPaper}}}
                     >
-                        {endTimeOptions.map((option: any) => (
-                            <MenuItem value={option}>{option}</MenuItem>
-                        ))}
+                {endTimeOptions.map((option: any) => (
+                    <MenuItem value={option}>{option}</MenuItem>
+                    ))}
                     </Select>
-                </FormControl>
-            </div>
-        </div>);
+                    </FormControl>
+                        {/**<Button onClick={resetClick} disabled={!selectedDate && startTime === '指定なし' && endTime === '指定なし'} className={classes.addBtn} variant="outlined">リセット</Button>*/}
+                    </div>
+                </div>
+        );
 }

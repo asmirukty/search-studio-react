@@ -14,11 +14,6 @@ const useStyles = makeStyles(() =>
         right: {
             textAlign: 'right'
         },
-        btn: {
-            borderColor: '#D7D2C8',
-            color: '#9B8C7D',
-            fontSize: '14px',
-        },
         detailBtn: {
             color: '#5A4628',
             fontSize: 14,
@@ -53,6 +48,13 @@ const useStyles = makeStyles(() =>
             color: "#5A4628",
             fontWeight: 'bold',
             marginRight: 12
+        },
+        addBtn: {
+            borderColor: '#D7D2C8',
+            color: '#5A4628',
+            fontSize: '14px',
+            padding: 0,
+            margin: 4
         }
     }));
 
@@ -73,16 +75,23 @@ export default function NewDateDialogRaw(props: DateDialogRawProps) {
     const [dateC, setDateC] = React.useState<any>();
     const [dateD, setDateD] = React.useState<any>();
     const [dateE, setDateE] = React.useState<any>();
+    const [openA, setOpenA] = React.useState(true);
+    const [openB, setOpenB] = React.useState(false);
+    const [openC, setOpenC] = React.useState(false);
+    const [openD, setOpenD] = React.useState(false);
+    const [openE, setOpenE] = React.useState(false);
 
     React.useEffect(() => {
         if (!open) {
-            if (dateProp) {
-                setDateA(dateProp[0])
-                setDateB(dateProp[1])
-                setDateC(dateProp[2])
-                setDateD(dateProp[3])
-                setDateE(dateProp[4])
-            }
+            setDateA(dateProp[0])
+            setDateB(dateProp[1])
+            setDateC(dateProp[2])
+            setDateD(dateProp[3])
+            setDateE(dateProp[4])
+            !dateProp[1] && setOpenB(false)
+            !dateProp[2] && setOpenC(false)
+            !dateProp[3] && setOpenD(false)
+            !dateProp[4] && setOpenE(false)
         }
     }, [dateProp, open]);
 
@@ -132,10 +141,18 @@ export default function NewDateDialogRaw(props: DateDialogRawProps) {
             <DialogContent className={classes.content}>
                 <Typography className={classes.typ} variant={'subtitle1'}>日時</Typography>
                 <NewDateSelect date={dateA} dateChange={dateChangeA}/>
-                <NewDateSelect date={dateB} dateChange={dateChangeB}/>
-                <NewDateSelect date={dateC} dateChange={dateChangeC}/>
-                <NewDateSelect date={dateD} dateChange={dateChangeD}/>
-                <NewDateSelect date={dateE} dateChange={dateChangeE}/>
+                {!openB &&
+                <Button onClick={() => {setOpenB(true)}} disabled={!dateA} className={classes.addBtn} variant="outlined">+ 追加</Button>}
+                {openB && <NewDateSelect date={dateB} dateChange={dateChangeB}/>}
+                {openB && !openC &&
+                <Button onClick={() => {setOpenC(true)}} disabled={!dateB} className={classes.addBtn} variant="outlined">+ 追加</Button>}
+                {openC && <NewDateSelect date={dateC} dateChange={dateChangeC}/>}
+                {openB && openC && !openD &&
+                <Button onClick={() => {setOpenD(true)}} disabled={!dateC} className={classes.addBtn} variant="outlined">+ 追加</Button>}
+                {openD && <NewDateSelect date={dateD} dateChange={dateChangeD}/>}
+                {openB && openC && openD && !openE &&
+                <Button onClick={() => {setOpenE(true)}} disabled={!dateD} className={classes.addBtn} variant="outlined">+ 追加</Button>}
+                {openE && <NewDateSelect date={dateE} dateChange={dateChangeE}/>}
             </DialogContent>
 
         </Dialog>

@@ -28,6 +28,18 @@ const useStyles = makeStyles(() =>
             color: '#9B8C7D',
             fontSize: '14px',
         },
+        btnChip: {
+            borderColor: '#D7D2C8',
+            color: '#9B8C7D',
+            fontSize: '14px',
+            justifyContent: 'start',
+            padding: '0 5px'
+        },
+        wrapChip: {
+            overflow: 'scroll',
+            display: 'flex',
+            padding: 5
+        },
         detailBtn: {
             color: '#5A4628',
             fontSize: 14,
@@ -114,15 +126,20 @@ export default function NewDateDialog(props: SpaceDialogProps) {
 
     return (
         <div>
-            <Button fullWidth variant="outlined" className={classes.btn} onClick={handleClickOpen}>
-                {
-                    date.length === 0 ? (props.label) :
-                    date.map((date: {date: Date, startTime: string, endTime: string}, index) => (
-                        <Chip size="small" label={DateTimeConvert({date: date.date, startTime: date.startTime, endTime: date.endTime})}
-                              onDelete={handleDateDelete(index)}/>
-                    ))
-                }
-            </Button>
+            {
+                date.length === 0 ?
+                    <Button fullWidth variant="outlined" className={classes.btn} onClick={handleClickOpen}>
+                        {props.label}
+                    </Button> :
+                    <Button fullWidth variant="outlined" className={classes.btnChip} onClick={handleClickOpen}>
+                        <div className={classes.wrapChip}>
+                            {date.map((date: {date: Date, startTime: string, endTime: string}, index) => (
+                                <Chip size="small" label={DateTimeConvert({date: date.date, startTime: date.startTime, endTime: date.endTime})}
+                                      onDelete={handleDateDelete(index)}/>
+                            ))}
+                        </div>
+                    </Button>
+            }
             <NewDateDialogRaw
                 classes={{paper: classes.paper,}}
                 id="ringtone-menu"
