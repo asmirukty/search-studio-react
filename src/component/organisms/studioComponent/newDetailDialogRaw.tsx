@@ -69,6 +69,10 @@ const useStyles = makeStyles(() =>
             fontWeight: 'bold',
             marginRight: 12
         },
+        label: {
+            color: '#5A4628',
+            width: 160
+        },
         menuPaper: {
             maxHeight: 300
         },
@@ -279,7 +283,7 @@ export default function NewDetailDialogRaw(props: DetailDialogRawProps) {
                                    itemChecked={checked} itemUnChecked={unChecked}/>
                 <div className={classes.select}>
                     <FormControl className={classes.formControl}>
-                        <InputLabel shrink>30分あたりの料金</InputLabel>
+                        <InputLabel shrink className={classes.label}>30分あたりの料金</InputLabel>
                         <Select
                             value={minPrice}
                             onChange={minPriceHandleChange}
@@ -287,8 +291,11 @@ export default function NewDetailDialogRaw(props: DetailDialogRawProps) {
                             className={classes.selectEmpty}
                             MenuProps={{ classes: { paper: classes.menuPaper } }}
                         >
-                            {minPriceOptions.map((option: any) => (
-                                <MenuItem value={option}>{option}</MenuItem>
+                            {minPriceOptions.map((option: any, index) => (
+                                <MenuItem value={option}
+                                          disabled={maxPrice !== '上限なし' && index >= maxPriceOptions.indexOf(maxPrice)}>
+                                    {option}
+                                </MenuItem>
                             ))}
                         </Select>
                     </FormControl>
@@ -301,8 +308,11 @@ export default function NewDetailDialogRaw(props: DetailDialogRawProps) {
                             className={classes.selectEmpty}
                             MenuProps={{ classes: { paper: classes.menuPaper } }}
                         >
-                            {maxPriceOptions.map((option: any) => (
-                                <MenuItem value={option}>{option}</MenuItem>
+                            {maxPriceOptions.map((option: any, index) => (
+                                <MenuItem value={option}
+                                          disabled={index !== 0 && index <= minPriceOptions.indexOf(minPrice)}>
+                                    {option}
+                                </MenuItem>
                             ))}
                         </Select>
                     </FormControl>
@@ -330,7 +340,7 @@ export default function NewDetailDialogRaw(props: DetailDialogRawProps) {
                                    itemChecked={checked} itemUnChecked={unChecked}/>
                 <div className={classes.select}>
                     <FormControl className={classes.formControl}>
-                        <InputLabel shrink>横幅</InputLabel>
+                        <InputLabel shrink className={classes.label}>横幅</InputLabel>
                         <Select
                             //ref={radioGroupRef}
                             value={minMirror}
@@ -339,8 +349,11 @@ export default function NewDetailDialogRaw(props: DetailDialogRawProps) {
                             className={classes.selectEmpty}
                             MenuProps={{ classes: { paper: classes.menuPaper } }}
                         >
-                            {minMirrorOptions.map((option: any) => (
-                                <MenuItem value={option}>{option}</MenuItem>
+                            {minMirrorOptions.map((option: any, index) => (
+                                <MenuItem value={option}
+                                          disabled={maxMirror !== '上限なし' && index >= maxMirrorOptions.indexOf(maxMirror)}>
+                                    {option}
+                                </MenuItem>
                             ))}
                         </Select>
                     </FormControl>
@@ -353,8 +366,11 @@ export default function NewDetailDialogRaw(props: DetailDialogRawProps) {
                             className={classes.selectEmpty}
                             MenuProps={{ classes: { paper: classes.menuPaper } }}
                         >
-                            {maxMirrorOptions.map((option: any) => (
-                                <MenuItem value={option}>{option}</MenuItem>
+                            {maxMirrorOptions.map((option: any, index) => (
+                                <MenuItem value={option}
+                                          disabled={index !== 0 && index <= minMirrorOptions.indexOf(minMirror)}>
+                                    {option}
+                                </MenuItem>
                             ))}
                         </Select>
                     </FormControl>

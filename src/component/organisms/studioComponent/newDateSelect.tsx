@@ -168,34 +168,44 @@ export default function NewDateSelect(props: DateSelectProps) {
                     </MuiPickersUtilsProvider>
                     <div className={classes.select}>
                         <FormControl className={classes.formControl}>
-                        <InputLabel shrink className={classes.label}>開始時間</InputLabel>
+                            <InputLabel shrink className={classes.label}>開始時間</InputLabel>
+                            <Select
+                            value={startTime}
+                            onChange={startTimeHandleChange}
+                            displayEmpty
+                            className={classes.selectEmpty}
+                            MenuProps={{classes: {paper: classes.menuPaper}}}
+                            >
+                                {
+                                    startTimeOptions.map((option: any, index) => (
+                                        <MenuItem value={option}
+                                                  disabled={option !== '指定なし' && endTime !== '指定なし' && index > endTimeOptions.indexOf(endTime)}>
+                                            {option}
+                                        </MenuItem>
+                                    ))
+                                }
+                            </Select>
+                        </FormControl>
+                        <p>~</p>
+                        <FormControl className={classes.formControl}>
+                        <InputLabel shrink className={classes.label}>終了時間</InputLabel>
                         <Select
-                        value={startTime}
-                        onChange={startTimeHandleChange}
+                        value={endTime}
+                        onChange={endTimeHandleChange}
                         displayEmpty
                         className={classes.selectEmpty}
                         MenuProps={{classes: {paper: classes.menuPaper}}}
                         >
-                    {startTimeOptions.map((option: any) => (
-                        <MenuItem value={option}>{option}</MenuItem>
-                        ))}
-                        </Select>
+                            {
+                                endTimeOptions.map((option: any, index) => (
+                                    <MenuItem value={option}
+                                          disabled={option !== '指定なし' && startTime !== '指定なし' && index < startTimeOptions.indexOf(startTime)}>
+                                        {option}
+                                    </MenuItem>
+                                ))
+                            }
+                            </Select>
                         </FormControl>
-                        <p>~</p>
-                        <FormControl className={classes.formControl}>
-                    <InputLabel shrink className={classes.label}>終了時間</InputLabel>
-                    <Select
-                    value={endTime}
-                    onChange={endTimeHandleChange}
-                    displayEmpty
-                    className={classes.selectEmpty}
-                    MenuProps={{classes: {paper: classes.menuPaper}}}
-                    >
-                {endTimeOptions.map((option: any) => (
-                    <MenuItem value={option}>{option}</MenuItem>
-                    ))}
-                    </Select>
-                    </FormControl>
                     </div>
                     <div style={{display: 'flex', justifyContent: 'center'}}>
                         <Button onClick={resetClick} className={classes.addBtn} variant="outlined">× 削除</Button>

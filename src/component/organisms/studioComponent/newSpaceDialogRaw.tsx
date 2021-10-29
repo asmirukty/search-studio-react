@@ -157,20 +157,21 @@ export default function NewSpaceDialogRaw(props: SpaceDialogRawProps) {
     };
 
     const minAreaHandleChange = (event: any) : void => {
-        setMinArea((event.target as HTMLInputElement).value);
+        setMinArea(event.target.value);
     };
 
     const maxAreaHandleChange = (event: any) : void => {
-        setMaxArea((event.target as HTMLInputElement).value);
+        setMaxArea(event.target.value);
     };
 
     const minPeopleHandleChange = (event: any) : void => {
-        setMinPeople((event.target as HTMLInputElement).value);
+        setMinPeople(event.target.value);
     };
 
     const maxPeopleHandleChange = (event: any) : void => {
-        setMaxPeople((event.target as HTMLInputElement).value);
+        setMaxPeople(event.target.value);
     };
+
     return (
         <Dialog PaperProps={{style: {margin: 12, flexGrow: 1}}}
                // onEntering={handleEntering}
@@ -191,30 +192,34 @@ export default function NewSpaceDialogRaw(props: SpaceDialogRawProps) {
                 <div className={classes.select}>
                     <FormControl className={classes.formControl}>
                             <Select
-                                //ref={radioGroupRef}
                                 value={minArea}
                                 onChange={minAreaHandleChange}
                                 displayEmpty
                                 className={classes.selectEmpty}
                                 MenuProps={{ classes: { paper: classes.menuPaper } }}
                             >
-                                {minAreaOptions.map((option: any) => (
-                                    <MenuItem value={option}>{option}</MenuItem>
+                                {minAreaOptions.map((option: any, index) => (
+                                    <MenuItem value={option}
+                                              disabled={maxArea !== '上限なし' && index >= maxAreaOptions.indexOf(maxArea)}>
+                                        {option}
+                                    </MenuItem>
                                 ))}
                             </Select>
                         </FormControl>
                     <p>~</p>
                     <FormControl className={classes.formControl}>
                         <Select
-                            //ref={radioGroupRef}
                                 value={maxArea}
                                 onChange={maxAreaHandleChange}
                                 displayEmpty
                                 className={classes.selectEmpty}
                                 MenuProps={{ classes: { paper: classes.menuPaper } }}
                         >
-                            {maxAreaOptions.map((option: any) => (
-                                <MenuItem value={option}>{option}</MenuItem>
+                            {maxAreaOptions.map((option: any, index) => (
+                                <MenuItem value={option}
+                                          disabled={index !== 0 && index <= minAreaOptions.indexOf(minArea)}>
+                                    {option}
+                                </MenuItem>
                             ))}
                         </Select>
                     </FormControl>
@@ -230,8 +235,11 @@ export default function NewSpaceDialogRaw(props: SpaceDialogRawProps) {
                                 className={classes.selectEmpty}
                                 MenuProps={{ classes: { paper: classes.menuPaper } }}
                         >
-                            {minPeopleOptions.map((option: any) => (
-                                <MenuItem value={option}>{option}</MenuItem>
+                            {minPeopleOptions.map((option: any, index) => (
+                                <MenuItem value={option}
+                                          disabled={maxPeople !== '上限なし' && index > maxPeopleOptions.indexOf(maxPeople)}>
+                                    {option}
+                                </MenuItem>
                             ))}
                         </Select>
                     </FormControl>
@@ -245,8 +253,9 @@ export default function NewSpaceDialogRaw(props: SpaceDialogRawProps) {
                                 className={classes.selectEmpty}
                                 MenuProps={{ classes: { paper: classes.menuPaper } }}
                         >
-                            {maxPeopleOptions.map((option: any) => (
-                                <MenuItem value={option}>{option}</MenuItem>
+                            {maxPeopleOptions.map((option: any, index) => (
+                                <MenuItem value={option}
+                                          disabled={index !== 0 && index < minPeopleOptions.indexOf(minPeople)}>{option}</MenuItem>
                             ))}
                         </Select>
                     </FormControl>

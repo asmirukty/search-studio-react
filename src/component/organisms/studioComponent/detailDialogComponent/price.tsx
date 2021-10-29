@@ -16,7 +16,6 @@ const useStyles = makeStyles(() =>
         }
     }));
 
-
 export default function Price() {
     const classes = useStyles()
 
