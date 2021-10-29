@@ -1,26 +1,31 @@
 import 'date-fns';
 import React from 'react';
 import DateFnsUtils from '@date-io/date-fns';
+import jaLocale from "date-fns/locale/ja";
 import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
 import {createStyles, makeStyles} from "@material-ui/core/styles";
 import FormControl from "@material-ui/core/FormControl";
-import {InputLabel} from "@material-ui/core";
+import {InputLabel, Typography} from "@material-ui/core";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
-import DateConvert from "../dateConvert";
-import DateTimeConvert from "../dateTimeConvert";
 import Button from "@material-ui/core/Button";
-import ClearIcon from '@material-ui/icons/Clear';
 
 const useStyles = makeStyles(() =>
     createStyles({
+        typ: {
+            color: "#5A4628",
+            fontWeight: 'bold',
+            marginRight: 12
+        },
         root: {
+            color: "#5A4628",
             marginLeft: 12,
-            paddingBottom: 8
+            paddingBottom: 8,
         },
         select: {
             display: 'flex',
             alignItems: 'baseline',
+            justifyContent: 'center'
         },
         formControl: {
             margin: 4,
@@ -47,7 +52,8 @@ const useStyles = makeStyles(() =>
         resetBtn: {
             color: '#5A4628',
             fontSize: 8,
-            padding: 0,
+            position: 'absolute',
+            right: -12
         }
     }));
 
@@ -60,51 +66,57 @@ const endTimeOptions = [
 ];
 
 interface DateSelectProps {
-    //open: boolean,
+    open: boolean,
+    addBtn: boolean,
+    last?: boolean,
     date: {
         date: Date,
         startTime: string,
         endTime: string
     };
-    dateChange: (Date: Date, startTime: string, endTime: string) => void;
+    label: string;
+    dateChange: (date: Date|null, startTime: string, endTime: string) => void;
+    addDate: () => void;
 }
 
 export default function NewDateSelect(props: DateSelectProps) {
     const classes = useStyles();
-    const { dateChange, date: dateProp } = props;
+    const { open, dateChange, addDate, date: dateProp, label, addBtn, last } = props;
     const [selectedDate, setSelectedDate] = React.useState<Date | null>(null);
     const [startTime, setStartTime] = React.useState('指定なし');
     const [endTime, setEndTime] = React.useState('指定なし');
-    //const [open, setOpen] = React.useState(true)
 
     React.useEffect(() => {
-        //setOpen(openProp)
-
-        if (!dateProp) {
-            setSelectedDate(null)
-            setStartTime('指定なし');
-            setEndTime('指定なし');
+        if (!open) {
+            if (!dateProp) {
+                setSelectedDate(null)
+                setStartTime('指定なし');
+                setEndTime('指定なし');
+            } else {
+                setSelectedDate(dateProp.date)
+                setStartTime(dateProp.startTime)
+                setEndTime(dateProp.endTime)
+            }
         }
-        else {
-            setSelectedDate(dateProp.date)
-            setStartTime(dateProp.startTime)
-            setEndTime(dateProp.endTime)
-        }
-    }, [dateProp]);
+    }, [dateProp, open]);
 
-    //const addClick = () => {setOpen(true)}
+    const addClick = () => {
+        addDate()
+    }
 
     const handleDateChange = (date: any) => {
         if (date) {
             setSelectedDate(date);
             dateChange(date, startTime, endTime)
+            console.log(selectedDate)
         }
     };
 
     const resetClick = () => {
         setSelectedDate(null)
-    //    setStartTime('指定なし')
-    //    setEndTime('指定なし')
+        setStartTime('指定なし')
+        setEndTime('指定なし')
+        dateChange(null, '指定なし', '指定なし')
     }
 
     const startTimeHandleChange = (event: any) : void => {
@@ -136,29 +148,23 @@ export default function NewDateSelect(props: DateSelectProps) {
         //        <Button onClick={addClick} className={classes.addBtn} variant="outlined">+ 追加</Button>
         //        :
                 <div>
-                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <Typography className={classes.typ} variant={'subtitle1'}>{label}</Typography>
+                    <MuiPickersUtilsProvider utils={DateFnsUtils} locale={jaLocale}>
                     <DatePicker
                         className={classes.root}
                         disableToolbar
-                        variant="inline"
+                        variant="dialog"
+                        cancelLabel='キャンセル'
+                        okLabel='決定'
                         format="yyyy/MM/dd"
                         id="date-picker-inline"
                         emptyLabel='日にちを選択'
                         minDate={new Date()}
                         maxDate={new Date().setMonth(new Date().getMonth() + 2)}
                         value={selectedDate}
-                        inputProps={{
-                            style: {
-                                color: '#5A4628',
-                                borderColor: '#5A4628'
-                            }
-                        }}
-                        onChange={handleDateChange}
+                        inputProps={{style: {color: '#5A4628', borderColor: '#5A4628', textAlign: 'center'}}}
+                        onChange={date => handleDateChange(date)}
                     />
-                    {
-                        selectedDate &&
-                        <Button onClick={resetClick} className={classes.resetBtn}><ClearIcon/></Button>
-                    }
                     </MuiPickersUtilsProvider>
                     <div className={classes.select}>
                         <FormControl className={classes.formControl}>
@@ -190,7 +196,16 @@ export default function NewDateSelect(props: DateSelectProps) {
                     ))}
                     </Select>
                     </FormControl>
-                        {/**<Button onClick={resetClick} disabled={!selectedDate && startTime === '指定なし' && endTime === '指定なし'} className={classes.addBtn} variant="outlined">リセット</Button>*/}
+                    </div>
+                    <div style={{display: 'flex', justifyContent: 'center'}}>
+                        <Button onClick={resetClick} className={classes.addBtn} variant="outlined">× 削除</Button>
+                        {
+                            !last && (
+                                addBtn ?
+                                <Button onClick={addClick} disabled={!selectedDate} className={classes.addBtn} variant="outlined">+ 追加</Button>
+                                :
+                                <Button onClick={addClick} disabled className={classes.addBtn} variant="outlined">+ 追加</Button>
+                        )}
                     </div>
                 </div>
         );

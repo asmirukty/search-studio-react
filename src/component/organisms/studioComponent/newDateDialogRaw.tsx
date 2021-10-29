@@ -5,9 +5,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import Dialog from '@material-ui/core/Dialog';
 import {Close} from "@material-ui/icons";
-import {Typography} from "@material-ui/core";
 import NewDateSelect from "./newDateSelect";
-import DateTimeConvert from "../dateTimeConvert";
 
 const useStyles = makeStyles(() =>
     createStyles( {
@@ -70,12 +68,7 @@ interface DateDialogRawProps {
 export default function NewDateDialogRaw(props: DateDialogRawProps) {
     const classes = useStyles()
     const { dateOnClose, date: dateProp, open, ...other } = props;
-    const [dateA, setDateA] = React.useState<any>();
-    const [dateB, setDateB] = React.useState<any>();
-    const [dateC, setDateC] = React.useState<any>();
-    const [dateD, setDateD] = React.useState<any>();
-    const [dateE, setDateE] = React.useState<any>();
-    const [openA, setOpenA] = React.useState(true);
+    const [date, setDate] = React.useState<any[]>([]);
     const [openB, setOpenB] = React.useState(false);
     const [openC, setOpenC] = React.useState(false);
     const [openD, setOpenD] = React.useState(false);
@@ -83,11 +76,7 @@ export default function NewDateDialogRaw(props: DateDialogRawProps) {
 
     React.useEffect(() => {
         if (!open) {
-            setDateA(dateProp[0])
-            setDateB(dateProp[1])
-            setDateC(dateProp[2])
-            setDateD(dateProp[3])
-            setDateE(dateProp[4])
+            setDate(dateProp)
             !dateProp[1] && setOpenB(false)
             !dateProp[2] && setOpenC(false)
             !dateProp[3] && setOpenD(false)
@@ -100,30 +89,36 @@ export default function NewDateDialogRaw(props: DateDialogRawProps) {
     };
 
     const handleOk = () => {
-        dateOnClose(
-            [dateA, dateB, dateC, dateD, dateE].filter((element: any[]) => element != undefined)
-        );
+        dateOnClose(date);
     };
 
-    const dateChangeA = (newDate: Date, newStartTime: string, newEndTime: string) => {
-        setDateA({date: newDate, startTime: newStartTime, endTime: newEndTime})
+    const dateChange = (index: number) => (newDate: Date|null, newStartTime: string, newEndTime: string) => {
+        if (newDate !== null) {
+            date.length > index ?
+                setDate(prevState => (
+                    prevState.splice(index, index, {date: newDate, startTime: newStartTime, endTime: newEndTime})
+                ))
+                :
+                setDate(prevState => [...prevState, {date: newDate, startTime: newStartTime, endTime: newEndTime}])
+        }
+        else {
+            setDate(prevState => (
+                prevState.filter((element, idx) => idx !== index)
+            ))
+            date.length < 6 && setOpenE(false)
+            date.length < 5 && setOpenD(false)
+            date.length < 4 && setOpenC(false)
+            date.length < 3 && setOpenB(false)
+        }
     };
 
-    const dateChangeB = (newDate: Date, newStartTime: string, newEndTime: string) => {
-        setDateB({date: newDate, startTime: newStartTime, endTime: newEndTime})
-    };
+    const addDate = (index: number) => () => {
+        index === 0 && setOpenB(true)
+        index === 1 && setOpenC(true)
+        index === 2 && setOpenD(true)
+        index === 3 && setOpenE(true)
+    }
 
-    const dateChangeC = (newDate: Date, newStartTime: string, newEndTime: string) => {
-        setDateC({date: newDate, startTime: newStartTime, endTime: newEndTime})
-    };
-
-    const dateChangeD = (newDate: Date, newStartTime: string, newEndTime: string) => {
-        setDateD({date: newDate, startTime: newStartTime, endTime: newEndTime})
-    };
-
-    const dateChangeE = (newDate: Date, newStartTime: string, newEndTime: string) => {
-        setDateE({date: newDate, startTime: newStartTime, endTime: newEndTime})
-    };
     return (
         <Dialog PaperProps={{style: {margin: 12, flexGrow: 1}}}
                aria-labelledby="confirmation-dialog-title"
@@ -139,20 +134,11 @@ export default function NewDateDialogRaw(props: DateDialogRawProps) {
                 </Button>
             </DialogActions>
             <DialogContent className={classes.content}>
-                <Typography className={classes.typ} variant={'subtitle1'}>日時</Typography>
-                <NewDateSelect date={dateA} dateChange={dateChangeA}/>
-                {!openB &&
-                <Button onClick={() => {setOpenB(true)}} disabled={!dateA} className={classes.addBtn} variant="outlined">+ 追加</Button>}
-                {openB && <NewDateSelect date={dateB} dateChange={dateChangeB}/>}
-                {openB && !openC &&
-                <Button onClick={() => {setOpenC(true)}} disabled={!dateB} className={classes.addBtn} variant="outlined">+ 追加</Button>}
-                {openC && <NewDateSelect date={dateC} dateChange={dateChangeC}/>}
-                {openB && openC && !openD &&
-                <Button onClick={() => {setOpenD(true)}} disabled={!dateC} className={classes.addBtn} variant="outlined">+ 追加</Button>}
-                {openD && <NewDateSelect date={dateD} dateChange={dateChangeD}/>}
-                {openB && openC && openD && !openE &&
-                <Button onClick={() => {setOpenE(true)}} disabled={!dateD} className={classes.addBtn} variant="outlined">+ 追加</Button>}
-                {openE && <NewDateSelect date={dateE} dateChange={dateChangeE}/>}
+                <NewDateSelect open={open} date={date[0]} label={'日時1'} dateChange={dateChange(0)} addBtn={!openB} addDate={addDate(0)}/>
+                {openB && <NewDateSelect open={open} date={date[1]} label={'日時2'} dateChange={dateChange(1)} addBtn={!openC} addDate={addDate(1)}/>}
+                {openC && <NewDateSelect open={open} date={date[2]} label={'日時3'} dateChange={dateChange(2)} addBtn={!openD} addDate={addDate(2)}/>}
+                {openD && <NewDateSelect open={open} date={date[3]} label={'日時4'} dateChange={dateChange(3)} addBtn={!openE} addDate={addDate(3)}/>}
+                {openE && <NewDateSelect open={open} date={date[4]} label={'日時5'} dateChange={dateChange(4)} addBtn={false} last addDate={addDate(4)}/>}
             </DialogContent>
 
         </Dialog>
