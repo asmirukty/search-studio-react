@@ -119,31 +119,31 @@ const maxMirrorOptions = [
     '上限なし',　'5m', '10m',　'15m', '20m',　'25m', '30m',　'35m', '40m', '45m', '50m',
 ];
 
-const reserve = [
+export const reserve = [
     '30分単位', "30分から予約可", "Webから予約", "LINEで予約",
 ];
 
-const studioFacilities = [
+export const studioFacilities = [
     '男性更衣室', '女性更衣室', "シャワールーム", "喫煙室",
     "待合スペース", "駐車場", "Wi-Fi"
 ];
 
-const lightAndFilming = [
+export const lightAndFilming = [
     '明るさ調節', "スタンドライト", "カラーライト", "ミラーボール",
     "スマホ用三脚", "スマホ固定台(壁付)", "スマホ用広角レンズ", "その他撮影機材"
 ];
 
-const soundAndMovie = [
+export const soundAndMovie = [
     'CD利用', "iPod利用", "BlueTooth利用", "ミキサー", "DJセット",
     "マイク", "ヘッドセットマイク", "マイクスタンド", "キーボード",
     "譜面台", "プロジェクター", "モニター", "Blu-rayデッキ"
 ]
 
-const floorMaterial = [
+export const floorMaterial = [
     'フローリング', 'リノリウム', '塩ビタイル'
 ];
 
-const amenities = [
+export const amenities = [
     '机', "イス", "ホワイトボード", "パーテーション", "カーテン/更衣スペース",
     "バレエバー", "タップ板", "ヨガマット", "ヨガグッズ", "トレーニンググッズ",
     "ヒールカバー", "ハンガー", "充電器", "アルコール消毒"
@@ -272,15 +272,15 @@ export default function NewDetailDialogRaw(props: DetailDialogRawProps) {
                         className={classes.selectEmpty}
                         MenuProps={{ classes: { paper: classes.menuPaper } }}
                     >
-                        {fromStationOptions.map((option: any) => (
-                            <MenuItem value={option}>{option}</MenuItem>
-                        ))}
+                        {
+                            fromStationOptions.map((option: any) => (
+                                <MenuItem value={option}>{option}</MenuItem>
+                            ))
+                        }
                     </Select>
                 </FormControl>
                 <Typography className={classes.typ} variant={'subtitle1'}>料金</Typography>
-                <NewSearchCheckbox item='キャンセル無料期間あり' open={open}
-                                   checked={checkedItem.includes('キャンセル無料期間あり')}
-                                   itemChecked={checked} itemUnChecked={unChecked}/>
+                <NewSearchCheckbox item='キャンセル無料期間あり' open={open} checked={checkedItem.includes('キャンセル無料期間あり')} itemChecked={checked} itemUnChecked={unChecked}/>
                 <div className={classes.select}>
                     <FormControl className={classes.formControl}>
                         <InputLabel shrink className={classes.label}>30分あたりの料金</InputLabel>
@@ -291,12 +291,13 @@ export default function NewDetailDialogRaw(props: DetailDialogRawProps) {
                             className={classes.selectEmpty}
                             MenuProps={{ classes: { paper: classes.menuPaper } }}
                         >
-                            {minPriceOptions.map((option: any, index) => (
-                                <MenuItem value={option}
-                                          disabled={maxPrice !== '上限なし' && index >= maxPriceOptions.indexOf(maxPrice)}>
-                                    {option}
-                                </MenuItem>
-                            ))}
+                            {
+                                minPriceOptions.map((option: any, index) => (
+                                    <MenuItem value={option} disabled={maxPrice !== '上限なし' && index >= maxPriceOptions.indexOf(maxPrice)}>
+                                        {option}
+                                    </MenuItem>
+                                ))
+                            }
                         </Select>
                     </FormControl>
                     <p>~</p>
@@ -308,30 +309,31 @@ export default function NewDetailDialogRaw(props: DetailDialogRawProps) {
                             className={classes.selectEmpty}
                             MenuProps={{ classes: { paper: classes.menuPaper } }}
                         >
-                            {maxPriceOptions.map((option: any, index) => (
-                                <MenuItem value={option}
-                                          disabled={index !== 0 && index <= minPriceOptions.indexOf(minPrice)}>
-                                    {option}
-                                </MenuItem>
-                            ))}
+                            {
+                                maxPriceOptions.map((option: any, index) => (
+                                    <MenuItem value={option} disabled={index !== 0 && index <= minPriceOptions.indexOf(minPrice)}>
+                                        {option}
+                                    </MenuItem>
+                                ))
+                            }
                         </Select>
                     </FormControl>
                 </div>
                 <Typography className={classes.typ} variant={'subtitle1'}>予約</Typography>
                 <div className={classes.checkArray}>
-                    {reserve.map((item) => (
-                        <NewSearchCheckbox item={item}
-                                       checked={checkedItem.includes(item)}
-                                       itemChecked={checked} itemUnChecked={unChecked}/>
-                    ))}
+                    {
+                        reserve.map((item) => (
+                            <NewSearchCheckbox item={item} checked={checkedItem.includes(item)} itemChecked={checked} itemUnChecked={unChecked}/>
+                        ))
+                    }
                 </div>
                 <Typography className={classes.typ} variant={'subtitle1'}>スタジオ設備</Typography>
                 <div className={classes.checkArray}>
-                    {studioFacilities.map((item) => (
-                    <NewSearchCheckbox item={item}
-                                       checked={checkedItem.includes(item)}
-                                       itemChecked={checked} itemUnChecked={unChecked}/>
-                ))}
+                    {
+                        studioFacilities.map((item) => (
+                            <NewSearchCheckbox item={item} checked={checkedItem.includes(item)} itemChecked={checked} itemUnChecked={unChecked}/>
+                        ))
+                    }
                 </div>
                 <Typography className={classes.typ} variant={'subtitle1'}>部屋設備・備品</Typography>
                 <Typography className={classes.typ} variant={'subtitle2'}>鏡</Typography>
@@ -342,19 +344,19 @@ export default function NewDetailDialogRaw(props: DetailDialogRawProps) {
                     <FormControl className={classes.formControl}>
                         <InputLabel shrink className={classes.label}>横幅</InputLabel>
                         <Select
-                            //ref={radioGroupRef}
                             value={minMirror}
                             onChange={minMirrorHandleChange}
                             displayEmpty
                             className={classes.selectEmpty}
                             MenuProps={{ classes: { paper: classes.menuPaper } }}
                         >
-                            {minMirrorOptions.map((option: any, index) => (
-                                <MenuItem value={option}
-                                          disabled={maxMirror !== '上限なし' && index >= maxMirrorOptions.indexOf(maxMirror)}>
-                                    {option}
-                                </MenuItem>
-                            ))}
+                            {
+                                minMirrorOptions.map((option: any, index) => (
+                                    <MenuItem value={option} disabled={maxMirror !== '上限なし' && index >= maxMirrorOptions.indexOf(maxMirror)}>
+                                        {option}
+                                    </MenuItem>
+                                ))
+                            }
                         </Select>
                     </FormControl>
                     <p>~</p>
@@ -366,46 +368,49 @@ export default function NewDetailDialogRaw(props: DetailDialogRawProps) {
                             className={classes.selectEmpty}
                             MenuProps={{ classes: { paper: classes.menuPaper } }}
                         >
-                            {maxMirrorOptions.map((option: any, index) => (
-                                <MenuItem value={option}
-                                          disabled={index !== 0 && index <= minMirrorOptions.indexOf(minMirror)}>
-                                    {option}
-                                </MenuItem>
-                            ))}
+                            {
+                                maxMirrorOptions.map((option: any, index) => (
+                                    <MenuItem value={option} disabled={index !== 0 && index <= minMirrorOptions.indexOf(minMirror)}>
+                                        {option}
+                                    </MenuItem>
+                            ))
+                            }
                         </Select>
                     </FormControl>
                 </div>
                 <Typography className={classes.typ} variant={'subtitle2'}>照明・撮影</Typography>
                 <div className={classes.checkArray}>
-                    {lightAndFilming.map((item) => (
-                    <NewSearchCheckbox item={item}
-                                       checked={checkedItem.includes(item)}
-                                       itemChecked={checked} itemUnChecked={unChecked}/>
-                ))}
+                    {
+                        lightAndFilming.map((item) => (
+                            <NewSearchCheckbox item={item}
+                                               checked={checkedItem.includes(item)}
+                                               itemChecked={checked} itemUnChecked={unChecked}/>
+                        ))
+                    }
                 </div>
                 <Typography className={classes.typ} variant={'subtitle2'}>音響・映像</Typography>
                 <div className={classes.checkArray}>
-                    {soundAndMovie.map((item) => (
-                    <NewSearchCheckbox item={item}
-                                       checked={checkedItem.includes(item)}
-                                       itemChecked={checked} itemUnChecked={unChecked}/>
-                ))}
+                    {
+                        soundAndMovie.map((item) => (
+                            <NewSearchCheckbox item={item} checked={checkedItem.includes(item)} itemChecked={checked} itemUnChecked={unChecked}/>
+                        ))
+                    }
                 </div>
                 <Typography className={classes.typ} variant={'subtitle2'}>床材</Typography>
                 <div className={classes.checkArray}>
-                    {floorMaterial.map((item) => (
-                    <NewSearchCheckbox item={item}
-                                       checked={checkedItem.includes(item)}
-                                       itemChecked={checked} itemUnChecked={unChecked}/>
-                ))}
+                    {
+                        floorMaterial.map((item) => (
+                            <NewSearchCheckbox item={item} checked={checkedItem.includes(item)} itemChecked={checked} itemUnChecked={unChecked}/>
+                        ))
+                    }
                 </div>
                 <Typography className={classes.typ} variant={'subtitle2'}>その他設備・備品</Typography>
                 <div className={classes.checkArray}>
-                    {amenities.map((item) => (
-                    <NewSearchCheckbox item={item}
-                                       checked={checkedItem.includes(item)}
-                                       itemChecked={checked} itemUnChecked={unChecked}/>
-                ))}
+                    {
+                        amenities.map((item) => (
+                            <NewSearchCheckbox item={item} checked={checkedItem.includes(item)} itemChecked={checked} itemUnChecked={unChecked}/>
+                        ))
+                    }
                 </div>
             </DialogContent>
 

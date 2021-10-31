@@ -91,7 +91,7 @@ export default function NewSearchCheckbox(props: SearchCheckboxProps) {
                     />}
                 label={item}
             />)}
-            {(pref !== item) &&
+            {(pref && pref !== item) &&
             (<FormControlLabel
                 className={count(item) < 8 ? classes.shortLabel : classes.longLabel}
                 control={

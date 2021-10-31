@@ -1,6 +1,6 @@
 import {createStyles, makeStyles, withStyles} from "@material-ui/core/styles";
 import React from "react";
-import NewDetailDialogRaw from "./newDetailDialogRaw";
+import NewDetailDialogRaw, {reserve, studioFacilities, lightAndFilming, soundAndMovie, floorMaterial, amenities} from "./newDetailDialogRaw";
 import Button from "@material-ui/core/Button";
 import MuiChip from "@material-ui/core/Chip";
 
@@ -124,16 +124,68 @@ export default function NewDetailDialog(props: DetailDialogProps) {
         <div>
             <div>
                 <div style={{marginTop: 6}}>
-                    {fromStation !== '' &&
-                    (<Chip size="small" label={<span>{fromStation}</span>} onDelete={handleFromStationDelete}/>)}
-                    {price !== '' &&
-                    (<Chip size="small" label={<span>{price}</span>} onDelete={handlePriceDelete}/>)}
-                    {mirror !== '' &&
-                    (<Chip size="small" label={<span>{mirror}</span>} onDelete={handleMirrorDelete}/>)}
-                    {checkedItem.length !== 0 &&
-                    (checkedItem.map((item) =>
-                            (<Chip size="small" label={item} onDelete={handleItemDelete(item)}/>))
-                    )}
+                    {
+                        fromStation !== '' &&
+                        (<Chip size="small" label={<span>{fromStation}</span>} onDelete={handleFromStationDelete}/>)
+                    }
+                    {
+                        checkedItem && checkedItem.includes('キャンセル無料期間あり') &&
+                            <Chip size="small" label={<span>キャンセル無料期間あり</span>} onDelete={handleItemDelete('キャンセル無料期間あり')}/>
+                    }
+                    {
+                        price !== '' &&
+                        (<Chip size="small" label={<span>{price}</span>} onDelete={handlePriceDelete}/>)
+                    }
+                    {
+                        checkedItem &&
+                        reserve.map((item) =>
+                            checkedItem.includes(item) &&
+                            <Chip size="small" label={<span>{item}</span>} onDelete={handleItemDelete(item)}/>
+                        )
+                    }
+                    {
+                        checkedItem &&
+                        studioFacilities.map((item) =>
+                            checkedItem.includes(item) &&
+                            <Chip size="small" label={<span>{item}</span>} onDelete={handleItemDelete(item)}/>
+                        )
+                    }
+                    {
+                        checkedItem && checkedItem.includes('2面') &&
+                        <Chip size="small" label={<span>鏡2面</span>} onDelete={handleItemDelete('2面')}/>
+                    }
+                    {
+                        mirror !== '' &&
+                        (<Chip size="small" label={<span>{mirror}</span>} onDelete={handleMirrorDelete}/>)
+                    }
+                    {
+                        checkedItem &&
+                        lightAndFilming.map((item) =>
+                            checkedItem.includes(item) &&
+                            <Chip size="small" label={<span>{item}</span>} onDelete={handleItemDelete(item)}/>
+                        )
+                    }
+                    {
+                        checkedItem &&
+                        soundAndMovie.map((item) =>
+                            checkedItem.includes(item) &&
+                            <Chip size="small" label={<span>{item}</span>} onDelete={handleItemDelete(item)}/>
+                        )
+                    }
+                    {
+                        checkedItem &&
+                        floorMaterial.map((item) =>
+                            checkedItem.includes(item) &&
+                            <Chip size="small" label={<span>{item}</span>} onDelete={handleItemDelete(item)}/>
+                        )
+                    }
+                    {
+                        checkedItem &&
+                        amenities.map((item) =>
+                            checkedItem.includes(item) &&
+                            <Chip size="small" label={<span>{item}</span>} onDelete={handleItemDelete(item)}/>
+                        )
+                    }
                 </div>
                 <div style={{textAlign: 'right'}}>
                     <Button className={classes.detailBtn} onClick={handleClickOpen}>

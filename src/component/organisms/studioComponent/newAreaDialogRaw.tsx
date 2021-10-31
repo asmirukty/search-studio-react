@@ -216,7 +216,7 @@ export default function NewAreaDialogRaw(props: AreaDialogRawProps) {
     };
 
     const areaChecked = (newArea?: string) : void => {
-        if (newArea && !area.includes(newArea)) {
+        if (newArea) {
             setArea(prevState => (
                 [newArea, ...prevState]
             ))
@@ -224,11 +224,11 @@ export default function NewAreaDialogRaw(props: AreaDialogRawProps) {
     };
     const areaUnChecked = (newArea?: string) : void => {
         if (newArea) {
-            setArea((prevState => (
+            setArea(prevState => (
                 prevState.filter((element: string) => {
                     return element != newArea
                 })
-            )))
+            ))
         }
     };
 
