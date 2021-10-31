@@ -179,23 +179,44 @@ export default function NewAreaDialogRaw(props: AreaDialogRawProps) {
     const classes = useStyles()
     const { areaOnClose, area: areaProp, open, ...other } = props;
     const [area, setArea] = React.useState<string[]>([]);
+    const [chipArea, setChipArea] = React.useState<string[]>([]);
 
     React.useEffect(() => {
         if (!open) {
-            setArea([...areaProp]);
+            setArea([...areaProp])
+            setChipArea([...areaProp]);
         }
-    }, [areaProp, open]);
+        else {
+            return () => areaOnClose(chipArea)
+        }
+    }, [areaProp, open, chipArea]);
 
     const handleCancel = () => {
-        areaOnClose();
+        areaOnClose(chipArea);
     };
 
     const handleOk = () => {
-        areaOnClose(area);
+        setChipArea([])
+        areaItems.map((areaItem) => {
+            areaItem.items.map((item) => {
+                if (area.includes(item.pref)) {
+                    setChipArea(prevState =>
+                    [...prevState, item.pref])
+                }
+                else {
+                    item.cities.map((city) => {
+                        if (area.includes(city)) {
+                            setChipArea(prevState =>
+                                [...prevState, city])
+                        }
+                    })
+                }
+            })
+        })
     };
 
     const areaChecked = (newArea?: string) : void => {
-        if (newArea) {
+        if (newArea && !area.includes(newArea)) {
             setArea(prevState => (
                 [newArea, ...prevState]
             ))
@@ -226,39 +247,53 @@ export default function NewAreaDialogRaw(props: AreaDialogRawProps) {
                 </Button>
             </DialogActions>
             <DialogContent className={classes.content}>
-                <AreaTabs area={
-                    areaItems.map((areaItem) =>
-                        <StudioAreaAccordions area={areaItem.area}>
-                            <div className={classes.width}>
-                                {areaItem.items.map((item) =>
-                                    <Accordion>
-                                    <AccordionSummary
-                                    expandIcon={<ExpandMoreIcon />}
-                                    aria-controls={`additional-actions-${item.pref}-content`}
-                                    id={`additional - actions-${item.pref}-header`}
-                                    >
-                                    <NewSearchCheckbox item={item.pref}
-                                                       pref
-                                                       checked={(area.includes(item.pref) && true)}
-                                                       itemChecked={areaChecked}
-                                                       itemUnChecked={areaUnChecked}/>
-                                    </AccordionSummary>
-                                    <AccordionDetails>
-                                        {item.cities.map((city) => (
-                                            <NewSearchCheckbox item={city}
-                                            checked={(area.includes(city) && true)}
-                                            itemChecked={areaChecked}
-                                            itemUnChecked={areaUnChecked}/>
-                                            ))}
-                                    </AccordionDetails>
-                                    </Accordion>
-                                )}
-                            </div>
-                        </StudioAreaAccordions>
-                    )}
+                <AreaTabs
+                    area={
+                        areaItems.map((areaItem) =>
+                            <StudioAreaAccordions area={areaItem.area}>
+                                <div className={classes.width}>
+                                    {
+                                        areaItem.items.map((item) =>
+                                            <Accordion>
+                                                <AccordionSummary
+                                                expandIcon={<ExpandMoreIcon />}
+                                                aria-controls={`additional-actions-${item.pref}-content`}
+                                                id={`additional - actions-${item.pref}-header`}
+                                                >
+                                                <NewSearchCheckbox
+                                                    item={item.pref}
+                                                    pref={item.pref}
+                                                    checked={
+                                                        area.includes(item.pref) ||
+                                                        !(item.cities.map((city) => area.includes(city)).includes(false))
+                                                    }
+                                                    open={open}
+                                                    itemChecked={areaChecked}
+                                                    itemUnChecked={areaUnChecked}
+                                                />
+                                                </AccordionSummary>
+                                                <AccordionDetails>
+                                                    {
+                                                        item.cities.map((city) => (
+                                                        <NewSearchCheckbox
+                                                            item={city}
+                                                            pref={item.pref}
+                                                            checked={area.includes(city) || area.includes(item.pref)}
+                                                            open={open}
+                                                            itemChecked={areaChecked}
+                                                            itemUnChecked={areaUnChecked}/>
+                                                        ))
+                                                    }
+                                                </AccordionDetails>
+                                            </Accordion>
+                                        )
+                                    }
+                                </div>
+                            </StudioAreaAccordions>
+                        )
+                    }
                  line={<LineAccordions/>}/>
             </DialogContent>
-
         </Dialog>
     );
 }
