@@ -115,7 +115,7 @@ export default function NewDetailDialog(props: DetailDialogProps) {
 
     const handleItemDelete = (item: string) => () => {
         setCheckedItem(prevState => (
-            prevState.filter((element: string) => element != item)
+            prevState.filter((element: string) => element !== item)
         ))
         props.deleteCheckedItem(item)
     }
@@ -140,14 +140,14 @@ export default function NewDetailDialog(props: DetailDialogProps) {
                         checkedItem &&
                         reserve.map((item) =>
                             checkedItem.includes(item) &&
-                            <Chip size="small" label={<span>{item}</span>} onDelete={handleItemDelete(item)}/>
+                            <Chip size="small" key={item} label={<span>{item}</span>} onDelete={handleItemDelete(item)}/>
                         )
                     }
                     {
                         checkedItem &&
                         studioFacilities.map((item) =>
                             checkedItem.includes(item) &&
-                            <Chip size="small" label={<span>{item}</span>} onDelete={handleItemDelete(item)}/>
+                            <Chip size="small" key={item} label={<span>{item}</span>} onDelete={handleItemDelete(item)}/>
                         )
                     }
                     {
@@ -162,28 +162,28 @@ export default function NewDetailDialog(props: DetailDialogProps) {
                         checkedItem &&
                         lightAndFilming.map((item) =>
                             checkedItem.includes(item) &&
-                            <Chip size="small" label={<span>{item}</span>} onDelete={handleItemDelete(item)}/>
+                            <Chip size="small" key={item} label={<span>{item}</span>} onDelete={handleItemDelete(item)}/>
                         )
                     }
                     {
                         checkedItem &&
                         soundAndMovie.map((item) =>
                             checkedItem.includes(item) &&
-                            <Chip size="small" label={<span>{item}</span>} onDelete={handleItemDelete(item)}/>
+                            <Chip size="small" key={item} label={<span>{item}</span>} onDelete={handleItemDelete(item)}/>
                         )
                     }
                     {
                         checkedItem &&
                         floorMaterial.map((item) =>
                             checkedItem.includes(item) &&
-                            <Chip size="small" label={<span>{item}</span>} onDelete={handleItemDelete(item)}/>
+                            <Chip size="small" key={item} label={<span>{item}</span>} onDelete={handleItemDelete(item)}/>
                         )
                     }
                     {
                         checkedItem &&
                         amenities.map((item) =>
                             checkedItem.includes(item) &&
-                            <Chip size="small" label={<span>{item}</span>} onDelete={handleItemDelete(item)}/>
+                            <Chip size="small" key={item} label={<span>{item}</span>} onDelete={handleItemDelete(item)}/>
                         )
                     }
                 </div>

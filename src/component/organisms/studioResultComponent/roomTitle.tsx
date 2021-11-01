@@ -21,13 +21,13 @@ export default function RoomTitle(props: RoomTitleProps) {
                     <Typography variant='caption'>{props.minPeople}人~{props.maxPeople}人</Typography>
                 </div>
             )}
-            {(props.minPeople > 0 && props.maxPeople == 0) && (
+            {(props.minPeople > 0 && props.maxPeople === 0) && (
                 <div>
                     <PeopleAlt fontSize='small'/>
                     <Typography variant='caption'>{props.minPeople}人~</Typography>
                 </div>
             )}
-            {(props.minPeople == 0 && props.maxPeople > 0) && (
+            {(props.minPeople === 0 && props.maxPeople > 0) && (
                 <div>
                     <PeopleAlt fontSize='small'/>
                     <Typography variant='caption'>~{props.maxPeople}人</Typography>

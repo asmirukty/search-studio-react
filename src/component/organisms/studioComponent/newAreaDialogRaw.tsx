@@ -9,7 +9,6 @@ import AreaTabs from "./areaDialogComponent/areaTabs";
 import LineAccordions from "./areaDialogComponent/lineAccordions";
 import StudioAreaAccordions from "./areaDialogComponent/studioAreaAccordion";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import StudioCheckbox from "../searchCheckbox";
 import MuiAccordion from "@material-ui/core/Accordion";
 import MuiAccordionSummary from "@material-ui/core/AccordionSummary";
 import MuiAccordionDetails from "@material-ui/core/AccordionDetails";
@@ -130,34 +129,34 @@ const AccordionDetails = withStyles( {
     },
 })(MuiAccordionDetails);
 
-const itemsA = [
+export const itemsA = [
     {pref: '北海道', cities: ['札幌市']}
 ]
 
-const itemsB = [
+export const itemsB = [
     {pref: '東京都', cities: ['渋谷区', '新宿区', '豊島区', '練馬区', '中央区']},
     {pref: '神奈川県', cities: ['横浜市',]},
     {pref: '千葉県', cities: ['千葉市',]},
     {pref: '埼玉県', cities: ['さいたま市', '所沢市', '川越市',]},
 ]
 
-const itemsC = [
+export const itemsC = [
     {pref: '愛知県', cities: ['名古屋市']}
 ]
 
-const itemsD = [
+export const itemsD = [
     {pref: '大阪府', cities: ['大阪市']}
 ]
 
-const itemsE = [
+export const itemsE = [
     {pref: '広島県', cities: ['広島市']}
 ]
 
-const itemsF = [
+export const itemsF = [
     {pref: '沖縄県', cities: ['那覇市']}
 ]
 
-const areaItems = [
+export const areaItems = [
     {area: '北海道・東北', items: itemsA},
     {area: '関東', items: itemsB},
     {area: '中部', items: itemsC},
@@ -179,40 +178,19 @@ export default function NewAreaDialogRaw(props: AreaDialogRawProps) {
     const classes = useStyles()
     const { areaOnClose, area: areaProp, open, ...other } = props;
     const [area, setArea] = React.useState<string[]>([]);
-    const [chipArea, setChipArea] = React.useState<string[]>([]);
 
     React.useEffect(() => {
         if (!open) {
             setArea([...areaProp])
-            setChipArea([...areaProp]);
         }
-        else {
-            return () => areaOnClose(chipArea)
-        }
-    }, [areaProp, open, chipArea]);
+    }, [areaProp, open]);
 
     const handleCancel = () => {
-        areaOnClose(chipArea);
+        areaOnClose();
     };
 
     const handleOk = () => {
-        setChipArea([])
-        areaItems.map((areaItem) => {
-            areaItem.items.map((item) => {
-                if (area.includes(item.pref)) {
-                    setChipArea(prevState =>
-                    [...prevState, item.pref])
-                }
-                else {
-                    item.cities.map((city) => {
-                        if (area.includes(city)) {
-                            setChipArea(prevState =>
-                                [...prevState, city])
-                        }
-                    })
-                }
-            })
-        })
+        areaOnClose(area)
     };
 
     const areaChecked = (newArea?: string) : void => {
@@ -226,7 +204,7 @@ export default function NewAreaDialogRaw(props: AreaDialogRawProps) {
         if (newArea) {
             setArea(prevState => (
                 prevState.filter((element: string) => {
-                    return element != newArea
+                    return element !== newArea
                 })
             ))
         }
@@ -250,11 +228,11 @@ export default function NewAreaDialogRaw(props: AreaDialogRawProps) {
                 <AreaTabs
                     area={
                         areaItems.map((areaItem) =>
-                            <StudioAreaAccordions area={areaItem.area}>
+                            <StudioAreaAccordions area={areaItem.area} key={areaItem.area}>
                                 <div className={classes.width}>
                                     {
                                         areaItem.items.map((item) =>
-                                            <Accordion>
+                                            <Accordion key={item.pref}>
                                                 <AccordionSummary
                                                 expandIcon={<ExpandMoreIcon />}
                                                 aria-controls={`additional-actions-${item.pref}-content`}
@@ -262,7 +240,9 @@ export default function NewAreaDialogRaw(props: AreaDialogRawProps) {
                                                 >
                                                 <NewSearchCheckbox
                                                     item={item.pref}
-                                                    pref={item.pref}
+                                                    key={item.pref}
+                                                    pref
+                                                    group={item.cities}
                                                     checked={
                                                         area.includes(item.pref) ||
                                                         !(item.cities.map((city) => area.includes(city)).includes(false))
@@ -277,7 +257,8 @@ export default function NewAreaDialogRaw(props: AreaDialogRawProps) {
                                                         item.cities.map((city) => (
                                                         <NewSearchCheckbox
                                                             item={city}
-                                                            pref={item.pref}
+                                                            key={city}
+                                                            group={[item.pref]}
                                                             checked={area.includes(city) || area.includes(item.pref)}
                                                             open={open}
                                                             itemChecked={areaChecked}

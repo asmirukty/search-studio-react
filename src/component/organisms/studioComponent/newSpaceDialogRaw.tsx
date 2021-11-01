@@ -198,12 +198,14 @@ export default function NewSpaceDialogRaw(props: SpaceDialogRawProps) {
                                 className={classes.selectEmpty}
                                 MenuProps={{ classes: { paper: classes.menuPaper } }}
                             >
-                                {minAreaOptions.map((option: any, index) => (
-                                    <MenuItem value={option}
-                                              disabled={maxArea !== '上限なし' && index >= maxAreaOptions.indexOf(maxArea)}>
-                                        {option}
-                                    </MenuItem>
-                                ))}
+                                {
+                                    minAreaOptions.map((option: any, index) => (
+                                        <MenuItem value={option} key={index}
+                                                  disabled={maxArea !== '上限なし' && index >= maxAreaOptions.indexOf(maxArea)}>
+                                            {option}
+                                        </MenuItem>
+                                    ))
+                                }
                             </Select>
                         </FormControl>
                     <p>~</p>
@@ -215,12 +217,14 @@ export default function NewSpaceDialogRaw(props: SpaceDialogRawProps) {
                                 className={classes.selectEmpty}
                                 MenuProps={{ classes: { paper: classes.menuPaper } }}
                         >
-                            {maxAreaOptions.map((option: any, index) => (
-                                <MenuItem value={option}
-                                          disabled={index !== 0 && index <= minAreaOptions.indexOf(minArea)}>
-                                    {option}
-                                </MenuItem>
-                            ))}
+                            {
+                                maxAreaOptions.map((option: any, index) => (
+                                    <MenuItem value={option} key={index}
+                                              disabled={index !== 0 && index <= minAreaOptions.indexOf(minArea)}>
+                                        {option}
+                                    </MenuItem>
+                                ))
+                            }
                         </Select>
                     </FormControl>
                 </div>
@@ -235,12 +239,14 @@ export default function NewSpaceDialogRaw(props: SpaceDialogRawProps) {
                                 className={classes.selectEmpty}
                                 MenuProps={{ classes: { paper: classes.menuPaper } }}
                         >
-                            {minPeopleOptions.map((option: any, index) => (
-                                <MenuItem value={option}
-                                          disabled={maxPeople !== '上限なし' && index > maxPeopleOptions.indexOf(maxPeople)}>
-                                    {option}
-                                </MenuItem>
-                            ))}
+                            {
+                                minPeopleOptions.map((option: any, index) => (
+                                    <MenuItem value={option} key={index}
+                                              disabled={maxPeople !== '上限なし' && index > maxPeopleOptions.indexOf(maxPeople)}>
+                                        {option}
+                                    </MenuItem>
+                                ))
+                            }
                         </Select>
                     </FormControl>
                     <p>~</p>
@@ -253,10 +259,12 @@ export default function NewSpaceDialogRaw(props: SpaceDialogRawProps) {
                                 className={classes.selectEmpty}
                                 MenuProps={{ classes: { paper: classes.menuPaper } }}
                         >
-                            {maxPeopleOptions.map((option: any, index) => (
-                                <MenuItem value={option}
-                                          disabled={index !== 0 && index < minPeopleOptions.indexOf(minPeople)}>{option}</MenuItem>
-                            ))}
+                            {
+                                maxPeopleOptions.map((option: any, index) => (
+                                    <MenuItem value={option} key={index}
+                                              disabled={index !== 0 && index < minPeopleOptions.indexOf(minPeople)}>{option}</MenuItem>
+                                ))
+                            }
                         </Select>
                     </FormControl>
                 </div>

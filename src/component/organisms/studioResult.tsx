@@ -48,10 +48,6 @@ const useStyles = makeStyles(() =>
         }
     }))
 
-const times = [
-     '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ' 10', '11'
-]
-
 interface Prefecture {
     id: string,
     name: string,
@@ -258,106 +254,6 @@ export default function StudioResult() {
 
     const items = id.id.split(',');
 
-
-    {/**const f = async () => {
-        await fetch('http://localhost:3000/sample.json', {
-            method: 'GET',
-            mode: 'cors',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('networkError')
-                }
-                return response.json()
-            })
-            .then(response => {
-                setSearchResult({
-                    total_pages: response.total_pages,
-                    studios: response.studios.map((studio: Studio) => ({
-                        studio_id: studio.studio_id,
-                        studio_name: studio.studio_name,
-                        address: {
-                            address: studio.address.address,
-                            prefecture: {
-                                id: studio.address.prefecture.id,
-                                name: studio.address.prefecture.name,
-                            },
-                            city: {
-                                id: studio.address.city.id,
-                                name: studio.address.city.name,
-                            },
-                            line: {
-                                id: studio.address.line.id,
-                                name: studio.address.line.name,
-                            },
-                            station: {
-                                id: studio.address.station.id,
-                                name: studio.address.station.name,
-                            },
-                            exit: {
-                                id: studio.address.exit.id,
-                                name: studio.address.exit.name,
-                            },
-                            minutes_from_station: studio.address.minutes_from_station,
-                        },
-                        studio_facilities: [
-                            studio.studio_facilities.map((studioFacility: StudioFacility) => ({
-                                name: studioFacility.name,
-                                count: studioFacility.count,
-                                price: studioFacility.price,
-                            }))
-                        ],
-                        room_name: studio.room_name,
-                        floor_area: studio.floor_area,
-                        mirror_length: studio.mirror_length,
-                        min_people: studio.min_people,
-                        max_people: studio.max_people,
-                        room_img: [
-                            studio.room_img.map((roomImg: RoomImg) => ({
-                                name: roomImg.name,
-                                description: roomImg.description,
-                                path: roomImg.path,
-                            }))
-                        ],
-                        free_cancel: studio.free_cancel,
-                        reservation: studio.reservation,
-                        room_facilities: [
-                            studio.room_facilities.map((roomFacility: RoomFacility) => ({
-                                name: roomFacility.name,
-                                count: roomFacility.count,
-                                price: roomFacility.price,
-                            }))
-                        ],
-                        amenities: [
-                            studio.amenities.map((amenity: Amenity) => ({
-                                name: amenity.name,
-                                count: amenity.count,
-                                price: amenity.price,
-                            }))
-                        ],
-                        floor_material: studio.floor_material,
-                        slots: [
-                            studio.slots.map((slot: Slot) => ({
-                                workload: slot.workload,
-                                time_begin: slot.time_begin,
-                                time_end: slot.time_end,
-                                price: slot.price,
-                                count: slot.count,
-                            }))
-                        ],
-                        min_reserve_minutes: studio.min_reserve_minutes,
-                        reserve_url: studio.reserve_url,
-                    }))
-
-                })
-                })
-    };
-
-
-    f();*/}
     useEffect(() => {
         axios.get('http://localhost:3000/sample.json')
             .then(response => {

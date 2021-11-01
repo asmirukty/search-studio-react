@@ -2,7 +2,7 @@ import {createStyles, makeStyles, withStyles} from "@material-ui/core/styles";
 import React from "react";
 import Button from "@material-ui/core/Button";
 import MuiChip from "@material-ui/core/Chip";
-import NewAreaDialogRaw from "./newAreaDialogRaw";
+import NewAreaDialogRaw, {areaItems} from "./newAreaDialogRaw";
 
 const Chip = withStyles({
     root: {
@@ -74,15 +74,25 @@ export default function NewAreaDialog(props: AreaDialogProps) {
         setOpen(false);
         if (newArea) {
             setArea(newArea)
+            console.log(newArea)
             props.addItems(newArea)
         }
     };
 
-    const handleAreaDelete = (item: string) => () => {
+    const handleAreaDelete = (item: string, cities?: string[]) => () => {
         setArea(prevState => (
-            prevState.filter((element: string) => element != item)
+            prevState.filter((element: string) => element !== item)
         ))
         props.deleteItems(item)
+
+        if (cities) {
+            cities.map((city) =>
+                setArea((prevState => (
+                    prevState.filter((element: string) => element !== city)
+                ))
+            ))
+            cities.map((city) => props.deleteItems(city))
+        }
     }
 
     return (
@@ -94,9 +104,19 @@ export default function NewAreaDialog(props: AreaDialogProps) {
                 </Button> :
                 <Button fullWidth variant="outlined" className={classes.btnChip} onClick={handleClickOpen}>
                     <div className={classes.wrapChip}>
-                        {area.map((item) => (
-                            <Chip size="small" label={item} onDelete={handleAreaDelete(item)}/>
-                        ))}
+                        {
+                            areaItems.map((areaItem) =>
+                                areaItem.items.map((item) =>
+                                    area.includes(item.pref) || !(item.cities.map((city) => area.includes(city)).includes(false)) ?
+                                        <Chip size="small" key={item.pref} label={item.pref} onDelete={handleAreaDelete(item.pref, item.cities)}/>
+                                        :
+                                        item.cities.map((city) =>
+                                            area.includes(city) &&
+                                            <Chip size="small" key={city} label={city} onDelete={handleAreaDelete(city)}/>
+                                        )
+                                )
+                            )
+                        }
                     </div>
                 </Button>
             }

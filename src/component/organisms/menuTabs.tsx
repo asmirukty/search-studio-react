@@ -59,8 +59,8 @@ export default function MenuTabs(props: MenuTabsProps) {
             </AppBar>
             <div className={classes.content}>
                 <TabPanel value={value} index={0}>
-                    {props.page == 'search' && <Studio/>}
-                    {props.page == 'result' && <StudioResult/>}
+                    {props.page === 'search' && <Studio/>}
+                    {props.page === 'result' && <StudioResult/>}
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                     レッスン・練習会を探す

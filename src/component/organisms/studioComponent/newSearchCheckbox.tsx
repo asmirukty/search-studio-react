@@ -41,7 +41,8 @@ function count (str:string) {
 
 interface SearchCheckboxProps{
     item: string;
-    pref?: string;
+    pref?: boolean;
+    group?: string[];
     open?: boolean;
     checked: boolean;
     itemChecked: (value?: any) => void;
@@ -50,33 +51,29 @@ interface SearchCheckboxProps{
 
 export default function NewSearchCheckbox(props: SearchCheckboxProps) {
     const classes = useStyles()
-    const {item, pref, checked: checkedProp, itemChecked, itemUnChecked, open} = props;
+    const {item, pref, group, checked: checkedProp, itemChecked, itemUnChecked} = props;
     const [checked, setChecked] = React.useState(false)
 
     React.useEffect(() => {
         setChecked(checkedProp)
-        if (checkedProp) {
-            itemChecked(item)
-        }
-        else {
-            itemUnChecked(item)
-        }
-    }, [checkedProp, open, item]);
+    }, [checkedProp]);
 
-    const handleChange = (pref?: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (group?: string[], pref?: boolean) => (event: React.ChangeEvent<HTMLInputElement>) => {
         setChecked( event.target.checked );
         if (!checked) {
             itemChecked(item)
+            pref && group && group.map((item) => itemChecked(item))
         }
         if (checked) {
             itemUnChecked(item)
-            itemUnChecked(pref)
+            group && group.map((item) => itemUnChecked(item))
+
         }
     };
 
     return (
         <div>
-            {(pref === item) &&
+            {(pref) &&
             (<FormControlLabel
                 onClick={(event) => event.stopPropagation()}
                 onFocus={(event) => event.stopPropagation()}
@@ -85,13 +82,13 @@ export default function NewSearchCheckbox(props: SearchCheckboxProps) {
                         className={classes.root}
                         size='small'
                         checked={checked}
-                        onChange={handleChange()}
+                        onChange={handleChange(group, pref)}
                         value={item}
                         color="primary"
                     />}
                 label={item}
             />)}
-            {(pref && pref !== item) &&
+            {(!pref && group) &&
             (<FormControlLabel
                 className={count(item) < 8 ? classes.shortLabel : classes.longLabel}
                 control={
@@ -99,14 +96,14 @@ export default function NewSearchCheckbox(props: SearchCheckboxProps) {
                         className={classes.root}
                         size='small'
                         checked={checked}
-                        onChange={handleChange(pref)}
+                        onChange={handleChange(group)}
                         value={item}
                         color="primary"
                     />
                 }
                 label={item}
             />)}
-            {(!pref) &&
+            {(!pref && !group) &&
             (<FormControlLabel
                 className={count(item) < 8 ? classes.shortLabel : classes.longLabel}
                 control={

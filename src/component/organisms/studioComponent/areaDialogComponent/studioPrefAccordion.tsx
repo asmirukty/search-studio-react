@@ -1,18 +1,10 @@
-import {createStyles, makeStyles, withStyles} from '@material-ui/core/styles';
+import {withStyles} from '@material-ui/core/styles';
 import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MuiAccordionDetails from "@material-ui/core/AccordionDetails";
 import MuiAccordion from "@material-ui/core/Accordion";
 import React from "react";
 import StudioCheckbox from "../../searchCheckbox";
-
-
-const useStyles = makeStyles(() =>
-    createStyles({
-        width: {
-            width: '100%',
-        },
-    }));
 
 const Accordion = withStyles({
     root: {
@@ -65,7 +57,6 @@ interface StudioPrefAccordionProps{
 }
 
 export default function StudioPrefAccordion(props: StudioPrefAccordionProps) {
-    const classes = useStyles();
 
     return (
             <Accordion>
@@ -77,9 +68,11 @@ export default function StudioPrefAccordion(props: StudioPrefAccordionProps) {
                     <StudioCheckbox item={props.pref} pref />
                 </AccordionSummary>
                 <AccordionDetails>
-                    {props.items.map((item) => (
+                    {
+                        props.items.map((item) => (
                         <StudioCheckbox item={item}/>
-                    ))}
+                    ))
+                    }
                 </AccordionDetails>
             </Accordion>
     );

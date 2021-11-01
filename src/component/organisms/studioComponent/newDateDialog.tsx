@@ -119,7 +119,7 @@ export default function NewDateDialog(props: SpaceDialogProps) {
 
     const handleDateDelete = (index: number) => () => {
         setDate(prevState => (
-            prevState.filter((element, idx) => idx != index)
+            prevState.filter((element, idx) => idx !== index)
         ))
         props.addDate()
     }
@@ -133,10 +133,12 @@ export default function NewDateDialog(props: SpaceDialogProps) {
                     </Button> :
                     <Button fullWidth variant="outlined" className={classes.btnChip} onClick={handleClickOpen}>
                         <div className={classes.wrapChip}>
-                            {date.map((date: {date: Date, startTime: string, endTime: string}, index) => (
-                                <Chip size="small" label={DateTimeConvert({date: date.date, startTime: date.startTime, endTime: date.endTime})}
-                                      onDelete={handleDateDelete(index)}/>
-                            ))}
+                            {
+                                date.map((date: {date: Date, startTime: string, endTime: string}, index) => (
+                                    <Chip size="small" key={index} label={DateTimeConvert({date: date.date, startTime: date.startTime, endTime: date.endTime})}
+                                          onDelete={handleDateDelete(index)}/>
+                                ))
+                            }
                         </div>
                     </Button>
             }

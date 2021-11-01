@@ -51,15 +51,19 @@ export default function LineAccordions() {
 
     return (
         <div>
-            {areaItems.map((areaItem) =>
-                <StudioAreaAccordions area={areaItem.area}>
-                    <div className={classes.width}>
-                        {areaItem.items.map((item) =>
-                            <StudioPrefAccordion pref={item.line} items={item.stations}/>
-                        )}
-                    </div>
-                </StudioAreaAccordions>
-            )}
+            {
+                areaItems.map((areaItem) =>
+                    <StudioAreaAccordions area={areaItem.area} key={areaItem.area}>
+                        <div className={classes.width}>
+                            {
+                                areaItem.items.map((item) =>
+                                    <StudioPrefAccordion pref={item.line} key={item.line} items={item.stations}/>
+                                )
+                            }
+                        </div>
+                    </StudioAreaAccordions>
+                )
+            }
         </div>
     );
 }

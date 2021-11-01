@@ -9,7 +9,6 @@ import Card from "@material-ui/core/Card";
 import NewSpaceDialog from "./studioComponent/newSpaceDialog";
 import NewAreaDialog from "./studioComponent/newAreaDialog";
 import NewDateDialog from "./studioComponent/newDateDialog";
-import Space from "./studioComponent/Space";
 import NewDetailDialog from "./studioComponent/newDetailDialog";
 
 const useStyles = makeStyles(() =>
@@ -74,10 +73,10 @@ export default function Studio() {
     const deleteArea = (area?: string) => {
         if (area) {
             setArea(prevState => (
-                prevState.filter((element: string) => element != area)
+                prevState.filter((element: string) => element !== area)
             ))
             setPlace(prevState => (
-                prevState.filter((element: string) => element != area)
+                prevState.filter((element: string) => element !== area)
             ))
         }
     };
@@ -155,31 +154,31 @@ export default function Studio() {
     const deleteCheckedItem = (checkedItem?: string) => {
         if (checkedItem) {
             setCheckedItem(prevState => (
-                prevState.filter((element: string) => element != checkedItem)
+                prevState.filter((element: string) => element !== checkedItem)
             ))
         }
     };
 
     return (
         <div style={{padding: 24}}>
-            <h3 style={{textAlign: 'center'}}>スタジオを検索</h3>
+            <Typography component={'span'} variant={'body2'} style={{textAlign: 'center'}}>スタジオを検索</Typography>
             <Card className={classes.root}>
                 <CardContent>
                     <div style={{display: 'flex', alignItems: 'flex-end'}}>
-                        <Typography variant='subtitle1' className={classes.title}>
+                        <Typography component={'span'} variant='subtitle1' className={classes.title}>
                             場所
                         </Typography>
-                        <Typography variant='caption' className={classes.require}>
+                        <Typography component={'span'} variant='caption' className={classes.require}>
                             ※必ず<span style={{fontSize: 12}}>エリア/沿線、駅</span>または<span style={{fontSize: 12}}>スタジオ</span>を指定
                         </Typography>
                     </div>
                     <NewAreaDialog label={'エリア/沿線、駅を選択'} addItems={addArea} deleteItems={deleteArea}/>
                     <StudioName studioText={studioText}/>
-                    <Typography variant='subtitle1' className={classes.title}>
+                    <Typography component={'span'} variant='subtitle1' className={classes.title}>
                         広さ
                     </Typography>
                     <NewSpaceDialog label={'面積/人数を選択'} addSpace={addSpace} addPeople={addPeople}/>
-                    <Typography variant='subtitle1' className={classes.title}>
+                    <Typography component={'span'} variant='subtitle1' className={classes.title}>
                         日時
                     </Typography>
                     <NewDateDialog label={'日時を選択'} addDate={addDate}/>

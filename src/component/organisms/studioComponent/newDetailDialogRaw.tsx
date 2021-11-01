@@ -207,7 +207,7 @@ export default function NewDetailDialogRaw(props: DetailDialogRawProps) {
             mirrorOnClose('鏡' + minMirror + '~')
         }
         else if (minMirror === '下限なし' && maxMirror !== '上限なし') {
-            mirrorOnClose('鏡' + '~' + maxMirror)
+            mirrorOnClose('鏡~' + maxMirror)
         }
 
         checkedItemOnClose(checkedItem);
@@ -224,7 +224,7 @@ export default function NewDetailDialogRaw(props: DetailDialogRawProps) {
     const unChecked = (newItem?: string) : void => {
         if (newItem) {
             setCheckedItem(prevState => (
-                prevState.filter((element: string) => element != newItem)
+                prevState.filter((element: string) => element !== newItem)
             ))}
     };
 
@@ -273,14 +273,14 @@ export default function NewDetailDialogRaw(props: DetailDialogRawProps) {
                         MenuProps={{ classes: { paper: classes.menuPaper } }}
                     >
                         {
-                            fromStationOptions.map((option: any) => (
-                                <MenuItem value={option}>{option}</MenuItem>
+                            fromStationOptions.map((option: any, index) => (
+                                <MenuItem value={option} key={index}>{option}</MenuItem>
                             ))
                         }
                     </Select>
                 </FormControl>
                 <Typography className={classes.typ} variant={'subtitle1'}>料金</Typography>
-                <NewSearchCheckbox item='キャンセル無料期間あり' open={open} checked={checkedItem.includes('キャンセル無料期間あり')} itemChecked={checked} itemUnChecked={unChecked}/>
+                <NewSearchCheckbox item='キャンセル無料期間あり' key={'キャンセル無料期間あり'} open={open} checked={checkedItem.includes('キャンセル無料期間あり')} itemChecked={checked} itemUnChecked={unChecked}/>
                 <div className={classes.select}>
                     <FormControl className={classes.formControl}>
                         <InputLabel shrink className={classes.label}>30分あたりの料金</InputLabel>
@@ -293,7 +293,7 @@ export default function NewDetailDialogRaw(props: DetailDialogRawProps) {
                         >
                             {
                                 minPriceOptions.map((option: any, index) => (
-                                    <MenuItem value={option} disabled={maxPrice !== '上限なし' && index >= maxPriceOptions.indexOf(maxPrice)}>
+                                    <MenuItem value={option} key={index} disabled={maxPrice !== '上限なし' && index >= maxPriceOptions.indexOf(maxPrice)}>
                                         {option}
                                     </MenuItem>
                                 ))
@@ -311,7 +311,7 @@ export default function NewDetailDialogRaw(props: DetailDialogRawProps) {
                         >
                             {
                                 maxPriceOptions.map((option: any, index) => (
-                                    <MenuItem value={option} disabled={index !== 0 && index <= minPriceOptions.indexOf(minPrice)}>
+                                    <MenuItem value={option} key={index} disabled={index !== 0 && index <= minPriceOptions.indexOf(minPrice)}>
                                         {option}
                                     </MenuItem>
                                 ))
@@ -323,7 +323,7 @@ export default function NewDetailDialogRaw(props: DetailDialogRawProps) {
                 <div className={classes.checkArray}>
                     {
                         reserve.map((item) => (
-                            <NewSearchCheckbox item={item} checked={checkedItem.includes(item)} itemChecked={checked} itemUnChecked={unChecked}/>
+                            <NewSearchCheckbox item={item} key={item} checked={checkedItem.includes(item)} itemChecked={checked} itemUnChecked={unChecked}/>
                         ))
                     }
                 </div>
@@ -331,13 +331,13 @@ export default function NewDetailDialogRaw(props: DetailDialogRawProps) {
                 <div className={classes.checkArray}>
                     {
                         studioFacilities.map((item) => (
-                            <NewSearchCheckbox item={item} checked={checkedItem.includes(item)} itemChecked={checked} itemUnChecked={unChecked}/>
+                            <NewSearchCheckbox item={item} key={item} checked={checkedItem.includes(item)} itemChecked={checked} itemUnChecked={unChecked}/>
                         ))
                     }
                 </div>
                 <Typography className={classes.typ} variant={'subtitle1'}>部屋設備・備品</Typography>
                 <Typography className={classes.typ} variant={'subtitle2'}>鏡</Typography>
-                <NewSearchCheckbox item='2面'
+                <NewSearchCheckbox item='2面' key={'2面'}
                                    checked={(checkedItem.includes('2面'))}
                                    itemChecked={checked} itemUnChecked={unChecked}/>
                 <div className={classes.select}>
@@ -352,7 +352,7 @@ export default function NewDetailDialogRaw(props: DetailDialogRawProps) {
                         >
                             {
                                 minMirrorOptions.map((option: any, index) => (
-                                    <MenuItem value={option} disabled={maxMirror !== '上限なし' && index >= maxMirrorOptions.indexOf(maxMirror)}>
+                                    <MenuItem value={option} key={index} disabled={maxMirror !== '上限なし' && index >= maxMirrorOptions.indexOf(maxMirror)}>
                                         {option}
                                     </MenuItem>
                                 ))
@@ -370,7 +370,7 @@ export default function NewDetailDialogRaw(props: DetailDialogRawProps) {
                         >
                             {
                                 maxMirrorOptions.map((option: any, index) => (
-                                    <MenuItem value={option} disabled={index !== 0 && index <= minMirrorOptions.indexOf(minMirror)}>
+                                    <MenuItem value={option} key={index} disabled={index !== 0 && index <= minMirrorOptions.indexOf(minMirror)}>
                                         {option}
                                     </MenuItem>
                             ))
@@ -382,7 +382,7 @@ export default function NewDetailDialogRaw(props: DetailDialogRawProps) {
                 <div className={classes.checkArray}>
                     {
                         lightAndFilming.map((item) => (
-                            <NewSearchCheckbox item={item}
+                            <NewSearchCheckbox item={item} key={item}
                                                checked={checkedItem.includes(item)}
                                                itemChecked={checked} itemUnChecked={unChecked}/>
                         ))
@@ -392,7 +392,7 @@ export default function NewDetailDialogRaw(props: DetailDialogRawProps) {
                 <div className={classes.checkArray}>
                     {
                         soundAndMovie.map((item) => (
-                            <NewSearchCheckbox item={item} checked={checkedItem.includes(item)} itemChecked={checked} itemUnChecked={unChecked}/>
+                            <NewSearchCheckbox item={item} key={item} checked={checkedItem.includes(item)} itemChecked={checked} itemUnChecked={unChecked}/>
                         ))
                     }
                 </div>
@@ -400,7 +400,7 @@ export default function NewDetailDialogRaw(props: DetailDialogRawProps) {
                 <div className={classes.checkArray}>
                     {
                         floorMaterial.map((item) => (
-                            <NewSearchCheckbox item={item} checked={checkedItem.includes(item)} itemChecked={checked} itemUnChecked={unChecked}/>
+                            <NewSearchCheckbox item={item} key={item} checked={checkedItem.includes(item)} itemChecked={checked} itemUnChecked={unChecked}/>
                         ))
                     }
                 </div>
@@ -408,7 +408,7 @@ export default function NewDetailDialogRaw(props: DetailDialogRawProps) {
                 <div className={classes.checkArray}>
                     {
                         amenities.map((item) => (
-                            <NewSearchCheckbox item={item} checked={checkedItem.includes(item)} itemChecked={checked} itemUnChecked={unChecked}/>
+                            <NewSearchCheckbox item={item} key={item} checked={checkedItem.includes(item)} itemChecked={checked} itemUnChecked={unChecked}/>
                         ))
                     }
                 </div>

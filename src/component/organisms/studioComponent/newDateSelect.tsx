@@ -175,7 +175,7 @@ export default function NewDateSelect(props: DateSelectProps) {
                     >
                         {
                             startTimeOptions.map((option: any, index) => (
-                                <MenuItem value={option}
+                                <MenuItem value={option} key={index}
                                           disabled={option !== '指定なし' && endTime !== '指定なし' && index > endTimeOptions.indexOf(endTime)}>
                                     {option}
                                 </MenuItem>
@@ -195,7 +195,7 @@ export default function NewDateSelect(props: DateSelectProps) {
                 >
                     {
                         endTimeOptions.map((option: any, index) => (
-                            <MenuItem value={option}
+                            <MenuItem value={option} key={index}
                                   disabled={option !== '指定なし' && startTime !== '指定なし' && index < startTimeOptions.indexOf(startTime)}>
                                 {option}
                             </MenuItem>
