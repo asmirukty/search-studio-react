@@ -10,6 +10,7 @@ import NewSpaceDialog from "./studioComponent/newSpaceDialog";
 import NewAreaDialog from "./studioComponent/newAreaDialog";
 import NewDateDialog from "./studioComponent/newDateDialog";
 import NewDetailDialog from "./studioComponent/newDetailDialog";
+import { checkItemA, checkItemB } from "./studioComponent/newDetailDialogRaw";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -55,14 +56,14 @@ export default function Studio() {
     const [area, setArea] = useState<any[]>([]);
     const [text, setText] = useState<string | null>(null);
     const [studio, setStudio] = useState('');
-    //const [place, setPlace] = useState<any[]>([])
     const [space, setSpace] = useState('');
     const [people, setPeople] = useState('');
     const [date, setDate] = useState('');
     const [fromStation, setFromStation] = useState('');
     const [price, setPrice] = useState('');
+    const [checkedItemA, setCheckedItemA] = useState<string[]>([]);
     const [mirror, setMirror] = useState('');
-    const [checkedItem, setCheckedItem] = useState<string[]>([]);
+    const [checkedItemB, setCheckedItemB] = useState<string[]>([]);
 
     const addArea = (newArea?: string) => {
         if (newArea) {
@@ -132,7 +133,7 @@ export default function Studio() {
 
     const addPrice = (newPrice?: string) => {
         if (newPrice) {
-            setPrice(','+newPrice)
+                setPrice(','+newPrice)
         }
         else {
             setPrice('')
@@ -148,17 +149,35 @@ export default function Studio() {
         }
     };
 
-    const addCheckedItem = (newCheckedItem?: any) => {
+    const addCheckedItem = (newCheckedItem?: string[]) => {
         if (newCheckedItem) {
-            setCheckedItem([ '', ...newCheckedItem])
+            setCheckedItemA([])
+            setCheckedItemB([])
+            checkItemA.map((items) => {
+                items.map((item) => {
+                    newCheckedItem.includes(item) &&
+                    setCheckedItemA(prevState => prevState.length === 0 ? ['', item] : [...prevState, item])
+                })
+            })
+            checkItemB.map((items) => {
+                items.map((item) => {
+                    newCheckedItem.includes(item) &&
+                    setCheckedItemB(prevState => prevState.length === 0 ? ['', item] : [...prevState, item])
+                })
+            })
         }
     };
 
     const deleteCheckedItem = (checkedItem?: string) => {
         if (checkedItem) {
-            setCheckedItem(prevState => (
-                prevState.filter((element: string) => element !== checkedItem)
-            ))
+            checkedItemA.includes(checkedItem) ?
+                setCheckedItemA(prevState => (
+                    prevState.filter((element: string) => element !== checkedItem)
+                ))
+                :
+                setCheckedItemB(prevState => (
+                    prevState.filter((element: string) => element !== checkedItem)
+                ))
         }
     };
 
@@ -192,7 +211,7 @@ export default function Studio() {
                         <Button className={classes.searchBtn}
                                 disabled={area.length === 0 && text === null}
                                 component={Link}
-                                to={`/studios/${area}${studio}${space}${people}${date}${fromStation}${price}${mirror}${checkedItem}`}>
+                                to={`/studios/${area}${studio}${space}${people}${date}${fromStation}${price}${checkedItemA}${mirror}${checkedItemB}`}>
                             検 索
                         </Button>
                     </div>

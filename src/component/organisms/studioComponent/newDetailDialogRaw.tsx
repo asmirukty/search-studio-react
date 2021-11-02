@@ -149,6 +149,14 @@ export const amenities = [
     "ヒールカバー", "ハンガー", "充電器", "アルコール消毒"
 ];
 
+export const checkItemA = [
+    ['キャンセル無料期間あり'], reserve, studioFacilities, ['2面']
+];
+
+export const checkItemB = [
+    lightAndFilming, soundAndMovie, floorMaterial, amenities
+];
+
 export default function NewDetailDialogRaw(props: DetailDialogRawProps) {
     const classes = useStyles()
     const { fromStationOnClose, priceOnClose, mirrorOnClose, checkedItemOnClose,
