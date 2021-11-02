@@ -53,8 +53,9 @@ const useStyles = makeStyles(() =>
 export default function Studio() {
     const classes = useStyles();
     const [area, setArea] = useState<any[]>([]);
-    const [studio, setStudio] = useState<string | null>(null);
-    const [place, setPlace] = useState<any[]>([])
+    const [text, setText] = useState<string | null>(null);
+    const [studio, setStudio] = useState('');
+    //const [place, setPlace] = useState<any[]>([])
     const [space, setSpace] = useState('');
     const [people, setPeople] = useState('');
     const [date, setDate] = useState('');
@@ -63,31 +64,33 @@ export default function Studio() {
     const [mirror, setMirror] = useState('');
     const [checkedItem, setCheckedItem] = useState<string[]>([]);
 
-    const addArea = (newArea?: string[]) => {
+    const addArea = (newArea?: string) => {
         if (newArea) {
-            setArea(newArea)
-            setPlace([...newArea, studio])
+            setArea(prevState => [...prevState, newArea])
+            text && setStudio(','+text)
+        }
+        else {
+            setArea([])
+            text && setStudio(text)
         }
     };
 
-    const deleteArea = (area?: string) => {
-        if (area) {
+    const deleteArea = (newArea?: string) => {
+        if (newArea) {
             setArea(prevState => (
-                prevState.filter((element: string) => element !== area)
+                prevState.filter((element: string) => element !== newArea)
             ))
-            setPlace(prevState => (
-                prevState.filter((element: string) => element !== area)
-            ))
+            area.length === 1 && text && setStudio(text)
         }
     };
 
     const studioText = (text?: string) => {
         if (text === '') {
-            setPlace([...area])
+            setText(null)
         }
         else if (text) {
-            setStudio(text)
-            setPlace([...area, text])
+            setText(text)
+            area.length > 0 ? setStudio(','+text) : setStudio(text)
         }
     };
 
@@ -187,9 +190,9 @@ export default function Studio() {
                                      addCheckedItem={addCheckedItem} deleteCheckedItem={deleteCheckedItem}/>
                     <div style={{display: 'flex'}}>
                         <Button className={classes.searchBtn}
-                                disabled={place.length === 0}
+                                disabled={area.length === 0 && text === null}
                                 component={Link}
-                                to={`/studios/${place}${space}${people}${date}${fromStation}${price}${mirror}${checkedItem}`}>
+                                to={`/studios/${area}${studio}${space}${people}${date}${fromStation}${price}${mirror}${checkedItem}`}>
                             検 索
                         </Button>
                     </div>

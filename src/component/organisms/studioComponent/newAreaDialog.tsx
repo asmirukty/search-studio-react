@@ -74,8 +74,28 @@ export default function NewAreaDialog(props: AreaDialogProps) {
         setOpen(false);
         if (newArea) {
             setArea(newArea)
-            console.log(newArea)
-            props.addItems(newArea)
+            areaItems.map((areaItem) =>
+                areaItem.items.map((item) =>
+                    newArea.includes(item.pref) && !area.includes(item.pref) ?
+                        props.addItems(item.pref)
+                        :
+                        item.cities.map((city) =>
+                            newArea.includes(city) && !area.includes(city) && props.addItems(city)
+                        )
+                )
+            )
+        }
+        else {
+            props.addItems(areaItems.map((areaItem) =>
+                areaItem.items.map((item) =>
+                    area.includes(item.pref) ?
+                        props.addItems(item.pref)
+                        :
+                        item.cities.map((city) =>
+                            area.includes(city) && props.addItems(city)
+                        )
+                )
+            ))
         }
     };
 
@@ -91,7 +111,7 @@ export default function NewAreaDialog(props: AreaDialogProps) {
                     prevState.filter((element: string) => element !== city)
                 ))
             ))
-            cities.map((city) => props.deleteItems(city))
+            //cities.map((city) => props.deleteItems(city))
         }
     }
 
