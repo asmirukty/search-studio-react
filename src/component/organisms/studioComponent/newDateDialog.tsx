@@ -60,6 +60,7 @@ interface SpaceDialogProps {
     children?: React.ReactNode;
     label: string;
     addDate: (value?: any[]) => void;
+    deleteDate: (value?: any) => void;
 }
 
 export default function NewDateDialog(props: SpaceDialogProps) {
@@ -113,6 +114,7 @@ export default function NewDateDialog(props: SpaceDialogProps) {
                 return 0
             })
             setDate(newDate)
+
             props.addDate(newDate)
         }
     };
@@ -121,7 +123,7 @@ export default function NewDateDialog(props: SpaceDialogProps) {
         setDate(prevState => (
             prevState.filter((element, idx) => idx !== index)
         ))
-        props.addDate()
+        props.deleteDate(date[index])
     }
 
     return (

@@ -11,6 +11,7 @@ import NewAreaDialog from "./studioComponent/newAreaDialog";
 import NewDateDialog from "./studioComponent/newDateDialog";
 import NewDetailDialog from "./studioComponent/newDetailDialog";
 import { checkItemA, checkItemB } from "./studioComponent/newDetailDialogRaw";
+import DateTimeConvert from "./dateTimeConvert";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -58,7 +59,7 @@ export default function Studio() {
     const [studio, setStudio] = useState('');
     const [space, setSpace] = useState('');
     const [people, setPeople] = useState('');
-    const [date, setDate] = useState('');
+    const [date, setDate] = useState<any[]>([]);
     const [fromStation, setFromStation] = useState('');
     const [price, setPrice] = useState('');
     const [checkedItemA, setCheckedItemA] = useState<string[]>([]);
@@ -113,14 +114,28 @@ export default function Studio() {
         }
     };
 
-    const addDate = (newDate?: any[]) => {
+    const addDate = (newDate?: {date: Date, startTime: string, endTime: string}[]) => {
         if (newDate) {
-            //setDate(','+newDate.replace('/', '_'))
+            newDate.map((date) => {
+                const replaceDate = DateTimeConvert({date: date.date, startTime: date.startTime, endTime: date.endTime}).replace('/', '_')
+                setDate(prevState =>
+                    prevState.length === 0 ? ['', replaceDate] : [...prevState, replaceDate]
+                )
+            })
         }
         else {
-            setDate('')
+            setDate([])
         }
     };
+
+    const deleteDate = (newDate?: {date: Date, startTime: string, endTime: string}) => {
+        if (newDate) {
+            setDate(prevState => (
+                prevState.filter((element: string) =>
+                    element !== DateTimeConvert({date: newDate.date, startTime: newDate.startTime, endTime: newDate.endTime}).replace('/', '_'))
+            ))
+        }
+    }
 
     const addFromStation = (newFromStation?: string) => {
         if (newFromStation) {
@@ -182,9 +197,7 @@ export default function Studio() {
     };
 
     return (
-        <div style={{padding: 24}}>
-            <Typography component={'span'} variant={'body2'} style={{textAlign: 'center'}}>スタジオを検索</Typography>
-            <Card className={classes.root}>
+        <Card className={classes.root}>
                 <CardContent>
                     <div style={{display: 'flex', alignItems: 'flex-end'}}>
                         <Typography component={'span'} variant='subtitle1' className={classes.title}>
@@ -203,7 +216,7 @@ export default function Studio() {
                     <Typography component={'span'} variant='subtitle1' className={classes.title}>
                         日時
                     </Typography>
-                    <NewDateDialog label={'日時を選択'} addDate={addDate}/>
+                    <NewDateDialog label={'日時を選択'} addDate={addDate} deleteDate={deleteDate}/>
                     <NewDetailDialog label={'もっとしぼり込む >'}
                                      addFromStation={addFromStation} addPrice={addPrice} addMirror={addMirror}
                                      addCheckedItem={addCheckedItem} deleteCheckedItem={deleteCheckedItem}/>
@@ -217,6 +230,5 @@ export default function Studio() {
                     </div>
                 </CardContent>
             </Card>
-        </div>
     )
 }

@@ -6,6 +6,7 @@ import Tab from '@material-ui/core/Tab';
 import TabPanel from "./tabPanel";
 import Studio from './studio'
 import StudioResult from "./studioResult";
+import {Typography} from "@material-ui/core";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -59,7 +60,13 @@ export default function MenuTabs(props: MenuTabsProps) {
             </AppBar>
             <div className={classes.content}>
                 <TabPanel value={value} index={0}>
-                    {props.page === 'search' && <Studio/>}
+                    {
+                        props.page === 'search' &&
+                        <div style={{padding: 24}}>
+                            <Typography component={'span'} variant={'body2'} style={{textAlign: 'center'}}>スタジオを検索</Typography>
+                            <Studio/>
+                        </div>
+                    }
                     {props.page === 'result' && <StudioResult/>}
                 </TabPanel>
                 <TabPanel value={value} index={1}>
