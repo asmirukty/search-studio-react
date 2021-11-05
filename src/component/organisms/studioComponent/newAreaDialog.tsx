@@ -1,5 +1,5 @@
 import {createStyles, makeStyles, withStyles} from "@material-ui/core/styles";
-import React from "react";
+import React, {useEffect} from "react";
 import Button from "@material-ui/core/Button";
 import MuiChip from "@material-ui/core/Chip";
 import NewAreaDialogRaw, {areaItems} from "./newAreaDialogRaw";
@@ -57,6 +57,7 @@ const useStyles = makeStyles(() =>
 interface AreaDialogProps {
     children?: React.ReactNode;
     label: string;
+    area: string[],
     addItems: (value?: any) => void;
     deleteItems: (value?: any) => void;
 }
@@ -65,6 +66,13 @@ export default function NewAreaDialog(props: AreaDialogProps) {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
     const [area, setArea] = React.useState<string[]>([]);
+
+    useEffect(() => {
+        if (area.length === 0 && props.area) {
+            console.log(open)
+            setArea(props.area)
+        }
+    }, [props.area])
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -118,7 +126,7 @@ export default function NewAreaDialog(props: AreaDialogProps) {
     return (
         <div>
             {
-                area.length === 0 ?
+                area.length === 0  && props.area.length === 0 ?
                 <Button fullWidth variant="outlined" className={classes.btn} onClick={handleClickOpen}>
                     {props.label}
                 </Button> :

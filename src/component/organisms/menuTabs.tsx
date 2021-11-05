@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {ReactNode} from 'react';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -36,7 +36,7 @@ function a11yProps(index: any) {
 }
 
 interface MenuTabsProps {
-    page: string,
+    children: ReactNode,
 }
 
 export default function MenuTabs(props: MenuTabsProps) {
@@ -60,14 +60,7 @@ export default function MenuTabs(props: MenuTabsProps) {
             </AppBar>
             <div className={classes.content}>
                 <TabPanel value={value} index={0}>
-                    {
-                        props.page === 'search' &&
-                        <div style={{padding: 24}}>
-                            <Typography component={'span'} variant={'body2'} style={{textAlign: 'center'}}>スタジオを検索</Typography>
-                            <Studio/>
-                        </div>
-                    }
-                    {props.page === 'result' && <StudioResult/>}
+                    {props.children}
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                     レッスン・練習会を探す

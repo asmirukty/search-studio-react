@@ -75,7 +75,10 @@ const useStyles = makeStyles(() =>
             borderRight: '1px solid #D7D2C8'
         },
         tableDesc: {
-            textAlign: 'right'
+            padding: '4px 0 8px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-end'
         },
         reserveBtn: {
             fontSize: 16,
@@ -98,16 +101,6 @@ interface RoomContentProps {
         description: string,
         path :string,
     }[],
-    facilities: {
-        name: string,
-        count: number,
-        price: number,
-    }[];
-    amenities: {
-        name: string,
-        count: number,
-        price: number,
-    }[];
     minReserveMinutes: number;
     slots: {
     workload: number,
@@ -136,7 +129,7 @@ export default function RoomContent(props: RoomContentProps) {
                     ))
                 }
             </Carousel>
-            {
+            {/**
                 props.facilities.map((facility) => (
                     <Chip size="small" label={facility.name} className={classes.chip}/>
                 ))
@@ -145,7 +138,7 @@ export default function RoomContent(props: RoomContentProps) {
                 props.amenities.map((amenity) => (
                     <Chip size="small" label={amenity.name} className={classes.chip}/>
                 ))
-            }
+            */}
             <TableContainer component={Paper} style={{margin: 4}}>
                 <Table>
                     <TableHead>
@@ -198,8 +191,9 @@ export default function RoomContent(props: RoomContentProps) {
                 </Table>
             </TableContainer>
             <div　className={classes.tableDesc}>
-                <Typography variant='caption'>
-                    <AccessTime fontSize='small'/>{props.minReserveMinutes + "分~"}
+                <AccessTime fontSize='small'/>
+                <Typography variant='caption' style={{padding: '0px 2px'}}>
+                    {props.minReserveMinutes + "分~"}
                 </Typography>
             </div>
         </div>

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import { Link } from 'react-router-dom';
 import {createStyles, makeStyles} from "@material-ui/core/styles";
 import CardContent from "@material-ui/core/CardContent";
@@ -52,8 +52,14 @@ const useStyles = makeStyles(() =>
         }
     }));
 
-export default function Studio() {
+interface StudioProps {
+    close?: (value?: any) => void;
+    state?: any
+}
+
+export default function Studio(props: StudioProps) {
     const classes = useStyles();
+    const {close, state} = props;
     const [area, setArea] = useState<any[]>([]);
     const [text, setText] = useState<string | null>(null);
     const [studio, setStudio] = useState('');
@@ -65,6 +71,28 @@ export default function Studio() {
     const [checkedItemA, setCheckedItemA] = useState<string[]>([]);
     const [mirror, setMirror] = useState('');
     const [checkedItemB, setCheckedItemB] = useState<string[]>([]);
+
+    useEffect(() => {
+        if (state) {
+            setArea(state.area)
+            setText(state.text)
+            setStudio(state.studio)
+            setSpace(state.space)
+            setPeople(state.people)
+            setDate(state.setPeople)
+            setFromStation(state.fromStation)
+            setPrice(state.price)
+            setCheckedItemA(state.checkedItemA)
+            setMirror(state.mirror)
+            setCheckedItemB(state.checkedItemB)
+        }
+    })
+
+    const handleClose = () => {
+        if (close) {
+            close()
+        }
+    }
 
     const addArea = (newArea?: string) => {
         if (newArea) {
@@ -207,7 +235,7 @@ export default function Studio() {
                             ※必ず<span style={{fontSize: 12}}>エリア/沿線、駅</span>または<span style={{fontSize: 12}}>スタジオ</span>を指定
                         </Typography>
                     </div>
-                    <NewAreaDialog label={'エリア/沿線、駅を選択'} addItems={addArea} deleteItems={deleteArea}/>
+                    <NewAreaDialog label={'エリア/沿線、駅を選択'} area={area} addItems={addArea} deleteItems={deleteArea}/>
                     <StudioName studioText={studioText}/>
                     <Typography component={'span'} variant='subtitle1' className={classes.title}>
                         広さ
@@ -223,8 +251,12 @@ export default function Studio() {
                     <div style={{display: 'flex'}}>
                         <Button className={classes.searchBtn}
                                 disabled={area.length === 0 && text === null}
+                                onClick={handleClose}
                                 component={Link}
-                                to={`/studios/${area}${studio}${space}${people}${date}${fromStation}${price}${checkedItemA}${mirror}${checkedItemB}`}>
+                                to={{
+                                    pathname: `/studios/${area}${studio}${space}${people}${date}${fromStation}${price}${checkedItemA}${mirror}${checkedItemB}`,
+                                    state: {area: area, text: text, studio: studio, space: space, people: people, date: date, fromStation: fromStation, price: price, checkedItemA: checkedItemA, mirror: mirror, checkedItemB: checkedItemB}
+                                }}>
                             検 索
                         </Button>
                     </div>

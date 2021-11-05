@@ -1,34 +1,69 @@
 import React, {useState, useEffect} from "react";
-import {Card, Chip, CardContent, Button, Typography,} from "@material-ui/core";
+import {Card, Chip, CardContent, Button, Typography, Dialog, CardActionArea,} from "@material-ui/core";
 import {makeStyles, createStyles} from "@material-ui/core/styles";
 import axios from 'axios';
 import StudioTitle from "./studioResultComponent/studioTitle";
 import RoomTitle from "./studioResultComponent/roomTitle";
 import RoomContent from "./studioResultComponent/roomContent";
-
 import {useParams} from 'react-router-dom'
+import Studio from "./studio";
+import {Close} from "@material-ui/icons";
+import DialogActions from "@material-ui/core/DialogActions";
 
 const useStyles = makeStyles(() =>
     createStyles({
+        topCard: {
+            zIndex: 10000,
+            position:'sticky',
+            top: 110
+        },
         card: {
             color: "#5A4628",
-            padding: 0,
+            padding: '12px 16px',
             '&:last-child': {
-                paddingBottom: 0
+                paddingBottom: 12
             }
+        },
+        wrapChip: {
+            overflow: 'scroll',
+            display: 'flex',
+            padding: 5
         },
         chip: {
             color: '#5A4628',
             backgroundColor: '#e7e1d8',
-            marginRight: 4
+            marginRight: 4,
+        },
+        changeBtn: {
+            fontWeight: 'bold',
+            color: '#F9F5F0',
+            backgroundColor: '#1D356A',
+            fontSize: 14,
+            padding: 0,
+            marginLeft: 4,
+            right: 0,
+            '&:hover': {
+                color: '#F9F5F0',
+                backgroundColor: '#1D356A',
+                opacity: .8
+            }
         },
         btn: {
             color: '#5A4628',
             fontSize: 12,
-            padding: '0px 8px',
+            padding: '0px',
             margin: 0,
-            border: '1px solid #D7D2C8',
-            boxShadow: '0.5px 0.5px 4px 2px rgba(0, 0, 0, 0.1)'
+            fontWeight: 'bold'
+        },
+        dialogBtn: {
+            backgroundColor: '#F9F5F0',
+            padding: '4px 8px',
+            display: 'block'
+        },
+        dialogClose: {
+            color: '#5A4628',
+            minWidth: 20,
+            padding: 0
         },
         content: {
             padding: '12px 16px'
@@ -36,6 +71,7 @@ const useStyles = makeStyles(() =>
         roomTop: {
             display: 'flex',
             justifyContent: 'space-between',
+            paddingTop: 8
         },
         reserveBtn: {
             fontSize: 16,
@@ -44,7 +80,12 @@ const useStyles = makeStyles(() =>
             backgroundColor: '#1D356A',
             display: 'flex',
             margin: '4px auto 8px',
-            padding: '6px 16px'
+            padding: '6px 16px',
+            '&:hover': {
+                color: '#F9F5F0',
+                backgroundColor: '#1D356A',
+                opacity: .8
+            }
         }
     }))
 
@@ -182,11 +223,7 @@ let initialSlot: Slot = {
     count: 0,
 }
 
-interface Studio {
-    studio_id: string,
-    studio_name: string,
-    address: Address,
-    studio_facilities: StudioFacility[],
+interface Room {
     room_name: string,
     floor_area: number,
     mirror_length: number,
@@ -203,13 +240,7 @@ interface Studio {
     reserve_url: string,
 }
 
-let initialStudio: Studio = {
-    studio_id: '',
-    studio_name: '',
-    address: initialAddress,
-    studio_facilities: [
-        initialStudioFacility,
-    ],
+let initialRoom: Room = {
     room_name: '',
     floor_area: 0,
     mirror_length: 0,
@@ -234,6 +265,28 @@ let initialStudio: Studio = {
     reserve_url: '',
 }
 
+interface Studio {
+    studio_id: string,
+    studio_name: string,
+    address: Address,
+    studio_facilities: StudioFacility[],
+    room_count: number,
+    rooms: Room[]
+}
+
+let initialStudio: Studio = {
+    studio_id: '',
+    studio_name: '',
+    address: initialAddress,
+    studio_facilities: [
+        initialStudioFacility,
+    ],
+    room_count: 0,
+    rooms: [
+        initialRoom
+    ]
+}
+
 interface SearchResult {
     total_pages: number,
     studios: Studio[],
@@ -246,12 +299,15 @@ let initialSearchResult: SearchResult = {
     ]
 }
 
-
-export default function StudioResult() {
+export default function StudioResult(props: { state: any}) {
     const id: {id: string}  = useParams();
     const classes = useStyles();
     const [searchResult, setSearchResult] = useState(initialSearchResult);
+    const [open, setOpen] = React.useState(false);
 
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
     const items = id.id.split(',');
 
     useEffect(() => {
@@ -263,13 +319,31 @@ export default function StudioResult() {
 
     return (
         <div style={{padding: 24}}>
-            <Card style={{padding: 12}}>
+            <Card className={classes.topCard}>
                 <CardContent className={classes.card}>
-                    <Typography variant='subtitle1' style={{fontWeight: 'bold'}}>検索条件</Typography>
-                    {items.map((item) =>
-                    <Chip size='small' label={item.replace('_', '/')} className={classes.chip}/>)}
+                    <Typography variant='subtitle2' style={{fontWeight: 'bold'}}>検索条件</Typography>
+                    <div style={{display: 'flex', justifyContent: 'space-between',}}>
+                        <div className={classes.wrapChip}>
+                            {
+                                items.map((item,index) =>
+                                    <Chip size='small' key={index} label={item.replace('_', '/')} className={classes.chip}/>)
+                            }
+                        </div>
+                        <Button className={classes.changeBtn} onClick={handleClickOpen}>変更</Button>
+                    </div>
                 </CardContent>
             </Card>
+            <Dialog PaperProps={{style: {margin: 12, flexGrow: 1}}} open={open}>
+                <DialogActions className={classes.dialogBtn}>
+                    <div style={{display: 'flex', justifyContent: 'flex-end'}}>
+                        <Button autoFocus onClick={() => setOpen(false)} className={classes.dialogClose}>
+                            <Close fontSize='small'/>
+                        </Button>
+                    </div>
+                    <Typography variant='subtitle1' style={{color: '#5A4628', fontWeight: 'bold', textAlign: 'center'}}>検索条件</Typography>
+                </DialogActions>
+                <Studio close={() => setOpen(false)} state={props.state}/>
+            </Dialog>
             <h3 style={{textAlign: 'center'}}>
                 検索結果
                 <div style={{fontSize: 12}}>全{searchResult.total_pages}件</div>
@@ -277,29 +351,41 @@ export default function StudioResult() {
             {
                 searchResult.studios.map((row, index, array) => (
                     <Card style={{marginBottom: 24}}>
+                        <CardActionArea>
                             <CardContent className={classes.card}>
-                                <StudioTitle studio={row.studio_name}
-                                             station={row.address.station.name}
-                                             exit={row.address.exit.name}
-                                             fromStation={row.address.minutes_from_station}
-                                             facilities={row.studio_facilities}/>
-                                <div className={classes.content}>
-                                    <div className={classes.roomTop}>
-                                        <RoomTitle room={row.room_name}
-                                                   floorArea={row.floor_area}
-                                                   minPeople={row.min_people}
-                                                   maxPeople={row.max_people}/>
-                                        <Button className={classes.btn}>詳しく見る</Button>
-                                    </div>
-                                    <RoomContent roomImg={row.room_img}
-                                                 facilities={row.room_facilities}
-                                                 amenities={row.amenities}
-                                                 minReserveMinutes={row.min_reserve_minutes}
-                                                 slots={row.slots}/>
-                                    <Button className={classes.reserveBtn}>予約画面へ</Button>
-                                </div>
-                            </CardContent>
-                        </Card>
+                            <StudioTitle studio={row.studio_name}
+                                         station={row.address.station.name}
+                                         exit={row.address.exit.name}
+                                         fromStation={row.address.minutes_from_station}/>
+                                {
+                                    row.rooms.map((room) =>
+                                        <div  style={{padding: '0 8px'}}>
+                                            <div className={classes.roomTop}>
+                                                <RoomTitle room={room.room_name} floorArea={room.floor_area}/>
+                                                <Button className={classes.btn}>詳細を見る {'>'}</Button>
+                                            </div>
+                                            <RoomContent roomImg={room.room_img}
+                                                         minReserveMinutes={room.min_reserve_minutes}
+                                                         slots={room.slots}/>
+                                        </div>
+                                    )
+                                }
+                                {
+                                    row.room_count - row.rooms.length > 0 ?
+                                        <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                                            <Typography component={'span'} variant={'caption'} style={{paddingRight: 12, fontWeight: 'bold'}}>
+                                                他{row.room_count - row.rooms.length}部屋
+                                            </Typography>
+                                            <Button className={classes.btn}>詳細を見る {'>'}</Button>
+                                        </div>
+                                        :
+                                        <div style={{display: 'flex', justifyContent: 'flex-end'}}>
+                                            <Button className={classes.btn}>詳細を見る {'>'}</Button>
+                                        </div>
+                                }
+                        </CardContent>
+                        </CardActionArea>
+                    </Card>
                 ))
             }
         </div>
