@@ -13,9 +13,10 @@ import DialogActions from "@material-ui/core/DialogActions";
 const useStyles = makeStyles(() =>
     createStyles({
         topCard: {
-            zIndex: 10000,
+            margin: '0 8px',
+            zIndex: 1100,
             position:'sticky',
-            top: 110
+            top: 108
         },
         card: {
             color: "#5A4628",
@@ -308,6 +309,7 @@ export default function StudioResult(props: { state: any}) {
     const handleClickOpen = () => {
         setOpen(true);
     };
+
     const items = id.id.split(',');
 
     useEffect(() => {
@@ -342,7 +344,7 @@ export default function StudioResult(props: { state: any}) {
                     </div>
                     <Typography variant='subtitle1' style={{color: '#5A4628', fontWeight: 'bold', textAlign: 'center'}}>検索条件</Typography>
                 </DialogActions>
-                <Studio close={() => setOpen(false)} state={props.state}/>
+                <Studio close={() => setOpen(false)} state={props.state} open={open}/>
             </Dialog>
             <h3 style={{textAlign: 'center'}}>
                 検索結果

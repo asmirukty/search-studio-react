@@ -174,13 +174,24 @@ export default function NewDetailDialogRaw(props: DetailDialogRawProps) {
             if (fromStationProp === '') {
                 setFromStation('指定なし');
             }
+            else {
+                setFromStation(fromStationProp)
+            }
             if (priceProp === '') {
                 setMinPrice('下限なし');
                 setMaxPrice('上限なし');
             }
+            else {
+                setMinPrice(priceProp.split('~')[0] === '' ? '下限なし' : priceProp.split('~')[0])
+                setMaxPrice(priceProp.split('~')[1] === '' ? '上限なし' : priceProp.split('~')[1])
+            }
             if (mirrorProp === '') {
                 setMinMirror('下限なし');
                 setMaxMirror('上限なし');
+            }
+            else {
+                setMinMirror(mirrorProp.split('~')[0] === '' ? '下限なし' : mirrorProp.split('~')[0])
+                setMaxMirror(mirrorProp.split('~')[1] === '' ? '上限なし' : mirrorProp.split('~')[1])
             }
             setCheckedItem(checkedItemProp);
         }

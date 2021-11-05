@@ -1,5 +1,5 @@
 import {createStyles, makeStyles, withStyles} from "@material-ui/core/styles";
-import React from "react";
+import React, {useEffect} from "react";
 import NewSpaceDialogRaw from "./newSpaceDialogRaw";
 import Button from "@material-ui/core/Button";
 import MuiChip from "@material-ui/core/Chip";
@@ -52,6 +52,8 @@ const useStyles = makeStyles(() =>
 interface SpaceDialogProps {
     children?: React.ReactNode;
     label: string;
+    space: string;
+    people: string;
     addSpace: (value?: any) => void;
     addPeople: (value?: any) => void;
 }
@@ -61,6 +63,11 @@ export default function NewSpaceDialog(props: SpaceDialogProps) {
     const [open, setOpen] = React.useState(false);
     const [area, setArea] = React.useState('');
     const [people, setPeople] = React.useState('');
+
+    useEffect(() => {
+        setArea(props.space.replace(',' , ''))
+        setPeople(props.people.replace(',' , ''))
+    })
 
     const handleClickOpen = () => {
         setOpen(true);

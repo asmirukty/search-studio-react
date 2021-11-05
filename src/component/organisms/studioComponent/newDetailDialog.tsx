@@ -1,5 +1,5 @@
 import {createStyles, makeStyles, withStyles} from "@material-ui/core/styles";
-import React from "react";
+import React, {useEffect} from "react";
 import NewDetailDialogRaw, {
     reserve,
     studioFacilities,
@@ -51,6 +51,10 @@ const useStyles = makeStyles(() =>
 interface DetailDialogProps {
     children?: React.ReactNode;
     label: string;
+    fromStation: string;
+    price: string;
+    mirror: string;
+    checkedItem: string[];
     addFromStation: (value?: any) => void;
     addPrice: (value?: any) => void;
     addMirror: (value?: any) => void;
@@ -65,6 +69,13 @@ export default function NewDetailDialog(props: DetailDialogProps) {
     const [price, setPrice] = React.useState('');
     const [mirror, setMirror] = React.useState('');
     const [checkedItem, setCheckedItem] = React.useState<string[]>([]);
+
+    useEffect(() => {
+        setFromStation(props.fromStation.replace(',駅' , ''))
+        setPrice(props.price.replace(',' , ''))
+        setMirror(props.mirror.replace(',' , ''))
+        setCheckedItem(props.checkedItem)
+    })
 
     const handleClickOpen = () => {
         setOpen(true);

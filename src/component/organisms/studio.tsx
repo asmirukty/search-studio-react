@@ -12,6 +12,7 @@ import NewDateDialog from "./studioComponent/newDateDialog";
 import NewDetailDialog from "./studioComponent/newDetailDialog";
 import { checkItemA, checkItemB } from "./studioComponent/newDetailDialogRaw";
 import DateTimeConvert from "./dateTimeConvert";
+import {areaItems} from "./studioComponent/newAreaDialogRaw";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -54,18 +55,21 @@ const useStyles = makeStyles(() =>
 
 interface StudioProps {
     close?: (value?: any) => void;
-    state?: any
+    state?: any,
+    open?: boolean,
 }
 
 export default function Studio(props: StudioProps) {
     const classes = useStyles();
-    const {close, state} = props;
+    const {close, state, open: openProp} = props;
+    const [open, setOpen] = useState(false);
     const [area, setArea] = useState<any[]>([]);
     const [text, setText] = useState<string | null>(null);
     const [studio, setStudio] = useState('');
     const [space, setSpace] = useState('');
     const [people, setPeople] = useState('');
-    const [date, setDate] = useState<any[]>([]);
+    const [stateDate, setStateDate] = useState<any[]>([]);
+    const [date, setDate] = useState<string[]>([]);
     const [fromStation, setFromStation] = useState('');
     const [price, setPrice] = useState('');
     const [checkedItemA, setCheckedItemA] = useState<string[]>([]);
@@ -73,20 +77,21 @@ export default function Studio(props: StudioProps) {
     const [checkedItemB, setCheckedItemB] = useState<string[]>([]);
 
     useEffect(() => {
-        if (state) {
+        if (state && openProp && !open) {
+            setOpen(openProp)
             setArea(state.area)
             setText(state.text)
             setStudio(state.studio)
             setSpace(state.space)
             setPeople(state.people)
-            setDate(state.setPeople)
+            setStateDate(state.stateDate)
             setFromStation(state.fromStation)
             setPrice(state.price)
             setCheckedItemA(state.checkedItemA)
             setMirror(state.mirror)
             setCheckedItemB(state.checkedItemB)
         }
-    })
+    },[openProp])
 
     const handleClose = () => {
         if (close) {
@@ -94,9 +99,18 @@ export default function Studio(props: StudioProps) {
         }
     }
 
-    const addArea = (newArea?: string) => {
+    const addArea = (newArea?: string[]) => {
         if (newArea) {
-            setArea(prevState => [...prevState, newArea])
+            setArea([])
+            areaItems.map((areaItem) =>
+                areaItem.items.map((item) =>
+                    newArea.includes(item.pref) ? setArea(prevState => [...prevState, item.pref])
+                        :
+                        item.cities.map((city) =>
+                            newArea.includes(city) && setArea(prevState => [...prevState, city])
+                        )
+                )
+            )
             text && setStudio(','+text)
         }
         else {
@@ -144,6 +158,7 @@ export default function Studio(props: StudioProps) {
 
     const addDate = (newDate?: {date: Date, startTime: string, endTime: string}[]) => {
         if (newDate) {
+            setStateDate(newDate)
             newDate.map((date) => {
                 const replaceDate = DateTimeConvert({date: date.date, startTime: date.startTime, endTime: date.endTime}).replace('/', '_')
                 setDate(prevState =>
@@ -161,6 +176,10 @@ export default function Studio(props: StudioProps) {
             setDate(prevState => (
                 prevState.filter((element: string) =>
                     element !== DateTimeConvert({date: newDate.date, startTime: newDate.startTime, endTime: newDate.endTime}).replace('/', '_'))
+            ))
+            setStateDate(prevState => (
+                prevState.filter((element: any) =>
+                    element !== {date: newDate.date, startTime: newDate.startTime, endTime: newDate.endTime})
             ))
         }
     }
@@ -236,16 +255,17 @@ export default function Studio(props: StudioProps) {
                         </Typography>
                     </div>
                     <NewAreaDialog label={'エリア/沿線、駅を選択'} area={area} addItems={addArea} deleteItems={deleteArea}/>
-                    <StudioName studioText={studioText}/>
+                    <StudioName studioText={studioText} text={text}/>
                     <Typography component={'span'} variant='subtitle1' className={classes.title}>
                         広さ
                     </Typography>
-                    <NewSpaceDialog label={'面積/人数を選択'} addSpace={addSpace} addPeople={addPeople}/>
+                    <NewSpaceDialog label={'面積/人数を選択'} addSpace={addSpace} addPeople={addPeople} space={space} people={people}/>
                     <Typography component={'span'} variant='subtitle1' className={classes.title}>
                         日時
                     </Typography>
-                    <NewDateDialog label={'日時を選択'} addDate={addDate} deleteDate={deleteDate}/>
+                    <NewDateDialog label={'日時を選択'} addDate={addDate} deleteDate={deleteDate} stateDate={stateDate}/>
                     <NewDetailDialog label={'もっとしぼり込む >'}
+                                     fromStation={fromStation} price={price} mirror={mirror} checkedItem={[...checkedItemA, ...checkedItemB]}
                                      addFromStation={addFromStation} addPrice={addPrice} addMirror={addMirror}
                                      addCheckedItem={addCheckedItem} deleteCheckedItem={deleteCheckedItem}/>
                     <div style={{display: 'flex'}}>
@@ -255,7 +275,7 @@ export default function Studio(props: StudioProps) {
                                 component={Link}
                                 to={{
                                     pathname: `/studios/${area}${studio}${space}${people}${date}${fromStation}${price}${checkedItemA}${mirror}${checkedItemB}`,
-                                    state: {area: area, text: text, studio: studio, space: space, people: people, date: date, fromStation: fromStation, price: price, checkedItemA: checkedItemA, mirror: mirror, checkedItemB: checkedItemB}
+                                    state: {area: area, text: text, studio: studio, space: space, people: people, stateDate: stateDate, fromStation: fromStation, price: price, checkedItemA: checkedItemA, mirror: mirror, checkedItemB: checkedItemB}
                                 }}>
                             検 索
                         </Button>

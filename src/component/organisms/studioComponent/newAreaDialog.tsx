@@ -68,9 +68,23 @@ export default function NewAreaDialog(props: AreaDialogProps) {
     const [area, setArea] = React.useState<string[]>([]);
 
     useEffect(() => {
-        if (area.length === 0 && props.area) {
-            console.log(open)
+        if (props.area) {
             setArea(props.area)
+            areaItems.map((areaItem) => {
+                areaItem.items.map((item) => {
+                    props.area.includes(item.pref)
+                })
+            })
+            areaItems.map((areaItem) =>
+                areaItem.items.map((item) =>
+                    props.area.includes(item.pref) ?
+                        setArea(prevState => [...prevState, item.pref, ...item.cities])
+                        :
+                        item.cities.map((city) =>
+                            props.area.includes(city) && setArea(prevState => [...prevState, city])
+                        )
+                )
+            )
         }
     }, [props.area])
 
@@ -82,28 +96,10 @@ export default function NewAreaDialog(props: AreaDialogProps) {
         setOpen(false);
         if (newArea) {
             setArea(newArea)
-            areaItems.map((areaItem) =>
-                areaItem.items.map((item) =>
-                    newArea.includes(item.pref) && !area.includes(item.pref) ?
-                        props.addItems(item.pref)
-                        :
-                        item.cities.map((city) =>
-                            newArea.includes(city) && !area.includes(city) && props.addItems(city)
-                        )
-                )
-            )
+            props.addItems(newArea)
         }
         else {
-            props.addItems(areaItems.map((areaItem) =>
-                areaItem.items.map((item) =>
-                    area.includes(item.pref) ?
-                        props.addItems(item.pref)
-                        :
-                        item.cities.map((city) =>
-                            area.includes(city) && props.addItems(city)
-                        )
-                )
-            ))
+            props.addItems(area)
         }
     };
 
@@ -126,7 +122,7 @@ export default function NewAreaDialog(props: AreaDialogProps) {
     return (
         <div>
             {
-                area.length === 0  && props.area.length === 0 ?
+                area.length === 0 ?
                 <Button fullWidth variant="outlined" className={classes.btn} onClick={handleClickOpen}>
                     {props.label}
                 </Button> :

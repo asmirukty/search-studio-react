@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { withStyles, createStyles, makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 
@@ -28,13 +28,20 @@ const useStyles = makeStyles(() =>
 
 interface StudioNameProps {
     studioText: (value?: string) => void;
+    text: string|null
 }
 
 export default function StudioName(props: StudioNameProps) {
     const classes = useStyles();
+    const [text, setText] = useState<string|null>()
+
+    useEffect(() => {
+        setText(props.text)
+    })
 
     const textChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         props.studioText(event.target.value)
+        setText(event.target.value)
     }
 
     return (
@@ -44,6 +51,7 @@ export default function StudioName(props: StudioNameProps) {
                 size="small"
                 placeholder="スタジオ名を入力"
                 onChange={textChange}
+                value={text}
                 inputProps={{style: {color: '#5A4628', fontSize: 14, padding: 10, }}}
                 variant="outlined"
             />

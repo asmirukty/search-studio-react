@@ -1,5 +1,5 @@
 import {createStyles, makeStyles, withStyles} from "@material-ui/core/styles";
-import React from "react";
+import React, {useEffect} from "react";
 import NewDateDialogRaw from "./newDateDialogRaw";
 import Button from "@material-ui/core/Button";
 import MuiChip from "@material-ui/core/Chip";
@@ -59,6 +59,7 @@ const useStyles = makeStyles(() =>
 interface SpaceDialogProps {
     children?: React.ReactNode;
     label: string;
+    stateDate: any[];
     addDate: (value?: any[]) => void;
     deleteDate: (value?: any) => void;
 }
@@ -68,6 +69,10 @@ export default function NewDateDialog(props: SpaceDialogProps) {
     const [open, setOpen] = React.useState(false);
     const [date, setDate] = React.useState<any[]>([]);
 
+    useEffect(() => {
+        setDate(props.stateDate)
+    })
+    
     const handleClickOpen = () => {
         setOpen(true);
     };

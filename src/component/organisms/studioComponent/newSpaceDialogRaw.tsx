@@ -122,9 +122,17 @@ export default function NewSpaceDialogRaw(props: SpaceDialogRawProps) {
                 setMinArea('下限なし');
                 setMaxArea('上限なし');
             }
+            else {
+                setMinArea(areaProp.split('~')[0] === '' ? '下限なし' : areaProp.split('~')[0])
+                setMaxArea(areaProp.split('~')[1] === '' ? '上限なし' : areaProp.split('~')[1])
+            }
             if (peopleProp === '') {
                 setMinPeople('下限なし');
                 setMaxPeople('上限なし');
+            }
+            else {
+                setMinPeople(peopleProp.split('~')[0] === '' ? '下限なし' : peopleProp.split('~')[0])
+                setMaxPeople(peopleProp.split('~')[1] === '' ? '上限なし' : peopleProp.split('~')[1])
             }
         }
     }, [areaProp, peopleProp, open]);
