@@ -5,7 +5,7 @@ import axios from 'axios';
 import StudioTitle from "./studioResultComponent/studioTitle";
 import RoomTitle from "./studioResultComponent/roomTitle";
 import RoomContent from "./studioResultComponent/roomContent";
-import {useParams} from 'react-router-dom'
+import {Link, useParams} from 'react-router-dom'
 import Studio from "./studio";
 import {Close} from "@material-ui/icons";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -54,7 +54,10 @@ const useStyles = makeStyles(() =>
             fontSize: 12,
             padding: '0px',
             margin: 0,
-            fontWeight: 'bold'
+            fontWeight: 'bold',
+            '&:hover': {
+                borderBottom: '1px solid #5A4628'
+            }
         },
         dialogBtn: {
             backgroundColor: '#F9F5F0',
@@ -72,6 +75,7 @@ const useStyles = makeStyles(() =>
         roomTop: {
             display: 'flex',
             justifyContent: 'space-between',
+            alignItems: 'center',
             paddingTop: 8
         },
         reserveBtn: {
@@ -352,19 +356,23 @@ export default function StudioResult(props: { state: any}) {
             </h3>
             {
                 searchResult.studios.map((row, index, array) => (
-                    <Card style={{marginBottom: 24}}>
-                        <CardActionArea>
+                    <Card style={{marginBottom: 24}} key={index}>
+                        <CardActionArea
+                            component={Link}
+                            to={{
+                                pathname: `/studio_page/${row.studio_name}`
+                                }}>
                             <CardContent className={classes.card}>
                             <StudioTitle studio={row.studio_name}
                                          station={row.address.station.name}
                                          exit={row.address.exit.name}
                                          fromStation={row.address.minutes_from_station}/>
                                 {
-                                    row.rooms.map((room) =>
-                                        <div  style={{padding: '0 8px'}}>
+                                    row.rooms.map((room, index) =>
+                                        <div style={{padding: '0 8px'}} key={index}>
                                             <div className={classes.roomTop}>
                                                 <RoomTitle room={room.room_name} floorArea={room.floor_area}/>
-                                                <Button className={classes.btn}>詳細を見る {'>'}</Button>
+                                                <div className={classes.btn}>詳細を見る {'>'}</div>
                                             </div>
                                             <RoomContent roomImg={room.room_img}
                                                          minReserveMinutes={room.min_reserve_minutes}
@@ -378,7 +386,7 @@ export default function StudioResult(props: { state: any}) {
                                             <Typography component={'span'} variant={'caption'} style={{paddingRight: 12, fontWeight: 'bold'}}>
                                                 他{row.room_count - row.rooms.length}部屋
                                             </Typography>
-                                            <Button className={classes.btn}>詳細を見る {'>'}</Button>
+                                            <div className={classes.btn}>詳細を見る {'>'}</div>
                                         </div>
                                         :
                                         <div style={{display: 'flex', justifyContent: 'flex-end'}}>

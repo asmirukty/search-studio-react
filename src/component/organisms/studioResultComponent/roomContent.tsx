@@ -65,7 +65,7 @@ const useStyles = makeStyles(() =>
             left: 2,
             color: '#5A4628',
             backgroundColor: '#e7e1d8',
-            zIndex: 1000,
+            zIndex: 10,
         },
         cellTitle: {
             fontSize: 12,
@@ -91,7 +91,7 @@ const useStyles = makeStyles(() =>
         }
     }))
 
-const times = [
+export const times = [
     '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ' 10', '11'
 ]
 
@@ -123,7 +123,7 @@ export default function RoomContent(props: RoomContentProps) {
                       activeIndicatorIconButtonProps={{className: classes.navActiveIndicator}}>
                 {
                     props.roomImg.map((img, index) => (
-                        <div style={{margin: 'auto', paddingTop: 50, height: 100, textAlign: 'center'}}>
+                        <div style={{margin: 'auto', paddingTop: 50, height: 100, textAlign: 'center'}} key={index}>
                             <img alt={'img' + index} src={img.path}/>
                         </div>
                     ))
@@ -146,7 +146,7 @@ export default function RoomContent(props: RoomContentProps) {
                             <TableCell className={classes.headCell} align='left' size='small'> </TableCell>
                             {
                                 times.map((time) =>
-                                    <TableCell className={classes.headCell} colSpan={2} align='left' size='small'>{time}</TableCell>
+                                    <TableCell className={classes.headCell} key={time} colSpan={2} align='left' size='small'>{time}</TableCell>
                                 )}
                         </TableRow>
                     </TableHead>
@@ -158,31 +158,37 @@ export default function RoomContent(props: RoomContentProps) {
                             {
                                 props.slots.map((slot, index, array) => {
                                         if (!array[index-1] || slot.price !== array[index-1].price) {
-                                            return <TableCell className={classes.cell} size='small'>
-                                                <div style={{display: 'flex', alignItems: 'center'}}>
-                                                    <Chip size="small" label={`${slot.price}円`}
-                                                          className={classes.cellChip}/>
-                                                </div>
-                                            </TableCell>
+                                            return (
+                                                <TableCell className={classes.cell} key={index} size='small'>
+                                                    <div style={{display: 'flex', alignItems: 'center'}}>
+                                                        <Chip size="small" key={index} label={`${slot.price}円`}
+                                                              className={classes.cellChip}/>
+                                                    </div>
+                                                </TableCell>
+                                            )
                                         }
                                         else if (!array[index+1] || slot.price !== array[index+1].price) {
-                                            return <TableCell className={classes.cell} size='small'>
-                                                <div style={{display: 'flex', alignItems: 'center'}}>
-                                                    <div style={{margin: 0, flexGrow: 1}}>
-                                                        <hr color='#5A4628'/>
+                                            return (
+                                                <TableCell className={classes.cell} key={index} size='small'>
+                                                    <div style={{display: 'flex', alignItems: 'center'}}>
+                                                        <div style={{margin: 0, flexGrow: 1}}>
+                                                            <hr color='#5A4628'/>
+                                                        </div>
+                                                        <div style={{padding: 0}}>▶︎</div>
                                                     </div>
-                                                    <div style={{padding: 0}}>▶︎</div>
-                                                </div>
-                                            </TableCell>
+                                                </TableCell>
+                                            )
                                         }
                                         else {
-                                            return <TableCell className={classes.cell} size='small'>
+                                            return (
+                                                <TableCell className={classes.cell} key={index} size='small'>
                                                 <div style={{display: 'flex', alignItems: 'center'}}>
                                                     <div style={{zIndex: 1, margin: 0, flexGrow: 1}}>
                                                         <hr color='#5A4628'/>
                                                     </div>
                                                 </div>
                                             </TableCell>
+                                            )
                                         }
                                     }
                                 )}
