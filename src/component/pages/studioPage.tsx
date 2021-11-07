@@ -1,5 +1,4 @@
-import MenuTabs from '../organisms/menuTabs';
-import TitleBar from '../organisms/titleBar';
+import TopMenuTab from '../organisms/topMenuTab';
 import React from "react";
 import Carousel from "react-material-ui-carousel";
 import {createStyles, makeStyles} from "@material-ui/core/styles";
@@ -21,7 +20,8 @@ import {
 import DateConvert from "../organisms/dateConvert";
 import {times} from "../organisms/studioResultComponent/roomContent";
 import Button from "@material-ui/core/Button";
-import {AccessTime, CropFree, People} from "@material-ui/icons";
+import {AccessTime, People} from "@material-ui/icons";
+import TopTitleBar from "../organisms/topTitleBar";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -599,171 +599,175 @@ export default function StudioPage() {
 
     return (
         <div style={{ backgroundColor: '#F9F5F0', color: '#5A4628'}}>
-            <TitleBar/>
-            <MenuTabs children={
-                <div>
-                    <h3 style={{position: 'sticky', top: 120, zIndex: 1000, margin: 16}}>{studio.studio_name}</h3>
-                    <div style={{margin: 16, position: 'sticky', top: 100}}>
-                        <Carousel fullHeightHover={false} autoPlay={false}
-                                  navButtonsAlwaysVisible
-                                  navButtonsProps={{className: classes.navBtn}}
-                                  indicatorIconButtonProps={{className: classes.navIndicator}}
-                                  activeIndicatorIconButtonProps={{className: classes.navActiveIndicator}}>
-                            {
-                                studio.studio_img.map((img, index) => (
-                                    <div className={classes.img} key={index}>
-                                        <img alt={'img' + index} src={img.path}/>
-                                    </div>
-                                ))
-                            }
-                        </Carousel>
-                    </div>
-                    <div className={classes.root}>
-                        <AppBar position="sticky" className={classes.appbar}>
-                            <Tabs className={classes.tabs}
-                                  TabIndicatorProps={{style: {backgroundColor: '#1D356A'}}}
-                                  value={value} onChange={handleChange} aria-label="simple tabs example">
-                                <Tab label="空き部屋" {...a11yProps(0)} style={{flexGrow: .5}}/>
-                                <Tab label="スタジオ情報" {...a11yProps(1)} style={{flexGrow: .5}}/>
-                            </Tabs>
-                        </AppBar>
-                        <Paper style={{minHeight: 580, maxHeight: 580, position: 'sticky', top: 240, overflow: 'scroll',}}>
-                            <div>
-                                <TabPanel value={value} index={0}>
-                                        {
-                                            studio.rooms.map((room) =>
-                                                <div style={{padding: '24px', color: '#5A4628'}}>
-                                                    <div style={{display: 'flex', alignItems: 'center', marginBottom: 4}}>
-                                                        <Typography variant={'body1'} style={{fontWeight: 'bold'}}>{room.room_name}</Typography>
-                                                        <Typography variant='body2' style={{margin: '0px 8px'}}>⊿ {room.floor_area}m²</Typography>
+            <TopTitleBar/>
+            <TopMenuTab
+                children={[
+                    <div>
+                        <h3 style={{position: 'sticky', top: 120, zIndex: 1000, margin: 16}}>{studio.studio_name}</h3>
+                        <div style={{margin: 16, position: 'sticky', top: 100}}>
+                            <Carousel fullHeightHover={false} autoPlay={false}
+                                      navButtonsAlwaysVisible
+                                      navButtonsProps={{className: classes.navBtn}}
+                                      indicatorIconButtonProps={{className: classes.navIndicator}}
+                                      activeIndicatorIconButtonProps={{className: classes.navActiveIndicator}}>
+                                {
+                                    studio.studio_img.map((img, index) => (
+                                        <div className={classes.img} key={index}>
+                                            <img alt={'img' + index} src={img.path}/>
+                                        </div>
+                                    ))
+                                }
+                            </Carousel>
+                        </div>
+                        <div className={classes.root}>
+                            <AppBar position="sticky" className={classes.appbar}>
+                                <Tabs className={classes.tabs}
+                                      TabIndicatorProps={{style: {backgroundColor: '#1D356A'}}}
+                                      value={value} onChange={handleChange} aria-label="simple tabs example">
+                                    <Tab label="空き部屋" {...a11yProps(0)} style={{flexGrow: .5}}/>
+                                    <Tab label="スタジオ情報" {...a11yProps(1)} style={{flexGrow: .5}}/>
+                                </Tabs>
+                            </AppBar>
+                            <Paper style={{minHeight: 580, maxHeight: 580, position: 'sticky', top: 240, overflow: 'scroll',}}>
+                                <div>
+                                    <TabPanel value={value} index={0}>
+                                            {
+                                                studio.rooms.map((room) =>
+                                                    <div style={{padding: '24px', color: '#5A4628'}}>
+                                                        <div style={{display: 'flex', alignItems: 'center', marginBottom: 4}}>
+                                                            <Typography variant={'body1'} style={{fontWeight: 'bold'}}>{room.room_name}</Typography>
+                                                            <Typography variant='body2' style={{margin: '0px 8px'}}>⊿ {room.floor_area}m²</Typography>
+                                                            {
+                                                                (room.min_people > 0 || room.max_people > 0) &&
+                                                                    <Typography variant='body2' style={{margin: '0px 8px', display: 'flex', alignItems: 'center'}}>
+                                                                        <People fontSize={'small'}/>
+                                                                        {room.min_people > 0 && room.min_people + '人'}~{room.max_people > 0 && room.max_people + '人'}
+                                                                    </Typography>
+                                                            }
+                                                            <div style={{border: '1px solid #D7D2C8', fontSize: 12, padding: 2, margin: '0 8px'}}>{room.floor_material}</div>
+                                                        </div>
                                                         {
-                                                            (room.min_people > 0 || room.max_people > 0) &&
-                                                                <Typography variant='body2' style={{margin: '0px 8px', display: 'flex', alignItems: 'center'}}>
-                                                                    <People fontSize={'small'}/>
-                                                                    {room.min_people > 0 && room.min_people + '人'}~{room.max_people > 0 && room.max_people + '人'}
-                                                                </Typography>
-                                                        }
-                                                        <div style={{border: '1px solid #D7D2C8', fontSize: 12, padding: 2, margin: '0 8px'}}>{room.floor_material}</div>
-                                                    </div>
-                                                    {
-                                                        room.room_facilities.map((facility, index) => (
-                                                            <Chip size="small" key={index} label={facility.name} className={classes.chip}/>
-                                                        ))
-                                                    }
-                                                    {
-                                                        room.amenities.map((amenity, index) => (
-                                                            <Chip size="small" key={index} label={amenity.name} className={classes.chip}/>
-                                                        ))
-                                                    }
-                                                    <Carousel fullHeightHover={false} autoPlay={false}
-                                                            navButtonsAlwaysVisible
-                                                            navButtonsProps={{className: classes.navBtn}}
-                                                            indicatorIconButtonProps={{className: classes.navIndicator}}
-                                                            activeIndicatorIconButtonProps={{className: classes.navActiveIndicator}}>
-                                                        {
-                                                            room.room_img.map((img, index) => (
-                                                            <div className={classes.img} key={index}>
-                                                            <img alt={'img' + index} src={img.path}/>
-                                                            </div>
+                                                            room.room_facilities.map((facility, index) => (
+                                                                <Chip size="small" key={index} label={facility.name} className={classes.chip}/>
                                                             ))
                                                         }
-                                                    </Carousel>
-                                                    <TableContainer component={Paper} style={{margin: 4}}>
-                                                        <Table>
-                                                            <TableHead>
-                                                                <TableRow>
-                                                                    <TableCell className={classes.headCell} align='left' size='small'> </TableCell>
-                                                                    {
-                                                                        times.map((time) =>
-                                                                            <TableCell className={classes.headCell} key={time} colSpan={2} align='left' size='small'>{time}</TableCell>
-                                                                        )}
-                                                                </TableRow>
-                                                            </TableHead>
-                                                            <TableBody>
-                                                                <TableRow className={classes.tableRow}>
-                                                                    <TableCell className={classes.cellTitle} size='small'>
-                                                                        {DateConvert(room.slots[0].time_begin * 1000)}
-                                                                    </TableCell>
-                                                                    {
-                                                                        room.slots.map((slot, index, array) => {
-                                                                                if (!array[index-1] || slot.price !== array[index-1].price) {
-                                                                                    return (
-                                                                                        <TableCell className={classes.cell} key={index} size='small'>
-                                                                                            <div style={{display: 'flex', alignItems: 'center'}}>
-                                                                                                <Chip size="small" key={index} label={`${slot.price}円`}
-                                                                                                      className={classes.cellChip}/>
-                                                                                            </div>
-                                                                                        </TableCell>
-                                                                                    )
-                                                                                }
-                                                                                else if (!array[index+1] || slot.price !== array[index+1].price) {
-                                                                                    return (
-                                                                                        <TableCell className={classes.cell} key={index} size='small'>
-                                                                                            <div style={{display: 'flex', alignItems: 'center'}}>
-                                                                                                <div style={{margin: 0, flexGrow: 1}}>
-                                                                                                    <hr color='#5A4628'/>
+                                                        {
+                                                            room.amenities.map((amenity, index) => (
+                                                                <Chip size="small" key={index} label={amenity.name} className={classes.chip}/>
+                                                            ))
+                                                        }
+                                                        <Carousel fullHeightHover={false} autoPlay={false}
+                                                                navButtonsAlwaysVisible
+                                                                navButtonsProps={{className: classes.navBtn}}
+                                                                indicatorIconButtonProps={{className: classes.navIndicator}}
+                                                                activeIndicatorIconButtonProps={{className: classes.navActiveIndicator}}>
+                                                            {
+                                                                room.room_img.map((img, index) => (
+                                                                <div className={classes.img} key={index}>
+                                                                <img alt={'img' + index} src={img.path}/>
+                                                                </div>
+                                                                ))
+                                                            }
+                                                        </Carousel>
+                                                        <TableContainer component={Paper} style={{margin: 4}}>
+                                                            <Table>
+                                                                <TableHead>
+                                                                    <TableRow>
+                                                                        <TableCell className={classes.headCell} align='left' size='small'> </TableCell>
+                                                                        {
+                                                                            times.map((time) =>
+                                                                                <TableCell className={classes.headCell} key={time} colSpan={2} align='left' size='small'>{time}</TableCell>
+                                                                            )}
+                                                                    </TableRow>
+                                                                </TableHead>
+                                                                <TableBody>
+                                                                    <TableRow className={classes.tableRow}>
+                                                                        <TableCell className={classes.cellTitle} size='small'>
+                                                                            {DateConvert(room.slots[0].time_begin * 1000)}
+                                                                        </TableCell>
+                                                                        {
+                                                                            room.slots.map((slot, index, array) => {
+                                                                                    if (!array[index-1] || slot.price !== array[index-1].price) {
+                                                                                        return (
+                                                                                            <TableCell className={classes.cell} key={index} size='small'>
+                                                                                                <div style={{display: 'flex', alignItems: 'center'}}>
+                                                                                                    <Chip size="small" key={index} label={`${slot.price}円`}
+                                                                                                          className={classes.cellChip}/>
                                                                                                 </div>
-                                                                                                <div style={{padding: 0}}>▶︎</div>
-                                                                                            </div>
-                                                                                        </TableCell>
-                                                                                    )
-                                                                                }
-                                                                                else {
-                                                                                    return (
-                                                                                        <TableCell className={classes.cell} key={index} size='small'>
-                                                                                            <div style={{display: 'flex', alignItems: 'center'}}>
-                                                                                                <div style={{zIndex: 1, margin: 0, flexGrow: 1}}>
-                                                                                                    <hr color='#5A4628'/>
+                                                                                            </TableCell>
+                                                                                        )
+                                                                                    }
+                                                                                    else if (!array[index+1] || slot.price !== array[index+1].price) {
+                                                                                        return (
+                                                                                            <TableCell className={classes.cell} key={index} size='small'>
+                                                                                                <div style={{display: 'flex', alignItems: 'center'}}>
+                                                                                                    <div style={{margin: 0, flexGrow: 1}}>
+                                                                                                        <hr color='#5A4628'/>
+                                                                                                    </div>
+                                                                                                    <div style={{padding: 0}}>▶︎</div>
                                                                                                 </div>
-                                                                                            </div>
-                                                                                        </TableCell>
-                                                                                    )
+                                                                                            </TableCell>
+                                                                                        )
+                                                                                    }
+                                                                                    else {
+                                                                                        return (
+                                                                                            <TableCell className={classes.cell} key={index} size='small'>
+                                                                                                <div style={{display: 'flex', alignItems: 'center'}}>
+                                                                                                    <div style={{zIndex: 1, margin: 0, flexGrow: 1}}>
+                                                                                                        <hr color='#5A4628'/>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </TableCell>
+                                                                                        )
+                                                                                    }
                                                                                 }
-                                                                            }
-                                                                        )}
-                                                                </TableRow>
-                                                            </TableBody>
-                                                        </Table>
-                                                    </TableContainer>
-                                                    <div　className={classes.tableDesc}>
-                                                        <AccessTime fontSize='small'/>
-                                                        <Typography variant='caption' style={{padding: '0px 2px'}}>
-                                                            {room.min_reserve_minutes + "分~"}
-                                                        </Typography>
+                                                                            )}
+                                                                    </TableRow>
+                                                                </TableBody>
+                                                            </Table>
+                                                        </TableContainer>
+                                                        <div　className={classes.tableDesc}>
+                                                            <AccessTime fontSize='small'/>
+                                                            <Typography variant='caption' style={{padding: '0px 2px'}}>
+                                                                {room.min_reserve_minutes + "分~"}
+                                                            </Typography>
+                                                        </div>
+                                                        <div style={{display: 'flex'}}>
+                                                            <Button className={classes.reserveBtn}>
+                                                                予約画面へ
+                                                            </Button>
+                                                        </div>
                                                     </div>
-                                                    <div style={{display: 'flex'}}>
-                                                        <Button className={classes.reserveBtn}>
-                                                            予約画面へ
-                                                        </Button>
-                                                    </div>
-                                                </div>
-                                            )
-                                        }
-                                </TabPanel>
-                            </div>
-                                <TabPanel value={value} index={1}>
-                                    <div style={{padding: '24px', color: '#5A4628'}}>
-                                        <Typography variant={'body2'}>{studio.studio_introduction}</Typography>
-                                        <Typography variant={'body2'} style={{paddingTop: '20px', fontWeight: 'bold'}}>スタジオ設備</Typography>
-                                        {
-                                            studio.studio_facilities.map((facility, index) => (
-                                                <span style={{padding: 8, fontSize: 14}}>{facility.name}</span>
-                                            ))
-                                        }
-                                        <Typography variant={'body2'} style={{paddingTop: '16px', fontWeight: 'bold'}}>アクセス</Typography>
-                                        <Typography variant={'body2'} style={{paddingLeft: '12px'}}>{studio.address.address}</Typography>
-                                        <Typography variant={'body2'} style={{paddingLeft: '12px'}}>
-                                            {studio.address.station.name}{studio.address.exit.name}{studio.address.minutes_from_station}分
-                                        </Typography>
-                                        <Typography variant={'body2'} style={{paddingTop: '16px', fontWeight: 'bold'}}>注意事項</Typography>
-                                        <Typography variant={'body2'} style={{paddingLeft: '12px'}}>{studio.studio_precaution}</Typography>
-                                        <Typography variant={'body2'} style={{paddingTop: '16px', fontWeight: 'bold'}}>ホームページ</Typography>
-                                        <link href={studio.homepage_url}/>
-                                    </div>
-                                </TabPanel>
-                        </Paper>
-                    </div>
-                </div>}
+                                                )
+                                            }
+                                    </TabPanel>
+                                </div>
+                                    <TabPanel value={value} index={1}>
+                                        <div style={{padding: '24px', color: '#5A4628'}}>
+                                            <Typography variant={'body2'}>{studio.studio_introduction}</Typography>
+                                            <Typography variant={'body2'} style={{paddingTop: '20px', fontWeight: 'bold'}}>スタジオ設備</Typography>
+                                            {
+                                                studio.studio_facilities.map((facility, index) => (
+                                                    <span style={{padding: 8, fontSize: 14}}>{facility.name}</span>
+                                                ))
+                                            }
+                                            <Typography variant={'body2'} style={{paddingTop: '16px', fontWeight: 'bold'}}>アクセス</Typography>
+                                            <Typography variant={'body2'} style={{paddingLeft: '12px'}}>{studio.address.address}</Typography>
+                                            <Typography variant={'body2'} style={{paddingLeft: '12px'}}>
+                                                {studio.address.station.name}{studio.address.exit.name}{studio.address.minutes_from_station}分
+                                            </Typography>
+                                            <Typography variant={'body2'} style={{paddingTop: '16px', fontWeight: 'bold'}}>注意事項</Typography>
+                                            <Typography variant={'body2'} style={{paddingLeft: '12px'}}>{studio.studio_precaution}</Typography>
+                                            <Typography variant={'body2'} style={{paddingTop: '16px', fontWeight: 'bold'}}>ホームページ</Typography>
+                                            <link href={studio.homepage_url}/>
+                                        </div>
+                                    </TabPanel>
+                            </Paper>
+                        </div>
+                    </div>,
+                    <div>レッスン・練習会を探す</div>,
+                    <div>ナンバー・イベントを探す</div>
+                ]}
             />
         </div>
     );

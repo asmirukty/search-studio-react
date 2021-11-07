@@ -7,33 +7,26 @@ import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles(() =>
     createStyles({
-        root: {
-            flexGrow: 1,
-        },
         bar: {
-            backgroundColor:'#1D356A'
-        },
-        title: {
-            flexGrow: 1,
-            marginLeft: 4,
-            color: '#F9F5F0'
-        },
-    }),
+            backgroundColor:'#1D356A',
+            display: 'flex',
+            justifyContent: 'space-between',
+            color: '#F9F5F0',
+        }
+    })
 );
 
-export default function ButtonAppBar() {
+export default function TopTitleBar() {
     const classes = useStyles();
 
     return (
-        <div className={classes.root}>
             <AppBar position="fixed">
                 <Toolbar className={classes.bar}>
-                    <Typography variant="h6" className={classes.title}>
+                    <Typography variant="h6">
                         Dance Search
                     </Typography>
                     <Button color="inherit">Login</Button>
                 </Toolbar>
             </AppBar>
-        </div>
     );
 }
