@@ -22,6 +22,7 @@ import {times} from "../organisms/studioResultComponent/roomContent";
 import Button from "@material-ui/core/Button";
 import {AccessTime, People} from "@material-ui/icons";
 import TopTitleBar from "../organisms/topTitleBar";
+import MenuTabBar from "../molecules/menuTabBar";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -30,7 +31,8 @@ const useStyles = makeStyles(() =>
             minHeight: '100vh',
             color: '#5A4628',
         },
-        appbar: {
+        tabBar: {
+            position: "sticky",
             top: 200,
         },
         tabs: {
@@ -593,15 +595,15 @@ export default function StudioPage() {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
 
-    const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+    const handleChange = (newValue: number) => {
         setValue(newValue);
     };
 
     return (
         <div style={{ backgroundColor: '#F9F5F0', color: '#5A4628'}}>
             <TopTitleBar/>
-            <TopMenuTab
-                children={[
+            <TopMenuTab>
+                {[
                     <div>
                         <h3 style={{position: 'sticky', top: 120, zIndex: 1000, margin: 16}}>{studio.studio_name}</h3>
                         <div style={{margin: 16, position: 'sticky', top: 100}}>
@@ -620,14 +622,10 @@ export default function StudioPage() {
                             </Carousel>
                         </div>
                         <div className={classes.root}>
-                            <AppBar position="sticky" className={classes.appbar}>
-                                <Tabs className={classes.tabs}
-                                      TabIndicatorProps={{style: {backgroundColor: '#1D356A'}}}
-                                      value={value} onChange={handleChange} aria-label="simple tabs example">
-                                    <Tab label="空き部屋" {...a11yProps(0)} style={{flexGrow: .5}}/>
-                                    <Tab label="スタジオ情報" {...a11yProps(1)} style={{flexGrow: .5}}/>
-                                </Tabs>
-                            </AppBar>
+                            <MenuTabBar labels={["空き部屋", "スタジオ情報"]}
+                                        barStyle={classes.tabBar}
+                                        tabStyle={classes.tabs}
+                                        valueChange={handleChange}/>
                             <Paper style={{minHeight: 580, maxHeight: 580, position: 'sticky', top: 240, overflow: 'scroll',}}>
                                 <div>
                                     <TabPanel value={value} index={0}>
@@ -768,7 +766,7 @@ export default function StudioPage() {
                     <div>レッスン・練習会を探す</div>,
                     <div>ナンバー・イベントを探す</div>
                 ]}
-            />
+            </TopMenuTab>
         </div>
     );
 }

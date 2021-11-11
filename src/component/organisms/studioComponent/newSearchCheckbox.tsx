@@ -45,8 +45,8 @@ interface SearchCheckboxProps{
     group?: string[];
     open?: boolean;
     checked: boolean;
-    itemChecked: (value?: any) => void;
-    itemUnChecked: (value?: any) => void;
+    itemChecked: (value: any) => void;
+    itemUnChecked: (value: any) => void;
 }
 
 export default function NewSearchCheckbox(props: SearchCheckboxProps) {
@@ -60,11 +60,10 @@ export default function NewSearchCheckbox(props: SearchCheckboxProps) {
 
     const handleChange = (group?: string[], pref?: boolean) => (event: React.ChangeEvent<HTMLInputElement>) => {
         setChecked( event.target.checked );
-        if (!checked) {
+        if (event.target.checked) {
             itemChecked(item)
             pref && group && group.map((item) => itemChecked(item))
-        }
-        if (checked) {
+        } else {
             itemUnChecked(item)
             group && group.map((item) => itemUnChecked(item))
 

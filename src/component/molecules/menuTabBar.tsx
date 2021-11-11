@@ -14,11 +14,10 @@ interface TabBarProps {
     labels: string[];
     barStyle: any;
     tabStyle: any;
-    indicatorStyle: any;
     valueChange: (value: number) => void;
 }
 
-export default function TopMenuTabBar(props: TabBarProps) {
+export default function MenuTabBar(props: TabBarProps) {
     const [value, setValue] = React.useState(0);
 
     const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
@@ -29,11 +28,11 @@ export default function TopMenuTabBar(props: TabBarProps) {
     return (
             <AppBar className={props.barStyle}>
                 <Tabs className={props.tabStyle}
-                      TabIndicatorProps={props.indicatorStyle}
+                      TabIndicatorProps={{style: {backgroundColor: '#1D356A'}}}
                       value={value} onChange={handleChange}>
                     {
                         props.labels.map((label, index) =>
-                            <Tab label={label} {...a11yProps(index)}/>
+                            <Tab label={label} key={index} {...a11yProps(index)} style={{flexGrow: 1}}/>
                         )
                     }
                 </Tabs>

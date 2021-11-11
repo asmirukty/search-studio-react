@@ -9,13 +9,13 @@ export default function ResultPage() {
     return (
         <div>
             <TopTitleBar/>
-            <TopMenuTab
-                children={[
-                <StudioResult state={location.state}/>,
-                <div>レッスン・練習会を探す</div>,
-                <div>ナンバー・イベントを探す</div>,
+            <TopMenuTab>
+                {[
+                    <StudioResult state={location.state}/>,
+                    <div>レッスン・練習会を探す</div>,
+                    <div>ナンバー・イベントを探す</div>,
                 ]}
-            />
+            </TopMenuTab>
         </div>
     );
 }

@@ -1,4 +1,3 @@
-import NewDialog from "./newDialog";
 import React, {useState} from "react";
 import NewMinMaxSelect from "../newMinMaxSelect";
 import {Typography} from "@material-ui/core";
@@ -110,8 +109,7 @@ export default function Space() {
     } //chip削除したitemを削除
 
     return (
-        <NewDialog label={'面積・人数を選択'} chip={chip} chipDelete={chipDelete}>
-            <Typography className={classes.typ} variant={'subtitle1'}>面積</Typography>
+           // <Typography className={classes.typ} variant={'subtitle1'}>面積</Typography>
             <div className={classes.select}>
                 <FormControl className={classes.formControl}>
                     <Select
@@ -141,6 +139,5 @@ export default function Space() {
                     </Select>
                 </FormControl>
             </div>
-        </NewDialog>
     )
 }

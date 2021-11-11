@@ -348,7 +348,7 @@ export default function StudioResult(props: { state: any}) {
                     </div>
                     <Typography variant='subtitle1' style={{color: '#5A4628', fontWeight: 'bold', textAlign: 'center'}}>検索条件</Typography>
                 </DialogActions>
-                <Studio close={() => setOpen(false)} state={props.state} open={open}/>
+                <Studio close={() => setOpen(false)} state={props.state}/>
             </Dialog>
             <h3 style={{textAlign: 'center'}}>
                 検索結果

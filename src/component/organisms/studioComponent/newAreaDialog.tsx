@@ -145,9 +145,7 @@ export default function NewAreaDialog(props: AreaDialogProps) {
                 </Button>
             }
             <NewAreaDialogRaw
-                classes={{
-                    paper: classes.paper,
-                }}
+                classes={{paper: classes.paper}}
                 id="ringtone-menu"
                 keepMounted
                 open={open}

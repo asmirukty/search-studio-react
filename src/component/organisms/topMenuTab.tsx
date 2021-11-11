@@ -1,7 +1,7 @@
-import React, {ReactNode} from 'react';
+import React from 'react';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import TabPanel from "./tabPanel";
-import TopMenuTabBar from "../molecules/topMenuTabBar";
+import MenuTabBar from "../molecules/menuTabBar";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -24,7 +24,7 @@ const useStyles = makeStyles(() =>
 }));
 
 interface TopMenuTabProps {
-    children: ReactNode[],
+    children: React.ReactNode[],
 }
 
 export default function TopMenuTab(props: TopMenuTabProps) {
@@ -37,16 +37,15 @@ export default function TopMenuTab(props: TopMenuTabProps) {
 
     return (
         <div className={classes.root}>
-            <TopMenuTabBar labels={["スタジオ", "レッスン・練習会", "ナンバー・イベント"]}
-                           barStyle={classes.tabBar}
-                           tabStyle={classes.tabs}
-                           indicatorStyle={{style: {backgroundColor: '#1D356A'}}}
-                           valueChange={handleChange}
+            <MenuTabBar labels={["スタジオ", "レッスン・練習会", "ナンバー・イベント"]}
+                        barStyle={classes.tabBar}
+                        tabStyle={classes.tabs}
+                        valueChange={handleChange}
             />
             <div className={classes.content}>
                 {
                     props.children.map((child,index) =>
-                        <TabPanel value={value} index={index}>{child}</TabPanel>
+                        <TabPanel value={value} index={index} key={index}>{child}</TabPanel>
                     )
                 }
             </div>

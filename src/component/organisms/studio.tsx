@@ -55,14 +55,12 @@ const useStyles = makeStyles(() =>
 
 interface StudioProps {
     close?: (value?: any) => void;
-    state?: any,
-    open?: boolean,
+    state?: any
 }
 
 export default function Studio(props: StudioProps) {
     const classes = useStyles();
-    const {close, state, open: openProp} = props;
-    const [open, setOpen] = useState(false);
+    const {close, state} = props;
     const [area, setArea] = useState<any[]>([]);
     const [text, setText] = useState<string | null>(null);
     const [studio, setStudio] = useState('');
@@ -77,8 +75,7 @@ export default function Studio(props: StudioProps) {
     const [checkedItemB, setCheckedItemB] = useState<string[]>([]);
 
     useEffect(() => {
-        if (state && openProp && !open) {
-            setOpen(openProp)
+        if (state) {
             setArea(state.area)
             setText(state.text)
             setStudio(state.studio)
@@ -91,7 +88,7 @@ export default function Studio(props: StudioProps) {
             setMirror(state.mirror)
             setCheckedItemB(state.checkedItemB)
         }
-    },[openProp])
+    },[])
 
     const handleClose = () => {
         if (close) {
@@ -274,9 +271,11 @@ export default function Studio(props: StudioProps) {
                                 onClick={handleClose}
                                 component={Link}
                                 to={{
-                                    pathname: `/studios/${area}${studio}${space}${people}${date}${fromStation}${price}${checkedItemA}${mirror}${checkedItemB}`,
+                                    pathname: '/studios',
+                                    search: `?area=${area}`,
                                     state: {area: area, text: text, studio: studio, space: space, people: people, stateDate: stateDate, fromStation: fromStation, price: price, checkedItemA: checkedItemA, mirror: mirror, checkedItemB: checkedItemB}
-                                }}>
+                                }}
+                        >
                             検 索
                         </Button>
                     </div>
