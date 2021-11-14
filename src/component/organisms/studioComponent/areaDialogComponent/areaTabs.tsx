@@ -33,8 +33,8 @@ function a11yProps(index: any) {
     };
 }
 interface AreaTabsProps {
-    area: any;
-    line: any;
+    area: React.ReactNode;
+    line: React.ReactNode;
 }
 
 export default function AreaTabs(props: AreaTabsProps) {

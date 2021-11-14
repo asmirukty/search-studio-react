@@ -6,13 +6,13 @@ import DialogActions from '@material-ui/core/DialogActions';
 import Dialog from '@material-ui/core/Dialog';
 import {Close} from "@material-ui/icons";
 import AreaTabs from "./areaDialogComponent/areaTabs";
-import LineAccordions from "./areaDialogComponent/lineAccordions";
 import StudioAreaAccordions from "./areaDialogComponent/studioAreaAccordion";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MuiAccordion from "@material-ui/core/Accordion";
 import MuiAccordionSummary from "@material-ui/core/AccordionSummary";
 import MuiAccordionDetails from "@material-ui/core/AccordionDetails";
 import NewSearchCheckbox from "./newSearchCheckbox";
+import {prefItems} from "./areaDialogComponent/prefItems";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -129,42 +129,6 @@ const AccordionDetails = withStyles( {
     },
 })(MuiAccordionDetails);
 
-export const itemsA = [
-    {pref: '北海道', cities: ['札幌市']}
-]
-
-export const itemsB = [
-    {pref: '東京都', cities: ['渋谷区', '新宿区', '豊島区', '練馬区', '中央区']},
-    {pref: '神奈川県', cities: ['横浜市',]},
-    {pref: '千葉県', cities: ['千葉市',]},
-    {pref: '埼玉県', cities: ['さいたま市', '所沢市', '川越市',]},
-]
-
-export const itemsC = [
-    {pref: '愛知県', cities: ['名古屋市']}
-]
-
-export const itemsD = [
-    {pref: '大阪府', cities: ['大阪市']}
-]
-
-export const itemsE = [
-    {pref: '広島県', cities: ['広島市']}
-]
-
-export const itemsF = [
-    {pref: '沖縄県', cities: ['那覇市']}
-]
-
-export const areaItems = [
-    {area: '北海道・東北', items: itemsA},
-    {area: '関東', items: itemsB},
-    {area: '中部', items: itemsC},
-    {area: '関西', items: itemsD},
-    {area: '中国・四国', items: itemsE},
-    {area: '九州・沖縄', items: itemsF}
-]
-
 interface AreaDialogRawProps {
     classes: Record<'paper', string>;
     id: string;
@@ -227,25 +191,26 @@ export default function NewAreaDialogRaw(props: AreaDialogRawProps) {
             <DialogContent className={classes.content}>
                 <AreaTabs
                     area={
-                        areaItems.map((areaItem) =>
+                        prefItems.map((areaItem) =>
                             <StudioAreaAccordions area={areaItem.area} key={areaItem.area}>
                                 <div className={classes.width}>
                                     {
                                         areaItem.items.map((item) =>
-                                            <Accordion key={item.pref}>
+                                            <Accordion key={item.pref.id}>
                                                 <AccordionSummary
                                                 expandIcon={<ExpandMoreIcon />}
-                                                aria-controls={`additional-actions-${item.pref}-content`}
-                                                id={`additional - actions-${item.pref}-header`}
+                                                aria-controls={`additional-actions-${item.pref.id}-content`}
+                                                id={`additional - actions-${item.pref.id}-header`}
                                                 >
                                                 <NewSearchCheckbox
-                                                    item={item.pref}
-                                                    key={item.pref}
+                                                    item={item.pref.name}
+                                                    itemName={item.pref.name}
+                                                    key={item.pref.id}
                                                     pref
                                                     group={item.cities}
                                                     checked={
-                                                        area.includes(item.pref) ||
-                                                        !(item.cities.map((city) => area.includes(city)).includes(false))
+                                                        area.includes(item.pref.name) ||
+                                                        !(item.cities.map((city) => area.includes(city.name)).includes(false))
                                                     }
                                                     open={open}
                                                     itemChecked={areaChecked}
@@ -256,10 +221,11 @@ export default function NewAreaDialogRaw(props: AreaDialogRawProps) {
                                                     {
                                                         item.cities.map((city) => (
                                                         <NewSearchCheckbox
-                                                            item={city}
-                                                            key={city}
-                                                            group={[item.pref]}
-                                                            checked={area.includes(city) || area.includes(item.pref)}
+                                                            item={city.name}
+                                                            itemName={city.name}
+                                                            key={city.id}
+                                                            group={[item.pref.name]}
+                                                            checked={area.includes(city.name) || area.includes(item.pref.name)}
                                                             open={open}
                                                             itemChecked={areaChecked}
                                                             itemUnChecked={areaUnChecked}/>
@@ -273,7 +239,7 @@ export default function NewAreaDialogRaw(props: AreaDialogRawProps) {
                             </StudioAreaAccordions>
                         )
                     }
-                 line={<LineAccordions/>}/>
+                 line={<div>a</div>}/>
             </DialogContent>
         </Dialog>
     );

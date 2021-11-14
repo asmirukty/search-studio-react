@@ -1,34 +1,42 @@
 import {useState} from 'react'
 
+type parentType = {name: string, id: string}
+type childType = {name: string, id: string}
 
 export default function useCheckGroup (
     initialParent: any[],
     initialChildren: any[],
-    deleteParentProp: (item: string) => void,
-    deleteChildProp: (item: string) => void,
-    ): [
+    deleteParentProp: (item: parentType) => void,
+    deleteChildProp: (item: childType) => void,
+    ) : [
         any[],
         any[],
-        (arg0: string[]) => (item: string) => void,
-        (arg0: string, arg1: string[]) => (item: string) => void,
-        (arg0: string[]) => (item: string) => void,
-        (arg0: string) => (item: string) => void,
-        (item: string, arg0: string[]) => () => void,
-        (item: string) => () => void,
+        (thisChildren: childType[]) => (newItem: parentType) => void,
+        (parent: parentType, thisChildren: childType[]) => (newItem: childType) => void,
+        (thisChildren: childType[]) => (newItem: parentType) => void,
+        (parent: parentType) => (newItem: childType) => void,
+        (item: parentType, thisChildren: childType[]) => () => void,
+        (item: childType) => () => void,
     ]　{
-    const [parent, setParent] = useState(initialParent)
-    const [children, setChildren] = useState(initialChildren)
+    const [parent, setParent] = useState<parentType[]>(initialParent)
+    const [children, setChildren] = useState<childType[]>(initialChildren)
 
-    const checkedParent = (thisChildren: string[]) => (newItem: string) : void => {
+    const checkedParent = (thisChildren: childType[]) => (newItem: parentType) : void => {
         setParent(prevState => (
             [...prevState, newItem]
         ))
-        setChildren(prevState => (
-            [...prevState, ...thisChildren]
-        ))
+        thisChildren.map((thisChild) =>
+            !children.includes(thisChild) &&
+                setChildren(prevState =>
+                    [...prevState, thisChild]
+                )
+        )
+        thisChildren.map((thisChild) =>
+            children.includes(thisChild) && console.log(thisChild)
+        )
     };
 
-    const checkedChild = (parent: string, thisChildren: string[]) => (newItem: string) : void => {
+    const checkedChild = (parent: parentType, thisChildren: childType[]) => (newItem: childType) : void => {
         setChildren(prevState => (
             [...prevState, newItem]
         ))
@@ -38,40 +46,40 @@ export default function useCheckGroup (
         ))
     };
 
-    const unCheckedParent = (thisChildren: string[]) => (newItem: string) : void => {
+    const unCheckedParent = (thisChildren: childType[]) => (newItem: parentType) : void => {
         setParent(prevState => (
-            prevState.filter((element: string) => {
+            prevState.filter((element: parentType) => {
                 return element !== newItem
             })
         ))
         setChildren(prevState => (
-            prevState.filter((element: string) => {
+            prevState.filter((element: childType) => {
                 return !thisChildren.includes(element)
             })
         ))
     }
 
-    const unCheckedChild = (parent: string) => (newItem: string) : void => {
+    const unCheckedChild = (parent: parentType) => (newItem: childType) : void => {
         setChildren(prevState => (
-            prevState.filter((element: string) => {
+            prevState.filter((element: childType) => {
                 return element !== newItem
             })
         ))
         setParent(prevState => (
-            prevState.filter((element: string) => {
+            prevState.filter((element: parentType) => {
                 return element !== parent
             })
         ))
     };
 
-    const deleteParent = (item: string, thisChildren: string[]) => () : void => {
+    const deleteParent = (item: parentType, thisChildren: childType[]) => () : void => {
             setParent(prevState => (
-                prevState.filter((element: string) => {
+                prevState.filter((element: parentType) => {
                     return element !== item
                 })
             ))
             setChildren(prevState => (
-                prevState.filter((element: string) => {
+                prevState.filter((element: childType) => {
                     return !thisChildren.includes(element)
                 })
             ))
@@ -81,9 +89,9 @@ export default function useCheckGroup (
             })
         }
 
-    const deleteChild = (item: string) => () => {
-            setChildren((prevState: string[]) => (
-                prevState.filter((element: string) => {
+    const deleteChild = (item: childType) => () => {
+            setChildren((prevState: childType[]) => (
+                prevState.filter((element: childType) => {
                     return element !== item
                 })
             ))

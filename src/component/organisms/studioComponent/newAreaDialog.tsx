@@ -2,7 +2,8 @@ import {createStyles, makeStyles, withStyles} from "@material-ui/core/styles";
 import React, {useEffect} from "react";
 import Button from "@material-ui/core/Button";
 import MuiChip from "@material-ui/core/Chip";
-import NewAreaDialogRaw, {areaItems} from "./newAreaDialogRaw";
+import NewAreaDialogRaw from "./newAreaDialogRaw";
+import {areaItems} from "./areaDialogContent";
 
 const Chip = withStyles({
     root: {

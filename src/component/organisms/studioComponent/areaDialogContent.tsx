@@ -6,7 +6,6 @@ import DialogActions from '@material-ui/core/DialogActions';
 import Dialog from '@material-ui/core/Dialog';
 import {Close} from "@material-ui/icons";
 import AreaTabs from "./areaDialogComponent/areaTabs";
-import LineAccordions from "./areaDialogComponent/lineAccordions";
 import StudioAreaAccordions from "./areaDialogComponent/studioAreaAccordion";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MuiAccordion from "@material-ui/core/Accordion";
@@ -219,6 +218,7 @@ export default function AreaDialogContent(props: AreaDialogContentProps) {
                                         >
                                             <NewSearchCheckbox
                                                 item={item.pref}
+                                                itemName={item.pref}
                                                 key={item.pref}
                                                 pref
                                                 group={item.cities}
@@ -235,6 +235,7 @@ export default function AreaDialogContent(props: AreaDialogContentProps) {
                                                 item.cities.map((city) => (
                                                     <NewSearchCheckbox
                                                         item={city}
+                                                        itemName={city}
                                                         key={city}
                                                         group={[item.pref]}
                                                         checked={area.includes(city) || area.includes(item.pref)}
@@ -250,6 +251,6 @@ export default function AreaDialogContent(props: AreaDialogContentProps) {
                     </StudioAreaAccordions>
                 )
             }
-            line={<LineAccordions/>}/>
+            line={<div>a</div>}/>
     );
 }

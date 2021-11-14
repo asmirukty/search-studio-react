@@ -1,21 +1,17 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import AreaTabs from "./areaDialogComponent/areaTabs";
-import LineAccordions from "./areaDialogComponent/lineAccordions";
 import StudioAreaAccordions from "./areaDialogComponent/studioAreaAccordion";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import NewSearchCheckbox from "./newSearchCheckbox";
-import {areaItems} from "./newAreaDialogRaw";
+import {prefItems} from "./areaDialogComponent/prefItems";
 import {createStyles, makeStyles, withStyles} from "@material-ui/core/styles";
 import MuiAccordion from "@material-ui/core/Accordion";
 import MuiAccordionSummary from "@material-ui/core/AccordionSummary";
 import MuiAccordionDetails from "@material-ui/core/AccordionDetails";
-import Button from "@material-ui/core/Button";
-import DialogActions from "@material-ui/core/DialogActions";
-import {Close} from "@material-ui/icons";
-import {Dialog, DialogContent} from "@material-ui/core";
 import MuiChip from "@material-ui/core/Chip";
 import useCheckGroup from "../use-check-group";
-import useDialogOpen from "../use-dialog-open";
+import {lineItems} from "./areaDialogComponent/lineItems";
+import StudioDialog from "./studioDialog";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -29,6 +25,18 @@ const useStyles = makeStyles(() =>
             borderColor: '#D7D2C8',
             color: '#9B8C7D',
             fontSize: '14px',
+        },
+        btnChip: {
+            borderColor: '#D7D2C8',
+            color: '#9B8C7D',
+            fontSize: '14px',
+            justifyContent: 'start',
+            padding: '0 5px'
+        },
+        wrapChip: {
+            overflow: 'scroll',
+            display: 'flex',
+            padding: 5
         },
         detailBtn: {
             color: '#5A4628',
@@ -140,84 +148,130 @@ export default function PlaceDialog(props: PlaceDialogProps) {
     const classes = useStyles()
     const [pref, city, checkedPref, checkedCity, unCheckedPref, unCheckedCity, deletePref, deleteCity] = useCheckGroup(props.pref, props.city, props.deletePref, props.deleteCity)
     const [line, station, checkedLine, checkedStation, unCheckedLine, unCheckedStation, deleteLine, deleteStation] = useCheckGroup(props.line, props.station, props.deletePref, props.deleteCity)
-    const [open, dialogOpen, handleCancel, handleOk] = useDialogOpen(false, [props.changePref, props.changeCity, props.changeLine, props.changeStation], [pref, city, line, station]);
 
     return (
-        <div>
-            <div>
-                <Button fullWidth variant="outlined" className={classes.btn} onClick={dialogOpen}>
+        <StudioDialog
+            funcs={[props.changePref, props.changeCity, props.changeLine, props.changeStation]}
+            state={[pref, city, line, station]}
+            labelCheck={pref.length === 0 && city.length === 0 && line.length === 0 && station.length === 0}
+            label={'エリア/沿線、駅を選択'}
+            chips={
+                <div>
                     {
-                        pref.length === 0  && city.length === 0 ? 'エリア/沿線、駅を選択' :
-                            areaItems.map((areaItem) =>
-                                areaItem.items.map((item) =>
-                                    pref.includes(item.pref) ?
-                                        <Chip size='small' key={item.pref} label={item.pref} onDelete={deletePref(item.pref, item.cities)}/>
-                                        :
-                                        item.cities.map((c) =>
-                                            city.includes(c) &&
-                                            <Chip size='small' key={c} label={c} onDelete={deleteCity(c)}/>
-                                        )
-                                )
+                        prefItems.map((prefItem) =>
+                            prefItem.items.map((item) =>
+                                pref.includes(item.pref) ?
+                                    <Chip size='small' key={item.pref.id} label={item.pref.name}
+                                          onDelete={deletePref(item.pref, item.cities)}/>
+                                    :
+                                    item.cities.map((c) =>
+                                        city.includes(c) &&
+                                        <Chip size='small' key={c.id} label={c.name} onDelete={deleteCity(c)}/>
+                                    )
                             )
+                        )
                     }
-                </Button>
-            </div>
-            <Dialog PaperProps={{style: {margin: 12, flexGrow: 1}}} keepMounted open={open} aria-labelledby="confirmation-dialog-title">
-                <DialogActions className={classes.dialogBtn}>
-                    <Button autoFocus onClick={handleCancel} className={classes.dialogClose}>
-                        <Close fontSize='small'/>
-                    </Button>
-                    <Button onClick={handleOk} className={classes.dialogOk}>
-                        決定
-                    </Button>
-                </DialogActions>
-                <DialogContent className={classes.content}>
-                    <AreaTabs
-                        area={
-                            areaItems.map((areaItem) =>
-                                <StudioAreaAccordions area={areaItem.area} key={areaItem.area}>
-                                    <div className={classes.width}>
-                                        {
-                                            areaItem.items.map((item) =>
-                                                <Accordion key={item.pref}>
-                                                    <AccordionSummary
-                                                        expandIcon={<ExpandMoreIcon />}
-                                                        aria-controls={`additional-actions-${item.pref}-content`}
-                                                        id={`additional - actions-${item.pref}-header`}
-                                                    >
-                                                        <NewSearchCheckbox
-                                                            item={item.pref}
-                                                            key={item.pref}
-                                                            pref
-                                                            checked={pref.includes(item.pref)}
-                                                            open={open}
-                                                            itemChecked={checkedPref(item.cities)}
-                                                            itemUnChecked={unCheckedPref(item.cities)}
-                                                        />
-                                                    </AccordionSummary>
-                                                    <AccordionDetails>
-                                                        {
-                                                            item.cities.map((c) => (
-                                                                <NewSearchCheckbox
-                                                                    item={c}
-                                                                    key={c}
-                                                                    checked={city.includes(c)}
-                                                                    open={open}
-                                                                    itemChecked={checkedCity(item.pref, item.cities)}
-                                                                    itemUnChecked={unCheckedCity(item.pref)}/>
-                                                            ))
-                                                        }
-                                                    </AccordionDetails>
-                                                </Accordion>
-                                            )
-                                        }
-                                    </div>
-                                </StudioAreaAccordions>
-                            )
-                        }
-                        line={<LineAccordions/>}/>
-                </DialogContent>
-            </Dialog>
-        </div>
+                    {
+                        lineItems.map((lineItem) =>
+                        lineItem.items.map((item) =>
+                        line.includes(item.line) ?
+                        <Chip size='small' key={item.line.id} label={item.line.name}
+                        onDelete={deleteLine(item.line, item.stations)}/>
+                        :
+                        item.stations.map((s) =>
+                        station.includes(s) &&
+                        <Chip size='small' key={s.id} label={s.name} onDelete={deleteStation(s)}/>
+                        )
+                        )
+                        )
+                    }
+                </div>}
+            content={
+                <AreaTabs
+                    area={
+                        prefItems.map((areaItem,index) =>
+                            <StudioAreaAccordions area={areaItem.area} key={areaItem.area}>
+                                <div className={classes.width}>
+                                    {
+                                        areaItem.items.map((item) =>
+                                            <Accordion key={item.pref.id}>
+                                                <AccordionSummary
+                                                    expandIcon={<ExpandMoreIcon />}
+                                                    aria-controls={`additional-actions-${item.pref.id}-content`}
+                                                    id={`additional-actions-${item.pref.id}-header`}
+                                                >
+                                                    <NewSearchCheckbox
+                                                        item={item.pref}
+                                                        itemName={item.pref.name}
+                                                        key={item.pref.id}
+                                                        pref
+                                                        checked={pref.includes(item.pref)}
+                                                        itemChecked={checkedPref(item.cities)}
+                                                        itemUnChecked={unCheckedPref(item.cities)}
+                                                    />
+                                                </AccordionSummary>
+                                                <AccordionDetails>
+                                                    {
+                                                        item.cities.map((c) => (
+                                                            <NewSearchCheckbox
+                                                                item={c}
+                                                                itemName={c.name}
+                                                                key={c.id}
+                                                                checked={city.includes(c)}
+                                                                itemChecked={checkedCity(item.pref, item.cities)}
+                                                                itemUnChecked={unCheckedCity(item.pref)}/>
+                                                        ))
+                                                    }
+                                                </AccordionDetails>
+                                            </Accordion>
+                                        )
+                                    }
+                                </div>
+                            </StudioAreaAccordions>
+                        )
+                    }
+                    line={
+                        lineItems.map((lineItem) =>
+                            <StudioAreaAccordions area={lineItem.area} key={lineItem.area}>
+                                <div className={classes.width}>
+                                    {
+                                        lineItem.items.map((item) =>
+                                            <Accordion key={item.line.id}>
+                                                <AccordionSummary
+                                                    expandIcon={<ExpandMoreIcon />}
+                                                    aria-controls={`additional-actions-${item.line.id}-content`}
+                                                    id={`additional-actions-${item.line.id}-header`}
+                                                >
+                                                    <NewSearchCheckbox
+                                                        item={item.line}
+                                                        itemName={item.line.name}
+                                                        key={item.line.id}
+                                                        pref
+                                                        checked={line.includes(item.line)}
+                                                        itemChecked={checkedLine(item.stations)}
+                                                        itemUnChecked={unCheckedLine(item.stations)}
+                                                    />
+                                                </AccordionSummary>
+                                                <AccordionDetails>
+                                                    {
+                                                        item.stations.map((s) => (
+                                                            <NewSearchCheckbox
+                                                                item={s}
+                                                                itemName={s.name}
+                                                                key={s.id}
+                                                                checked={station.includes(s)}
+                                                                itemChecked={checkedStation(item.line, item.stations)}
+                                                                itemUnChecked={unCheckedStation(item.line)}/>
+                                                        ))
+                                                    }
+                                                </AccordionDetails>
+                                            </Accordion>
+                                        )
+                                    }
+                                </div>
+                            </StudioAreaAccordions>
+                        )
+                    }/>
+            }/>
     )
 }

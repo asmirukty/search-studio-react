@@ -4,8 +4,6 @@ import {Button, Card, CardContent, Typography} from "@material-ui/core";
 import StudioDialog from "./studioDialog";
 import StudioName from "./studioNameTextField";
 import {Link} from "react-router-dom";
-import {areaItems} from "./newAreaDialogRaw";
-import AreaDialogContent from "./areaDialogContent";
 import useArrayValue from "../use-array-value";
 import PlaceDialog from "./placeDialog";
 

@@ -12,7 +12,7 @@ import NewDateDialog from "./studioComponent/newDateDialog";
 import NewDetailDialog from "./studioComponent/newDetailDialog";
 import { checkItemA, checkItemB } from "./studioComponent/newDetailDialogRaw";
 import DateTimeConvert from "./dateTimeConvert";
-import {areaItems} from "./studioComponent/newAreaDialogRaw";
+import {areaItems} from "./studioComponent/areaDialogContent";
 
 const useStyles = makeStyles(() =>
     createStyles({

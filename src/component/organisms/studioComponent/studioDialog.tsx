@@ -1,44 +1,29 @@
-import {createStyles, makeStyles, withStyles} from "@material-ui/core/styles";
-import React, {useEffect, useState} from "react";
+import React from 'react';
+import {createStyles, makeStyles} from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
-import MuiChip from "@material-ui/core/Chip";
 import DialogActions from "@material-ui/core/DialogActions";
 import {Close} from "@material-ui/icons";
-import DialogContent from "@material-ui/core/DialogContent";
-import Dialog from "@material-ui/core/Dialog";
-
-const Chip = withStyles({
-    root: {
-        textTransform: 'none',
-        color: '#5A4628',
-        backgroundColor: '#e7e1d8',
-        marginRight: 4,
-        fontSize: 'small'
-    },
-    deleteIcon: {
-        color: '#9B8C7D'
-    }
-})(MuiChip);
+import {Dialog, DialogContent} from "@material-ui/core";
+import useDialogOpen from "../use-dialog-open";
 
 const useStyles = makeStyles(() =>
     createStyles({
-        right: {
-            textAlign: 'right'
-        },
         btn: {
             borderColor: '#D7D2C8',
             color: '#9B8C7D',
             fontSize: '14px',
         },
-        detailBtn: {
-            color: '#5A4628',
-            fontSize: 14,
-            padding: '3px 4px',
-            margin: '0 0 8px',
+        btnChip: {
+            borderColor: '#D7D2C8',
+            color: '#9B8C7D',
+            fontSize: '14px',
+            justifyContent: 'start',
+            padding: '0 5px'
         },
-        paper: {
-            margin: 12,
-            flexGrow: 1
+        wrapChip: {
+            overflow: 'scroll',
+            display: 'flex',
+            padding: 5
         },
         dialogBtn: {
             backgroundColor: '#F9F5F0',
@@ -60,81 +45,40 @@ const useStyles = makeStyles(() =>
         },
         content: {
             color: "#5A4628",
-            padding: '24px 24px 8px',
+            padding: 0,
             boxShadow: '0px 4px 8px -2px rgba(0, 0, 0, 0.1)inset'
-        },
-    }),
-);
+        }
+    }));
 
-interface DialogProps {
-    children: React.ReactNode;
-    label: string;
-    detail?: boolean;
-    chip: string[];
-    chipDelete: (value: string) => void;
-    chipChange: (value: string) => void;
+interface StudioDialogProps {
+    funcs: any[],
+    state: any[],
+    labelCheck: boolean,
+    label: string,
+    chips: React.ReactNode,
+    content: React.ReactNode,
 }
 
-export default function StudioDialog(props: DialogProps) {
-    const classes = useStyles();
-    const [open, setOpen] = useState(false); //dialogが開いているか
-    const [chip, setChip] = useState<string[]>([]);  //chipで表示するitem
-
-    useEffect(() => {
-        setChip(props.chip)
-    },[props.chip])
-
-    const dialogOpen = () => {
-        setOpen(true);
-    }; //dialogを開く
-
-    const chipDelete = (item: string) => () => {
-        setChip(prevState => (
-            prevState.filter((element: string) => element != item)
-        ));
-        props.chipDelete(item);
-    }; //chipからitemを削除し、chipDeleteにitemを渡す
-
-    const handleCancel = () => {
-        setOpen(false);
-    }; //dialogを閉じる
-
-    const handleOk = () => {
-        setOpen(false);
-        props.chipChange(props.label);
-    }; //dialogを閉じ、okのfunction
+export default function StudioDialog(props: StudioDialogProps) {
+    const classes = useStyles()
+    const [open, dialogOpen, handleCancel, handleOk] = useDialogOpen(false, props.funcs, props.state);
 
     return (
         <div>
-            {
-                props.detail ? (
-                    <div className={classes.right}>
-                        {
-                            chip.length > 0 && (
-                                chip.map((item) => (
-                                    <Chip key={item} label={item} onDelete={chipDelete(item)}/>
-                                ))
-                            )
-                        }
-                        <Button className={classes.detailBtn} onClick={dialogOpen}>
-                            {props.label}
-                        </Button>
-                    </div>
-                ) : (
-                    <div>
+            <div>
+                {
+                    props.labelCheck ?
                         <Button fullWidth variant="outlined" className={classes.btn} onClick={dialogOpen}>
-                            {
-                                chip.length === 0 ? (props.label) : (
-                                    chip.map((item) => (
-                                        <Chip key={item} label={item} onDelete={chipDelete(item)}/>
-                                    ))
-                                )
-                            }
+                            {props.label}
+                        </Button> :
+                        <Button fullWidth variant="outlined" className={classes.btnChip} onClick={dialogOpen}>
+                            <div className={classes.wrapChip}>
+                                {props.chips}
+                            </div>
                         </Button>
-                    </div>
-                )
-            }
-            <Dialog keepMounted classes={{paper: classes.paper}} open={open} aria-labelledby="confirmation-dialog-title">
+                }
+            </div>
+            <Dialog PaperProps={{style: {margin: 12, flexGrow: 1}}} keepMounted open={open} aria-labelledby="confirmation-dialog-title">
                 <DialogActions className={classes.dialogBtn}>
                     <Button autoFocus onClick={handleCancel} className={classes.dialogClose}>
                         <Close fontSize='small'/>
@@ -144,9 +88,9 @@ export default function StudioDialog(props: DialogProps) {
                     </Button>
                 </DialogActions>
                 <DialogContent className={classes.content}>
-                    {props.children}
+                    {props.content}
                 </DialogContent>
             </Dialog>
         </div>
-    );
+    )
 }
