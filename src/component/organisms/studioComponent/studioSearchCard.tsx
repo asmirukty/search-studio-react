@@ -6,6 +6,7 @@ import StudioName from "./studioNameTextField";
 import {Link} from "react-router-dom";
 import useArrayValue from "../use-array-value";
 import PlaceDialog from "./placeDialog";
+import useRangeValue from "../use-range-value";
 
 
 const useStyles = makeStyles(() =>
@@ -64,16 +65,16 @@ export default function StudioSearchCard(props: StudioSearchProps) {
     const [city, changeCity, deleteCity] = useArrayValue([]);
     const [line, changeLine, deleteLine] = useArrayValue([]);
     const [station, changeStation, deleteStation] = useArrayValue([]);
-    const [area, setArea] = useState<any[]>([])
-    const [people, setPeople] = useState<any[]>([])
+    const [minArea, maxArea, changeMinArea, changeMaxArea, deleteArea] = useRangeValue(null, null);
+    const [minPeople, maxPeople, changeMinPeople, changeMaxPeople, deletePeople] = useRangeValue(null, null);
     const [date, setDate] = useState<any[]>([]);
     const [fromStation, setFromStation] = useState<any>(0);
     const [cancel, setCancel] = useState<boolean>(false);
-    const [price, setPrice] = useState<any[]>([]);
+    const [minPrice, maxPrice, changeMinPrice, changeMaxPrice, deletePrice] = useRangeValue(null, null);
     const [halfHour, setHalfHour] = useState<boolean>(false);
     const [reservation, changeReservation, deleteReservation] = useArrayValue([]);
     const [studioFacility, changeStudioFacility, deleteStudioFacility] = useArrayValue([]);
-    const [mirror, setMirror] = useState<any[]>([]);
+    const [minMirror, maxMirror, changeMinMirror, changeMaxMirror, deleteMirror] = useRangeValue(null, null);
     const [roomFacility, changeRoomFacility, deleteRoomFacility] = useArrayValue([]);
     const [floorMaterial, changeFloorMaterial, deleteFloorMaterial] = useArrayValue([]);
 
@@ -124,8 +125,8 @@ export default function StudioSearchCard(props: StudioSearchProps) {
                             onClick={handleClose}
                             component={Link}
                             to={{
-                                pathname: `/studios/${area}${people}${date}${fromStation}${price}${mirror}`,
-                                state: {area: area, people: people, date: date, fromStation: fromStation, price: price, mirror: mirror}
+                                pathname: `/studios/${date}${fromStation}`,
+                                state: {date: date, fromStation: fromStation}
                             }}>
                         検 索
                     </Button>
