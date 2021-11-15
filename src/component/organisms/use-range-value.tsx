@@ -5,11 +5,11 @@ export default function useRangeValue (initialMinState: any, initialMaxState: an
     const [minValue, setMinValue] = useState(initialMinState)
     const [maxValue, setMaxValue] = useState(initialMaxState)
 
-    const changeMinValue = (newMinValue: any[]) => {
+    const changeMinValue = (newMinValue: any) => {
         setMinValue(newMinValue)
     }
 
-    const changeMaxValue = (newMaxValue: any[]) => {
+    const changeMaxValue = (newMaxValue: any) => {
         setMaxValue(newMaxValue)
     }
 

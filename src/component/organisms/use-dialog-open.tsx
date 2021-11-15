@@ -1,6 +1,7 @@
 import {useState} from 'react'
 
-export default function useDialogOpen (initialState: boolean, funcs: ((state: any) => void)[], state: any[]): [boolean, () => void, () => void, () => void]{
+export default function useDialogOpen (initialState: boolean, funcs: ((state: any) => void)[], state: any[]):
+    [boolean, () => void, () => void, () => void]{
     const [open, setOpen] = useState(initialState)
 
     const dialogOpen = () => {

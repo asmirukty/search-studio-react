@@ -7,6 +7,7 @@ import {Link} from "react-router-dom";
 import useArrayValue from "../use-array-value";
 import PlaceDialog from "./placeDialog";
 import useRangeValue from "../use-range-value";
+import SpaceDialog from "./spaceDialog";
 
 
 const useStyles = makeStyles(() =>
@@ -101,6 +102,10 @@ export default function StudioSearchCard(props: StudioSearchProps) {
                 <PlaceDialog pref={prefecture} city={city} line={line} station={station}
                              changePref={changePrefecture} changeCity={changeCity} changeLine={changeLine} changeStation={changeStation}
                              deletePref={deletePrefecture} deleteCity={deleteCity} deleteLine={deleteLine} deleteStation={deleteStation}/>
+                <SpaceDialog minArea={minArea} maxArea={maxArea} minPeople={minPeople} maxPeople={maxPeople}
+                             changeMinArea={changeMinArea} changeMaxArea={changeMaxArea} changeMinPeople={changeMinPeople} changeMaxPeople={changeMaxPeople}
+                             deleteArea={deleteArea} deletePeople={deletePeople}/>
+
                 {/**<StudioDialog label='エリア/沿線、駅を選択' chip={area} chipDelete={deletePrefecture} chipChange={changePrefecture}>
                 </StudioDialog>
                 <StudioName studioText={studioText} text={text}/>

@@ -173,16 +173,15 @@ export default function PlaceDialog(props: PlaceDialogProps) {
                     }
                     {
                         lineItems.map((lineItem) =>
-                        lineItem.items.map((item) =>
-                        line.includes(item.line) ?
-                        <Chip size='small' key={item.line.id} label={item.line.name}
-                        onDelete={deleteLine(item.line, item.stations)}/>
-                        :
-                        item.stations.map((s) =>
-                        station.includes(s) &&
-                        <Chip size='small' key={s.id} label={s.name} onDelete={deleteStation(s)}/>
-                        )
-                        )
+                            lineItem.items.map((item) =>
+                                line.includes(item.line) ?
+                                    <Chip size='small' key={item.line.id} label={item.line.name} onDelete={deleteLine(item.line, item.stations)}/>
+                                    :
+                                    item.stations.map((s) =>
+                                        station.includes(s) &&
+                                        <Chip size='small' key={s.id} label={s.name} onDelete={deleteStation(s)}/>
+                                    )
+                            )
                         )
                     }
                 </div>}
