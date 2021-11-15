@@ -1,9 +1,10 @@
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 
 type parentType = {name: string, id: string}
 type childType = {name: string, id: string}
 
 export default function useCheckGroup (
+    open: boolean,
     initialParent: any[],
     initialChildren: any[],
     deleteParentProp: (item: parentType) => void,
@@ -20,6 +21,13 @@ export default function useCheckGroup (
     ]　{
     const [parent, setParent] = useState<parentType[]>(initialParent)
     const [children, setChildren] = useState<childType[]>(initialChildren)
+
+    useEffect(() => {
+        if (!open) {
+            setParent(initialParent)
+            setChildren(initialChildren)
+        }
+    }, [open])
 
     const checkedParent = (thisChildren: childType[]) => (newItem: parentType) : void => {
         setParent(prevState => (

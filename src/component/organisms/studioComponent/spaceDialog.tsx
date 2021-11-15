@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {createStyles, makeStyles, withStyles} from "@material-ui/core/styles";
 import MuiChip from "@material-ui/core/Chip";
 import StudioDialog from "./studioDialog";
@@ -83,13 +83,15 @@ interface SpaceDialogProps {
 export default function SpaceDialog(props: SpaceDialogProps) {
     const classes = useStyles()
     const {minArea, maxArea, minPeople, maxPeople} = props;
-    const [selectMinArea, selectMaxArea, changeMinArea, changeMaxArea, deleteArea] = useRangeSelect(minArea, maxArea, props.deleteArea)
-    const [selectMinPeople, selectMaxPeople, changeMinPeople, changeMaxPeople, deletePeople] = useRangeSelect(minPeople, maxPeople, props.deletePeople)
+    const [open, setOpen] = useState(false)
+    const [selectMinArea, selectMaxArea, changeMinArea, changeMaxArea, deleteArea] = useRangeSelect(open, minArea, maxArea, props.deleteArea)
+    const [selectMinPeople, selectMaxPeople, changeMinPeople, changeMaxPeople, deletePeople] = useRangeSelect(open, minPeople, maxPeople, props.deletePeople)
 
     return (
         <StudioDialog
             funcs={[props.changeMinArea, props.changeMaxArea, props.changeMinPeople, props.changeMaxPeople]}
             state={[selectMinArea, selectMaxArea, selectMinPeople, selectMaxPeople]}
+            openCheck={(open) => {setOpen(open)}}
             labelCheck={!minArea && !maxArea && !minPeople && !maxPeople}
             label={'面積/人数を選択'}
             chips={

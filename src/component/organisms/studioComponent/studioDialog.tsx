@@ -53,6 +53,7 @@ const useStyles = makeStyles(() =>
 interface StudioDialogProps {
     funcs: any[],
     state: any[],
+    openCheck: (open: boolean) => void,
     labelCheck: boolean,
     label: string,
     chips: React.ReactNode,
@@ -61,7 +62,7 @@ interface StudioDialogProps {
 
 export default function StudioDialog(props: StudioDialogProps) {
     const classes = useStyles()
-    const [open, dialogOpen, handleCancel, handleOk] = useDialogOpen(false, props.funcs, props.state);
+    const [open, dialogOpen, handleCancel, handleOk] = useDialogOpen(false, props.funcs, props.state, props.openCheck);
 
     return (
         <div>

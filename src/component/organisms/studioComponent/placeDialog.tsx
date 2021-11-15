@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import AreaTabs from "./areaDialogComponent/areaTabs";
 import StudioAreaAccordions from "./areaDialogComponent/studioAreaAccordion";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
@@ -146,13 +146,15 @@ interface PlaceDialogProps {
 
 export default function PlaceDialog(props: PlaceDialogProps) {
     const classes = useStyles()
-    const [pref, city, checkedPref, checkedCity, unCheckedPref, unCheckedCity, deletePref, deleteCity] = useCheckGroup(props.pref, props.city, props.deletePref, props.deleteCity)
-    const [line, station, checkedLine, checkedStation, unCheckedLine, unCheckedStation, deleteLine, deleteStation] = useCheckGroup(props.line, props.station, props.deletePref, props.deleteCity)
+    const [open, setOpen] = useState(false)
+    const [pref, city, checkedPref, checkedCity, unCheckedPref, unCheckedCity, deletePref, deleteCity] = useCheckGroup(open, props.pref, props.city, props.deletePref, props.deleteCity)
+    const [line, station, checkedLine, checkedStation, unCheckedLine, unCheckedStation, deleteLine, deleteStation] = useCheckGroup(open, props.line, props.station, props.deletePref, props.deleteCity)
 
     return (
         <StudioDialog
             funcs={[props.changePref, props.changeCity, props.changeLine, props.changeStation]}
             state={[pref, city, line, station]}
+            openCheck={(open) => {setOpen(open)}}
             labelCheck={pref.length === 0 && city.length === 0 && line.length === 0 && station.length === 0}
             label={'エリア/沿線、駅を選択'}
             chips={
