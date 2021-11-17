@@ -5,6 +5,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import {Close} from "@material-ui/icons";
 import {Dialog, DialogContent} from "@material-ui/core";
 import useDialogOpen from "../use-dialog-open";
+import {checkItemA, checkItemB} from "./newDetailDialogRaw";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -12,6 +13,13 @@ const useStyles = makeStyles(() =>
             borderColor: '#D7D2C8',
             color: '#9B8C7D',
             fontSize: '14px',
+        },
+        detailBtn: {
+            color: '#5A4628',
+            fontSize: 14,
+            padding: '0 4px',
+            margin: '2px 0 8px',
+            right: 0,
         },
         btnChip: {
             borderColor: '#D7D2C8',
@@ -54,6 +62,7 @@ interface StudioDialogProps {
     funcs: any[],
     state: any[],
     openCheck: (open: boolean) => void,
+    detail?: boolean,
     labelCheck: boolean,
     label: string,
     chips: React.ReactNode,
@@ -68,13 +77,24 @@ export default function StudioDialog(props: StudioDialogProps) {
         <div>
             <div>
                 {
-                    props.labelCheck ?
-                        <Button fullWidth variant="outlined" className={classes.btn} onClick={dialogOpen}>
-                            {props.label}
-                        </Button> :
-                        <Button fullWidth variant="outlined" className={classes.btnChip} onClick={dialogOpen}>
+                    props.detail ?
+                        <div>
                             {props.chips}
-                        </Button>
+                            <div style={{textAlign: 'right'}}>
+                                <Button className={classes.detailBtn} onClick={dialogOpen}>
+                                    {props.label}
+                                </Button>
+                            </div>
+                        </div>
+                        : (
+                            props.labelCheck ?
+                            <Button fullWidth variant="outlined" className={classes.btn} onClick={dialogOpen}>
+                                {props.label}
+                            </Button> :
+                            <Button fullWidth variant="outlined" className={classes.btnChip} onClick={dialogOpen}>
+                                {props.chips}
+                            </Button>
+                        )
                 }
             </div>
             <Dialog PaperProps={{style: {margin: 12, flexGrow: 1}}} keepMounted open={open} aria-labelledby="confirmation-dialog-title">

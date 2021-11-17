@@ -18,11 +18,11 @@ export default function useRangeSelect (open: boolean, initialMin: any, initialM
     }, [open])
 
     const changeMin = (event: any) : void => {
-        event.target.value === '下限なし' ? setMin(null) : setMin(event.target.value)
+        event.target.value === ('下限なし'||'指定なし') ? setMin(null) : setMin(event.target.value)
     };
 
     const changeMax = (event: any) : void => {
-        event.target.value === '上限なし' ? setMax(null) : setMax(event.target.value)
+        event.target.value === ('上限なし'||'指定なし') ? setMax(null) : setMax(event.target.value)
     };
 
     const deleteChip = () => {

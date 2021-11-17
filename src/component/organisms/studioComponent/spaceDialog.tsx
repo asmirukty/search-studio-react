@@ -96,18 +96,22 @@ export default function SpaceDialog(props: SpaceDialogProps) {
             label={'面積/人数を選択'}
             chips={
                 <div>
-                    {(minArea && maxArea) &&
-                        <Chip size='small' key={'area'} label={`${minArea}~${maxArea}`} onDelete={deleteArea}/>}
-                    {(minArea && !maxArea) &&
-                        <Chip size='small' key={'minArea'} label={`${minArea}~`} onDelete={deleteArea}/>}
-                    {(!minArea && maxArea) &&
-                        <Chip size='small' key={'maxArea'} label={`~${maxArea}`} onDelete={deleteArea}/>}
-                    {(minPeople && maxPeople) &&
-                        <Chip size='small' key={'people'} label={`${minPeople}~${maxPeople}`} onDelete={deletePeople}/>}
-                    {(minPeople && !maxPeople) &&
-                    <Chip size='small' key={'minPeople'} label={`${minPeople}~`} onDelete={deletePeople}/>}
-                    {(!minPeople && maxPeople) &&
-                        <Chip size='small' key={'maxPeople'} label={`~${maxPeople}`} onDelete={deletePeople}/>}
+                    <Chip size='small' key={'area'} onDelete={deleteArea}
+                          label={
+                              (minArea && maxArea) ? `${minArea}~${maxArea}` : (
+                              (minArea && !maxArea) ? `${minArea}~` : (
+                              (!minArea && maxArea) && `~${maxArea}`)
+                              )
+                          }
+                    />
+                    <Chip size='small' key={'people'} onDelete={deletePeople}
+                          label={
+                              (minPeople && maxPeople) ? `${minPeople}~${maxPeople}` : (
+                                  (minPeople && !maxPeople) ? `${minPeople}~` : (
+                                      (!minPeople && maxPeople) && `~${maxPeople}`)
+                              )
+                          }
+                    />
                 </div>}
             content={
                 <div style={{padding: '20px 24px 8px'}}>

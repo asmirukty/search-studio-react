@@ -10,6 +10,8 @@ import useRangeValue from "../use-range-value";
 import SpaceDialog from "./spaceDialog";
 import DateDialog from "./dateDialog";
 import useDateValue from "../use-date-value";
+import DateMatchRadio from "./dateMatchRadio";
+import DetailDialog from "./detailDialog";
 
 
 const useStyles = makeStyles(() =>
@@ -71,7 +73,7 @@ export default function StudioSearchCard(props: StudioSearchProps) {
     const [minArea, maxArea, changeMinArea, changeMaxArea, deleteArea] = useRangeValue(null, null);
     const [minPeople, maxPeople, changeMinPeople, changeMaxPeople, deletePeople] = useRangeValue(null, null);
     const [date, changeDate, deleteDate] = useDateValue([]);
-    const [fromStation, setFromStation] = useState<any>(0);
+    const [noUse, fromStation, changeNoUse, changeFromStation, deleteFromStation] = useRangeValue(null, null);
     const [cancel, setCancel] = useState<boolean>(false);
     const [minPrice, maxPrice, changeMinPrice, changeMaxPrice, deletePrice] = useRangeValue(null, null);
     const [halfHour, setHalfHour] = useState<boolean>(false);
@@ -114,6 +116,10 @@ export default function StudioSearchCard(props: StudioSearchProps) {
                     日時
                 </Typography>
                 <DateDialog date={date} changeDate={changeDate} deleteDate={deleteDate}/>
+                {date.length > 1 && <DateMatchRadio/>}
+                <DetailDialog fromStation={fromStation} minPrice={minPrice} maxPrice={maxPrice} minMirror={minMirror} maxMirror={maxMirror}
+                              changeFromStation={changeFromStation} changeMinPrice={changeMinPrice} changeMaxPrice={changeMaxPrice} changeMinMirror={changeMinMirror} changeMaxMirror={changeMaxMirror}
+                              deleteFromStation={deleteFromStation} deletePrice={deletePrice} deleteMirror={deleteMirror}/>
                 {/**
                 <StudioName studioText={studioText} text={text}/>
                 <StudioDialog label='もっとしぼり込む >' detail chip={date} chipDelete={deleteDate} chipChange={addDate}>
