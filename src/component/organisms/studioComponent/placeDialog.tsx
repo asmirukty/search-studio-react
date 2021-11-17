@@ -158,7 +158,7 @@ export default function PlaceDialog(props: PlaceDialogProps) {
             labelCheck={pref.length === 0 && city.length === 0 && line.length === 0 && station.length === 0}
             label={'エリア/沿線、駅を選択'}
             chips={
-                <div>
+                <div className={classes.wrapChip}>
                     {
                         prefItems.map((prefItem) =>
                             prefItem.items.map((item) =>

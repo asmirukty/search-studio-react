@@ -110,7 +110,7 @@ export default function SpaceDialog(props: SpaceDialogProps) {
                         <Chip size='small' key={'maxPeople'} label={`~${maxPeople}`} onDelete={deletePeople}/>}
                 </div>}
             content={
-                <div>
+                <div style={{padding: '20px 24px 8px'}}>
                     <Typography className={classes.typ} variant={'subtitle1'}>面積</Typography>
                     <div className={classes.select}>
                         <FormControl className={classes.formControl}>

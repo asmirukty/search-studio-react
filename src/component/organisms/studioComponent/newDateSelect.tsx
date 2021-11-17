@@ -9,6 +9,7 @@ import {InputLabel, Typography} from "@material-ui/core";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import Button from "@material-ui/core/Button";
+import {MaterialUiPickersDate} from "@material-ui/pickers/typings/date";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -69,13 +70,9 @@ interface DateSelectProps {
     open: boolean,
     addBtn: boolean,
     last?: boolean,
-    date: {
-        date: Date,
-        startTime: string,
-        endTime: string
-    };
+    date: {date: Date, startTime: string, endTime: string}|null;
     label: string;
-    dateChange: (date: Date|null, startTime: string, endTime: string) => void;
+    dateChange: (newDate: { date: Date, startTime: string, endTime: string }|null) => void;
     addDate: () => void;
 }
 
@@ -87,7 +84,6 @@ export default function NewDateSelect(props: DateSelectProps) {
     const [endTime, setEndTime] = React.useState('指定なし');
 
     React.useEffect(() => {
-        if (!open) {
             if (!dateProp) {
                 setSelectedDate(null)
                 setStartTime('指定なし');
@@ -97,18 +93,16 @@ export default function NewDateSelect(props: DateSelectProps) {
                 setStartTime(dateProp.startTime)
                 setEndTime(dateProp.endTime)
             }
-        }
     }, [dateProp, open]);
 
     const addClick = () => {
         addDate()
     }
 
-    const handleDateChange = (date: any) => {
+    const handleDateChange = (date: Date|null) => {
         if (date) {
             setSelectedDate(date);
-            dateChange(date, startTime, endTime)
-            console.log(selectedDate)
+            dateChange({date: date, startTime: startTime, endTime: endTime})
         }
     };
 
@@ -116,7 +110,7 @@ export default function NewDateSelect(props: DateSelectProps) {
         setSelectedDate(null)
         setStartTime('指定なし')
         setEndTime('指定なし')
-        dateChange(null, '指定なし', '指定なし')
+        dateChange(null)
     }
 
     const startTimeHandleChange = (event: any) : void => {
@@ -124,10 +118,10 @@ export default function NewDateSelect(props: DateSelectProps) {
 
         if (selectedDate === null) {
             setSelectedDate(new Date())
-            dateChange(new Date(), event.target.value, endTime)
+            dateChange({date: new Date(), startTime: event.target.value, endTime: endTime})
         }
         else {
-            dateChange(selectedDate, event.target.value, endTime)
+            dateChange({date: selectedDate, startTime: event.target.value, endTime: endTime})
         }
     };
 
@@ -136,10 +130,10 @@ export default function NewDateSelect(props: DateSelectProps) {
 
         if (selectedDate === null) {
             setSelectedDate(new Date())
-            dateChange(new Date(), startTime, event.target.value)
+            dateChange({date: new Date(), startTime: startTime, endTime: event.target.value})
         }
         else {
-            dateChange(selectedDate, startTime, event.target.value)
+            dateChange({date: selectedDate, startTime: startTime, endTime: event.target.value})
         }
     };
 
@@ -160,7 +154,7 @@ export default function NewDateSelect(props: DateSelectProps) {
                 maxDate={new Date().setMonth(new Date().getMonth() + 2)}
                 value={selectedDate}
                 inputProps={{style: {color: '#5A4628', borderColor: '#5A4628', textAlign: 'center'}}}
-                onChange={date => handleDateChange(date)}
+                onChange={(date) => handleDateChange(date)}
             />
             </MuiPickersUtilsProvider>
             <div className={classes.select}>

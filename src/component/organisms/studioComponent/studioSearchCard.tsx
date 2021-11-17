@@ -8,6 +8,8 @@ import useArrayValue from "../use-array-value";
 import PlaceDialog from "./placeDialog";
 import useRangeValue from "../use-range-value";
 import SpaceDialog from "./spaceDialog";
+import DateDialog from "./dateDialog";
+import useDateValue from "../use-date-value";
 
 
 const useStyles = makeStyles(() =>
@@ -68,7 +70,7 @@ export default function StudioSearchCard(props: StudioSearchProps) {
     const [station, changeStation, deleteStation] = useArrayValue([]);
     const [minArea, maxArea, changeMinArea, changeMaxArea, deleteArea] = useRangeValue(null, null);
     const [minPeople, maxPeople, changeMinPeople, changeMaxPeople, deletePeople] = useRangeValue(null, null);
-    const [date, setDate] = useState<any[]>([]);
+    const [date, changeDate, deleteDate] = useDateValue([]);
     const [fromStation, setFromStation] = useState<any>(0);
     const [cancel, setCancel] = useState<boolean>(false);
     const [minPrice, maxPrice, changeMinPrice, changeMaxPrice, deletePrice] = useRangeValue(null, null);
@@ -102,27 +104,19 @@ export default function StudioSearchCard(props: StudioSearchProps) {
                 <PlaceDialog pref={prefecture} city={city} line={line} station={station}
                              changePref={changePrefecture} changeCity={changeCity} changeLine={changeLine} changeStation={changeStation}
                              deletePref={deletePrefecture} deleteCity={deleteCity} deleteLine={deleteLine} deleteStation={deleteStation}/>
-                <SpaceDialog minArea={minArea} maxArea={maxArea} minPeople={minPeople} maxPeople={maxPeople}
-                             changeMinArea={changeMinArea} changeMaxArea={changeMaxArea} changeMinPeople={changeMinPeople} changeMaxPeople={changeMaxPeople}
-                             deleteArea={deleteArea} deletePeople={deletePeople}/>
-
-                {/**<StudioDialog label='エリア/沿線、駅を選択' chip={area} chipDelete={deletePrefecture} chipChange={changePrefecture}>
-                </StudioDialog>
-                <StudioName studioText={studioText} text={text}/>
                 <Typography component={'span'} variant='subtitle1' className={classes.title}>
                     広さ
                 </Typography>
-                <StudioDialog label='面積/人数を選択' chip={space} chipDelete={deleteArea} chipChange={addSpace}>
-
-                </StudioDialog>
+                <SpaceDialog minArea={minArea} maxArea={maxArea} minPeople={minPeople} maxPeople={maxPeople}
+                             changeMinArea={changeMinArea} changeMaxArea={changeMaxArea} changeMinPeople={changeMinPeople} changeMaxPeople={changeMaxPeople}
+                             deleteArea={deleteArea} deletePeople={deletePeople}/>
                 <Typography component={'span'} variant='subtitle1' className={classes.title}>
                     日時
                 </Typography>
-                <StudioDialog label='日時を選択' chip={date} chipDelete={deleteDate} chipChange={addDate}>
-
-                </StudioDialog>
+                <DateDialog date={date} changeDate={changeDate} deleteDate={deleteDate}/>
+                {/**
+                <StudioName studioText={studioText} text={text}/>
                 <StudioDialog label='もっとしぼり込む >' detail chip={date} chipDelete={deleteDate} chipChange={addDate}>
-
                 </StudioDialog>*/}
                 <div style={{display: 'flex'}}>
                     <Button className={classes.searchBtn}

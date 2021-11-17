@@ -73,9 +73,7 @@ export default function StudioDialog(props: StudioDialogProps) {
                             {props.label}
                         </Button> :
                         <Button fullWidth variant="outlined" className={classes.btnChip} onClick={dialogOpen}>
-                            <div className={classes.wrapChip}>
-                                {props.chips}
-                            </div>
+                            {props.chips}
                         </Button>
                 }
             </div>

@@ -92,14 +92,14 @@ export default function NewDateDialogRaw(props: DateDialogRawProps) {
         dateOnClose(date);
     };
 
-    const dateChange = (index: number) => (newDate: Date|null, newStartTime: string, newEndTime: string) => {
+    const dateChange = (index: number) => (newDate: { date: Date, startTime: string, endTime: string }|null) => {
         if (newDate !== null) {
             date.length > index ?
                 setDate(prevState => (
-                    prevState.splice(index, index, {date: newDate, startTime: newStartTime, endTime: newEndTime})
+                    prevState.splice(index, index, newDate)
                 ))
                 :
-                setDate(prevState => [...prevState, {date: newDate, startTime: newStartTime, endTime: newEndTime}])
+                setDate(prevState => [...prevState, newDate])
         }
         else {
             setDate(prevState => (
