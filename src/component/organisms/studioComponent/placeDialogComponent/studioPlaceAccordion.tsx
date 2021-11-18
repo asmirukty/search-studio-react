@@ -57,12 +57,12 @@ const AccordionDetails = withStyles({
     },
 })(MuiAccordionDetails);
 
-interface StudioAreaAccordionProps {
-    children?: React.ReactNode;
+interface StudioPlaceAccordionProps {
+    children: React.ReactNode;
     area: string;
 }
 
-export default function StudioAreaAccordions(props: StudioAreaAccordionProps) {
+export default function StudioPlaceAccordions(props: StudioPlaceAccordionProps) {
     const [expanded, setExpanded] = React.useState<string | false>();
 
     const handleChange = (panel: string) => (event: React.ChangeEvent<{}>, newExpanded: boolean) => {

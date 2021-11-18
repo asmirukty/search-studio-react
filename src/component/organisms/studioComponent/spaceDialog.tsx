@@ -1,32 +1,13 @@
-import React, {useEffect, useState} from 'react';
-import {createStyles, makeStyles, withStyles} from "@material-ui/core/styles";
-import MuiChip from "@material-ui/core/Chip";
+import React, {useState} from 'react';
+import {createStyles, makeStyles} from "@material-ui/core/styles";
 import StudioDialog from "./studioDialog";
 import useRangeSelect from "../use-range-select";
 import {Typography} from "@material-ui/core";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
-
-const minAreaOptions = [
-    '下限なし', '10m²',　'15m²', '20m²', '25m²', '30m²', '40m²', '50m²',
-    '60m²', '80m²', '100m²', '120m²', '150m²'
-];
-
-const maxAreaOptions = [
-    '上限なし', '10m²',　'15m²', '20m²', '25m²', '30m²', '40m²', '50m²',
-    '60m²', '80m²', '100m²', '120m²', '150m²'
-];
-
-const minPeopleOptions = [
-    '下限なし', '1人',　'3人', '5人',　'8人', '10人',　'15人' , '20人',　'25人', '30人', '40人', '50人',
-    '60人', '80人', '100人'
-];
-
-const maxPeopleOptions = [
-    '上限なし',　'3人', '5人',　'8人', '10人',　'15人' , '20人',　'25人', '30人', '40人', '50人',
-    '60人', '80人', '100人'
-];
+import SearchChip from "../../molecules/searchChip";
+import {maxAreaOptions, maxPeopleOptions, minAreaOptions, minPeopleOptions} from "./spaceOptions";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -54,18 +35,6 @@ const useStyles = makeStyles(() =>
             maxHeight: 300
         }
     }));
-
-const Chip = withStyles({
-    root: {
-        textTransform: 'none',
-        color: '#5A4628',
-        backgroundColor: '#e7e1d8',
-        marginRight: 4,
-    },
-    deleteIcon: {
-        color: '#9B8C7D'
-    }
-})(MuiChip);
 
 interface SpaceDialogProps {
     minArea: any,
@@ -96,7 +65,7 @@ export default function SpaceDialog(props: SpaceDialogProps) {
             label={'面積/人数を選択'}
             chips={
                 <div>
-                    <Chip size='small' key={'area'} onDelete={deleteArea}
+                    <SearchChip key={'area'} onDelete={deleteArea}
                           label={
                               (minArea && maxArea) ? `${minArea}~${maxArea}` : (
                               (minArea && !maxArea) ? `${minArea}~` : (
@@ -104,7 +73,7 @@ export default function SpaceDialog(props: SpaceDialogProps) {
                               )
                           }
                     />
-                    <Chip size='small' key={'people'} onDelete={deletePeople}
+                    <SearchChip key={'people'} onDelete={deletePeople}
                           label={
                               (minPeople && maxPeople) ? `${minPeople}~${maxPeople}` : (
                                   (minPeople && !maxPeople) ? `${minPeople}~` : (

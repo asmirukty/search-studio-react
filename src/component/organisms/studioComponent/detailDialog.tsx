@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
-import {createStyles, makeStyles, withStyles} from "@material-ui/core/styles";
-import MuiChip from "@material-ui/core/Chip";
+import {createStyles, makeStyles} from "@material-ui/core/styles";
 import StudioDialog from "./studioDialog";
 import useRangeSelect from "../use-range-select";
 import {InputLabel, Typography} from "@material-ui/core";
@@ -8,16 +7,13 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import useCheck from "../use-check";
-import NewSearchCheckbox from "./newSearchCheckbox";
+import NewSearchCheckbox from "./searchCheckbox";
 import {
-    amenityOptions, floorMaterialOptions,
-    fromStationOptions, lightAndFilmingOptions,
-    maxMirrorOptions,
-    maxPriceOptions,
-    minMirrorOptions,
-    minPriceOptions,
+    amenityOptions, floorMaterialOptions, fromStationOptions, lightAndFilmingOptions,
+    maxMirrorOptions, maxPriceOptions, minMirrorOptions, minPriceOptions,
     reservationOptions, soundAndMovieOptions, studioFacilityOptions
 } from "./detailOptions";
+import SearchChip from "../../molecules/searchChip";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -53,18 +49,6 @@ const useStyles = makeStyles(() =>
             flexWrap: 'wrap',
         }
     }));
-
-const Chip = withStyles({
-    root: {
-        textTransform: 'none',
-        color: '#5A4628',
-        backgroundColor: '#e7e1d8',
-        marginRight: 4,
-    },
-    deleteIcon: {
-        color: '#9B8C7D'
-    }
-})(MuiChip);
 
 interface DetailDialogProps {
     fromStation: any,
@@ -108,11 +92,11 @@ export default function DetailDialog(props: DetailDialogProps) {
             chips={
                 <div>
                     {
-                        fromStation && <Chip size="small" key={'fromStation'} label={`駅${fromStation}`} onDelete={deleteFromStation}/>
+                        fromStation && <SearchChip key={'fromStation'} label={`駅${fromStation}`} onDelete={deleteFromStation}/>
                     }
                     {
                         (minPrice || maxPrice) &&
-                        <Chip size='small' key={'price'} onDelete={deletePrice}
+                        <SearchChip key={'price'} onDelete={deletePrice}
                            label={
                                (minPrice && maxPrice) ? `${minPrice}~${maxPrice}` : (
                                    (minPrice) ? `${minPrice}~` : `~${maxPrice}`)
@@ -123,12 +107,12 @@ export default function DetailDialog(props: DetailDialogProps) {
                         detailCheck &&
                         ['キャンセル無料期間あり', ...reservationOptions, ...studioFacilityOptions, '鏡2面'].map((option) =>
                             detailCheck.includes(option) &&
-                            <Chip size='small' key={option} label={option} onDelete={deleteChip(option)}/>
+                            <SearchChip key={option} label={option} onDelete={deleteChip(option)}/>
                         )
                     }
                     {
                         (minMirror || maxMirror) &&
-                        <Chip size='small' key={'mirror'} onDelete={deleteMirror}
+                        <SearchChip key={'mirror'} onDelete={deleteMirror}
                            label={
                                (minMirror && maxMirror) ? `${minMirror}~${maxMirror}` : (
                                    (minMirror) ? `${minMirror}~` : `~${maxMirror}`)
@@ -139,7 +123,7 @@ export default function DetailDialog(props: DetailDialogProps) {
                         detailCheck &&
                         [...lightAndFilmingOptions, ...soundAndMovieOptions, ...floorMaterialOptions, ...amenityOptions].map((option) =>
                             detailCheck.includes(option) &&
-                            <Chip size='small' key={option} label={option} onDelete={deleteChip(option)}/>
+                            <SearchChip key={option} label={option} onDelete={deleteChip(option)}/>
                         )
                     }
                 </div>}

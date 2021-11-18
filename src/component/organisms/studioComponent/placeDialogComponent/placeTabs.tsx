@@ -37,7 +37,7 @@ interface AreaTabsProps {
     line: React.ReactNode;
 }
 
-export default function AreaTabs(props: AreaTabsProps) {
+export default function PlaceTabs(props: AreaTabsProps) {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
 

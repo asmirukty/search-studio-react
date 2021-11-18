@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
-import {createStyles, makeStyles, withStyles} from "@material-ui/core/styles";
-import MuiChip from "@material-ui/core/Chip";
+import {createStyles, makeStyles} from "@material-ui/core/styles";
 import StudioDialog from "./studioDialog";
 import useDateSelect from "../use-date-select";
 import DateTimeConvert from "../dateTimeConvert";
-import NewDateSelect from "./newDateSelect";
+import DateSelect from "./dateSelect";
+import SearchChip from "../../molecules/searchChip";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -14,18 +14,6 @@ const useStyles = makeStyles(() =>
             padding: 5
         }
     }));
-
-const Chip = withStyles({
-    root: {
-        textTransform: 'none',
-        color: '#5A4628',
-        backgroundColor: '#e7e1d8',
-        marginRight: 4,
-    },
-    deleteIcon: {
-        color: '#9B8C7D'
-    }
-})(MuiChip);
 
 type dateType = {date: Date, startTime: string, endTime: string}
 
@@ -53,7 +41,7 @@ export default function DateDialog(props: DateDialogProps) {
                     {
                         date.length > 0 &&
                         date.map((date: dateType, index: number) => (
-                            <Chip size="small" key={index} onDelete={deleteDate(date)}
+                            <SearchChip key={index} onDelete={deleteDate(date)}
                                   label={DateTimeConvert({date: date.date, startTime: date.startTime, endTime: date.endTime})}/>
                         ))
                     }
@@ -62,8 +50,8 @@ export default function DateDialog(props: DateDialogProps) {
                 <div style={{padding: '20px 24px'}}>
                     {[0, 1, 2, 3, 4].map((i) =>
                         opens[i] &&
-                        <NewDateSelect open={open} date={selectDate[i]} label={`日時${i+1}`} dateChange={changeDate(i)}
-                                       addBtn={i !== 4 && !opens[i+1]} last={i === 4} addDate={addDate(i+1)}/>
+                        <DateSelect open={open} date={selectDate[i]} label={`日時${i+1}`} dateChange={changeDate(i)}
+                                    addBtn={i !== 4 && !opens[i+1]} last={i === 4} addDate={addDate(i+1)}/>
                     )}
                 </div>
             }/>

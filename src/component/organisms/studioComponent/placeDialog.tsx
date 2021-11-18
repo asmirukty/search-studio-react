@@ -1,17 +1,17 @@
 import React, {useState} from 'react';
-import AreaTabs from "./areaDialogComponent/areaTabs";
-import StudioAreaAccordions from "./areaDialogComponent/studioAreaAccordion";
+import PlaceTabs from "./placeDialogComponent/placeTabs";
+import StudioPlaceAccordions from "./placeDialogComponent/studioPlaceAccordion";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import NewSearchCheckbox from "./newSearchCheckbox";
-import {prefItems} from "./areaDialogComponent/prefItems";
+import {prefItems} from "./placeDialogComponent/prefItems";
 import {createStyles, makeStyles, withStyles} from "@material-ui/core/styles";
 import MuiAccordion from "@material-ui/core/Accordion";
 import MuiAccordionSummary from "@material-ui/core/AccordionSummary";
 import MuiAccordionDetails from "@material-ui/core/AccordionDetails";
-import MuiChip from "@material-ui/core/Chip";
 import useCheckGroup from "../use-check-group";
-import {lineItems} from "./areaDialogComponent/lineItems";
+import {lineItems} from "./placeDialogComponent/lineItems";
 import StudioDialog from "./studioDialog";
+import SearchCheckbox from "./searchCheckbox";
+import SearchChip from "../../molecules/searchChip";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -117,18 +117,6 @@ const AccordionDetails = withStyles( {
     },
 })(MuiAccordionDetails);
 
-const Chip = withStyles({
-    root: {
-        textTransform: 'none',
-        color: '#5A4628',
-        backgroundColor: '#e7e1d8',
-        marginRight: 4,
-    },
-    deleteIcon: {
-        color: '#9B8C7D'
-    }
-})(MuiChip);
-
 interface PlaceDialogProps {
     pref: any[],
     city: any[],
@@ -163,12 +151,11 @@ export default function PlaceDialog(props: PlaceDialogProps) {
                         prefItems.map((prefItem) =>
                             prefItem.items.map((item) =>
                                 pref.includes(item.pref) ?
-                                    <Chip size='small' key={item.pref.id} label={item.pref.name}
-                                          onDelete={deletePref(item.pref, item.cities)}/>
+                                    <SearchChip key={item.pref.id} label={item.pref.name} onDelete={deletePref(item.pref, item.cities)}/>
                                     :
                                     item.cities.map((c) =>
                                         city.includes(c) &&
-                                        <Chip size='small' key={c.id} label={c.name} onDelete={deleteCity(c)}/>
+                                        <SearchChip key={c.id} label={c.name} onDelete={deleteCity(c)}/>
                                     )
                             )
                         )
@@ -177,21 +164,20 @@ export default function PlaceDialog(props: PlaceDialogProps) {
                         lineItems.map((lineItem) =>
                             lineItem.items.map((item) =>
                                 line.includes(item.line) ?
-                                    <Chip size='small' key={item.line.id} label={item.line.name} onDelete={deleteLine(item.line, item.stations)}/>
+                                    <SearchChip key={item.line.id} label={item.line.name} onDelete={deleteLine(item.line, item.stations)}/>
                                     :
                                     item.stations.map((s) =>
-                                        station.includes(s) &&
-                                        <Chip size='small' key={s.id} label={s.name} onDelete={deleteStation(s)}/>
+                                        station.includes(s) && <SearchChip key={s.id} label={s.name} onDelete={deleteStation(s)}/>
                                     )
                             )
                         )
                     }
                 </div>}
             content={
-                <AreaTabs
+                <PlaceTabs
                     area={
                         prefItems.map((areaItem,index) =>
-                            <StudioAreaAccordions area={areaItem.area} key={areaItem.area}>
+                            <StudioPlaceAccordions area={areaItem.area} key={areaItem.area}>
                                 <div className={classes.width}>
                                     {
                                         areaItem.items.map((item) =>
@@ -201,26 +187,17 @@ export default function PlaceDialog(props: PlaceDialogProps) {
                                                     aria-controls={`additional-actions-${item.pref.id}-content`}
                                                     id={`additional-actions-${item.pref.id}-header`}
                                                 >
-                                                    <NewSearchCheckbox
-                                                        item={item.pref}
-                                                        itemName={item.pref.name}
-                                                        key={item.pref.id}
-                                                        pref
-                                                        checked={pref.includes(item.pref)}
-                                                        itemChecked={checkedPref(item.cities)}
-                                                        itemUnChecked={unCheckedPref(item.cities)}
+                                                    <SearchCheckbox
+                                                        item={item.pref} itemName={item.pref.name} key={item.pref.id} pref
+                                                        checked={pref.includes(item.pref)} itemChecked={checkedPref(item.cities)} itemUnChecked={unCheckedPref(item.cities)}
                                                     />
                                                 </AccordionSummary>
                                                 <AccordionDetails>
                                                     {
                                                         item.cities.map((c) => (
-                                                            <NewSearchCheckbox
-                                                                item={c}
-                                                                itemName={c.name}
-                                                                key={c.id}
-                                                                checked={city.includes(c)}
-                                                                itemChecked={checkedCity(item.pref, item.cities)}
-                                                                itemUnChecked={unCheckedCity(item.pref)}/>
+                                                            <SearchCheckbox
+                                                                item={c} itemName={c.name} key={c.id}
+                                                                checked={city.includes(c)} itemChecked={checkedCity(item.pref, item.cities)} itemUnChecked={unCheckedCity(item.pref)}/>
                                                         ))
                                                     }
                                                 </AccordionDetails>
@@ -228,12 +205,12 @@ export default function PlaceDialog(props: PlaceDialogProps) {
                                         )
                                     }
                                 </div>
-                            </StudioAreaAccordions>
+                            </StudioPlaceAccordions>
                         )
                     }
                     line={
                         lineItems.map((lineItem) =>
-                            <StudioAreaAccordions area={lineItem.area} key={lineItem.area}>
+                            <StudioPlaceAccordions area={lineItem.area} key={lineItem.area}>
                                 <div className={classes.width}>
                                     {
                                         lineItem.items.map((item) =>
@@ -243,7 +220,7 @@ export default function PlaceDialog(props: PlaceDialogProps) {
                                                     aria-controls={`additional-actions-${item.line.id}-content`}
                                                     id={`additional-actions-${item.line.id}-header`}
                                                 >
-                                                    <NewSearchCheckbox
+                                                    <SearchCheckbox
                                                         item={item.line}
                                                         itemName={item.line.name}
                                                         key={item.line.id}
@@ -256,7 +233,7 @@ export default function PlaceDialog(props: PlaceDialogProps) {
                                                 <AccordionDetails>
                                                     {
                                                         item.stations.map((s) => (
-                                                            <NewSearchCheckbox
+                                                            <SearchCheckbox
                                                                 item={s}
                                                                 itemName={s.name}
                                                                 key={s.id}
@@ -270,7 +247,7 @@ export default function PlaceDialog(props: PlaceDialogProps) {
                                         )
                                     }
                                 </div>
-                            </StudioAreaAccordions>
+                            </StudioPlaceAccordions>
                         )
                     }/>
             }/>

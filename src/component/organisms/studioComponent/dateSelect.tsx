@@ -76,7 +76,7 @@ interface DateSelectProps {
     addDate: () => void;
 }
 
-export default function NewDateSelect(props: DateSelectProps) {
+export default function DateSelect(props: DateSelectProps) {
     const classes = useStyles();
     const { open, dateChange, addDate, date: dateProp, label, addBtn, last } = props;
     const [selectedDate, setSelectedDate] = React.useState<Date | null>(null);
