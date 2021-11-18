@@ -16,7 +16,7 @@ import {
     maxPriceOptions,
     minMirrorOptions,
     minPriceOptions,
-    reservationOptions, roomFacilityOptions, soundAndMovieOptions, studioFacilityOptions
+    reservationOptions, soundAndMovieOptions, studioFacilityOptions
 } from "./detailOptions";
 
 const useStyles = makeStyles(() =>

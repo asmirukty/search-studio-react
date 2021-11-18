@@ -252,7 +252,6 @@ export default function Studio(props: StudioProps) {
                         </Typography>
                     </div>
                     <NewAreaDialog label={'エリア/沿線、駅を選択'} area={area} addItems={addArea} deleteItems={deleteArea}/>
-                    <StudioName studioText={studioText} text={text}/>
                     <Typography component={'span'} variant='subtitle1' className={classes.title}>
                         広さ
                     </Typography>

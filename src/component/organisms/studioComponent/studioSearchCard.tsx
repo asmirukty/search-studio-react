@@ -1,7 +1,6 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {createStyles, makeStyles} from "@material-ui/core/styles";
 import {Button, Card, CardContent, Typography} from "@material-ui/core";
-import StudioDialog from "./studioDialog";
 import StudioName from "./studioNameTextField";
 import {Link} from "react-router-dom";
 import useArrayValue from "../use-array-value";
@@ -62,33 +61,41 @@ const useStyles = makeStyles(() =>
 
 interface StudioSearchProps {
     close?: (value?: any) => void;
-    state?: any
+    state: {
+        prefecture: any[], city: any[], line: any[], station: any[], studioName: any,
+        minArea: any, maxArea: any, minPeople: any, maxPeople: any, date: any[],
+        fromStation: any, minPrice: any, maxPrice: any,
+        minMirror: any, maxMirror: any, detailCheck: any[]
+
+    }
 }
 
 export default function StudioSearchCard(props: StudioSearchProps) {
     const classes = useStyles();
     const {close, state} = props;
-    const [studio, setStudio] = useState()
-    const [prefecture, changePrefecture, deletePrefecture] = useArrayValue([]);
-    const [city, changeCity, deleteCity] = useArrayValue([]);
-    const [line, changeLine, deleteLine] = useArrayValue([]);
-    const [station, changeStation, deleteStation] = useArrayValue([]);
-    const [minArea, maxArea, changeMinArea, changeMaxArea, deleteArea] = useRangeValue(null, null);
-    const [minPeople, maxPeople, changeMinPeople, changeMaxPeople, deletePeople] = useRangeValue(null, null);
-    const [date, changeDate, deleteDate] = useDateValue([]);
-    const [fromStation, changeFromStation, deleteFromStation] = useValue(null);
-    const [minPrice, maxPrice, changeMinPrice, changeMaxPrice, deletePrice] = useRangeValue(null, null);
-    const [minMirror, maxMirror, changeMinMirror, changeMaxMirror, deleteMirror] = useRangeValue(null, null);
-    const [detailCheck, changeDetailCheck, deleteDetailCheck] = useArrayValue([]);
-    const cancel = useDetailValue(detailCheck, ['キャンセル無料期間あり']);
-    const halfHourSlot = useDetailValue(detailCheck, [reservationOptions[0]]);
-    const fromHalfHour = useDetailValue(detailCheck, [reservationOptions[1]]);
-    const reservation = useDetailValue(detailCheck, [reservationOptions[2], reservationOptions[3]]);
-    const studioFacility = useDetailValue(detailCheck, studioFacilityOptions);
-    const roomFacility = useDetailValue(detailCheck, roomFacilityOptions);
-    const floorMaterial = useDetailValue(detailCheck, floorMaterialOptions);
+    const [prefecture, changePrefecture, deletePrefecture] = useArrayValue(state.prefecture);
+    const [city, changeCity, deleteCity] = useArrayValue(state.city);
+    const [line, changeLine, deleteLine] = useArrayValue(state.line);
+    const [station, changeStation, deleteStation] = useArrayValue(state.station);
+    const [studioName, setStudioName] = useState(state.studioName);
+    const [minArea, maxArea, changeMinArea, changeMaxArea, deleteArea] = useRangeValue(state.minArea, state.maxArea);
+    const [minPeople, maxPeople, changeMinPeople, changeMaxPeople, deletePeople] = useRangeValue(state.minPeople, state.maxPeople);
+    const [date, changeDate, deleteDate] = useDateValue(state.date);
+    const [fromStation, changeFromStation, deleteFromStation] = useValue(state.fromStation);
+    const [minPrice, maxPrice, changeMinPrice, changeMaxPrice, deletePrice] = useRangeValue(state.minPrice, state.maxPrice);
+    const [minMirror, maxMirror, changeMinMirror, changeMaxMirror, deleteMirror] = useRangeValue(state.minMirror, state.maxMirror);
+    const [detailCheck, changeDetailCheck, deleteDetailCheck] = useArrayValue(state.detailCheck);
+    const [search, setSearch] = useState(false)
+    const cancel = useDetailValue(search, detailCheck, ['キャンセル無料期間あり']);
+    const halfHourSlot = useDetailValue(search, detailCheck, [reservationOptions[0]]);
+    const fromHalfHour = useDetailValue(search, detailCheck, [reservationOptions[1]]);
+    const reservation = useDetailValue(search, detailCheck, [reservationOptions[2], reservationOptions[3]]);
+    const studioFacility = useDetailValue(search, detailCheck, studioFacilityOptions);
+    const roomFacility = useDetailValue(search, detailCheck, roomFacilityOptions);
+    const floorMaterial = useDetailValue(search, detailCheck, floorMaterialOptions);
 
     const handleClose = () => {
+        setSearch(true)
         if (close) {
             close()
         }
@@ -108,7 +115,7 @@ export default function StudioSearchCard(props: StudioSearchProps) {
                 <PlaceDialog pref={prefecture} city={city} line={line} station={station}
                              changePref={changePrefecture} changeCity={changeCity} changeLine={changeLine} changeStation={changeStation}
                              deletePref={deletePrefecture} deleteCity={deleteCity} deleteLine={deleteLine} deleteStation={deleteStation}/>
-                {/**<StudioName studioText={studioText} text={text}/>*/}
+                <StudioName studioName={studioName} changeStudioName={setStudioName}/>
                 <Typography component={'span'} variant='subtitle1' className={classes.title}>
                     広さ
                 </Typography>
@@ -125,12 +132,18 @@ export default function StudioSearchCard(props: StudioSearchProps) {
                               deleteFromStation={deleteFromStation} deletePrice={deletePrice} deleteMirror={deleteMirror} deleteDetailCheck={deleteDetailCheck}/>
                 <div style={{display: 'flex'}}>
                     <Button className={classes.searchBtn}
-                            disabled={prefecture.length === 0 && city.length === 0}
+                            disabled={prefecture.length === 0 && city.length === 0 && !studioName}
                             onClick={handleClose}
                             component={Link}
                             to={{
-                                pathname: `/studios/${date}${fromStation}`,
-                                state: {date: date, fromStation: fromStation}
+                                pathname: `/studios/${cancel}${halfHourSlot}${fromHalfHour}${reservation}${studioFacility}${roomFacility}${floorMaterial}`,
+                                state: {
+                                    prefecture: prefecture, city: city, line: line, station: station, studioName: studioName,
+                                    minArea: minArea, maxArea: maxArea, minPeople: minPeople, maxPeople: maxPeople, date: date,
+                                    fromStation: fromStation, minPrice: minPrice, maxPrice: maxPrice,
+                                    minMirror: minMirror, maxMirror: maxMirror, detailCheck: detailCheck
+
+                                }
                             }}>
                         検 索
                     </Button>

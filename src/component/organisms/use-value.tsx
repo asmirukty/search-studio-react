@@ -1,6 +1,6 @@
 import {useState} from 'react'
 
-export default function useValue (initialState: any, boolean?: boolean):
+export default function useValue (initialState: any):
     [any, (newValue: any) => void, () => void]{
     const [value, setValue] = useState(initialState)
 
@@ -9,7 +9,7 @@ export default function useValue (initialState: any, boolean?: boolean):
     }
 
     const deleteValue = () => {
-        boolean ? setValue(false) : setValue(null)
+        setValue(null)
     }
 
     return [value, changeValue, deleteValue]

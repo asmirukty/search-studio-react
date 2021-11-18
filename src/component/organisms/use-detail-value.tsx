@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react'
 
-export default function useDetailValue (detailCheck: any[], options: any[]): [any[]]{
+export default function useDetailValue (search: boolean, detailCheck: any[], options: any[]): [any[]]{
     const [value, setValue] = useState<any[]>([])
 
     useEffect(() => {
@@ -8,7 +8,7 @@ export default function useDetailValue (detailCheck: any[], options: any[]): [an
         options.map((option) => {
             detailCheck.includes(option) && setValue(prevState => [...prevState, option])
         })
-    }, [detailCheck])
+    }, [search])
 
     return [value]
 }
