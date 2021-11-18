@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {createStyles, makeStyles, withStyles} from "@material-ui/core/styles";
 import MuiChip from "@material-ui/core/Chip";
 import StudioDialog from "./studioDialog";
@@ -7,28 +7,17 @@ import {InputLabel, Typography} from "@material-ui/core";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
-
-const fromStationOptions = [
-    '指定なし',　'3分以内', '5分以内',　'7分以内', '10分以内',
-];
-
-const minPriceOptions = [
-    '下限なし',　'500円', '1000円',　'1500円', '2000円',　'2500円', '3000円',　'3500円', '4000円',
-    '4500円', '5000円',　'6000円', '7000円',　'8000円', '9000円', '10000円'
-];
-
-const maxPriceOptions = [
-    '上限なし',　'500円', '1000円',　'1500円', '2000円',　'2500円', '3000円',　'3500円', '4000円',
-    '4500円', '5000円',　'6000円', '7000円',　'8000円', '9000円', '10000円'
-];
-
-const minMirrorOptions = [
-    '下限なし',　'5m', '10m',　'15m', '20m',　'25m', '30m',　'35m', '40m', '45m', '50m',
-];
-
-const maxMirrorOptions = [
-    '上限なし',　'5m', '10m',　'15m', '20m',　'25m', '30m',　'35m', '40m', '45m', '50m',
-];
+import useCheck from "../use-check";
+import NewSearchCheckbox from "./newSearchCheckbox";
+import {
+    amenityOptions, floorMaterialOptions,
+    fromStationOptions, lightAndFilmingOptions,
+    maxMirrorOptions,
+    maxPriceOptions,
+    minMirrorOptions,
+    minPriceOptions,
+    reservationOptions, roomFacilityOptions, soundAndMovieOptions, studioFacilityOptions
+} from "./detailOptions";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -58,6 +47,10 @@ const useStyles = makeStyles(() =>
         },
         menuPaper: {
             maxHeight: 300
+        },
+        checkArray: {
+            display: 'flex',
+            flexWrap: 'wrap',
         }
     }));
 
@@ -79,14 +72,17 @@ interface DetailDialogProps {
     maxPrice: any,
     minMirror: any,
     maxMirror: any,
+    detailCheck: any[],
     changeFromStation: (value: any[]) => void;
     changeMinPrice: (value: any[]) => void;
     changeMaxPrice: (value: any[]) => void;
     changeMinMirror: (value: any[]) => void;
     changeMaxMirror: (value: any[]) => void;
+    changeDetailCheck: (value: any[]) => void;
     deleteFromStation: () => void;
     deletePrice: () => void;
     deleteMirror: () => void;
+    deleteDetailCheck: (value: any) => void;
 }
 
 export default function DetailDialog(props: DetailDialogProps) {
@@ -96,18 +92,23 @@ export default function DetailDialog(props: DetailDialogProps) {
     const [notUse, selectFromStation, changeNotUse, changeFromStation, deleteFromStation] = useRangeSelect(open, null, fromStation, props.deleteFromStation)
     const [selectMinPrice, selectMaxPrice, changeMinPrice, changeMaxPrice, deletePrice] = useRangeSelect(open, minPrice, maxPrice, props.deletePrice)
     const [selectMinMirror, selectMaxMirror, changeMinMirror, changeMaxMirror, deleteMirror] = useRangeSelect(open, minMirror, maxMirror, props.deleteMirror)
+    const [detailCheck, check, unCheck, deleteChip] = useCheck(open, props.detailCheck, props.deleteDetailCheck)
+
+    {/**
+     checkboxのchecked={includes}いらないかも
+     */}
 
     return (
         <StudioDialog
-            funcs={[props.changeFromStation, props.changeMinPrice, props.changeMaxPrice, props.changeMinMirror, props.changeMaxMirror]}
-            state={[selectFromStation, selectMinPrice, selectMaxPrice, selectMinMirror, selectMaxMirror]}
+            funcs={[props.changeFromStation, props.changeMinPrice, props.changeMaxPrice, props.changeMinMirror, props.changeMaxMirror, props.changeDetailCheck]}
+            state={[selectFromStation, selectMinPrice, selectMaxPrice, selectMinMirror, selectMaxMirror, detailCheck]}
             openCheck={(open) => {setOpen(open)}}
             detail labelCheck
             label={'もっとしぼり込む >'}
             chips={
                 <div>
                     {
-                        fromStation && <Chip size="small" key={'fromStation'} label={fromStation} onDelete={deleteFromStation}/>
+                        fromStation && <Chip size="small" key={'fromStation'} label={`駅${fromStation}`} onDelete={deleteFromStation}/>
                     }
                     {
                         (minPrice || maxPrice) &&
@@ -119,6 +120,13 @@ export default function DetailDialog(props: DetailDialogProps) {
                         />
                     }
                     {
+                        detailCheck &&
+                        ['キャンセル無料期間あり', ...reservationOptions, ...studioFacilityOptions, '鏡2面'].map((option) =>
+                            detailCheck.includes(option) &&
+                            <Chip size='small' key={option} label={option} onDelete={deleteChip(option)}/>
+                        )
+                    }
+                    {
                         (minMirror || maxMirror) &&
                         <Chip size='small' key={'mirror'} onDelete={deleteMirror}
                            label={
@@ -126,6 +134,13 @@ export default function DetailDialog(props: DetailDialogProps) {
                                    (minMirror) ? `${minMirror}~` : `~${maxMirror}`)
                            }
                         />
+                    }
+                    {
+                        detailCheck &&
+                        [...lightAndFilmingOptions, ...soundAndMovieOptions, ...floorMaterialOptions, ...amenityOptions].map((option) =>
+                            detailCheck.includes(option) &&
+                            <Chip size='small' key={option} label={option} onDelete={deleteChip(option)}/>
+                        )
                     }
                 </div>}
             content={
@@ -147,6 +162,7 @@ export default function DetailDialog(props: DetailDialogProps) {
                         </Select>
                     </FormControl>
                     <Typography className={classes.typ} variant={'subtitle1'}>料金</Typography>
+                    <NewSearchCheckbox item={'キャンセル無料期間あり'} itemName={'キャンセル無料期間あり'} key={'キャンセル無料期間あり'} open={open} checked={detailCheck.includes('キャンセル無料期間あり')} itemChecked={check} itemUnChecked={unCheck}/>
                     <div className={classes.select}>
                         <FormControl className={classes.formControl}>
                             <InputLabel shrink className={classes.label}>30分あたりの料金</InputLabel>
@@ -187,8 +203,25 @@ export default function DetailDialog(props: DetailDialogProps) {
                             </Select>
                         </FormControl>
                     </div>
+                    <Typography className={classes.typ} variant={'subtitle1'}>予約</Typography>
+                    <div className={classes.checkArray}>
+                        {
+                            reservationOptions.map((option) => (
+                                <NewSearchCheckbox item={option} itemName={option} key={option} checked={detailCheck.includes(option)} itemChecked={check} itemUnChecked={unCheck}/>
+                            ))
+                        }
+                    </div>
+                    <Typography className={classes.typ} variant={'subtitle1'}>スタジオ設備</Typography>
+                    <div className={classes.checkArray}>
+                        {
+                            studioFacilityOptions.map((option) => (
+                                <NewSearchCheckbox item={option} itemName={option} key={option} checked={detailCheck.includes(option)} itemChecked={check} itemUnChecked={unCheck}/>
+                            ))
+                        }
+                    </div>
                     <Typography className={classes.typ} variant={'subtitle1'}>部屋設備・備品</Typography>
                     <Typography className={classes.typ} variant={'subtitle2'}>鏡</Typography>
+                    <NewSearchCheckbox item={'鏡2面'} itemName={'2面'} key={'2面'} checked={detailCheck.includes('鏡2面')} itemChecked={check} itemUnChecked={unCheck}/>
                     <div className={classes.select}>
                         <FormControl className={classes.formControl}>
                             <InputLabel shrink className={classes.label}>横幅</InputLabel>
@@ -227,6 +260,34 @@ export default function DetailDialog(props: DetailDialogProps) {
                             </Select>
                         </FormControl>
                     </div>
+                    <Typography className={classes.typ} variant={'subtitle2'}>照明・撮影</Typography>
+                    <div className={classes.checkArray}>
+                        {
+                            lightAndFilmingOptions.map((option) => (
+                                <NewSearchCheckbox item={option} itemName={option} key={option} checked={detailCheck.includes(option)} itemChecked={check} itemUnChecked={unCheck}/>
+                            ))
+                        }
+                    </div>
+                    <Typography className={classes.typ} variant={'subtitle2'}>音響・映像</Typography>
+                    <div className={classes.checkArray}>
+                        {
+                            soundAndMovieOptions.map((option) => (
+                                <NewSearchCheckbox item={option} itemName={option} key={option} checked={detailCheck.includes(option)} itemChecked={check} itemUnChecked={unCheck}/>
+                            ))
+                        }
+                    </div>
+                    <Typography className={classes.typ} variant={'subtitle2'}>床材</Typography>
+                    {
+                        floorMaterialOptions.map((option) => (
+                            <NewSearchCheckbox item={option} itemName={option} key={option} checked={detailCheck.includes(option)} itemChecked={check} itemUnChecked={unCheck}/>
+                        ))
+                    }
+                    <Typography className={classes.typ} variant={'subtitle2'}>その他設備・備品</Typography>
+                    {
+                        amenityOptions.map((option) => (
+                            <NewSearchCheckbox item={option} itemName={option} key={option} checked={detailCheck.includes(option)} itemChecked={check} itemUnChecked={unCheck}/>
+                        ))
+                    }
                 </div>
             }/>
     )

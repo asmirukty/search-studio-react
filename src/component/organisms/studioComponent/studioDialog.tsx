@@ -5,7 +5,6 @@ import DialogActions from "@material-ui/core/DialogActions";
 import {Close} from "@material-ui/icons";
 import {Dialog, DialogContent} from "@material-ui/core";
 import useDialogOpen from "../use-dialog-open";
-import {checkItemA, checkItemB} from "./newDetailDialogRaw";
 
 const useStyles = makeStyles(() =>
     createStyles({

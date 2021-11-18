@@ -12,6 +12,9 @@ import DateDialog from "./dateDialog";
 import useDateValue from "../use-date-value";
 import DateMatchRadio from "./dateMatchRadio";
 import DetailDialog from "./detailDialog";
+import useValue from "../use-value";
+import useDetailValue from "../use-detail-value";
+import {floorMaterialOptions, reservationOptions, roomFacilityOptions, studioFacilityOptions} from "./detailOptions";
 
 
 const useStyles = makeStyles(() =>
@@ -73,18 +76,17 @@ export default function StudioSearchCard(props: StudioSearchProps) {
     const [minArea, maxArea, changeMinArea, changeMaxArea, deleteArea] = useRangeValue(null, null);
     const [minPeople, maxPeople, changeMinPeople, changeMaxPeople, deletePeople] = useRangeValue(null, null);
     const [date, changeDate, deleteDate] = useDateValue([]);
-    const [noUse, fromStation, changeNoUse, changeFromStation, deleteFromStation] = useRangeValue(null, null);
-    const [cancel, setCancel] = useState<boolean>(false);
+    const [fromStation, changeFromStation, deleteFromStation] = useValue(null);
     const [minPrice, maxPrice, changeMinPrice, changeMaxPrice, deletePrice] = useRangeValue(null, null);
-    const [halfHour, setHalfHour] = useState<boolean>(false);
-    const [reservation, changeReservation, deleteReservation] = useArrayValue([]);
-    const [studioFacility, changeStudioFacility, deleteStudioFacility] = useArrayValue([]);
     const [minMirror, maxMirror, changeMinMirror, changeMaxMirror, deleteMirror] = useRangeValue(null, null);
-    const [roomFacility, changeRoomFacility, deleteRoomFacility] = useArrayValue([]);
-    const [floorMaterial, changeFloorMaterial, deleteFloorMaterial] = useArrayValue([]);
-
-    useEffect(() => {
-    },[])
+    const [detailCheck, changeDetailCheck, deleteDetailCheck] = useArrayValue([]);
+    const cancel = useDetailValue(detailCheck, ['キャンセル無料期間あり']);
+    const halfHourSlot = useDetailValue(detailCheck, [reservationOptions[0]]);
+    const fromHalfHour = useDetailValue(detailCheck, [reservationOptions[1]]);
+    const reservation = useDetailValue(detailCheck, [reservationOptions[2], reservationOptions[3]]);
+    const studioFacility = useDetailValue(detailCheck, studioFacilityOptions);
+    const roomFacility = useDetailValue(detailCheck, roomFacilityOptions);
+    const floorMaterial = useDetailValue(detailCheck, floorMaterialOptions);
 
     const handleClose = () => {
         if (close) {
@@ -106,6 +108,7 @@ export default function StudioSearchCard(props: StudioSearchProps) {
                 <PlaceDialog pref={prefecture} city={city} line={line} station={station}
                              changePref={changePrefecture} changeCity={changeCity} changeLine={changeLine} changeStation={changeStation}
                              deletePref={deletePrefecture} deleteCity={deleteCity} deleteLine={deleteLine} deleteStation={deleteStation}/>
+                {/**<StudioName studioText={studioText} text={text}/>*/}
                 <Typography component={'span'} variant='subtitle1' className={classes.title}>
                     広さ
                 </Typography>
@@ -117,13 +120,9 @@ export default function StudioSearchCard(props: StudioSearchProps) {
                 </Typography>
                 <DateDialog date={date} changeDate={changeDate} deleteDate={deleteDate}/>
                 {date.length > 1 && <DateMatchRadio/>}
-                <DetailDialog fromStation={fromStation} minPrice={minPrice} maxPrice={maxPrice} minMirror={minMirror} maxMirror={maxMirror}
-                              changeFromStation={changeFromStation} changeMinPrice={changeMinPrice} changeMaxPrice={changeMaxPrice} changeMinMirror={changeMinMirror} changeMaxMirror={changeMaxMirror}
-                              deleteFromStation={deleteFromStation} deletePrice={deletePrice} deleteMirror={deleteMirror}/>
-                {/**
-                <StudioName studioText={studioText} text={text}/>
-                <StudioDialog label='もっとしぼり込む >' detail chip={date} chipDelete={deleteDate} chipChange={addDate}>
-                </StudioDialog>*/}
+                <DetailDialog fromStation={fromStation} minPrice={minPrice} maxPrice={maxPrice} minMirror={minMirror} maxMirror={maxMirror} detailCheck={detailCheck}
+                              changeFromStation={changeFromStation} changeMinPrice={changeMinPrice} changeMaxPrice={changeMaxPrice} changeMinMirror={changeMinMirror} changeMaxMirror={changeMaxMirror} changeDetailCheck={changeDetailCheck}
+                              deleteFromStation={deleteFromStation} deletePrice={deletePrice} deleteMirror={deleteMirror} deleteDetailCheck={deleteDetailCheck}/>
                 <div style={{display: 'flex'}}>
                     <Button className={classes.searchBtn}
                             disabled={prefecture.length === 0 && city.length === 0}

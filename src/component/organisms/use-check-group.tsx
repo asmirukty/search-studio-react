@@ -39,9 +39,6 @@ export default function useCheckGroup (
                     [...prevState, thisChild]
                 )
         )
-        thisChildren.map((thisChild) =>
-            children.includes(thisChild) && console.log(thisChild)
-        )
     };
 
     const checkedChild = (parent: parentType, thisChildren: childType[]) => (newItem: childType) : void => {
