@@ -136,7 +136,8 @@ export default function StudioSearchCard(props: StudioSearchProps) {
                             onClick={handleClose}
                             component={Link}
                             to={{
-                                pathname: `/studios/${cancel}${halfHourSlot}${fromHalfHour}${reservation}${studioFacility}${roomFacility}${floorMaterial}`,
+                                pathname: `/studios/${cancel},${halfHourSlot},${fromHalfHour},${reservation},${studioFacility},${roomFacility},${floorMaterial}`,
+                                //search: `?pref=${prefecture}`,
                                 state: {
                                     prefecture: prefecture, city: city, line: line, station: station, studioName: studioName,
                                     minArea: minArea, maxArea: maxArea, minPeople: minPeople, maxPeople: maxPeople, date: date,

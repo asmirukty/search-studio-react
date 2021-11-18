@@ -5,10 +5,10 @@ import axios from 'axios';
 import StudioTitle from "./studioResultComponent/studioTitle";
 import RoomTitle from "./studioResultComponent/roomTitle";
 import RoomContent from "./studioResultComponent/roomContent";
-import {Link, useParams} from 'react-router-dom'
-import Studio from "./studio";
+import {Link, useParams} from 'react-router-dom';
 import {Close} from "@material-ui/icons";
 import DialogActions from "@material-ui/core/DialogActions";
+import StudioSearchCard from "./studioComponent/studioSearchCard";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -348,7 +348,13 @@ export default function StudioResult(props: { state: any}) {
                     </div>
                     <Typography variant='subtitle1' style={{color: '#5A4628', fontWeight: 'bold', textAlign: 'center'}}>検索条件</Typography>
                 </DialogActions>
-                <Studio close={() => setOpen(false)} state={props.state}/>
+                <StudioSearchCard close={() => setOpen(false)} state={{
+                    prefecture: [], city: [], line: [], station: [], studioName: null,
+                    minArea: null, maxArea: null, minPeople: null, maxPeople: null, date: [],
+                    fromStation: null, minPrice: null, maxPrice: null,
+                    minMirror: null, maxMirror: null, detailCheck: []
+
+                }}/>
             </Dialog>
             <h3 style={{textAlign: 'center'}}>
                 検索結果
