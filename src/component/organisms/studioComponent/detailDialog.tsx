@@ -86,9 +86,7 @@ export default function DetailDialog(props: DetailDialogProps) {
         <StudioDialog
             funcs={[props.changeFromStation, props.changeMinPrice, props.changeMaxPrice, props.changeMinMirror, props.changeMaxMirror, props.changeDetailCheck]}
             state={[selectFromStation, selectMinPrice, selectMaxPrice, selectMinMirror, selectMaxMirror, detailCheck]}
-            openCheck={(open) => {setOpen(open)}}
-            detail labelCheck
-            label={'もっとしぼり込む >'}
+            openCheck={setOpen} detail labelCheck label={'もっとしぼり込む >'}
             chips={
                 <div>
                     {

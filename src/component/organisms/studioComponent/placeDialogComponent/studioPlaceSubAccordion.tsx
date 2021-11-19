@@ -3,7 +3,6 @@ import { withStyles } from '@material-ui/core/styles';
 import MuiAccordion from '@material-ui/core/Accordion';
 import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
 import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
-import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 const Accordion = withStyles({
@@ -15,32 +14,25 @@ const Accordion = withStyles({
         '&$expanded': {
             margin: 'auto',
         },
-        '&:last-child': {
-            borderBottom: '1px solid #D7D2C8',
-            '&$expanded': {
-                borderBottom: 0
-            },
-        },
     },
     expanded: {},
 })(MuiAccordion);
 
-const AccordionSummary = withStyles({
+const AccordionSummary = withStyles( {
     root: {
-        fontSize: '14px',
+        paddingLeft: 8,
+        minHeight: 16,
         color: '#5A4628',
-        backgroundColor: '#F9F5F0',
         borderTop: '1px solid #D7D2C8',
-        minHeight: 20,
         '&$expanded': {
-            minHeight: 20
-        },
+            minHeight: 16,
+        }
     },
     content: {
         margin: 0,
         '&$expanded': {
-            margin: 0,
-        },
+            margin: 0
+        }
     },
     expandIcon: {
         color: '#5A4628',
@@ -50,35 +42,36 @@ const AccordionSummary = withStyles({
     expanded: {},
 })(MuiAccordionSummary);
 
-const AccordionDetails = withStyles({
+const AccordionDetails = withStyles( {
     root: {
-        padding: 0,
-        minHeight: 16,
+        padding: '0 24px',
+        display: 'flex',
+        flexWrap: 'wrap',
     },
 })(MuiAccordionDetails);
 
-interface StudioPlaceAccordionProps {
+interface StudioPlaceSubAccordionProps {
+    parentId: string;
+    parent: React.ReactNode;
     children: React.ReactNode;
-    area: string;
 }
 
-export default function StudioPlaceAccordion(props: StudioPlaceAccordionProps) {
+export default function StudioPlaceSubAccordion(props: StudioPlaceSubAccordionProps) {
     const [expanded, setExpanded] = React.useState<string | false>();
+    const {parentId, parent, children} = props;
 
     const handleChange = (panel: string) => (event: React.ChangeEvent<{}>, newExpanded: boolean) => {
         setExpanded(newExpanded ? panel : false);
     };
 
     return (
-            <Accordion square expanded={expanded === `panel-${props.area}`} onChange={handleChange(`panel-${props.area}`)}>
+            <Accordion square expanded={expanded === `panel-${parentId}`} onChange={handleChange(`panel-${parentId}`)}>
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}
-                                  aria-controls={`panel-${props.area}-content`}
-                                  id={`panel-${props.area}-header`}>
-                    <Typography variant='subtitle2'>{props.area}</Typography>
+                                  aria-controls={`panel-${parentId}-content`}
+                                  id={`panel-${parentId}-header`}>
+                    {parent}
                 </AccordionSummary>
-                <AccordionDetails>
-                    <div style={{width: '100%'}}>{props.children}</div>
-                </AccordionDetails>
+                <AccordionDetails>{children}</AccordionDetails>
             </Accordion>
     );
 }

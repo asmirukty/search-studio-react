@@ -15,7 +15,6 @@ export default function useCheck (
     useEffect(() => {
         if (!open) {
             setCheckedItem(initialCheckedItem)
-            console.log(initialCheckedItem)
         }
     }, [open])
 

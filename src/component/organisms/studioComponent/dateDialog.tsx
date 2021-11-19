@@ -31,11 +31,8 @@ export default function DateDialog(props: DateDialogProps) {
 
     return (
         <StudioDialog
-            funcs={[props.changeDate]}
-            state={[selectDate]}
-            openCheck={(open) => {setOpen(open)}}
-            labelCheck={date.length === 0}
-            label={'日時を選択'}
+            funcs={[props.changeDate]} state={[selectDate]} openCheck={setOpen}
+            labelCheck={date.length === 0} label={'日時を選択'}
             chips={
                 <div className={classes.wrapChip}>
                     {

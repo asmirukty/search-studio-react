@@ -60,7 +60,7 @@ export default function SpaceDialog(props: SpaceDialogProps) {
         <StudioDialog
             funcs={[props.changeMinArea, props.changeMaxArea, props.changeMinPeople, props.changeMaxPeople]}
             state={[selectMinArea, selectMaxArea, selectMinPeople, selectMaxPeople]}
-            openCheck={(open) => {setOpen(open)}}
+            openCheck={setOpen}
             labelCheck={!minArea && !maxArea && !minPeople && !maxPeople}
             label={'面積/人数を選択'}
             chips={

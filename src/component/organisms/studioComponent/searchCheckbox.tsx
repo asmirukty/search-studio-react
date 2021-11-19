@@ -53,26 +53,25 @@ export default function SearchCheckbox(props: SearchCheckboxProps) {
     return (
         <div>
             {(pref) ?
-            (<FormControlLabel
-                onClick={(event) => event.stopPropagation()}
-                onFocus={(event) => event.stopPropagation()}
-                control={
-                    <Checkbox
-                        style={{padding: 4}} size='small' checked={checked}
-                        onChange={handleChange} value={item} key={key} color="primary"
-                    />}
-                label={itemName}
-            />) :
-            (<FormControlLabel
-                style={count(itemName) < 8 ? {width: 140} : {width: 280}}
-                control={
-                    <Checkbox
-                        style={{padding: 4}} size='small' checked={checked}
-                        onChange={handleChange} value={item} key={key} color="primary"
-                    />
-                }
-                label={itemName}
-            />)}
+                (<FormControlLabel
+                    onClick={(event) => event.stopPropagation()}
+                    onFocus={(event) => event.stopPropagation()}
+                    control={
+                        <Checkbox style={{padding: 4}} size='small' checked={checked}
+                                  onChange={handleChange} value={item} key={key} color="primary"/>
+                    }
+                    label={itemName}
+                />)
+                :
+                (<FormControlLabel
+                    style={count(itemName) < 8 ? {width: 140} : {width: 280}}
+                    control={
+                        <Checkbox style={{padding: 4}} size='small' checked={checked}
+                                  onChange={handleChange} value={item} key={key} color="primary"/>
+                    }
+                    label={itemName}
+                />)
+            }
         </div>
     );
 }
