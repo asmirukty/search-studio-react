@@ -1,9 +1,7 @@
 import React from 'react';
 import {createStyles, makeStyles} from "@material-ui/core/styles";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
-import {InputLabel} from "@material-ui/core";
+import SelectOption from "./selectOption";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -12,21 +10,6 @@ const useStyles = makeStyles(() =>
             alignItems: 'baseline',
             justifyContent: 'center',
             marginBottom: 12
-        },
-        formControl: {
-            margin: 4,
-            minWidth: 120,
-        },
-        label: {
-            color: '#5A4628'
-        },
-        selectEmpty: {
-            color: "#5A4628",
-            fontSize: "14px",
-            padding: '2px 7px'
-        },
-        menuPaper: {
-            maxHeight: 300
         }
     }));
 
@@ -44,49 +27,27 @@ export default function MinMaxSelect(props: MinMaxSelectProps) {
 
     return (
         <div className={classes.select}>
-                        <FormControl className={classes.formControl}>
-                            {
-                                minLabel && <InputLabel shrink className={classes.label}>{minLabel}</InputLabel>
-                            }
-                            <Select
-                                value={min ? min : minNullValue}
-                                onChange={props.changeMin}
-                                displayEmpty
-                                className={classes.selectEmpty}
-                                MenuProps={{ classes: { paper: classes.menuPaper } }}
-                            >
-                                {
-                                    minOptions.map((option: any, index) => (
-                                        <MenuItem value={option} key={index}
-                                                  disabled={option !== minNullValue && max && (disableEqual ? index >= maxOptions.indexOf(max) : index > maxOptions.indexOf(max))}>
-                                            {option}
-                                        </MenuItem>
-                                    ))
-                                }
-                            </Select>
-                        </FormControl>
-                        <p>~</p>
-                        <FormControl className={classes.formControl}>
-                            {
-                                maxLabel && <InputLabel shrink className={classes.label}>{maxLabel}</InputLabel>
-                            }
-                            <Select
-                                value={max ? max : maxNullValue}
-                                onChange={props.changeMax}
-                                displayEmpty
-                                className={classes.selectEmpty}
-                                MenuProps={{ classes: { paper: classes.menuPaper } }}
-                            >
-                                {
-                                    maxOptions.map((option: any, index) => (
-                                        <MenuItem value={option} key={index}
-                                                  disabled={option !== maxNullValue && min && (disableEqual ? index <= minOptions.indexOf(min) : index < minOptions.indexOf(min))}>
-                                            {option}
-                                        </MenuItem>
-                                    ))
-                                }
-                            </Select>
-                        </FormControl>
-                    </div>
+            <SelectOption label={minLabel} value={min} nullValue={minNullValue} onChange={props.changeMin}>
+                {
+                    minOptions.map((option: any, index) => (
+                        <MenuItem value={option} key={index}
+                                  disabled={option !== minNullValue && max && (disableEqual ? index >= maxOptions.indexOf(max) : index > maxOptions.indexOf(max))}>
+                            {option}
+                        </MenuItem>
+                    ))
+                }
+            </SelectOption>
+            <p>~</p>
+            <SelectOption label={maxLabel} value={max} nullValue={maxNullValue} onChange={props.changeMax}>
+                {
+                    maxOptions.map((option: any, index) => (
+                        <MenuItem value={option} key={index}
+                                  disabled={option !== maxNullValue && min && (disableEqual ? index <= minOptions.indexOf(min) : index < minOptions.indexOf(min))}>
+                            {option}
+                        </MenuItem>
+                    ))
+                }
+            </SelectOption>
+        </div>
     )
 }
