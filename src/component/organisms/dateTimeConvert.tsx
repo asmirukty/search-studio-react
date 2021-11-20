@@ -2,20 +2,20 @@ import DateConvert from "./dateConvert";
 
 interface DateTimeConvertProps {
     date: Date,
-    startTime: string,
-    endTime: string
+    startTime: string|null,
+    endTime: string|null
 }
 
 export default function DateTimeConvert(props: DateTimeConvertProps) {
     const {date, startTime, endTime} = props;
 
-    if ( startTime !== '指定なし' && endTime !== '指定なし') {
+    if ( startTime && endTime) {
         return `${DateConvert(date)}${startTime}~${endTime}`
     }
-    else if (startTime !== '指定なし') {
+    else if (startTime) {
         return `${DateConvert(date)}${startTime}~`
     }
-    else if (endTime !== '指定なし') {
+    else if (endTime) {
         return `${DateConvert(date)}~${endTime}`
     }
     else {

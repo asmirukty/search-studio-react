@@ -43,9 +43,10 @@ export default function useDateSelect (open: boolean, initialDate: dateType[]|[]
             setDate(prevState => (
                 prevState.filter((element, index) => index !== dateIndex)
             ))
-            setOpens(prevState =>
-                [...prevState.filter((element, index) => index !== dateIndex), false]
-            )
+            opens[1] &&
+                setOpens(prevState =>
+                    [...prevState.filter((element, index) => index !== dateIndex), false]
+                )
         }
     };
 

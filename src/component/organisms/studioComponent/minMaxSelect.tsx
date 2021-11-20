@@ -3,6 +3,7 @@ import {createStyles, makeStyles} from "@material-ui/core/styles";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
+import {InputLabel} from "@material-ui/core";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -16,6 +17,9 @@ const useStyles = makeStyles(() =>
             margin: 4,
             minWidth: 120,
         },
+        label: {
+            color: '#5A4628'
+        },
         selectEmpty: {
             color: "#5A4628",
             fontSize: "14px",
@@ -27,6 +31,7 @@ const useStyles = makeStyles(() =>
     }));
 
 interface MinMaxSelectProps {
+    minLabel?: string, maxLabel?: string,
     min: any, max: any,
     minOptions: any[], maxOptions: any[],
     minNullValue: any, maxNullValue: any, disableEqual?: boolean,
@@ -35,13 +40,16 @@ interface MinMaxSelectProps {
 
 export default function MinMaxSelect(props: MinMaxSelectProps) {
     const classes = useStyles()
-    const {min, max, minOptions, maxOptions, disableEqual} = props;
+    const {minLabel, maxLabel, min, max, minOptions, maxOptions, minNullValue, maxNullValue, disableEqual} = props;
 
     return (
         <div className={classes.select}>
                         <FormControl className={classes.formControl}>
+                            {
+                                minLabel && <InputLabel shrink className={classes.label}>{minLabel}</InputLabel>
+                            }
                             <Select
-                                value={min ? min : props.minNullValue}
+                                value={min ? min : minNullValue}
                                 onChange={props.changeMin}
                                 displayEmpty
                                 className={classes.selectEmpty}
@@ -50,7 +58,7 @@ export default function MinMaxSelect(props: MinMaxSelectProps) {
                                 {
                                     minOptions.map((option: any, index) => (
                                         <MenuItem value={option} key={index}
-                                                  disabled={disableEqual ? (max && index >= maxOptions.indexOf(max)) : (max && index > maxOptions.indexOf(max))}>
+                                                  disabled={option !== minNullValue && max && (disableEqual ? index >= maxOptions.indexOf(max) : index > maxOptions.indexOf(max))}>
                                             {option}
                                         </MenuItem>
                                     ))
@@ -59,8 +67,11 @@ export default function MinMaxSelect(props: MinMaxSelectProps) {
                         </FormControl>
                         <p>~</p>
                         <FormControl className={classes.formControl}>
+                            {
+                                maxLabel && <InputLabel shrink className={classes.label}>{maxLabel}</InputLabel>
+                            }
                             <Select
-                                value={max ? max : props.maxNullValue}
+                                value={max ? max : maxNullValue}
                                 onChange={props.changeMax}
                                 displayEmpty
                                 className={classes.selectEmpty}
@@ -69,7 +80,7 @@ export default function MinMaxSelect(props: MinMaxSelectProps) {
                                 {
                                     maxOptions.map((option: any, index) => (
                                         <MenuItem value={option} key={index}
-                                                  disabled={disableEqual ? (index !== 0 && index <= minOptions.indexOf(min)) : (index !== 0 && index < minOptions.indexOf(min))}>
+                                                  disabled={option !== maxNullValue && min && (disableEqual ? index <= minOptions.indexOf(min) : index < minOptions.indexOf(min))}>
                                             {option}
                                         </MenuItem>
                                     ))
