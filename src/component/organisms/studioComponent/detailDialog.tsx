@@ -5,7 +5,7 @@ import useRangeSelect from "../use-range-select";
 import {Typography} from "@material-ui/core";
 import MenuItem from "@material-ui/core/MenuItem";
 import useCheck from "../use-check";
-import NewSearchCheckbox from "./searchCheckbox";
+import SearchCheckbox from "./searchCheckbox";
 import {
     amenityOptions, floorMaterialOptions, fromStationOptions, lightAndFilmingOptions,
     maxMirrorOptions, maxPriceOptions, minMirrorOptions, minPriceOptions,
@@ -69,58 +69,50 @@ export default function DetailDialog(props: DetailDialogProps) {
                         fromStation && <SearchChip key={'fromStation'} label={`駅${fromStation}`} onDelete={deleteFromStation}/>
                     }
                     {
-                        (minPrice || maxPrice) &&
-                        <SearchChip key={'price'} onDelete={deletePrice}
-                           label={
-                               (minPrice && maxPrice) ? `${minPrice}~${maxPrice}` : (
-                                   (minPrice) ? `${minPrice}~` : `~${maxPrice}`)
-                           }
-                        />
+                        (minPrice || maxPrice) && <SearchChip key={'price'} minLabel={minPrice} maxLabel={maxPrice} onDelete={deletePrice}/>
                     }
                     {
                         detailCheck &&
                         ['キャンセル無料期間あり', ...reservationOptions, ...studioFacilityOptions, '鏡2面'].map((option) =>
-                            detailCheck.includes(option) &&
-                            <SearchChip key={option} label={option} onDelete={deleteChip(option)}/>
-                        )
+                            detailCheck.includes(option) && <SearchChip key={option} label={option} onDelete={deleteChip(option)}/>)
                     }
                     {
-                        (minMirror || maxMirror) &&
-                        <SearchChip key={'mirror'} onDelete={deleteMirror}
-                           label={
-                               (minMirror && maxMirror) ? `${minMirror}~${maxMirror}` : (
-                                   (minMirror) ? `${minMirror}~` : `~${maxMirror}`)
-                           }
-                        />
+                        (minMirror || maxMirror) && <SearchChip key={'mirror'} minLabel={minMirror} maxLabel={maxMirror} onDelete={deleteMirror}/>
                     }
                     {
                         detailCheck &&
                         [...lightAndFilmingOptions, ...soundAndMovieOptions, ...floorMaterialOptions, ...amenityOptions].map((option) =>
-                            detailCheck.includes(option) &&
-                            <SearchChip key={option} label={option} onDelete={deleteChip(option)}/>
-                        )
+                            detailCheck.includes(option) && <SearchChip key={option} label={option} onDelete={deleteChip(option)}/>)
                     }
-                </div>}
+                </div>
+            }
             content={
                 <div style={{padding: '20px 24px 8px'}}>
                     <Typography className={classes.typ} variant={'subtitle1'}>駅から徒歩</Typography>
-                    <SelectOption value={selectFromStation} nullValue={fromStationOptions[0]} onChange={changeFromStation}>
+                    <SelectOption value={selectFromStation} nullValue={fromStationOptions[0]}
+                                  onChange={changeFromStation}>
                         {
                             fromStationOptions.map((option: any, index) => (
                                 <MenuItem value={option} key={index}>{option}</MenuItem>
                             ))
                         }
                     </SelectOption>
-                    <DetailCheckbox title={'料金'} one options={['キャンセル無料期間あり']} detailCheck={detailCheck} check={check} unCheck={unCheck}/>
-                    <MinMaxSelect minLabel={'30分あたり'} min={selectMinPrice} max={selectMaxPrice} minOptions={minPriceOptions} maxOptions={maxPriceOptions}
+                    <DetailCheckbox title={'料金'} one options={['キャンセル無料期間あり']} detailCheck={detailCheck} check={check}
+                                    unCheck={unCheck}/>
+                    <MinMaxSelect minLabel={'30分あたり'} min={selectMinPrice} max={selectMaxPrice}
+                                  minOptions={minPriceOptions} maxOptions={maxPriceOptions}
                                   minNullValue={minPriceOptions[0]} maxNullValue={maxPriceOptions[0]} disableEqual
                                   changeMin={changeMinPrice} changeMax={changeMaxPrice}/>
-                    <DetailCheckbox title={'予約'} one options={reservationOptions} detailCheck={detailCheck} check={check} unCheck={unCheck}/>
-                    <DetailCheckbox title={'スタジオ設備'} one options={studioFacilityOptions} detailCheck={detailCheck} check={check} unCheck={unCheck}/>
+                    <DetailCheckbox title={'予約'} one options={reservationOptions} detailCheck={detailCheck}
+                                    check={check} unCheck={unCheck}/>
+                    <DetailCheckbox title={'スタジオ設備'} one options={studioFacilityOptions} detailCheck={detailCheck}
+                                    check={check} unCheck={unCheck}/>
                     <Typography className={classes.typ} variant={'subtitle1'}>部屋設備・備品</Typography>
                     <Typography className={classes.typ} variant={'subtitle2'}>鏡</Typography>
-                    <NewSearchCheckbox item={'鏡2面'} itemName={'2面'} key={'2面'} checked={detailCheck.includes('鏡2面')} itemChecked={check} itemUnChecked={unCheck}/>
-                    <MinMaxSelect minLabel={'横幅'} min={selectMinMirror} max={selectMaxMirror} minOptions={minMirrorOptions} maxOptions={maxMirrorOptions}
+                    <SearchCheckbox item={'鏡2面'} itemName={'2面'} key={'2面'} checked={detailCheck.includes('鏡2面')}
+                                    itemChecked={check} itemUnChecked={unCheck}/>
+                    <MinMaxSelect minLabel={'横幅'} min={selectMinMirror} max={selectMaxMirror}
+                                  minOptions={minMirrorOptions} maxOptions={maxMirrorOptions} disableEqual
                                   minNullValue={minMirrorOptions[0]} maxNullValue={maxMirrorOptions[0]}
                                   changeMin={changeMinMirror} changeMax={changeMaxMirror}/>
                     {
@@ -130,7 +122,8 @@ export default function DetailDialog(props: DetailDialogProps) {
                             {title: '床材', options: floorMaterialOptions},
                             {title: 'その他設備・備品', options: amenityOptions}
                         ].map((item) =>
-                            <DetailCheckbox title={item.title} options={item.options} detailCheck={detailCheck} check={check} unCheck={unCheck}/>)
+                            <DetailCheckbox title={item.title} options={item.options} detailCheck={detailCheck}
+                                            check={check} unCheck={unCheck}/>)
                     }
                 </div>
             }/>

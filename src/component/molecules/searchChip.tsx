@@ -1,5 +1,6 @@
 import {withStyles} from "@material-ui/core/styles";
 import MuiChip from "@material-ui/core/Chip";
+import React from "react";
 
 const Chip = withStyles({
     root: {
@@ -14,11 +15,29 @@ const Chip = withStyles({
 })(MuiChip);
 
 interface SearchChipProps {
-    label: string,
+    label?: string,
+    minLabel?: string|null,
+    maxLabel?: string|null,
     onDelete: (value: any) => void;
 }
 export default function SearchChip(props: SearchChipProps) {
+    const {label, minLabel, maxLabel, onDelete} = props;
+
     return (
-        <Chip size='small' label={props.label} onDelete={props.onDelete}/>
+        <div>
+            {
+                label && <Chip size='small' label={label} onDelete={onDelete}/>
+
+            }
+            {
+            (minLabel || maxLabel) &&
+            <Chip size='small' onDelete={onDelete}
+                        label={
+                            (minLabel && maxLabel) ? `${minLabel}~${maxLabel}` : (
+                                (minLabel) ? `${minLabel}~` : `~${maxLabel}`)
+                        }
+            />
+        }
+        </div>
     )
 }

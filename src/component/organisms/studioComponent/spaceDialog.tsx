@@ -9,6 +9,11 @@ import MinMaxSelect from "./minMaxSelect";
 
 const useStyles = makeStyles(() =>
     createStyles({
+        wrapChip: {
+            overflow: 'scroll',
+            display: 'flex',
+            padding: 5
+        },
         typ: {
             color: "#5A4628",
             fontWeight: 'bold',
@@ -38,26 +43,17 @@ export default function SpaceDialog(props: SpaceDialogProps) {
             labelCheck={!minArea && !maxArea && !minPeople && !maxPeople}
             label={'面積/人数を選択'}
             chips={
-                <div style={{padding: 4}}>
+                <div className={classes.wrapChip}>
                     {
                         (minArea || maxArea) &&
-                        <SearchChip key={'area'} onDelete={deleteArea}
-                                    label={
-                                        (minArea && maxArea) ? `${minArea}~${maxArea}` : (
-                                            (minArea) ? `${minArea}~` : `~${maxArea}`)
-                                    }
-                        />
+                        <SearchChip key={'area'} minLabel={minArea} maxLabel={maxArea} onDelete={deleteArea}/>
                     }
                     {
                         (minPeople || maxPeople) &&
-                        <SearchChip key={'people'} onDelete={deletePeople}
-                                    label={
-                                        (minPeople && maxPeople) ? `${minPeople}~${maxPeople}` : (
-                                            (minPeople) ? `${minPeople}~` : `~${maxPeople}`)
-                                    }
-                        />
+                        <SearchChip key={'people'} minLabel={minPeople} maxLabel={maxPeople} onDelete={deletePeople}/>
                     }
-                </div>}
+                </div>
+            }
             content={
                 <div style={{padding: '20px 24px 8px'}}>
                     <Typography className={classes.typ} variant={'subtitle1'}>面積</Typography>
@@ -70,7 +66,6 @@ export default function SpaceDialog(props: SpaceDialogProps) {
                                   minOptions={minPeopleOptions} maxOptions={maxPeopleOptions}
                                   minNullValue={minPeopleOptions[0]} maxNullValue={maxPeopleOptions[0]}
                                   changeMin={changeMinPeople} changeMax={changeMaxPeople}/>
-
                 </div>
             }/>
     )
