@@ -8,8 +8,7 @@ const useStyles = makeStyles(() =>
         select: {
             display: 'flex',
             alignItems: 'baseline',
-            justifyContent: 'center',
-            marginBottom: 12
+            justifyContent: 'center'
         }
     }));
 

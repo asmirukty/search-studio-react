@@ -15,7 +15,7 @@ const useStyles = makeStyles(() =>
         }
     }));
 
-type dateType = {date: Date, startTime: any, endTime: any}
+type dateType = {date: Date, startTime: any, endTime: any, match: string}
 
 interface DateDialogProps {
     date: dateType[],

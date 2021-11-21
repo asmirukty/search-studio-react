@@ -1,6 +1,6 @@
 import {useState} from 'react'
 
-type dateType = {date: Date, startTime: string, endTime: string}
+type dateType = {date: Date, startTime: string, endTime: string, match: string}
 
 export default function useDateValue (initialDate: dateType[]|[]):
     [dateType[]|[], (newDate: dateType[]|[]) => void, (deleteDate: dateType) => void]{

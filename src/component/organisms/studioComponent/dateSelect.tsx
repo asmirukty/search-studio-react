@@ -9,6 +9,7 @@ import Button from "@material-ui/core/Button";
 import MinMaxSelect from "./minMaxSelect";
 import useDateTime from "../use-date-time";
 import {endTimeOptions, startTimeOptions} from "./timeOptions";
+import SearchRadio from "./searchRadio";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -44,16 +45,16 @@ interface DateSelectProps {
     open: boolean,
     addBtn: boolean,
     last?: boolean,
-    date: {date: Date, startTime: string, endTime: string}|null;
+    date: {date: Date, startTime: string, endTime: string, match: string}|null;
     label: string;
-    dateChange: (newDate: { date: Date, startTime: any, endTime: any }|null) => void;
+    dateChange: (newDate: { date: Date, startTime: any, endTime: any, match: string }|null) => void;
     addDate: () => void;
 }
 
 export default function DateSelect(props: DateSelectProps) {
     const classes = useStyles();
     const { open, dateChange, addDate, date, label, addBtn, last } = props;
-    const [selectDate, startTime, endTime, changeSelectDate, changeStartTime, changeEndTime, reset] = useDateTime(open, date, dateChange)
+    const [selectDate, startTime, endTime, match, changeSelectDate, changeStartTime, changeEndTime, changeMatch, reset] = useDateTime(open, date, dateChange)
 
     return (
         <div>
@@ -74,6 +75,10 @@ export default function DateSelect(props: DateSelectProps) {
                           minOptions={startTimeOptions} maxOptions={endTimeOptions}
                           minNullValue={startTimeOptions[24]} maxNullValue={endTimeOptions[24]}
                           changeMin={changeStartTime} changeMax={changeEndTime}/>
+            {
+                startTime && endTime &&
+                <SearchRadio beforeTyp={'指定時間の'} afterTyp={'で空いている'} value={match} options={['一部', '全時間']} handleChange={changeMatch}/>
+            }
             <div className={classes.buttons}>
                 <Button onClick={reset} className={classes.btn} variant="outlined">× 削除</Button>
                 {
