@@ -44,14 +44,8 @@ export default function SpaceDialog(props: SpaceDialogProps) {
             label={'面積/人数を選択'}
             chips={
                 <div className={classes.wrapChip}>
-                    {
-                        (minArea || maxArea) &&
-                        <SearchChip key={'area'} minLabel={minArea} maxLabel={maxArea} onDelete={deleteArea}/>
-                    }
-                    {
-                        (minPeople || maxPeople) &&
-                        <SearchChip key={'people'} minLabel={minPeople} maxLabel={maxPeople} onDelete={deletePeople}/>
-                    }
+                    <SearchChip key={'area'} minLabel={minArea} maxLabel={maxArea} onDelete={deleteArea}/>
+                    <SearchChip key={'people'} minLabel={minPeople} maxLabel={maxPeople} onDelete={deletePeople}/>
                 </div>
             }
             content={

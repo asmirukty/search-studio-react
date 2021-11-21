@@ -15,7 +15,7 @@ const Chip = withStyles({
 })(MuiChip);
 
 interface SearchChipProps {
-    label?: string,
+    label?: string|null,
     minLabel?: string|null,
     maxLabel?: string|null,
     onDelete: (value: any) => void;
