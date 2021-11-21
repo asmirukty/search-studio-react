@@ -2,13 +2,12 @@ import React, {useState} from 'react';
 import {createStyles, makeStyles} from "@material-ui/core/styles";
 import useCheckGroup from "../use-check-group";
 import StudioDialog from "./studioDialog";
-import SearchChip from "../../molecules/searchChip";
 import PlaceTabs from "./placeDialogComponent/placeTabs";
 import StudioPlaceAccordion from "./placeDialogComponent/studioPlaceAccordion";
-import StudioPlaceSubAccordion from "./placeDialogComponent/studioPlaceSubAccordion";
 import {prefItems} from "./placeDialogComponent/prefItems";
 import {lineItems} from "./placeDialogComponent/lineItems";
-import SearchCheckbox from "./searchCheckbox";
+import StudioPlaceCheckAccordion from "./placeDialogComponent/studioPlaceCheckAccordion";
+import PlaceSearchChip from "./placeDialogComponent/placeSearchChip";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -49,24 +48,16 @@ export default function PlaceDialog(props: PlaceDialogProps) {
                     {
                         prefItems.map((prefItem) =>
                             prefItem.items.map((item) =>
-                                pref.includes(item.pref) ?
-                                    <SearchChip key={item.pref.id} label={item.pref.name} onDelete={deletePref(item.pref, item.cities)}/>
-                                    :
-                                    item.cities.map((c) =>
-                                        city.includes(c) && <SearchChip key={c.id} label={c.name} onDelete={deleteCity(c)}/>
-                                    )
+                                <PlaceSearchChip parentItem={item.pref} childItems={item.cities}
+                                                 parent={pref} children={city} deleteParent={deletePref} deleteChild={deleteCity}/>
                             )
                         )
                     }
                     {
                         lineItems.map((lineItem) =>
                             lineItem.items.map((item) =>
-                                line.includes(item.line) ?
-                                    <SearchChip key={item.line.id} label={item.line.name} onDelete={deleteLine(item.line, item.stations)}/>
-                                    :
-                                    item.stations.map((s) =>
-                                        station.includes(s) && <SearchChip key={s.id} label={s.name} onDelete={deleteStation(s)}/>
-                                    )
+                                <PlaceSearchChip parentItem={item.line} childItems={item.stations}
+                                                 parent={line} children={station} deleteParent={deleteLine} deleteChild={deleteStation}/>
                             )
                         )
                     }
@@ -78,17 +69,9 @@ export default function PlaceDialog(props: PlaceDialogProps) {
                             <StudioPlaceAccordion area={areaItem.area} key={areaItem.area}>
                                     {
                                         areaItem.items.map((item) =>
-                                            <StudioPlaceSubAccordion parentId={item.pref.id}
-                                                    parent={
-                                                        <SearchCheckbox item={item.pref} itemName={item.pref.name} key={item.pref.id} pref checked={pref.includes(item.pref)}
-                                                                        itemChecked={checkedPref(item.cities)} itemUnChecked={unCheckedPref(item.cities)}/>
-                                                    }
-                                                    children={
-                                                        item.cities.map((c) => (
-                                                            <SearchCheckbox item={c} itemName={c.name} key={c.id} checked={city.includes(c)}
-                                                                            itemChecked={checkedCity(item.pref, item.cities)} itemUnChecked={unCheckedCity(item.pref)}/>
-                                                        ))
-                                                    }/>
+                                            <StudioPlaceCheckAccordion
+                                                parents={pref} children={city} parentItem={item.pref} childItems={item.cities}
+                                                checkedParent={checkedPref} checkedChild={checkedCity} unCheckedParent={unCheckedPref} unCheckedChild={unCheckedCity}/>
                                         )
                                     }
                             </StudioPlaceAccordion>
@@ -99,17 +82,9 @@ export default function PlaceDialog(props: PlaceDialogProps) {
                             <StudioPlaceAccordion area={lineItem.area} key={lineItem.area}>
                                     {
                                         lineItem.items.map((item) =>
-                                            <StudioPlaceSubAccordion parentId={item.line.id}
-                                                    parent={
-                                                        <SearchCheckbox item={item.line} itemName={item.line.name} key={item.line.id} pref checked={line.includes(item.line)}
-                                                                        itemChecked={checkedLine(item.stations)} itemUnChecked={unCheckedLine(item.stations)}/>
-                                                    }
-                                                    children={
-                                                        item.stations.map((s) => (
-                                                            <SearchCheckbox item={s} itemName={s.name} key={s.id} checked={station.includes(s)}
-                                                                            itemChecked={checkedStation(item.line, item.stations)} itemUnChecked={unCheckedStation(item.line)}/>
-                                                        ))
-                                                    }/>
+                                            <StudioPlaceCheckAccordion
+                                                parents={line} children={station} parentItem={item.line} childItems={item.stations}
+                                                checkedParent={checkedLine} checkedChild={checkedStation} unCheckedParent={unCheckedLine} unCheckedChild={unCheckedStation}/>
                                         )
                                     }
                             </StudioPlaceAccordion>
