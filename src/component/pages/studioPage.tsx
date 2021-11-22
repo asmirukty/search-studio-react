@@ -1,25 +1,14 @@
 import TopMenuTab from '../organisms/topMenuTab';
 import React from "react";
-import Carousel from "react-material-ui-carousel";
 import {createStyles, makeStyles} from "@material-ui/core/styles";
 import TabPanel from "../organisms/tabPanel";
-import {
-    Chip,
-    Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Typography
-} from "@material-ui/core";
-import DateConvert from "../organisms/dateConvert";
-import {times} from "../organisms/studioResultComponent/roomContent";
+import {Chip, Paper, Typography} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-import {AccessTime, People} from "@material-ui/icons";
+import {People} from "@material-ui/icons";
 import TopTitleBar from "../organisms/topTitleBar";
 import MenuTabBar from "../molecules/menuTabBar";
+import ImgCarousel from "../molecules/imgCarousel";
+import SlotTable from "../molecules/slotTable";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -41,65 +30,6 @@ const useStyles = makeStyles(() =>
             backgroundColor: '#e7e1d8',
             marginRight: 4
         },
-        navBtn: {
-            backgroundColor: '#5A4628',
-            opacity: 0.8,
-            padding: 2,
-            margin: 0,
-        },
-        navIndicator: {
-            color: '#5A4628',
-            opacity: 0.5,
-            '&:hover': {
-                color: '#5A4628',
-                opacity: 1
-            },
-            '&:active': {
-                color: '#5A4628',
-                opacity: 1
-            }
-        },
-        navActiveIndicator: {
-            color: '#5A4628',
-            opacity: 1
-        },
-        img: {
-            display: 'flex',
-            flexGrow: 1,
-            height: 150,
-            justifyContent: 'center',
-            alignItems: 'center'
-        },
-        headCell: {
-            color: '#5A4628',
-            fontSize: 8,
-            padding: 0
-        },
-        tableRow: {
-            border: '1px solid #D7D2C8'
-        },
-        cell: {
-            position: 'relative',
-            minWidth: 20,
-            maxWidth: 20,
-            color: '#5A4628',
-            padding: '4px 0',
-            borderRight: '1px solid #D7D2C8'
-        },
-        cellChip: {
-            position: 'absolute',
-            left: 2,
-            color: '#5A4628',
-            backgroundColor: '#e7e1d8',
-            zIndex: 10,
-        },
-        cellTitle: {
-            fontSize: 12,
-            minWidth: 60,
-            color: '#5A4628',
-            padding: 4,
-            borderRight: '1px solid #D7D2C8'
-        },
         tableDesc: {
             padding: '4px 0 8px',
             display: 'flex',
@@ -116,13 +46,6 @@ const useStyles = makeStyles(() =>
             padding: '6px 12px'
         }
     }))
-
-function a11yProps(index: any) {
-    return {
-        id: `simple-tab-${index}`,
-        'aria-controls': `simple-tabpanel-${index}`,
-    };
-}
 
 const studio = {
     "studio_id": "99999999",
@@ -604,19 +527,7 @@ export default function StudioPage() {
                     <div>
                         <h3 style={{position: 'sticky', top: 120, zIndex: 1000, margin: 16}}>{studio.studio_name}</h3>
                         <div style={{margin: 16, position: 'sticky', top: 100}}>
-                            <Carousel fullHeightHover={false} autoPlay={false}
-                                      navButtonsAlwaysVisible
-                                      navButtonsProps={{className: classes.navBtn}}
-                                      indicatorIconButtonProps={{className: classes.navIndicator}}
-                                      activeIndicatorIconButtonProps={{className: classes.navActiveIndicator}}>
-                                {
-                                    studio.studio_img.map((img, index) => (
-                                        <div className={classes.img} key={index}>
-                                            <img alt={'img' + index} src={img.path}/>
-                                        </div>
-                                    ))
-                                }
-                            </Carousel>
+                            <ImgCarousel img={studio.studio_img}/>
                         </div>
                         <div className={classes.root}>
                             <MenuTabBar labels={["空き部屋", "スタジオ情報"]}
@@ -651,82 +562,8 @@ export default function StudioPage() {
                                                                 <Chip size="small" key={index} label={amenity.name} className={classes.chip}/>
                                                             ))
                                                         }
-                                                        <Carousel fullHeightHover={false} autoPlay={false}
-                                                                navButtonsAlwaysVisible
-                                                                navButtonsProps={{className: classes.navBtn}}
-                                                                indicatorIconButtonProps={{className: classes.navIndicator}}
-                                                                activeIndicatorIconButtonProps={{className: classes.navActiveIndicator}}>
-                                                            {
-                                                                room.room_img.map((img, index) => (
-                                                                <div className={classes.img} key={index}>
-                                                                <img alt={'img' + index} src={img.path}/>
-                                                                </div>
-                                                                ))
-                                                            }
-                                                        </Carousel>
-                                                        <TableContainer component={Paper} style={{margin: 4}}>
-                                                            <Table>
-                                                                <TableHead>
-                                                                    <TableRow>
-                                                                        <TableCell className={classes.headCell} align='left' size='small'> </TableCell>
-                                                                        {
-                                                                            times.map((time) =>
-                                                                                <TableCell className={classes.headCell} key={time} colSpan={2} align='left' size='small'>{time}</TableCell>
-                                                                            )}
-                                                                    </TableRow>
-                                                                </TableHead>
-                                                                <TableBody>
-                                                                    <TableRow className={classes.tableRow}>
-                                                                        <TableCell className={classes.cellTitle} size='small'>
-                                                                            {DateConvert(room.slots[0].time_begin * 1000)}
-                                                                        </TableCell>
-                                                                        {
-                                                                            room.slots.map((slot, index, array) => {
-                                                                                    if (!array[index-1] || slot.price !== array[index-1].price) {
-                                                                                        return (
-                                                                                            <TableCell className={classes.cell} key={index} size='small'>
-                                                                                                <div style={{display: 'flex', alignItems: 'center'}}>
-                                                                                                    <Chip size="small" key={index} label={`${slot.price}円`}
-                                                                                                          className={classes.cellChip}/>
-                                                                                                </div>
-                                                                                            </TableCell>
-                                                                                        )
-                                                                                    }
-                                                                                    else if (!array[index+1] || slot.price !== array[index+1].price) {
-                                                                                        return (
-                                                                                            <TableCell className={classes.cell} key={index} size='small'>
-                                                                                                <div style={{display: 'flex', alignItems: 'center'}}>
-                                                                                                    <div style={{margin: 0, flexGrow: 1}}>
-                                                                                                        <hr color='#5A4628'/>
-                                                                                                    </div>
-                                                                                                    <div style={{padding: 0}}>▶︎</div>
-                                                                                                </div>
-                                                                                            </TableCell>
-                                                                                        )
-                                                                                    }
-                                                                                    else {
-                                                                                        return (
-                                                                                            <TableCell className={classes.cell} key={index} size='small'>
-                                                                                                <div style={{display: 'flex', alignItems: 'center'}}>
-                                                                                                    <div style={{zIndex: 1, margin: 0, flexGrow: 1}}>
-                                                                                                        <hr color='#5A4628'/>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </TableCell>
-                                                                                        )
-                                                                                    }
-                                                                                }
-                                                                            )}
-                                                                    </TableRow>
-                                                                </TableBody>
-                                                            </Table>
-                                                        </TableContainer>
-                                                        <div　className={classes.tableDesc}>
-                                                            <AccessTime fontSize='small'/>
-                                                            <Typography variant='caption' style={{padding: '0px 2px'}}>
-                                                                {room.min_reserve_minutes + "分~"}
-                                                            </Typography>
-                                                        </div>
+                                                        <ImgCarousel img={room.room_img}/>
+                                                        <SlotTable slots={room.slots} minReserveMinutes={room.min_reserve_minutes}/>
                                                         <div style={{display: 'flex'}}>
                                                             <Button className={classes.reserveBtn}>
                                                                 予約画面へ

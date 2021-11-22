@@ -1,4 +1,4 @@
-import {Chip, Typography} from "@material-ui/core";
+import {Typography} from "@material-ui/core";
 import {Place} from "@material-ui/icons";
 import React from "react";
 import {makeStyles, createStyles} from "@material-ui/core/styles";

@@ -2,9 +2,9 @@ import React from 'react';
 import {createStyles, makeStyles} from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import DialogActions from "@material-ui/core/DialogActions";
-import {Close} from "@material-ui/icons";
 import {Dialog, DialogContent} from "@material-ui/core";
 import useDialogOpen from "../use-dialog-open";
+import DialogCloseButton from "../../molecules/dialogCloseButton";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -27,21 +27,11 @@ const useStyles = makeStyles(() =>
             justifyContent: 'start',
             padding: '0 5px'
         },
-        wrapChip: {
-            overflow: 'scroll',
-            display: 'flex',
-            padding: 5
-        },
         dialogBtn: {
             backgroundColor: '#F9F5F0',
             padding: '4px 8px',
             display: 'flex',
             justifyContent: 'space-between',
-        },
-        dialogClose: {
-            color: '#5A4628',
-            minWidth: 20,
-            padding: 0
         },
         dialogOk: {
             color: '#5A4628',
@@ -98,12 +88,8 @@ export default function StudioDialog(props: StudioDialogProps) {
             </div>
             <Dialog PaperProps={{style: {margin: 12, flexGrow: 1}}} keepMounted open={open} aria-labelledby="confirmation-dialog-title">
                 <DialogActions className={classes.dialogBtn}>
-                    <Button autoFocus onClick={handleCancel} className={classes.dialogClose}>
-                        <Close fontSize='small'/>
-                    </Button>
-                    <Button onClick={handleOk} className={classes.dialogOk}>
-                        決定
-                    </Button>
+                    <DialogCloseButton close={handleCancel}/>
+                    <Button onClick={handleOk} className={classes.dialogOk}>決定</Button>
                 </DialogActions>
                 <DialogContent className={classes.content}>
                     {props.content}

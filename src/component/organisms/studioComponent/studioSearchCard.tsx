@@ -21,6 +21,10 @@ const useStyles = makeStyles(() =>
         root: {
             minWidth: 275,
         },
+        alignEnd: {
+            display: 'flex',
+            alignItems: 'flex-end'
+        },
         title: {
             color: "#5A4628"
         },
@@ -104,7 +108,7 @@ export default function StudioSearchCard(props: StudioSearchProps) {
     return (
         <Card className={classes.root}>
             <CardContent>
-                <div style={{display: 'flex', alignItems: 'flex-end'}}>
+                <div className={classes.alignEnd}>
                     <Typography component={'span'} variant='subtitle1' className={classes.title}>
                         場所
                     </Typography>

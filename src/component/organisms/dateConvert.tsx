@@ -1,4 +1,3 @@
-
 export default function DateConvert(props: any) {
         if (new Date(props).getDay() === 1) {
         return `${ new Date(props).getMonth()+1 }/${ new Date(props).getDate() }(月)`
