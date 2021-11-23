@@ -24,12 +24,6 @@ const useStyles = makeStyles(()=>
         }
 }));
 
-function a11yProps(index: any) {
-    return {
-        id: `simple-tab-${index}`,
-        'aria-controls': `simple-tabpanel-${index}`,
-    };
-}
 interface AreaTabsProps {
     area: React.ReactNode;
     line: React.ReactNode;

@@ -29,7 +29,6 @@ function count (str:string) {
 interface SearchCheckboxProps{
     item: any;
     itemName: string;
-    key: string;
     pref?: boolean;
     open?: boolean;
     checked: boolean;
@@ -38,7 +37,7 @@ interface SearchCheckboxProps{
 }
 
 export default function SearchCheckbox(props: SearchCheckboxProps) {
-    const {item, itemName, key, pref, checked: checkedProp, itemChecked, itemUnChecked} = props;
+    const {item, itemName, pref, checked: checkedProp, itemChecked, itemUnChecked} = props;
     const [checked, setChecked] = useState(false)
 
     useEffect(() => {
@@ -58,7 +57,7 @@ export default function SearchCheckbox(props: SearchCheckboxProps) {
                     onFocus={(event) => event.stopPropagation()}
                     control={
                         <Checkbox style={{padding: 4}} size='small' checked={checked}
-                                  onChange={handleChange} value={item} key={key} color="primary"/>
+                                  onChange={handleChange} value={item} color="primary"/>
                     }
                     label={itemName}
                 />)
@@ -67,7 +66,7 @@ export default function SearchCheckbox(props: SearchCheckboxProps) {
                     style={count(itemName) < 8 ? {width: 140} : {width: 280}}
                     control={
                         <Checkbox style={{padding: 4}} size='small' checked={checked}
-                                  onChange={handleChange} value={item} key={key} color="primary"/>
+                                  onChange={handleChange} value={item} color="primary"/>
                     }
                     label={itemName}
                 />)

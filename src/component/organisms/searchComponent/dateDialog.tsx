@@ -47,7 +47,7 @@ export default function DateDialog(props: DateDialogProps) {
                 <div style={{padding: '20px 24px'}}>
                     {[0, 1, 2, 3, 4].map((i) =>
                         opens[i] &&
-                        <DateSelect open={open} date={selectDate[i]} label={`日時${i+1}`} dateChange={changeDate(i)}
+                        <DateSelect key={i} open={open} date={selectDate[i]} label={`日時${i+1}`} dateChange={changeDate(i)}
                                     addBtn={!opens[i+1]} last={i === 4} addDate={addDate(i+1)}/>
                     )}
                 </div>

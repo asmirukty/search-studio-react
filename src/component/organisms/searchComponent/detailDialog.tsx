@@ -100,8 +100,8 @@ export default function DetailDialog(props: DetailDialogProps) {
                             {title: '音響・映像', options: soundAndMovieOptions},
                             {title: '床材', options: floorMaterialOptions},
                             {title: 'その他設備・備品', options: amenityOptions}
-                        ].map((item) =>
-                            <DetailCheckbox title={item.title} options={item.options} detailCheck={detailCheck} check={check} unCheck={unCheck}/>
+                        ].map((item, index) =>
+                            <DetailCheckbox key={index} title={item.title} options={item.options} detailCheck={detailCheck} check={check} unCheck={unCheck}/>
                         )
                     }
                 </div>

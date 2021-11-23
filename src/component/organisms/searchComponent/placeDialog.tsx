@@ -47,16 +47,16 @@ export default function PlaceDialog(props: PlaceDialogProps) {
                 <div className={classes.wrapChip}>
                     {
                         prefItems.map((prefItem) =>
-                            prefItem.items.map((item) =>
-                                <PlaceSearchChip parentItem={item.pref} childItems={item.cities}
+                            prefItem.items.map((item, index) =>
+                                <PlaceSearchChip key={index} parentItem={item.pref} childItems={item.cities}
                                                  parent={pref} children={city} deleteParent={deletePref} deleteChild={deleteCity}/>
                             )
                         )
                     }
                     {
                         lineItems.map((lineItem) =>
-                            lineItem.items.map((item) =>
-                                <PlaceSearchChip parentItem={item.line} childItems={item.stations}
+                            lineItem.items.map((item, index) =>
+                                <PlaceSearchChip key={index} parentItem={item.line} childItems={item.stations}
                                                  parent={line} children={station} deleteParent={deleteLine} deleteChild={deleteStation}/>
                             )
                         )
@@ -68,9 +68,9 @@ export default function PlaceDialog(props: PlaceDialogProps) {
                         prefItems.map((areaItem) =>
                             <StudioPlaceAccordion area={areaItem.area} key={areaItem.area}>
                                     {
-                                        areaItem.items.map((item) =>
+                                        areaItem.items.map((item, index) =>
                                             <StudioPlaceCheckAccordion
-                                                parents={pref} children={city} parentItem={item.pref} childItems={item.cities}
+                                                key={index} parents={pref} children={city} parentItem={item.pref} childItems={item.cities}
                                                 checkedParent={checkedPref} checkedChild={checkedCity} unCheckedParent={unCheckedPref} unCheckedChild={unCheckedCity}/>
                                         )
                                     }
@@ -81,9 +81,9 @@ export default function PlaceDialog(props: PlaceDialogProps) {
                         lineItems.map((lineItem) =>
                             <StudioPlaceAccordion area={lineItem.area} key={lineItem.area}>
                                     {
-                                        lineItem.items.map((item) =>
+                                        lineItem.items.map((item, index) =>
                                             <StudioPlaceCheckAccordion
-                                                parents={line} children={station} parentItem={item.line} childItems={item.stations}
+                                                key={index} parents={line} children={station} parentItem={item.line} childItems={item.stations}
                                                 checkedParent={checkedLine} checkedChild={checkedStation} unCheckedParent={unCheckedLine} unCheckedChild={unCheckedStation}/>
                                         )
                                     }

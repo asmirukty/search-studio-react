@@ -11,9 +11,9 @@ export default function ResultPage() {
             <TopTitleBar/>
             <TopMenuTab>
                 {[
-                    <StudioResult state={location.state}/>,
-                    <div>レッスン・練習会を探す</div>,
-                    <div>ナンバー・イベントを探す</div>,
+                    <StudioResult key={0} state={location.state}/>,
+                    <div key={1}>レッスン・練習会を探す</div>,
+                    <div key={2}>ナンバー・イベントを探す</div>,
                 ]}
             </TopMenuTab>
         </div>

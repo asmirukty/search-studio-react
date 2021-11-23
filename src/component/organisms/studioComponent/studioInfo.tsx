@@ -14,6 +14,10 @@ const useStyles = makeStyles(() =>
         },
         content: {
             paddingLeft: '12px'
+        },
+        facility: {
+            padding: 8,
+            fontSize: 14
         }
     }))
 
@@ -42,7 +46,7 @@ export default function StudioInfo(props: StudioInfoProps) {
             <Typography variant={'body2'} className={classes.title}>スタジオ設備</Typography>
             {
                 props.facilities.map((facility) => (
-                    <span style={{padding: 8, fontSize: 14}}>{facility.name}</span>
+                    <span key={facility.name} className={classes.facility}>{facility.name}</span>
                 ))
             }
             <Typography variant={'body2'} className={classes.title}>アクセス</Typography>

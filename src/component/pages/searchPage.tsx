@@ -9,7 +9,7 @@ export default function SearchPage() {
             <TopTitleBar/>
             <TopMenuTab>
                 {[
-                    <div style={{padding: 24}}>
+                    <div key={0} style={{padding: 24}}>
                         <h3 style={{textAlign: 'center'}}>スタジオを検索</h3>
                         <StudioSearchCard state={{
                             prefecture: [], city: [], line: [], station: [], studioName: null,
@@ -19,8 +19,8 @@ export default function SearchPage() {
 
                         }}/>
                     </div>,
-                    <div>レッスン・練習会を探す</div>,
-                    <div>ナンバー・イベントを探す</div>
+                    <div key={1}>レッスン・練習会を探す</div>,
+                    <div key={2}>ナンバー・イベントを探す</div>
                 ]}
             </TopMenuTab>
         </div>

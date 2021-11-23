@@ -27,7 +27,7 @@ const useStyles = makeStyles(() =>
 }));
 
 interface StudioNameProps {
-    studioName: any;
+    studioName: string|null;
     changeStudioName: (value: any) => void;
 }
 

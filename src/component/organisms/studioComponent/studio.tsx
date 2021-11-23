@@ -52,8 +52,8 @@ export default function Studio() {
                 <MenuTabBar labels={["空き部屋", "スタジオ情報"]} divStyle={classes.tabBar} barStyle={classes.tabBar}
                             tabStyle={classes.tabs} paperStyle={classes.paper}>
                     {
-                        studio.rooms.map((room) =>
-                            <StudioRoomContent room={room}/>
+                        studio.rooms.map((room,index) =>
+                            <StudioRoomContent room={room} key={index}/>
                         )
                     }
                     <StudioInfo intro={studio.studio_introduction} facilities={studio.studio_facilities}
