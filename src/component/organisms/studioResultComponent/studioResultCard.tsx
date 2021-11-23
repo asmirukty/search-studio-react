@@ -2,7 +2,7 @@ import React from "react";
 import {Card, CardContent, Typography, CardActionArea,} from "@material-ui/core";
 import {makeStyles, createStyles} from "@material-ui/core/styles";
 import StudioTitle from "./studioTitle";
-import RoomContent from "./roomContent";
+import ResultRoomContent from "./ResultRoomContent";
 import {Link} from 'react-router-dom';
 import {Studio} from "./seachResultType";
 
@@ -47,8 +47,8 @@ export default function StudioResultCard(props: {studio: Studio}) {
                                  exit={studio.address.exit.name} fromStation={studio.address.minutes_from_station}/>
                     {
                         studio.rooms.map((room, index) =>
-                            <RoomContent key={index} room={room.room_name} floorArea={room.floor_area}
-                                         roomImg={room.room_img} minReserveMinutes={room.min_reserve_minutes} slots={room.slots}/>
+                            <ResultRoomContent key={index} room={room.room_name} floorArea={room.floor_area}
+                                               roomImg={room.room_img} minReserveMinutes={room.min_reserve_minutes} slots={room.slots}/>
                         )
                     }
                     <div className={classes.spaceBetween}>

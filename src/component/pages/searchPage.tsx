@@ -1,7 +1,7 @@
 import TopMenuTab from '../organisms/topMenuTab';
 import React from "react";
 import TopTitleBar from "../organisms/topTitleBar";
-import StudioSearchCard from "../organisms/studioComponent/studioSearchCard";
+import StudioSearchCard from "../organisms/searchComponent/studioSearchCard";
 
 export default function SearchPage() {
     return (

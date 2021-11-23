@@ -42,7 +42,7 @@ interface RoomContentProps {
     }[];
 }
 
-export default function RoomContent(props: RoomContentProps) {
+export default function ResultRoomContent(props: RoomContentProps) {
     const classes = useStyles();
 
     return (

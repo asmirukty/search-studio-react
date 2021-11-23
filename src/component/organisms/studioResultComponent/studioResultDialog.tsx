@@ -3,7 +3,7 @@ import {Button, Typography, Dialog,} from "@material-ui/core";
 import {makeStyles, createStyles} from "@material-ui/core/styles";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogCloseButton from "../../molecules/dialogCloseButton";
-import StudioSearchCard from "../studioComponent/studioSearchCard";
+import StudioSearchCard from "../searchComponent/studioSearchCard";
 
 const useStyles = makeStyles(() =>
     createStyles({

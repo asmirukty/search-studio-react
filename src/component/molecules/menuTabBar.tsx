@@ -2,6 +2,8 @@ import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import TabPanel from "../organisms/tabPanel";
+import {Paper} from "@material-ui/core";
 
 function a11yProps(index: any) {
     return {
@@ -12,9 +14,12 @@ function a11yProps(index: any) {
 
 interface TabBarProps {
     labels: string[];
-    barStyle: any;
-    tabStyle: any;
-    valueChange: (value: number) => void;
+    divStyle?: any;
+    barStyle?: any;
+    tabStyle?: any;
+    paperStyle?: any;
+    contentStyle?: any;
+    children: React.ReactNode[]
 }
 
 export default function MenuTabBar(props: TabBarProps) {
@@ -22,10 +27,10 @@ export default function MenuTabBar(props: TabBarProps) {
 
     const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
         setValue(newValue);
-        props.valueChange(newValue)
     };
 
     return (
+        <div className={props.divStyle}>
             <AppBar className={props.barStyle}>
                 <Tabs className={props.tabStyle}
                       TabIndicatorProps={{style: {backgroundColor: '#1D356A'}}}
@@ -37,5 +42,24 @@ export default function MenuTabBar(props: TabBarProps) {
                     }
                 </Tabs>
             </AppBar>
+            {
+                props.paperStyle ?
+                    <Paper className={props.paperStyle}>
+                        {
+                            props.children.map((child, index) =>
+                                <TabPanel value={value} index={index} key={index}>{child}</TabPanel>
+                            )
+                        }
+                    </Paper>
+                    :
+                    <div className={props.contentStyle}>
+                        {
+                            props.children.map((child,index) =>
+                            <TabPanel value={value} index={index} key={index}>{child}</TabPanel>
+                            )
+                        }
+                    </div>
+            }
+        </div>
     );
 }
