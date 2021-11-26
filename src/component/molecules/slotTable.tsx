@@ -1,17 +1,6 @@
-import React from "react";
-import {
-    Chip,
-    TableContainer,
-    Paper,
-    Table,
-    TableBody,
-    TableRow,
-    TableCell,
-    TableHead,
-    Typography
-} from "@material-ui/core";
+import {Chip, TableContainer, Paper, Table, TableBody, TableRow, TableCell, TableHead, Typography} from "@material-ui/core";
 import {makeStyles, createStyles} from "@material-ui/core/styles";
-import DateConvert from "../organisms/dateConvert";
+import DateConvert from "../atoms/dateConvert";
 import {AccessTime} from "@material-ui/icons";
 
 const useStyles = makeStyles(() =>

@@ -1,48 +1,26 @@
 import React, {useState} from "react";
 import {createStyles, makeStyles} from "@material-ui/core/styles";
-import {Button, Card, CardContent, Typography} from "@material-ui/core";
+import {Button, Card, CardContent} from "@material-ui/core";
 import StudioName from "./studioNameTextField";
 import {Link} from "react-router-dom";
-import useArrayValue from "../use-array-value";
+import useArrayValue from "../../hooks/use-array-value";
 import PlaceDialog from "./placeDialog";
-import useRangeValue from "../use-range-value";
+import useRangeValue from "../../hooks/use-range-value";
 import SpaceDialog from "./spaceDialog";
 import DateDialog from "./dateDialog";
-import useDateValue from "../use-date-value";
+import useDateValue from "../../hooks/use-date-value";
 import DateMatchRadio from "./dateMatchRadio";
 import DetailDialog from "./detailDialog";
-import useValue from "../use-value";
-import useDetailValue from "../use-detail-value";
+import useValue from "../../hooks/use-value";
+import useDetailValue from "../../hooks/use-detail-value";
 import {floorMaterialOptions, reservationOptions, roomFacilityOptions, studioFacilityOptions} from "./detailOptions";
-
+import SampleDialog from "./newStudioDialog";
+import NewSpaceDialog from "./newSpaceDialog";
 
 const useStyles = makeStyles(() =>
     createStyles({
         root: {
             minWidth: 275,
-        },
-        alignEnd: {
-            display: 'flex',
-            alignItems: 'flex-end'
-        },
-        title: {
-            color: "#5A4628"
-        },
-        require: {
-            color: "#5A4628",
-            fontSize: 10,
-            marginLeft: 8
-        },
-        paper: {
-            margin: 12,
-            flexGrow: 1
-        },
-        box: {
-            fieldset: {
-                borderColor: '#D7D2C8'
-            }},
-        pos: {
-            marginBottom: 12,
         },
         searchBtn: {
             fontSize: 16,
@@ -108,27 +86,14 @@ export default function StudioSearchCard(props: StudioSearchProps) {
     return (
         <Card className={classes.root}>
             <CardContent>
-                <div className={classes.alignEnd}>
-                    <Typography component={'span'} variant='subtitle1' className={classes.title}>
-                        場所
-                    </Typography>
-                    <Typography component={'span'} variant='caption' className={classes.require}>
-                        ※必ず<span style={{fontSize: 12}}>エリア/沿線、駅</span>または<span style={{fontSize: 12}}>スタジオ</span>を指定
-                    </Typography>
-                </div>
                 <PlaceDialog pref={prefecture} city={city} line={line} station={station}
                              changePref={changePrefecture} changeCity={changeCity} changeLine={changeLine} changeStation={changeStation}
                              deletePref={deletePrefecture} deleteCity={deleteCity} deleteLine={deleteLine} deleteStation={deleteStation}/>
                 <StudioName studioName={studioName} changeStudioName={setStudioName}/>
-                <Typography component={'span'} variant='subtitle1' className={classes.title}>
-                    広さ
-                </Typography>
                 <SpaceDialog minArea={minArea} maxArea={maxArea} minPeople={minPeople} maxPeople={maxPeople}
                              changeMinArea={changeMinArea} changeMaxArea={changeMaxArea} changeMinPeople={changeMinPeople} changeMaxPeople={changeMaxPeople}
                              deleteArea={deleteArea} deletePeople={deletePeople}/>
-                <Typography component={'span'} variant='subtitle1' className={classes.title}>
-                    日時
-                </Typography>
+                <NewSpaceDialog/>
                 <DateDialog date={date} changeDate={changeDate} deleteDate={deleteDate}/>
                 {date.length > 1 && <DateMatchRadio/>}
                 <DetailDialog fromStation={fromStation} minPrice={minPrice} maxPrice={maxPrice} minMirror={minMirror} maxMirror={maxMirror} detailCheck={detailCheck}
@@ -140,8 +105,8 @@ export default function StudioSearchCard(props: StudioSearchProps) {
                             onClick={handleClose}
                             component={Link}
                             to={{
-                                pathname: `/studios/${cancel},${halfHourSlot},${fromHalfHour},${reservation},${studioFacility},${roomFacility},${floorMaterial}`,
-                                //search: `?pref=${prefecture}`,
+                                pathname: `/studios/`,
+                                search: `?fromStation=${fromStation}`,
                                 state: {
                                     prefecture: prefecture, city: city, line: line, station: station, studioName: studioName,
                                     minArea: minArea, maxArea: maxArea, minPeople: minPeople, maxPeople: maxPeople, date: date,

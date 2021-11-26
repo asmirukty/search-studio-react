@@ -1,5 +1,5 @@
 import React from 'react';
-import SearchRadio from "./searchRadio";
+import SearchRadio from "../../atoms/searchRadio";
 
 export default function DateMatchRadio() {
     const [value, setValue] = React.useState('いずれか');

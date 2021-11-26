@@ -2,12 +2,15 @@ import React from 'react';
 import {createStyles, makeStyles} from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import DialogActions from "@material-ui/core/DialogActions";
-import {Dialog, DialogContent} from "@material-ui/core";
-import useDialogOpen from "../use-dialog-open";
-import DialogCloseButton from "../../molecules/dialogCloseButton";
+import {Dialog, DialogContent, Typography} from "@material-ui/core";
+import useDialogOpen from "../hooks/use-dialog-open";
+import DialogCloseButton from "../atoms/dialogCloseButton";
 
 const useStyles = makeStyles(() =>
     createStyles({
+        title: {
+            color: "#5A4628"
+        },
         btn: {
             borderColor: '#D7D2C8',
             color: '#9B8C7D',
@@ -51,6 +54,7 @@ interface StudioDialogProps {
     funcs: any[],
     state: any[],
     openCheck: (open: boolean) => void,
+    title?: string,
     detail?: boolean,
     labelCheck: boolean,
     label: string,
@@ -64,6 +68,12 @@ export default function StudioDialog(props: StudioDialogProps) {
 
     return (
         <div>
+            {
+                props.title &&
+                <Typography component={'span'} variant='subtitle1' className={classes.title}>
+                    {props.title}
+                </Typography>
+            }
             <div>
                 {
                     props.detail ?

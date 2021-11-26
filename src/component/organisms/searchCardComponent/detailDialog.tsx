@@ -1,18 +1,18 @@
 import React, {useState} from 'react';
 import {createStyles, makeStyles} from "@material-ui/core/styles";
-import StudioDialog from "./studioDialog";
-import useRangeSelect from "../use-range-select";
+import StudioDialog from "../../molecules/studioDialog";
+import useRangeSelect from "../../hooks/use-range-select";
 import {Typography} from "@material-ui/core";
 import MenuItem from "@material-ui/core/MenuItem";
-import useCheck from "../use-check";
+import useCheck from "../../hooks/use-check";
 import {amenityOptions, floorMaterialOptions, fromStationOptions, lightAndFilmingOptions,
     maxMirrorOptions, maxPriceOptions, minMirrorOptions, minPriceOptions, reservationOptions,
     soundAndMovieOptions, studioFacilityOptions} from "./detailOptions";
-import SearchChip from "../../molecules/searchChip";
-import SelectOption from "./selectOption";
-import MinMaxSelect from "./minMaxSelect";
-import DetailCheckbox from "./detailCheckbox";
-import useSelect from "../use-select";
+import SearchChip from "../../atoms/searchChip";
+import SelectOption from "../../atoms/selectOption";
+import MinMaxSelect from "../../molecules/minMaxSelect";
+import DetailCheckbox from "../../molecules/detailCheckbox";
+import useSelect from "../../hooks/use-select";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -32,10 +32,22 @@ const useStyles = makeStyles(() =>
     }));
 
 interface DetailDialogProps {
-    fromStation: any, minPrice: any, maxPrice: any, minMirror: any, maxMirror: any, detailCheck: any[],
-    changeFromStation: (value: any[]) => void, changeMinPrice: (value: any[]) => void, changeMaxPrice: (value: any[]) => void,
-    changeMinMirror: (value: any[]) => void, changeMaxMirror: (value: any[]) => void, changeDetailCheck: (value: any[]) => void,
-    deleteFromStation: () => void, deletePrice: () => void, deleteMirror: () => void, deleteDetailCheck: (value: any) => void;
+    fromStation: any,
+    minPrice: any,
+    maxPrice: any,
+    minMirror: any,
+    maxMirror: any,
+    detailCheck: any[],
+    changeFromStation: (value: any[]) => void,
+    changeMinPrice: (value: any[]) => void,
+    changeMaxPrice: (value: any[]) => void,
+    changeMinMirror: (value: any[]) => void,
+    changeMaxMirror: (value: any[]) => void,
+    changeDetailCheck: (value: any[]) => void,
+    deleteFromStation: () => void,
+    deletePrice: () => void,
+    deleteMirror: () => void,
+    deleteDetailCheck: (value: any) => void;
 }
 
 export default function DetailDialog(props: DetailDialogProps) {

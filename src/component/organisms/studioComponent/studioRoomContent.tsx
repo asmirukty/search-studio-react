@@ -3,7 +3,7 @@ import {createStyles, makeStyles} from "@material-ui/core/styles";
 import {Chip, Typography} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import {People} from "@material-ui/icons";
-import ImgCarousel from "../../molecules/imgCarousel";
+import ImgCarousel from "../../atoms/imgCarousel";
 import SlotTable from "../../molecules/slotTable";
 
 const useStyles = makeStyles(() =>

@@ -1,7 +1,6 @@
-import React from 'react';
 import {createStyles, makeStyles} from "@material-ui/core/styles";
 import {Typography} from "@material-ui/core";
-import SearchCheckbox from "./searchCheckbox";
+import SearchCheckbox from "../atoms/searchCheckbox";
 
 const useStyles = makeStyles(() =>
     createStyles({

@@ -1,6 +1,6 @@
 import React from "react";
 import {makeStyles, createStyles} from "@material-ui/core/styles";
-import ImgCarousel from "../../molecules/imgCarousel";
+import ImgCarousel from "../../atoms/imgCarousel";
 import SlotTable from "../../molecules/slotTable";
 import {Typography} from "@material-ui/core";
 

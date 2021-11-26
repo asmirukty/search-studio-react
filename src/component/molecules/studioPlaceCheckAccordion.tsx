@@ -1,10 +1,10 @@
-import React, {ChangeEvent, useState} from 'react';
+import {ChangeEvent, useState} from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import MuiAccordion from '@material-ui/core/Accordion';
 import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
 import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import SearchCheckbox from "../searchCheckbox";
+import SearchCheckbox from "../atoms/searchCheckbox";
 
 const Accordion = withStyles({
     root: {
@@ -51,7 +51,7 @@ const AccordionDetails = withStyles( {
     },
 })(MuiAccordionDetails);
 
-interface StudioPlaceSubAccordionProps {
+interface StudioPlaceCheckAccordionProps {
     parents: {id: string, name: string}[];
     children: {id: string, name: string}[];
     parentItem: {id: string, name: string};
@@ -62,7 +62,7 @@ interface StudioPlaceSubAccordionProps {
     unCheckedChild: (parent: any) => (item: any) => void,
 }
 
-export default function StudioPlaceCheckAccordion(props: StudioPlaceSubAccordionProps) {
+export default function StudioPlaceCheckAccordion(props: StudioPlaceCheckAccordionProps) {
     const [expanded, setExpanded] = useState<string | false>();
     const {parents, children, parentItem, childItems, checkedParent, checkedChild, unCheckedParent, unCheckedChild} = props;
 

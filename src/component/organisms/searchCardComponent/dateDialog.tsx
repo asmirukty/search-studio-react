@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import {createStyles, makeStyles} from "@material-ui/core/styles";
-import StudioDialog from "./studioDialog";
-import useDateSelect from "../use-date-select";
-import DateTimeConvert from "../dateTimeConvert";
+import StudioDialog from "../../molecules/studioDialog";
+import useDateSelect from "../../hooks/use-date-select";
+import DateTimeConvert from "../../atoms/dateTimeConvert";
 import DateSelect from "./dateSelect";
-import SearchChip from "../../molecules/searchChip";
+import SearchChip from "../../atoms/searchChip";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -32,6 +32,7 @@ export default function DateDialog(props: DateDialogProps) {
     return (
         <StudioDialog
             funcs={[props.changeDate]} state={[selectDate]} openCheck={setOpen}
+            title={'日時'}
             labelCheck={date.length === 0} label={'日時を選択'}
             chips={
                 <div className={classes.wrapChip}>

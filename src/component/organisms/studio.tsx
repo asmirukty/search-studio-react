@@ -1,10 +1,10 @@
 import React from "react";
 import {createStyles, makeStyles} from "@material-ui/core/styles";
-import MenuTabBar from "../../molecules/menuTabBar";
-import ImgCarousel from "../../molecules/imgCarousel";
-import StudioRoomContent from "./studioRoomContent";
-import StudioInfo from "./studioInfo";
-import {studio} from "./studioData";
+import MenuTabBar from "../molecules/menuTabBar";
+import ImgCarousel from "../atoms/imgCarousel";
+import StudioRoomContent from "./studioComponent/studioRoomContent";
+import StudioInfo from "./studioComponent/studioInfo";
+import {studio} from "./studioComponent/studioData";
 
 const useStyles = makeStyles(() =>
     createStyles({

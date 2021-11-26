@@ -1,7 +1,6 @@
-import TopMenuTab from '../organisms/topMenuTab';
-import React from "react";
 import TopTitleBar from "../organisms/topTitleBar";
-import Studio from "../organisms/studioComponent/studio";
+import TopMenuTab from '../organisms/topMenuTab';
+import Studio from "../organisms/studio";
 
 export default function StudioPage() {
 

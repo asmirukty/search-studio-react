@@ -1,7 +1,7 @@
-import TopMenuTab from '../organisms/topMenuTab';
-import StudioResult from "../organisms/studioResult";
 import {useLocation} from "react-router-dom";
 import TopTitleBar from "../organisms/topTitleBar";
+import TopMenuTab from '../organisms/topMenuTab';
+import StudioResult from "../organisms/studioResult";
 
 export default function ResultPage() {
     const location = useLocation();

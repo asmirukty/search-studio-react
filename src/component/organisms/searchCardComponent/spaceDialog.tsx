@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import {createStyles, makeStyles} from "@material-ui/core/styles";
-import StudioDialog from "./studioDialog";
-import useRangeSelect from "../use-range-select";
+import StudioDialog from "../../molecules/studioDialog";
+import useRangeSelect from "../../hooks/use-range-select";
 import {Typography} from "@material-ui/core";
-import SearchChip from "../../molecules/searchChip";
-import {maxAreaOptions, maxPeopleOptions, minAreaOptions, minPeopleOptions} from "./spaceOptions";
-import MinMaxSelect from "./minMaxSelect";
+import SearchChip from "../../atoms/searchChip";
+import {maxAreaOptions, maxPeopleOptions, minAreaOptions, minPeopleOptions} from "./itemsAndOptions/spaceOptions";
+import MinMaxSelect from "../../molecules/minMaxSelect";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -40,6 +40,7 @@ export default function SpaceDialog(props: SpaceDialogProps) {
             funcs={[props.changeMinArea, props.changeMaxArea, props.changeMinPeople, props.changeMaxPeople]}
             state={[selectMinArea, selectMaxArea, selectMinPeople, selectMaxPeople]}
             openCheck={setOpen}
+            title={'広さ'}
             labelCheck={!minArea && !maxArea && !minPeople && !maxPeople}
             label={'面積/人数を選択'}
             chips={

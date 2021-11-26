@@ -1,6 +1,5 @@
 import React from "react";
-import Box from "@material-ui/core/Box";
-import Typography from "@material-ui/core/Typography";
+import {Box, Typography} from "@material-ui/core";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -13,9 +12,9 @@ export default function TabPanel(props: TabPanelProps) {
 
     return (
         <div
-            role="tabpanel"
+            role="tabPanel"
             hidden={value !== index}
-            id={`simple-tabpanel-${index}`}
+            id={`simple-tabPanel-${index}`}
             aria-labelledby={`simple-tab-${index}`}
             {...other}
         >

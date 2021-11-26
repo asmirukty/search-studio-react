@@ -1,9 +1,6 @@
 import React from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import TabPanel from "../organisms/tabPanel";
-import {Paper} from "@material-ui/core";
+import {AppBar, Paper, Tab, Tabs} from "@material-ui/core";
+import TabPanel from "../atoms/tabPanel";
 
 function a11yProps(index: any) {
     return {

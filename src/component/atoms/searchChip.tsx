@@ -1,6 +1,5 @@
 import {withStyles} from "@material-ui/core/styles";
 import MuiChip from "@material-ui/core/Chip";
-import React from "react";
 
 const Chip = withStyles({
     root: {

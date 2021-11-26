@@ -2,8 +2,8 @@ import React, {useState} from "react";
 import {Button, Typography, Dialog,} from "@material-ui/core";
 import {makeStyles, createStyles} from "@material-ui/core/styles";
 import DialogActions from "@material-ui/core/DialogActions";
-import DialogCloseButton from "../../molecules/dialogCloseButton";
-import StudioSearchCard from "../searchComponent/studioSearchCard";
+import DialogCloseButton from "../../atoms/dialogCloseButton";
+import StudioSearchCard from "../searchCardComponent/studioSearchCard";
 
 const useStyles = makeStyles(() =>
     createStyles({

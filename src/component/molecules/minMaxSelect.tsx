@@ -1,7 +1,6 @@
-import React from 'react';
 import {createStyles, makeStyles} from "@material-ui/core/styles";
 import MenuItem from "@material-ui/core/MenuItem";
-import SelectOption from "./selectOption";
+import SelectOption from "../atoms/selectOption";
 
 const useStyles = makeStyles(() =>
     createStyles({

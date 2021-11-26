@@ -6,10 +6,10 @@ import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
 import {createStyles, makeStyles} from "@material-ui/core/styles";
 import {Typography} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-import MinMaxSelect from "./minMaxSelect";
-import useDateTime from "../use-date-time";
-import {endTimeOptions, startTimeOptions} from "./timeOptions";
-import SearchRadio from "./searchRadio";
+import MinMaxSelect from "../../molecules/minMaxSelect";
+import useDateTime from "../../hooks/use-date-time";
+import {endTimeOptions, startTimeOptions} from "./itemsAndOptions/timeOptions";
+import SearchRadio from "../../atoms/searchRadio";
 
 const useStyles = makeStyles(() =>
     createStyles({

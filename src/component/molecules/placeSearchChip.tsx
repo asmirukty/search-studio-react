@@ -1,5 +1,4 @@
-import React from "react";
-import SearchChip from "../../../molecules/searchChip";
+import SearchChip from "../atoms/searchChip";
 
 interface PlaceSearchChipProps {
     parentItem: {id: string, name: string},
