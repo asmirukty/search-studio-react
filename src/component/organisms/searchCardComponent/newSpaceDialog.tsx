@@ -27,6 +27,10 @@ export default function NewSpaceDialog() {
 
     const spaceDialogOpen = () => {
         setSpaceOpen(true)
+        setMinArea(areaChip.min)
+        setMaxArea(areaChip.max)
+        setMinPeople(peopleChip.min)
+        setMaxPeople(peopleChip.max)
     }
 
     const spaceOk = () => {
@@ -37,22 +41,14 @@ export default function NewSpaceDialog() {
 
     const spaceCancel = () => {
         setSpaceOpen(false)
-        setMinArea(areaChip.min)
-        setMaxArea(areaChip.max)
-        setMinPeople(peopleChip.min)
-        setMaxPeople(peopleChip.max)
     }
 
     const areaChipDelete = () => {
         setAreaChip({min: null, max: null})
-        setMinArea(null)
-        setMaxArea(null)
     }
 
     const peopleChipDelete = () => {
         setPeopleChip({min: null, max: null})
-        setMinPeople(null)
-        setMaxPeople(null)
     }
 
     return (

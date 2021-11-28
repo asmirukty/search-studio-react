@@ -19,6 +19,13 @@ interface MinMaxSelectProps {
     changeMin: (event: any) => void, changeMax: (event: any) => void
 }
 
+{/**
+    データに単位をつけず, numberにする
+    nullValueをnumberにして, nullValueになっているところをoptions[nullValue]
+    propsにunitを追加して, index!==nullValueの時MenuItemのchildrenを{option}{unit}にする
+    startTime, endTime問題 >> データをany, unitを任意にする?
+ */}
+
 export default function MinMaxSelect(props: MinMaxSelectProps) {
     const classes = useStyles()
     const {minLabel, maxLabel, min, max, minOptions, maxOptions, minNullValue, maxNullValue, disableEqual} = props;

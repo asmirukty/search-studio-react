@@ -1,41 +1,26 @@
-import { atom } from "recoil";
-
-export const openState = atom<boolean>({
-    key: "open",
-    default: false,
-});
-
-export const valueState = atom<string|null>({
-    key: "value",
-    default: null,
-});
-
-export const chipValueState = atom<string|null>({
-    key: "chipValue",
-    default: null,
-});
+import {atom} from "recoil";
 
 export const placeOpenState = atom<boolean>({
     key: "placeOpen",
     default: false,
 });
 
-export const prefectureCityState = atom<{name: string, id: string}[]|[]>({
+export const prefectureCityState = atom<{name: string, id: string}[]|any[]>({
     key: "prefectureCity",
     default: [],
 });
 
-export const lineStationState = atom<{name: string, id: string}[]|[]>({
+export const lineStationState = atom<{name: string, id: string}[]|any[]>({
     key: "lineStation",
     default: [],
 });
 
-export const prefectureCityChipState = atom<{name: string, id: string}[]|[]>({
+export const prefectureCityChipState = atom<{name: string, id: string}[]|any[]>({
     key: "prefectureCityChip",
     default: [],
 });
 
-export const lineStationChipState = atom<{name: string, id: string}[]|[]>({
+export const lineStationChipState = atom<{name: string, id: string}[]|any[]>({
     key: "lineStationChip",
     default: [],
 });

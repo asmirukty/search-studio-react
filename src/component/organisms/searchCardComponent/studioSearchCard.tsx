@@ -16,6 +16,7 @@ import useDetailValue from "../../hooks/use-detail-value";
 import {floorMaterialOptions, reservationOptions, roomFacilityOptions, studioFacilityOptions} from "./detailOptions";
 import SampleDialog from "./newStudioDialog";
 import NewSpaceDialog from "./newSpaceDialog";
+import NewPlaceDialog from "./newPlaceDialog";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -89,6 +90,7 @@ export default function StudioSearchCard(props: StudioSearchProps) {
                 <PlaceDialog pref={prefecture} city={city} line={line} station={station}
                              changePref={changePrefecture} changeCity={changeCity} changeLine={changeLine} changeStation={changeStation}
                              deletePref={deletePrefecture} deleteCity={deleteCity} deleteLine={deleteLine} deleteStation={deleteStation}/>
+                <NewPlaceDialog/>
                 <StudioName studioName={studioName} changeStudioName={setStudioName}/>
                 <SpaceDialog minArea={minArea} maxArea={maxArea} minPeople={minPeople} maxPeople={maxPeople}
                              changeMinArea={changeMinArea} changeMaxArea={changeMaxArea} changeMinPeople={changeMinPeople} changeMaxPeople={changeMaxPeople}
