@@ -1,59 +1,99 @@
-import React, {useState} from 'react';
-import {createStyles, makeStyles} from "@material-ui/core/styles";
-import StudioDialog from "../../molecules/studioDialog";
-import useDateSelect from "../../hooks/use-date-select";
-import DateTimeConvert from "../../atoms/dateTimeConvert";
+import React from 'react';
+import {useRecoilState} from "recoil";
+import {dateState, dateChipState, dateOpenState, addDateOpenState} from "./atom";
+import StudioDialog from "../../templates/studioDialog";
 import DateSelect from "./dateSelect";
-import SearchChip from "../../atoms/searchChip";
+import DateDialogChip from "./dateDialogChip"
+import DateMatchRadio from "./dateMatchRadio";
 
-const useStyles = makeStyles(() =>
-    createStyles({
-        wrapChip: {
-            overflow: 'scroll',
-            display: 'flex',
-            padding: 5
-        }
-    }));
+const sortDate = (date: {date: Date|null, startTime: string|null, endTime: string|null, matchTime: boolean}[]) => {
+    let newDate = date
 
-type dateType = {date: Date, startTime: any, endTime: any, match: string}
+    if (newDate.length > 1) {
+        newDate.sort(function (a, b) {
+            if (a.date && b.date) {
+                if (a.date.getFullYear() > b.date.getFullYear()) {
+                    return 1
+                }
+                if (a.date.getFullYear() < b.date.getFullYear()) {
+                    return -1
+                }
+                // yearが同じの時
+                if (a.date.getMonth() > b.date.getMonth()) {
+                    return 1
+                }
+                if (a.date.getMonth() < b.date.getMonth()) {
+                    return -1
+                }
+                // monthが同じの時
+                if (a.date.getDate() > b.date.getDate()) {
+                    return 1
+                }
+                if (a.date.getDate() < b.date.getDate()) {
+                    return -1
+                }
+                // dateが同じの時
+                if (a.startTime && (!b.startTime || (b.startTime && a.startTime > b.startTime))) {
+                    return 1
+                }
+                if (b.startTime && (!a.startTime ||(a.startTime && a.startTime < b.startTime))) {
+                    return -1
+                }
+                //startTimeが同じ時
+                if (a.endTime && (!b.endTime || (b.endTime && a.endTime < b.endTime))) {
+                    return 1
+                }
+                if (b.endTime && (!a.endTime || (a.endTime && a.endTime < b.endTime))) {
+                    return -1
+                }
+            }
+            return 0
+        })
+    }
 
-interface DateDialogProps {
-    date: dateType[],
-    changeDate: (value: any[]) => void;
-    deleteDate: (value: any) => void;
+    return newDate
 }
 
-export default function DateDialog(props: DateDialogProps) {
-    const classes = useStyles()
-    const {date} = props;
-    const [open, setOpen] = useState(false)
-    const [selectDate, opens, addDate, changeDate, deleteDate] = useDateSelect(open, date, props.deleteDate)
+export default function DateDialog() {
+    const [dateOpen, setDateOpen] = useRecoilState<boolean>(dateOpenState);
+    const [addDateOpen, setAddDateOpen] = useRecoilState<boolean[]>(addDateOpenState)
+    const [date, setDate] = useRecoilState<{date: Date|null, startTime: string|null, endTime: string|null, matchTime: boolean}[]>(dateState);
+    const [dateChip, setDateChip] = useRecoilState<{date: Date|null, startTime: string|null, endTime: string|null, matchTime: boolean}[]>(dateChipState);
+
+    const dateDialogOpen = () => {
+        setDateOpen(true)
+        setDate(dateChip)
+        setAddDateOpen(prevState =>
+            prevState.filter((element, idx) => idx === 0 || idx < dateChip.length)
+        )
+    }
+
+    const dateOk = () => {
+        setDateOpen(false);
+        setDateChip(date)
+    }
+
+    const dateCancel = () => {
+        setDateOpen(false)
+    }
 
     return (
-        <StudioDialog
-            funcs={[props.changeDate]} state={[selectDate]} openCheck={setOpen}
-            title={'日時'}
-            labelCheck={date.length === 0} label={'日時を選択'}
-            chips={
-                <div className={classes.wrapChip}>
-                    {
-                        date.length > 0 &&
-                        date.map((date: dateType, index: number) => (
-                            <SearchChip key={index} onDelete={deleteDate(date)}
-                                  label={DateTimeConvert({date: date.date, startTime: date.startTime, endTime: date.endTime})}/>
-                        ))
-                    }
-                </div>}
-            content={
-                <div style={{padding: '20px 24px'}}>
-                    {
-                        [0, 1, 2, 3, 4].map((i) =>
-                            opens[i] &&
-                            <DateSelect key={i} open={open} date={selectDate[i]} label={`日時${i+1}`} dateChange={changeDate(i)}
-                                        addBtn={!opens[i+1]} last={i === 4} addDate={addDate(i+1)}/>
-                        )
-                    }
-                </div>
-            }/>
+        <div>
+            <StudioDialog open={dateOpen} dialogOpen={dateDialogOpen}
+                          handleCancel={dateCancel} handleOk={dateOk}
+                          title={'日時'}
+                          labelCheck={dateChip.length === 0}
+                          label={'日時を選択'}
+                          chips={<DateDialogChip/>}
+                          dialogContent={
+                                 <div style={{padding: '20px 24px'}}>
+                                     {
+                                         [0, 1, 2, 3, 4].map((i) => addDateOpen[i] && <DateSelect index={i}/>)
+                                     }
+                                 </div>
+                             }/>
+
+            {dateChip.length > 1 && <DateMatchRadio/>}
+        </div>
     )
 }

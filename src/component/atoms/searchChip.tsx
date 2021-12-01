@@ -17,23 +17,28 @@ interface SearchChipProps {
     label?: string|null,
     minLabel?: string|null,
     maxLabel?: string|null,
+    pre?: string,
     onDelete: (value: any) => void;
 }
 export default function SearchChip(props: SearchChipProps) {
-    const {label, minLabel, maxLabel, onDelete} = props;
+    const {label, minLabel, maxLabel, pre, onDelete} = props;
 
     return (
         <div>
             {
-                label && <Chip size='small' label={label} onDelete={onDelete}/>
+                label && <Chip size='small' label={pre ? `${pre}${label}` : label} onDelete={onDelete}/>
 
             }
             {
             (minLabel || maxLabel) &&
             <Chip size='small' onDelete={onDelete}
                         label={
-                            (minLabel && maxLabel) ? `${minLabel}~${maxLabel}` : (
-                                (minLabel) ? `${minLabel}~` : `~${maxLabel}`)
+                            pre ?
+                                (minLabel && maxLabel) ? `${pre}${minLabel}~${maxLabel}` : (
+                                    (minLabel) ? `${pre}${minLabel}~` : `${pre}~${maxLabel}`)
+                                :
+                                (minLabel && maxLabel) ? `${minLabel}~${maxLabel}` : (
+                                    (minLabel) ? `${minLabel}~` : `~${maxLabel}`)
                         }
             />
         }

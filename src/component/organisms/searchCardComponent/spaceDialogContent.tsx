@@ -15,7 +15,7 @@ const useStyles = makeStyles(() =>
         }
     }));
 
-export default function NewSpaceDialogContent() {
+export default function SpaceDialogContent() {
     const classes = useStyles()
     const [minArea, setMinArea] = useRecoilState<string|null>(minAreaState);
     const [maxArea, setMaxArea] = useRecoilState<string|null>(maxAreaState);

@@ -1,11 +1,10 @@
-import {useState} from 'react';
+import React from 'react';
 import {createStyles, makeStyles} from "@material-ui/core/styles";
-import StudioDialog from "../../molecules/studioDialog";
-import useRangeSelect from "../../hooks/use-range-select";
-import {Typography} from "@material-ui/core";
+import {useRecoilState} from "recoil";
+import {areaChipState, maxAreaState, maxPeopleState, minAreaState, minPeopleState, peopleChipState, spaceOpenState} from "./atom";
 import SearchChip from "../../atoms/searchChip";
-import {maxAreaOptions, maxPeopleOptions, minAreaOptions, minPeopleOptions} from "./itemsAndOptions/spaceOptions";
-import MinMaxSelect from "../../molecules/minMaxSelect";
+import StudioDialog from "../../templates/studioDialog";
+import SpaceDialogContent from "./spaceDialogContent";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -13,55 +12,57 @@ const useStyles = makeStyles(() =>
             overflow: 'scroll',
             display: 'flex',
             padding: 5
-        },
-        typ: {
-            color: "#5A4628",
-            fontWeight: 'bold',
-            marginRight: 12
         }
     }));
 
-interface SpaceDialogProps {
-    minArea: any,maxArea: any, minPeople: any,maxPeople: any,
-    changeMinArea: (value: any[]) => void, changeMaxArea: (value: any[]) => void,
-    changeMinPeople: (value: any[]) => void, changeMaxPeople: (value: any[]) => void,
-    deleteArea: () => void, deletePeople: () => void
-}
-
-export default function SpaceDialog(props: SpaceDialogProps) {
+export default function SpaceDialog() {
     const classes = useStyles()
-    const {minArea, maxArea, minPeople, maxPeople} = props;
-    const [open, setOpen] = useState(false)
-    const [selectMinArea, selectMaxArea, changeMinArea, changeMaxArea, deleteArea] = useRangeSelect(open, minArea, maxArea, props.deleteArea)
-    const [selectMinPeople, selectMaxPeople, changeMinPeople, changeMaxPeople, deletePeople] = useRangeSelect(open, minPeople, maxPeople, props.deletePeople)
+    const [spaceOpen, setSpaceOpen] = useRecoilState<boolean>(spaceOpenState);
+    const [minArea, setMinArea] = useRecoilState<string|null>(minAreaState);
+    const [maxArea, setMaxArea] = useRecoilState<string|null>(maxAreaState);
+    const [minPeople, setMinPeople] = useRecoilState<string|null>(minPeopleState);
+    const [maxPeople, setMaxPeople] = useRecoilState<string|null>(maxPeopleState);
+    const [areaChip, setAreaChip] = useRecoilState<{min: string|null, max: string|null}>(areaChipState);
+    const [peopleChip, setPeopleChip] = useRecoilState<{min: string|null, max: string|null}>(peopleChipState);
+
+    const spaceDialogOpen = () => {
+        setSpaceOpen(true)
+        setMinArea(areaChip.min)
+        setMaxArea(areaChip.max)
+        setMinPeople(peopleChip.min)
+        setMaxPeople(peopleChip.max)
+    }
+
+    const spaceOk = () => {
+        setSpaceOpen(false)
+        setAreaChip({min: minArea, max: maxArea})
+        setPeopleChip({min: minPeople, max: maxPeople})
+    }
+
+    const spaceCancel = () => {
+        setSpaceOpen(false)
+    }
+
+    const areaChipDelete = () => {
+        setAreaChip({min: null, max: null})
+    }
+
+    const peopleChipDelete = () => {
+        setPeopleChip({min: null, max: null})
+    }
 
     return (
-        <StudioDialog
-            funcs={[props.changeMinArea, props.changeMaxArea, props.changeMinPeople, props.changeMaxPeople]}
-            state={[selectMinArea, selectMaxArea, selectMinPeople, selectMaxPeople]}
-            openCheck={setOpen}
-            title={'広さ'}
-            labelCheck={!minArea && !maxArea && !minPeople && !maxPeople}
-            label={'面積/人数を選択'}
-            chips={
-                <div className={classes.wrapChip}>
-                    <SearchChip key={'area'} minLabel={minArea} maxLabel={maxArea} onDelete={deleteArea}/>
-                    <SearchChip key={'people'} minLabel={minPeople} maxLabel={maxPeople} onDelete={deletePeople}/>
-                </div>
-            }
-            content={
-                <div style={{padding: '20px 24px 8px'}}>
-                    <Typography className={classes.typ} variant={'subtitle1'}>面積</Typography>
-                    <MinMaxSelect min={selectMinArea} max={selectMaxArea}
-                                  minOptions={minAreaOptions} maxOptions={maxAreaOptions}
-                                  minNullValue={minAreaOptions[0]} maxNullValue={maxAreaOptions[0]} disableEqual
-                                  changeMin={changeMinArea} changeMax={changeMaxArea}/>
-                    <Typography className={classes.typ} variant={'subtitle1'}>人数</Typography>
-                    <MinMaxSelect min={selectMinPeople} max={selectMaxPeople}
-                                  minOptions={minPeopleOptions} maxOptions={maxPeopleOptions}
-                                  minNullValue={minPeopleOptions[0]} maxNullValue={maxPeopleOptions[0]}
-                                  changeMin={changeMinPeople} changeMax={changeMaxPeople}/>
-                </div>
-            }/>
+        <StudioDialog open={spaceOpen} dialogOpen={spaceDialogOpen}
+                      handleCancel={spaceCancel} handleOk={spaceOk}
+                      title={'広さ'}
+                      labelCheck={!areaChip.min && !areaChip.max && !peopleChip.min && !peopleChip.max}
+                      label={'面積/人数を選択'}
+                      chips={
+                             <div className={classes.wrapChip}>
+                                 <SearchChip minLabel={areaChip.min} maxLabel={areaChip.max} onDelete={areaChipDelete}/>
+                                 <SearchChip minLabel={peopleChip.min} maxLabel={peopleChip.max} onDelete={peopleChipDelete}/>
+                             </div>
+                         }
+                      dialogContent={<SpaceDialogContent/>}/>
     )
 }

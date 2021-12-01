@@ -25,6 +25,11 @@ export const lineStationChipState = atom<{name: string, id: string}[]|any[]>({
     default: [],
 });
 
+export const studioNameState = atom<string|null>({
+    key: "studioName",
+    default: null,
+});
+
 export const spaceOpenState = atom<boolean>({
     key: "spaceOpen",
     default: false,
@@ -77,5 +82,60 @@ export const dateState = atom<{date: Date|null, startTime: string|null, endTime:
 
 export const dateChipState = atom<{date: Date|null, startTime: string|null, endTime: string|null, matchTime: boolean}[]>({
     key: "dateChip",
+    default: [],
+});
+
+export const detailOpenState = atom<boolean>({
+    key: "detailOpen",
+    default: false,
+});
+
+export const fromStationState = atom<string|null>({
+    key: "fromStation",
+    default: null,
+});
+
+export const minPriceState = atom<string|null>({
+    key: "minPrice",
+    default: null,
+});
+
+export const maxPriceState = atom<string|null>({
+    key: "maxPrice",
+    default: null,
+});
+
+export const minMirrorState = atom<string|null>({
+    key: "minMirror",
+    default: null,
+});
+
+export const maxMirrorState = atom<string|null>({
+    key: "maxMirror",
+    default: null,
+});
+
+export const detailItemState = atom<string[]|any[]>({
+    key: "detailItem",
+    default: [],
+});
+
+export const fromStationChipState = atom<string|null>({
+    key: "fromStationChip",
+    default: null,
+});
+
+export const priceChipState = atom<{min: string|null, max: string|null}>({
+    key: "priceChip",
+    default: {min: null, max: null},
+});
+
+export const mirrorChipState = atom<{min: string|null, max: string|null}>({
+    key: "mirrorChip",
+    default: {min: null, max: null},
+});
+
+export const detailItemChipState = atom<string[]|any[]>({
+    key: "detailItemChip",
     default: [],
 });

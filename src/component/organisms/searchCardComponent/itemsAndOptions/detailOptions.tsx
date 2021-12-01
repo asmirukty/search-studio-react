@@ -49,7 +49,3 @@ export const amenityOptions = [
     "バレエバー", "タップ板", "ヨガマット", "ヨガグッズ", "トレーニンググッズ",
     "ヒールカバー", "ハンガー", "充電器", "アルコール消毒"
 ];
-
-export const roomFacilityOptions = [
-    '鏡2面', ...lightAndFilmingOptions, ...soundAndMovieOptions, ...amenityOptions
-]

@@ -26,7 +26,7 @@ const useStyles = makeStyles(() =>
         }
     }));
 
-export default function NewDateDialogChip() {
+export default function DateDialogChip() {
     const classes = useStyles()
     const [dateChip, setDateChip] = useRecoilState<{date: Date|null, startTime: string|null, endTime: string|null, matchTime: boolean}[]>(dateChipState);
 

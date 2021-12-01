@@ -23,7 +23,7 @@ const useStyles = makeStyles(() =>
         }
     }));
 
-export default function NewPlaceDialogContent() {
+export default function PlaceDialogContent() {
     const classes = useStyles()
 
     return (

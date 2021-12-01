@@ -1,8 +1,8 @@
 import React from 'react';
 import {createStyles, makeStyles} from "@material-ui/core/styles";
 import {useSetRecoilState, useRecoilState} from "recoil";
-import {addDateOpenState, dateState} from "./atom";
-import SearchOutlineButton from "../../atoms/searchOutlineButton";
+import {addDateOpenState, dateState} from "../organisms/searchCardComponent/atom";
+import SearchOutlineButton from "../atoms/searchOutlineButton";
 
 const useStyles = makeStyles(() =>
     createStyles({

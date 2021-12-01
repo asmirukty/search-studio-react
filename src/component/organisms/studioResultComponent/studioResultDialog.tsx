@@ -62,13 +62,7 @@ export default function StudioResultDialog(props: {state: any}) {
                     </div>
                     <Typography variant='subtitle1' className={classes.fontBold}>検索条件</Typography>
                 </DialogActions>
-                <StudioSearchCard close={() => setOpen(false)} state={{
-                    prefecture: [], city: [], line: [], station: [], studioName: null,
-                    minArea: null, maxArea: null, minPeople: null, maxPeople: null, date: [],
-                    fromStation: null, minPrice: null, maxPrice: null,
-                    minMirror: null, maxMirror: null, detailCheck: []
-
-                }}/>
+                <StudioSearchCard close={() => setOpen(false)}/>
             </Dialog>
 
         </div>

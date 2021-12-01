@@ -1,6 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import { withStyles, createStyles, makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import {useRecoilState} from "recoil";
+import {studioNameState} from "./atom";
 
 const StudioNameTextField = withStyles({
     root: {
@@ -26,22 +28,12 @@ const useStyles = makeStyles(() =>
         },
 }));
 
-interface StudioNameProps {
-    studioName: string|null;
-    changeStudioName: (value: any) => void;
-}
-
-export default function StudioName(props: StudioNameProps) {
+export default function StudioName() {
     const classes = useStyles();
-    const [studioName, setStudioName] = useState<string|null>()
-
-    useEffect(() => {
-        setStudioName(props.studioName)
-    }, [props.studioName])
+    const [studioName, setStudioName] = useRecoilState<string|null>(studioNameState)
 
     const textChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setStudioName(event.target.value)
-        props.changeStudioName(event.target.value)
     }
 
     return (

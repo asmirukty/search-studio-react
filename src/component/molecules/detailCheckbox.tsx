@@ -4,6 +4,10 @@ import SearchCheckbox from "../atoms/searchCheckbox";
 
 const useStyles = makeStyles(() =>
     createStyles({
+        one: {
+            paddingTop: 16
+        },
+        two: {},
         typ: {
             color: "#5A4628",
             fontWeight: 'bold',
@@ -28,7 +32,7 @@ export default function DetailCheckbox(props: DetailCheckboxProps) {
     const classes = useStyles()
 
     return (
-        <div>
+        <div className={props.one ? classes.one : classes.two}>
             <Typography className={classes.typ} variant={props.one ? 'subtitle1' : 'subtitle2'}>
                 {props.title}
             </Typography>

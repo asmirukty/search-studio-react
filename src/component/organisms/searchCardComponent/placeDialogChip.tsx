@@ -13,7 +13,7 @@ const useStyles = makeStyles(() =>
         }
     }));
 
-export default function NewPlaceDialogChip() {
+export default function PlaceDialogChip() {
     const classes = useStyles()
     const [prefectureCityChip, setPrefectureCityChip] = useRecoilState<{name: string, id: string}[]|any[]>(prefectureCityChipState);
     const [lineStationChip, setLineStationChip] = useRecoilState<{name: string, id: string}[]|any[]>(lineStationChipState);
