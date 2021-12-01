@@ -17,6 +17,7 @@ import {floorMaterialOptions, reservationOptions, roomFacilityOptions, studioFac
 import SampleDialog from "./newStudioDialog";
 import NewSpaceDialog from "./newSpaceDialog";
 import NewPlaceDialog from "./newPlaceDialog";
+import NewDateDialog from "./newDateDialog";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -98,6 +99,7 @@ export default function StudioSearchCard(props: StudioSearchProps) {
                 <NewSpaceDialog/>
                 <DateDialog date={date} changeDate={changeDate} deleteDate={deleteDate}/>
                 {date.length > 1 && <DateMatchRadio/>}
+                <NewDateDialog/>
                 <DetailDialog fromStation={fromStation} minPrice={minPrice} maxPrice={maxPrice} minMirror={minMirror} maxMirror={maxMirror} detailCheck={detailCheck}
                               changeFromStation={changeFromStation} changeMinPrice={changeMinPrice} changeMaxPrice={changeMaxPrice} changeMinMirror={changeMinMirror} changeMaxMirror={changeMaxMirror} changeDetailCheck={changeDetailCheck}
                               deleteFromStation={deleteFromStation} deletePrice={deletePrice} deleteMirror={deleteMirror} deleteDetailCheck={deleteDetailCheck}/>

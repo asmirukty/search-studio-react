@@ -64,3 +64,18 @@ export const dateOpenState = atom<boolean>({
     key: "dateOpen",
     default: false,
 });
+
+export const addDateOpenState = atom<boolean[]>({
+    key: "addDateOpen",
+    default: [true],
+});
+
+export const dateState = atom<{date: Date|null, startTime: string|null, endTime: string|null, matchTime: boolean}[]>({
+    key: "date",
+    default: [],
+});
+
+export const dateChipState = atom<{date: Date|null, startTime: string|null, endTime: string|null, matchTime: boolean}[]>({
+    key: "dateChip",
+    default: [],
+});

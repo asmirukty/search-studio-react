@@ -24,7 +24,7 @@ const useStyles = makeStyles(() =>
 
 interface SelectOptionProps {
     label?: any,
-    value: any,
+    value: any|null,
     nullValue: any,
     onChange: (event: any) => void,
     children: React.ReactNode
