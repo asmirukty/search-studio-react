@@ -83,7 +83,11 @@ export default function NewDateDialog() {
                          label={'日時を選択'}
                          chips={<NewDateDialogChip/>}
                          dialogContent={
-                             [0, 1, 2, 3, 4].map((i) => addDateOpen[i] && <NewDateSelect index={i}/>)
+                             <div style={{padding: '20px 24px'}}>
+                                 {
+                                     [0, 1, 2, 3, 4].map((i) => addDateOpen[i] && <NewDateSelect index={i}/>)
+                                 }
+                             </div>
                          }/>
     )
 }
