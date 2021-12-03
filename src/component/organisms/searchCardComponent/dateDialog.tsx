@@ -71,6 +71,8 @@ export default function DateDialog() {
     const dateOk = () => {
         setDateOpen(false);
         setDateChip(date)
+        console.log(date[0].date && Date.UTC(date[0].date.getFullYear(), date[0].date.getMonth()))
+        console.log(date[0].startTime && Number(date[0].startTime.split(':')[0]))
     }
 
     const dateCancel = () => {

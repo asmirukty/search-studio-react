@@ -16,11 +16,10 @@ const Chip = withStyles({
 interface SearchChipProps {
     label: string|null,
     pre?: string,
-    unit?: string,
     onDelete: (value: any) => void;
 }
 export default function SearchChip(props: SearchChipProps) {
-    const {label, pre, unit, onDelete} = props;
+    const {label, pre, onDelete} = props;
 
     return (
         <div>

@@ -1,15 +1,22 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import SearchRadio from "../../atoms/searchRadio";
+import {useRecoilState, useRecoilValue} from "recoil";
+import {dateChipState, dateMatchState} from "./atom";
 
 export default function DateMatchRadio() {
-    const [value, setValue] = React.useState('いずれか');
+    const [dateMatch, setDateMatch] = useRecoilState<boolean>(dateMatchState);
+    const dateChip = useRecoilValue(dateChipState);
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValue((event.target as HTMLInputElement).value);
+    useEffect(() => {
+        dateChip.length < 2 && setDateMatch(false)
+    }, [dateChip])
+
+    const handleChange = () => {
+        setDateMatch(prevState => !prevState);
     };
 
     return (
-        <SearchRadio afterTyp={'の日時で空いている'} value={value}
+        <SearchRadio afterTyp={'の日時で空いている'} value={dateMatch ? 'すべて' : 'いずれか'}
                      options={['いずれか', 'すべて']} handleChange={handleChange}/>
     );
 }

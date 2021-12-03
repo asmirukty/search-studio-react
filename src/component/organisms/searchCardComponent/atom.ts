@@ -94,6 +94,11 @@ export const dateChipState = atom<{date: Date|null, startTime: string|null, endT
     default: [],
 });
 
+export const dateMatchState = atom<boolean>({
+    key: "dateMatch",
+    default: false,
+});
+
 export const detailOpenState = atom<boolean>({
     key: "detailOpen",
     default: false,
