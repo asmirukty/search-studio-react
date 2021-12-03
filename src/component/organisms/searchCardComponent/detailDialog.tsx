@@ -1,9 +1,8 @@
 import React from 'react';
 import {useRecoilState} from "recoil";
 import {
-    detailItemChipState, detailItemState,
-    detailOpenState, fromStationChipState, fromStationState, maxMirrorState,
-    maxPriceState, minMirrorState, minPriceState, mirrorChipState, priceChipState
+    detailItemChipState, detailItemState, detailOpenState, fromStationChipState, fromStationState,
+    maxMirrorState, maxPriceState, minMirrorState, minPriceState, mirrorChipState, priceChipState
 } from "./atom";
 import StudioDialog from "../../templates/studioDialog";
 import DetailDialogChip from "./detailDialogChip";
@@ -13,15 +12,15 @@ import DetailPriceReserveStudioF from "./detailPriceReserveStudioF";
 
 export default function DetailDialog() {
     const [detailOpen, setDetailOpen] = useRecoilState<boolean>(detailOpenState);
-    const [fromStation, setFromStation] = useRecoilState<string|null>(fromStationState);
-    const [minPrice, setMinPrice] = useRecoilState<string|null>(minPriceState);
-    const [maxPrice, setMaxPrice] = useRecoilState<string|null>(maxPriceState);
-    const [minMirror, setMinMirror] = useRecoilState<string|null>(minMirrorState);
-    const [maxMirror, setMaxMirror] = useRecoilState<string|null>(maxMirrorState);
+    const [fromStation, setFromStation] = useRecoilState<number|null>(fromStationState);
+    const [minPrice, setMinPrice] = useRecoilState<number|null>(minPriceState);
+    const [maxPrice, setMaxPrice] = useRecoilState<number|null>(maxPriceState);
+    const [minMirror, setMinMirror] = useRecoilState<number|null>(minMirrorState);
+    const [maxMirror, setMaxMirror] = useRecoilState<number|null>(maxMirrorState);
     const [detailItem, setDetailItem] = useRecoilState<string[]|any[]>(detailItemState);
-    const [fromStationChip, setFromStationChip] = useRecoilState<string|null>(fromStationChipState);
-    const [priceChip, setPriceChip] = useRecoilState<{min: string|null, max: string|null}>(priceChipState);
-    const [mirrorChip, setMirrorChip] = useRecoilState<{min: string|null, max: string|null}>(mirrorChipState);
+    const [fromStationChip, setFromStationChip] = useRecoilState<number|null>(fromStationChipState);
+    const [priceChip, setPriceChip] = useRecoilState<{min: number|null, max: number|null}>(priceChipState);
+    const [mirrorChip, setMirrorChip] = useRecoilState<{min: number|null, max: number|null}>(mirrorChipState);
     const [detailItemChip, setDetailItemChip] = useRecoilState<string[]|any[]>(detailItemChipState);
 
     const dateDialogOpen = () => {

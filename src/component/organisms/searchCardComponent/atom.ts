@@ -10,18 +10,27 @@ export const prefectureCityState = atom<{name: string, id: string}[]|any[]>({
     default: [],
 });
 
+export const prefectureChipState = atom<{name: string, id: string}[]|any[]>({
+    key: "prefectureChip",
+    default: [],
+});
+
+export const cityChipState = atom<{name: string, id: string}[]|any[]>({
+    key: "cityChip",
+    default: [],
+});
+
 export const lineStationState = atom<{name: string, id: string}[]|any[]>({
     key: "lineStation",
     default: [],
 });
-
-export const prefectureCityChipState = atom<{name: string, id: string}[]|any[]>({
-    key: "prefectureCityChip",
+export const lineChipState = atom<{name: string, id: string}[]|any[]>({
+    key: "lineChip",
     default: [],
 });
 
-export const lineStationChipState = atom<{name: string, id: string}[]|any[]>({
-    key: "lineStationChip",
+export const stationChipState = atom<{name: string, id: string}[]|any[]>({
+    key: "stationChip",
     default: [],
 });
 
@@ -35,32 +44,32 @@ export const spaceOpenState = atom<boolean>({
     default: false,
 });
 
-export const minAreaState = atom<string|null>({
+export const minAreaState = atom<number|null>({
     key: "minArea",
     default: null,
 });
 
-export const maxAreaState = atom<string|null>({
+export const maxAreaState = atom<number|null>({
     key: "maxArea",
     default: null,
 });
 
-export const minPeopleState = atom<string|null>({
+export const minPeopleState = atom<number|null>({
     key: "minPeople",
     default: null,
 });
 
-export const maxPeopleState = atom<string|null>({
+export const maxPeopleState = atom<number|null>({
     key: "maxPeople",
     default: null,
 });
 
-export const areaChipState = atom<{min: string|null, max: string|null}>({
+export const areaChipState = atom<{min: number|null, max: number|null}>({
     key: "areaChip",
     default: {min: null, max: null},
 });
 
-export const peopleChipState = atom<{min: string|null, max: string|null}>({
+export const peopleChipState = atom<{min: number|null, max: number|null}>({
     key: "peopleChip",
     default: {min: null, max: null},
 });
@@ -90,27 +99,27 @@ export const detailOpenState = atom<boolean>({
     default: false,
 });
 
-export const fromStationState = atom<string|null>({
+export const fromStationState = atom<number|null>({
     key: "fromStation",
     default: null,
 });
 
-export const minPriceState = atom<string|null>({
+export const minPriceState = atom<number|null>({
     key: "minPrice",
     default: null,
 });
 
-export const maxPriceState = atom<string|null>({
+export const maxPriceState = atom<number|null>({
     key: "maxPrice",
     default: null,
 });
 
-export const minMirrorState = atom<string|null>({
+export const minMirrorState = atom<number|null>({
     key: "minMirror",
     default: null,
 });
 
-export const maxMirrorState = atom<string|null>({
+export const maxMirrorState = atom<number|null>({
     key: "maxMirror",
     default: null,
 });
@@ -120,17 +129,17 @@ export const detailItemState = atom<string[]|any[]>({
     default: [],
 });
 
-export const fromStationChipState = atom<string|null>({
+export const fromStationChipState = atom<number|null>({
     key: "fromStationChip",
     default: null,
 });
 
-export const priceChipState = atom<{min: string|null, max: string|null}>({
+export const priceChipState = atom<{min: number|null, max: number|null}>({
     key: "priceChip",
     default: {min: null, max: null},
 });
 
-export const mirrorChipState = atom<{min: string|null, max: string|null}>({
+export const mirrorChipState = atom<{min: number|null, max: number|null}>({
     key: "mirrorChip",
     default: {min: null, max: null},
 });

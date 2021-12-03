@@ -8,7 +8,8 @@ import PlaceDialog from "./placeDialog";
 import DateDialog from "./dateDialog";
 import DetailDialog from "./detailDialog";
 import {useRecoilValue} from "recoil";
-import {lineStationChipState, prefectureCityChipState, studioNameState} from "./atom";
+import {cityChipState, lineChipState, prefectureChipState, stationChipState, studioNameState} from "./atom";
+import {queryState} from "./querySelector";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -37,13 +38,14 @@ const useStyles = makeStyles(() =>
 export default function StudioSearchCard(props: {close?: (value?: any) => void;}) {
     const classes = useStyles();
     const studioName = useRecoilValue<string|null>(studioNameState);
-    const prefectureCityChip = useRecoilValue<{name: string, id: string}[]|any[]>(prefectureCityChipState);
-    const lineStationChip = useRecoilValue<{name: string, id: string}[]|any[]>(lineStationChipState);
+    const prefectureChip = useRecoilValue<{name: string, id: string}[]|any[]>(prefectureChipState);
+    const cityChip = useRecoilValue<{name: string, id: string}[]|any[]>(cityChipState);
+    const lineChip = useRecoilValue<{name: string, id: string}[]|any[]>(lineChipState);
+    const stationChip = useRecoilValue<{name: string, id: string}[]|any[]>(stationChipState);
+    const query = useRecoilValue<string[]>(queryState)
 
     const handleClose = () => {
-        if (props.close) {
-            props.close()
-        }
+        props.close && props.close()
     }
 
     return (
@@ -56,12 +58,12 @@ export default function StudioSearchCard(props: {close?: (value?: any) => void;}
                 <DetailDialog/>
                 <div style={{display: 'flex'}}>
                     <Button className={classes.searchBtn}
-                            disabled={prefectureCityChip.length === 0 && lineStationChip.length === 0 && !studioName}
+                            disabled={prefectureChip.length === 0 && cityChip.length === 0 && lineChip.length === 0 && stationChip.length === 0 && !studioName}
                             onClick={handleClose}
                             component={Link}
                             to={{
-                                pathname: `/studios/`,
-                                search: `?fromStation=`,
+                                pathname: '/studios/',
+                                search: `${query.join('&')}`,
                             }}>
                         検 索
                     </Button>

@@ -81,7 +81,7 @@ export default function DateSelect(props: {index: number}) {
             <SearchDatePicker value={dateValue} changeDate={changeDate}/>
             <MinMaxSelect minLabel={'開始時間'} maxLabel={'終了時間'} min={startTimeValue} max={endTimeValue}
                           minOptions={startTimeOptions} maxOptions={endTimeOptions}
-                          minNullValue={startTimeOptions[24]} maxNullValue={endTimeOptions[24]}
+                          minNullValue={24} maxNullValue={24}
                           changeMin={changeStartTime} changeMax={changeEndTime}/>
             {
                 date[index] && date[index].startTime && date[index].endTime &&

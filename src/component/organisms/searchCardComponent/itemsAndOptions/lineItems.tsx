@@ -15,7 +15,8 @@ const itemsB = [
         line: {name: '東京メトロ副都心線', id: 'A02'},
         stations: [
             {name: '渋谷駅', id: 'S01'},
-            {name: '池袋駅', id: 'S03'}
+            {name: '池袋駅', id: 'S03'},
+            {name: '新宿三丁目駅', id: 'S14'},
         ]
     },
     {

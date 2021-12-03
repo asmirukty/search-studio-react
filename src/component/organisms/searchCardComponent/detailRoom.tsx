@@ -20,8 +20,8 @@ const useStyles = makeStyles(() =>
 
 export default function DetailRoom() {
     const classes = useStyles()
-    const [minMirror, setMinMirror] = useRecoilState<string|null>(minMirrorState);
-    const [maxMirror, setMaxMirror] = useRecoilState<string|null>(maxMirrorState);
+    const [minMirror, setMinMirror] = useRecoilState<number|null>(minMirrorState);
+    const [maxMirror, setMaxMirror] = useRecoilState<number|null>(maxMirrorState);
     const [detailItem, setDetailItem] = useRecoilState<string[]|any[]>(detailItemState);
 
     const changeMinMirror = (event: any) => {
@@ -45,14 +45,14 @@ export default function DetailRoom() {
             <Typography className={classes.typ} variant={'subtitle1'}>部屋設備・備品</Typography>
             <DetailCheckbox title={'鏡'} options={['2面']} detailCheck={detailItem} check={checkDetailItem} unCheck={unCheckDetailItem}/>
             <MinMaxSelect minLabel={'横幅'} min={minMirror} max={maxMirror}
-                          minOptions={minMirrorOptions} maxOptions={maxMirrorOptions} disableEqual
-                          minNullValue={minMirrorOptions[0]} maxNullValue={maxMirrorOptions[0]}
+                          minOptions={minMirrorOptions} maxOptions={maxMirrorOptions} unit={'m'} disableEqual
+                          minNullValue={0} maxNullValue={0}
                           changeMin={changeMinMirror} changeMax={changeMaxMirror}/>
             {
                 [
+                    {title: '床材', options: floorMaterialOptions},
                     {title: '照明・撮影', options: lightAndFilmingOptions},
                     {title: '音響・映像', options: soundAndMovieOptions},
-                    {title: '床材', options: floorMaterialOptions},
                     {title: 'その他設備・備品', options: amenityOptions}
                 ].map((item, index) =>
                     <div style={{paddingTop: 12}}>

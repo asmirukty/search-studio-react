@@ -3,11 +3,13 @@ import {createStyles, makeStyles} from "@material-ui/core/styles";
 import {useRecoilState} from "recoil";
 import {detailItemChipState, fromStationChipState, mirrorChipState, priceChipState} from "./atom";
 import SearchChip from "../../atoms/searchChip";
-import {amenityOptions, floorMaterialOptions, lightAndFilmingOptions, reservationOptions, soundAndMovieOptions, studioFacilityOptions} from "./itemsAndOptions/detailOptions";
+import {floorMaterialOptions, reserveOptions, roomFacilityOptions, studioFacilityOptions} from "./itemsAndOptions/detailOptions";
+import RangeSearchChip from "../../molecules/rangeSearchChip";
 
 const useStyles = makeStyles(() =>
     createStyles({
         detailChip: {
+            marginTop: 8,
             display: 'flex',
             flexWrap: 'wrap'
         },
@@ -15,9 +17,9 @@ const useStyles = makeStyles(() =>
 
 export default function DetailDialogChip() {
     const classes = useStyles()
-    const [fromStationChip, setFromStationChip] = useRecoilState<string|null>(fromStationChipState);
-    const [priceChip, setPriceChip] = useRecoilState<{min: string|null, max: string|null}>(priceChipState);
-    const [mirrorChip, setMirrorChip] = useRecoilState<{min: string|null, max: string|null}>(mirrorChipState);
+    const [fromStationChip, setFromStationChip] = useRecoilState<number|null>(fromStationChipState);
+    const [priceChip, setPriceChip] = useRecoilState<{min: number|null, max: number|null}>(priceChipState);
+    const [mirrorChip, setMirrorChip] = useRecoilState<{min: number|null, max: number|null}>(mirrorChipState);
     const [detailItemChip, setDetailItemChip] = useRecoilState<string[]|any[]>(detailItemChipState);
 
     const fromStationChipDelete = () => {
@@ -39,13 +41,13 @@ export default function DetailDialogChip() {
 
     return (
         <div className={classes.detailChip}>
-            <SearchChip key={'fromStation'} pre={'駅'} label={fromStationChip} onDelete={fromStationChipDelete}/>
+            <SearchChip key={'fromStation'} pre={'駅'} label={fromStationChip ? `${fromStationChip}分以内` : null} onDelete={fromStationChipDelete}/>
             <SearchChip key={'cancel'}
                         label={detailItemChip.includes('キャンセル無料期間あり') ? 'キャンセル無料期間あり' : null}
                         onDelete={detailItemChipDelete('キャンセル無料期間あり')}/>
-            <SearchChip key={'price'} minLabel={priceChip.min} maxLabel={priceChip.max} onDelete={priceChipDelete}/>
+            <RangeSearchChip key={'price'} minLabel={priceChip.min} maxLabel={priceChip.max} unit={'円'} onDelete={priceChipDelete}/>
             {
-                [...reservationOptions, ...studioFacilityOptions].map((option) =>
+                [...reserveOptions, ...studioFacilityOptions].map((option) =>
                     detailItemChip.includes(option) &&
                         <SearchChip key={option} label={option} onDelete={detailItemChipDelete(option)}/>
                 )
@@ -53,9 +55,9 @@ export default function DetailDialogChip() {
             <SearchChip key={'twoMirror'} pre={'鏡'}
                         label={detailItemChip.includes('2面') ? '2面' : null}
                         onDelete={detailItemChipDelete('2面')}/>
-            <SearchChip key={'mirror'} pre={'鏡'} minLabel={mirrorChip.min} maxLabel={mirrorChip.max} onDelete={mirrorChipDelete}/>
+            <RangeSearchChip key={'mirror'} pre={'鏡'} minLabel={mirrorChip.min} maxLabel={mirrorChip.max} unit={'m'} onDelete={mirrorChipDelete}/>
             {
-                [...lightAndFilmingOptions, ...soundAndMovieOptions, ...floorMaterialOptions, ...amenityOptions].map((option) =>
+                [...floorMaterialOptions, ...roomFacilityOptions].map((option) =>
                     detailItemChip.includes(option) &&
                         <SearchChip key={option} label={option} onDelete={detailItemChipDelete(option)}/>
                 )

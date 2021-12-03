@@ -83,7 +83,7 @@ export default function NewStudioPlaceCheckAccordion(props: NewStudioPlaceCheckA
                 {
                     childItems.map((childItem) => (
                         <SearchCheckbox item={childItem} itemName={childItem.name} key={childItem.id}
-                                        checked={items.includes(childItem)}
+                                        checked={items.map((item) => item.id).includes(childItem.id)}
                                         itemChecked={checkedChild(parentItem, childItems)}
                                         itemUnChecked={unCheckedChild(parentItem)}/>
                     ))

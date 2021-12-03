@@ -17,10 +17,10 @@ const useStyles = makeStyles(() =>
 
 export default function SpaceDialogContent() {
     const classes = useStyles()
-    const [minArea, setMinArea] = useRecoilState<string|null>(minAreaState);
-    const [maxArea, setMaxArea] = useRecoilState<string|null>(maxAreaState);
-    const [minPeople, setMinPeople] = useRecoilState<string|null>(minPeopleState);
-    const [maxPeople, setMaxPeople] = useRecoilState<string|null>(maxPeopleState);
+    const [minArea, setMinArea] = useRecoilState<number|null>(minAreaState);
+    const [maxArea, setMaxArea] = useRecoilState<number|null>(maxAreaState);
+    const [minPeople, setMinPeople] = useRecoilState<number|null>(minPeopleState);
+    const [maxPeople, setMaxPeople] = useRecoilState<number|null>(maxPeopleState);
 
     const changeMinArea = (event: any) => {
         event.target.value === minAreaOptions[0] ? setMinArea(null) : setMinArea(event.target.value)
@@ -42,13 +42,13 @@ export default function SpaceDialogContent() {
           <div style={{padding: '20px 24px 8px'}}>
               <Typography className={classes.typ} variant={'subtitle1'}>面積</Typography>
               <MinMaxSelect min={minArea} max={maxArea}
-                            minOptions={minAreaOptions} maxOptions={maxAreaOptions}
-                            minNullValue={minAreaOptions[0]} maxNullValue={maxAreaOptions[0]} disableEqual
+                            minOptions={minAreaOptions} maxOptions={maxAreaOptions} unit={'m²'}
+                            minNullValue={0} maxNullValue={0} disableEqual
                             changeMin={changeMinArea} changeMax={changeMaxArea}/>
               <Typography className={classes.typ} variant={'subtitle1'}>人数</Typography>
               <MinMaxSelect min={minPeople} max={maxPeople}
-                            minOptions={minPeopleOptions} maxOptions={maxPeopleOptions}
-                            minNullValue={minPeopleOptions[0]} maxNullValue={maxPeopleOptions[0]}
+                            minOptions={minPeopleOptions} maxOptions={maxPeopleOptions}　unit={'人'}
+                            minNullValue={0} maxNullValue={0}
                             changeMin={changeMinPeople} changeMax={changeMaxPeople}/>
           </div>
     )

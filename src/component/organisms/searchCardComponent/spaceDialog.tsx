@@ -5,6 +5,7 @@ import {areaChipState, maxAreaState, maxPeopleState, minAreaState, minPeopleStat
 import SearchChip from "../../atoms/searchChip";
 import StudioDialog from "../../templates/studioDialog";
 import SpaceDialogContent from "./spaceDialogContent";
+import RangeSearchChip from "../../molecules/rangeSearchChip";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -18,12 +19,12 @@ const useStyles = makeStyles(() =>
 export default function SpaceDialog() {
     const classes = useStyles()
     const [spaceOpen, setSpaceOpen] = useRecoilState<boolean>(spaceOpenState);
-    const [minArea, setMinArea] = useRecoilState<string|null>(minAreaState);
-    const [maxArea, setMaxArea] = useRecoilState<string|null>(maxAreaState);
-    const [minPeople, setMinPeople] = useRecoilState<string|null>(minPeopleState);
-    const [maxPeople, setMaxPeople] = useRecoilState<string|null>(maxPeopleState);
-    const [areaChip, setAreaChip] = useRecoilState<{min: string|null, max: string|null}>(areaChipState);
-    const [peopleChip, setPeopleChip] = useRecoilState<{min: string|null, max: string|null}>(peopleChipState);
+    const [minArea, setMinArea] = useRecoilState<number|null>(minAreaState);
+    const [maxArea, setMaxArea] = useRecoilState<number|null>(maxAreaState);
+    const [minPeople, setMinPeople] = useRecoilState<number|null>(minPeopleState);
+    const [maxPeople, setMaxPeople] = useRecoilState<number|null>(maxPeopleState);
+    const [areaChip, setAreaChip] = useRecoilState<{min: number|null, max: number|null}>(areaChipState);
+    const [peopleChip, setPeopleChip] = useRecoilState<{min: number|null, max: number|null}>(peopleChipState);
 
     const spaceDialogOpen = () => {
         setSpaceOpen(true)
@@ -59,8 +60,8 @@ export default function SpaceDialog() {
                       label={'面積/人数を選択'}
                       chips={
                              <div className={classes.wrapChip}>
-                                 <SearchChip minLabel={areaChip.min} maxLabel={areaChip.max} onDelete={areaChipDelete}/>
-                                 <SearchChip minLabel={peopleChip.min} maxLabel={peopleChip.max} onDelete={peopleChipDelete}/>
+                                 <RangeSearchChip minLabel={areaChip.min} maxLabel={areaChip.max} unit={'m²'} onDelete={areaChipDelete}/>
+                                 <RangeSearchChip minLabel={peopleChip.min} maxLabel={peopleChip.max} unit={'人'} onDelete={peopleChipDelete}/>
                              </div>
                          }
                       dialogContent={<SpaceDialogContent/>}/>
