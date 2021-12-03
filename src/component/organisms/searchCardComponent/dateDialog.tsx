@@ -6,8 +6,9 @@ import DateSelect from "./dateSelect";
 import DateDialogChip from "./dateDialogChip"
 import DateMatchRadio from "./dateMatchRadio";
 
-const sortDate = (date: {date: Date|null, startTime: string|null, endTime: string|null, matchTime: boolean}[]) => {
-    let newDate = date
+function sortDate (date: {date: Date|null, startTime: string|null, endTime: string|null, matchTime: boolean}[]) {
+    const newDate: any[] = [];
+    date.map((item) => newDate.push(item))
 
     if (newDate.length > 1) {
         newDate.sort(function (a, b) {
@@ -40,10 +41,10 @@ const sortDate = (date: {date: Date|null, startTime: string|null, endTime: strin
                     return -1
                 }
                 //startTimeが同じ時
-                if (a.endTime && (!b.endTime || (b.endTime && a.endTime < b.endTime))) {
+                if (b.endTime && (!a.endTime || (a.endTime && a.endTime < b.endTime))) {
                     return 1
                 }
-                if (b.endTime && (!a.endTime || (a.endTime && a.endTime < b.endTime))) {
+                if (a.endTime && (!b.endTime || (b.endTime && a.endTime < b.endTime))) {
                     return -1
                 }
             }
@@ -70,9 +71,7 @@ export default function DateDialog() {
 
     const dateOk = () => {
         setDateOpen(false);
-        setDateChip(date)
-        console.log(date[0].date && Date.UTC(date[0].date.getFullYear(), date[0].date.getMonth()))
-        console.log(date[0].startTime && Number(date[0].startTime.split(':')[0]))
+        setDateChip(sortDate(date))
     }
 
     const dateCancel = () => {
