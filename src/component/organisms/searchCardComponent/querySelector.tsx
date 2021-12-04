@@ -6,16 +6,17 @@ import {
 import {
     floorMaterialOptions, reservationOptions, reserveOptions, roomFacilityOptions, studioFacilityOptions
 } from "./itemsAndOptions/detailOptions";
+import {endTimeOptions} from "./itemsAndOptions/timeOptions";
 
 function dateConvert (date: {date: Date|null, startTime: string|null, endTime: string|null, matchTime: boolean}) {
     const startHour = date.startTime ? date.startTime.split(':')[0] : 0 ;
     const startMin = date.startTime ? date.startTime.split(':')[1] : 0 ;
-    const endHour = date.endTime ? date.endTime.split(':')[0] : 24 ;
-    const endMin = date.endTime ? date.endTime.split(':')[1] : 0 ;
-    const unixStart =  date.date && Date.UTC(date.date.getFullYear(), date.date.getMonth(), date.date.getDate(), Number(startHour), Number(startMin))
-    const unixEnd =  date.date && Date.UTC(date.date.getFullYear(), date.date.getMonth(), date.date.getDate(), Number(endHour), Number(endMin))
+    const endHour = (date.endTime && endTimeOptions.indexOf(date.endTime) !== 48) ? date.endTime.split(':')[0] : 23 ;
+    const endMin = (date.endTime && endTimeOptions.indexOf(date.endTime) !== 48) ? date.endTime.split(':')[1] : 59 ;
+    const unixStart =  date.date && Date.UTC(date.date.getFullYear(), date.date.getMonth(), date.date.getDate(), Number(startHour), Number(startMin))/1000
+    const unixEnd =  date.date && Date.UTC(date.date.getFullYear(), date.date.getMonth(), date.date.getDate(), Number(endHour), Number(endMin))/1000
 
-    return `${unixStart}${date.matchTime ? 'and' : 'or'}${unixEnd}`
+    return date.date && `${unixStart}${date.matchTime ? 'and' : 'or'}${unixEnd}`
 }
 
 export const queryState = selector({
@@ -47,9 +48,7 @@ export const queryState = selector({
         studioFacilityOptions.map((option) =>
             detailItem.includes(option) && studioF.push(option));
 
-        detailItem.includes('2面') && roomF.push('鏡2面');
-
-        roomFacilityOptions.map((option) =>
+        ['鏡2面', ...roomFacilityOptions].map((option) =>
             detailItem.includes(option) && roomF.push(option));
 
         floorMaterialOptions.map((option) =>

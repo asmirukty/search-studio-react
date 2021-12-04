@@ -43,7 +43,7 @@ export default function DetailRoom() {
     return (
         <div>
             <Typography className={classes.typ} variant={'subtitle1'}>部屋設備・備品</Typography>
-            <DetailCheckbox title={'鏡'} options={['2面']} detailCheck={detailItem} check={checkDetailItem} unCheck={unCheckDetailItem}/>
+            <DetailCheckbox title={'鏡'} options={['鏡2面']} detailCheck={detailItem} check={checkDetailItem} unCheck={unCheckDetailItem}/>
             <MinMaxSelect minLabel={'横幅'} min={minMirror} max={maxMirror}
                           minOptions={minMirrorOptions} maxOptions={maxMirrorOptions} unit={'m'} disableEqual
                           minNullValue={0} maxNullValue={0}

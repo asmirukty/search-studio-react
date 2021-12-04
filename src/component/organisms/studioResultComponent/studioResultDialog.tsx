@@ -4,6 +4,7 @@ import {makeStyles, createStyles} from "@material-ui/core/styles";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogCloseButton from "../../atoms/dialogCloseButton";
 import StudioSearchCard from "../searchCardComponent/studioSearchCard";
+import {detailItemChipState} from "../searchCardComponent/atom";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -41,12 +42,13 @@ const useStyles = makeStyles(() =>
         }
     }))
 
-export default function StudioResultDialog(props: {state: any}) {
+export default function StudioResultDialog() {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
 
     const handleClickOpen = () => {
         setOpen(true);
+        console.log(detailItemChipState)
     };
     const handleClickClose = () => {
         setOpen(false);

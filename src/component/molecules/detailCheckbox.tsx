@@ -39,7 +39,7 @@ export default function DetailCheckbox(props: DetailCheckboxProps) {
             <div className={classes.checkArray}>
                 {
                     props.options.map((option) => (
-                        <SearchCheckbox item={option} itemName={option} key={option}
+                        <SearchCheckbox item={option} itemName={option === '鏡2面' ? '2面' : option} key={option}
                                            checked={props.detailCheck.includes(option)}
                                            itemChecked={props.check} itemUnChecked={props.unCheck}/>
                     ))

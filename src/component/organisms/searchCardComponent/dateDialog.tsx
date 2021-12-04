@@ -64,9 +64,10 @@ export default function DateDialog() {
     const dateDialogOpen = () => {
         setDateOpen(true)
         setDate(dateChip)
-        setAddDateOpen(prevState =>
-            prevState.filter((element, idx) => idx === 0 || idx < dateChip.length)
-        )
+        setAddDateOpen([true]);
+        for (let i = 0; i < dateChip.length - 1; i ++) {
+            setAddDateOpen(prevState => [...prevState, true])
+        }
     }
 
     const dateOk = () => {

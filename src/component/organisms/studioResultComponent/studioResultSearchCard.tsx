@@ -1,6 +1,8 @@
 import {Card, Chip, CardContent, Typography} from "@material-ui/core";
 import {makeStyles, createStyles} from "@material-ui/core/styles";
 import StudioResultDialog from "./studioResultDialog";
+import {useRecoilValue} from "recoil";
+import {cityChipState, lineChipState, prefectureChipState, stationChipState} from "../searchCardComponent/atom";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -33,8 +35,12 @@ const useStyles = makeStyles(() =>
         }
     }))
 
-export default function StudioResultSearchCard(props: {items: any[], state: any}) {
+export default function StudioResultSearchCard() {
     const classes = useStyles();
+    const prefectureChip =  useRecoilValue(prefectureChipState);
+    const cityChip = useRecoilValue(cityChipState);
+    const lineChip = useRecoilValue(lineChipState);
+    const stationChip = useRecoilValue(stationChipState);
 
 
     return (
@@ -44,11 +50,23 @@ export default function StudioResultSearchCard(props: {items: any[], state: any}
                 <div className={classes.spaceBetween}>
                     <div className={classes.wrapChip}>
                         {
-                            props.items.map((item,index) =>
-                                <Chip size='small' key={index} label={item.replace('_', '/')} className={classes.chip}/>)
+                            prefectureChip.length > 0 && prefectureChip.map((item) =>
+                                <Chip size='small' key={item} label={item.name} className={classes.chip}/>)
+                        }
+                        {
+                            cityChip.length > 0 && cityChip.map((item) =>
+                                <Chip size='small' key={item} label={item.name} className={classes.chip}/>)
+                        }
+                        {
+                            lineChip.length > 0 && lineChip.map((item) =>
+                                <Chip size='small' key={item} label={item.name} className={classes.chip}/>)
+                        }
+                        {
+                            stationChip.length > 0 && stationChip.map((item) =>
+                                <Chip size='small' key={item} label={item.name} className={classes.chip}/>)
                         }
                     </div>
-                    <StudioResultDialog state={props.state}/>
+                    <StudioResultDialog/>
                 </div>
             </CardContent>
         </Card>

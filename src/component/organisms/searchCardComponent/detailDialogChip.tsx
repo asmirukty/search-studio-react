@@ -52,9 +52,9 @@ export default function DetailDialogChip() {
                         <SearchChip key={option} label={option} onDelete={detailItemChipDelete(option)}/>
                 )
             }
-            <SearchChip key={'twoMirror'} pre={'鏡'}
-                        label={detailItemChip.includes('2面') ? '2面' : null}
-                        onDelete={detailItemChipDelete('2面')}/>
+            <SearchChip key={'twoMirror'}
+                        label={detailItemChip.includes('鏡2面') ? '鏡2面' : null}
+                        onDelete={detailItemChipDelete('鏡2面')}/>
             <RangeSearchChip key={'mirror'} pre={'鏡'} minLabel={mirrorChip.min} maxLabel={mirrorChip.max} unit={'m'} onDelete={mirrorChipDelete}/>
             {
                 [...floorMaterialOptions, ...roomFacilityOptions].map((option) =>
