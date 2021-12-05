@@ -9,7 +9,7 @@ interface DateTimeConvertProps {
 export default function DateTimeConvert(props: DateTimeConvertProps) {
     const {date, startTime, endTime} = props;
 
-    if ( startTime && endTime) {
+    if (startTime && endTime) {
         return `${DateConvert(date)}${startTime}~${endTime}`
     }
     else if (startTime) {

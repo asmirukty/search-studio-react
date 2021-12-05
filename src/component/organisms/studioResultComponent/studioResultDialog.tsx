@@ -4,7 +4,6 @@ import {makeStyles, createStyles} from "@material-ui/core/styles";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogCloseButton from "../../atoms/dialogCloseButton";
 import StudioSearchCard from "../searchCardComponent/studioSearchCard";
-import {detailItemChipState} from "../searchCardComponent/atom";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -13,7 +12,8 @@ const useStyles = makeStyles(() =>
             color: '#F9F5F0',
             backgroundColor: '#1D356A',
             fontSize: 14,
-            padding: 0,
+            padding: 2,
+            minWidth: 48,
             marginLeft: 4,
             right: 0,
             '&:hover': {
@@ -48,7 +48,6 @@ export default function StudioResultDialog() {
 
     const handleClickOpen = () => {
         setOpen(true);
-        console.log(detailItemChipState)
     };
     const handleClickClose = () => {
         setOpen(false);
@@ -64,7 +63,7 @@ export default function StudioResultDialog() {
                     </div>
                     <Typography variant='subtitle1' className={classes.fontBold}>検索条件</Typography>
                 </DialogActions>
-                <StudioSearchCard close={() => setOpen(false)}/>
+                <StudioSearchCard close={handleClickClose}/>
             </Dialog>
 
         </div>

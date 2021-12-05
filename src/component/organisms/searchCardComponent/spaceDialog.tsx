@@ -5,7 +5,7 @@ import {areaChipState, maxAreaState, maxPeopleState, minAreaState, minPeopleStat
 import SearchChip from "../../atoms/searchChip";
 import StudioDialog from "../../templates/studioDialog";
 import SpaceDialogContent from "./spaceDialogContent";
-import RangeSearchChip from "../../molecules/rangeSearchChip";
+import RangeLabel from "../../atoms/rangeLabel";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -60,8 +60,8 @@ export default function SpaceDialog() {
                       label={'面積/人数を選択'}
                       chips={
                              <div className={classes.wrapChip}>
-                                 <RangeSearchChip minLabel={areaChip.min} maxLabel={areaChip.max} unit={'m²'} onDelete={areaChipDelete}/>
-                                 <RangeSearchChip minLabel={peopleChip.min} maxLabel={peopleChip.max} unit={'人'} onDelete={peopleChipDelete}/>
+                                 <SearchChip label={RangeLabel({min: areaChip.min, max: areaChip.max, unit: 'm²'})} onDelete={areaChipDelete}/>
+                                 <SearchChip label={RangeLabel({min: peopleChip.min, max: peopleChip.max, unit: '人'})} onDelete={peopleChipDelete}/>
                              </div>
                          }
                       dialogContent={<SpaceDialogContent/>}/>

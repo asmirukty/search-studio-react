@@ -4,7 +4,7 @@ import {useRecoilState} from "recoil";
 import {detailItemChipState, fromStationChipState, mirrorChipState, priceChipState} from "./atom";
 import SearchChip from "../../atoms/searchChip";
 import {floorMaterialOptions, reserveOptions, roomFacilityOptions, studioFacilityOptions} from "./itemsAndOptions/detailOptions";
-import RangeSearchChip from "../../molecules/rangeSearchChip";
+import RangeLabel from "../../atoms/rangeLabel";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -45,7 +45,7 @@ export default function DetailDialogChip() {
             <SearchChip key={'cancel'}
                         label={detailItemChip.includes('キャンセル無料期間あり') ? 'キャンセル無料期間あり' : null}
                         onDelete={detailItemChipDelete('キャンセル無料期間あり')}/>
-            <RangeSearchChip key={'price'} minLabel={priceChip.min} maxLabel={priceChip.max} unit={'円'} onDelete={priceChipDelete}/>
+            <SearchChip key={'price'} label={RangeLabel({min: priceChip.min, max: priceChip.max, unit: '円'})} onDelete={priceChipDelete}/>
             {
                 [...reserveOptions, ...studioFacilityOptions].map((option) =>
                     detailItemChip.includes(option) &&
@@ -55,7 +55,7 @@ export default function DetailDialogChip() {
             <SearchChip key={'twoMirror'}
                         label={detailItemChip.includes('鏡2面') ? '鏡2面' : null}
                         onDelete={detailItemChipDelete('鏡2面')}/>
-            <RangeSearchChip key={'mirror'} pre={'鏡'} minLabel={mirrorChip.min} maxLabel={mirrorChip.max} unit={'m'} onDelete={mirrorChipDelete}/>
+            <SearchChip key={'mirror'} pre={'鏡'} label={RangeLabel({min: mirrorChip.min, max: mirrorChip.max, unit: 'm'})} onDelete={mirrorChipDelete}/>
             {
                 [...floorMaterialOptions, ...roomFacilityOptions].map((option) =>
                     detailItemChip.includes(option) &&

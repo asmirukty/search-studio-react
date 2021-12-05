@@ -1,8 +1,19 @@
-import {Card, Chip, CardContent, Typography} from "@material-ui/core";
+import {Card, CardContent, Typography} from "@material-ui/core";
 import {makeStyles, createStyles} from "@material-ui/core/styles";
 import StudioResultDialog from "./studioResultDialog";
 import {useRecoilValue} from "recoil";
-import {cityChipState, lineChipState, prefectureChipState, stationChipState} from "../searchCardComponent/atom";
+import {
+    areaChipState, cityChipState, dateChipState, detailItemChipState, fromStationChipState, lineChipState,
+    mirrorChipState, peopleChipState, prefectureChipState, priceChipState, stationChipState, studioNameState
+} from "../searchCardComponent/atom";
+import RangeLabel from "../../atoms/rangeLabel";
+import React from "react";
+import ResultChip from "../../atoms/resultChip";
+import DateTimeConvert from "../../atoms/dateTimeConvert";
+import {
+    floorMaterialOptions, reserveOptions, roomFacilityOptions, studioFacilityOptions
+} from "../searchCardComponent/itemsAndOptions/detailOptions";
+
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -14,24 +25,17 @@ const useStyles = makeStyles(() =>
         },
         card: {
             color: "#5A4628",
-            padding: '12px 16px',
-            '&:last-child': {
-                paddingBottom: 12
-            }
+            padding: '12px 16px 8px'
         },
         wrapChip: {
             overflow: 'scroll',
             display: 'flex',
-            padding: 5
-        },
-        chip: {
-            color: '#5A4628',
-            backgroundColor: '#e7e1d8',
-            marginRight: 4,
+            padding: 6
         },
         spaceBetween: {
             display: 'flex',
-            justifyContent: 'space-between'
+            justifyContent: 'space-between',
+            alignItems: 'center'
         }
     }))
 
@@ -41,7 +45,15 @@ export default function StudioResultSearchCard() {
     const cityChip = useRecoilValue(cityChipState);
     const lineChip = useRecoilValue(lineChipState);
     const stationChip = useRecoilValue(stationChipState);
-
+    const placeChip = [...prefectureChip, ...cityChip, ...lineChip, ...stationChip];
+    const studioName = useRecoilValue(studioNameState);
+    const areaChip = useRecoilValue(areaChipState);
+    const peopleChip = useRecoilValue(peopleChipState);
+    const dateChip = useRecoilValue(dateChipState);
+    const fromStationChip = useRecoilValue(fromStationChipState);
+    const priceChip = useRecoilValue(priceChipState);
+    const mirrorChip = useRecoilValue(mirrorChipState);
+    const detailItemChip = useRecoilValue(detailItemChipState);
 
     return (
         <Card className={classes.topCard}>
@@ -50,20 +62,31 @@ export default function StudioResultSearchCard() {
                 <div className={classes.spaceBetween}>
                     <div className={classes.wrapChip}>
                         {
-                            prefectureChip.length > 0 && prefectureChip.map((item) =>
-                                <Chip size='small' key={item} label={item.name} className={classes.chip}/>)
+                            placeChip.length > 0 && placeChip.map((item) => <ResultChip key={item} label={item.name}/>)
                         }
+                        <ResultChip label={studioName}/>
+                        <ResultChip label={RangeLabel({min: areaChip.min, max: areaChip.max, unit: 'm²'})}/>
+                        <ResultChip label={RangeLabel({min: peopleChip.min, max: peopleChip.max, unit: '人'})}/>
                         {
-                            cityChip.length > 0 && cityChip.map((item) =>
-                                <Chip size='small' key={item} label={item.name} className={classes.chip}/>)
+                            dateChip.length > 0 &&
+                            dateChip.map((item, index) =>
+                                item.date && <ResultChip key={index} label={DateTimeConvert({date: item.date, startTime: item.startTime, endTime: item.endTime})}/>
+                            )
                         }
+                        <ResultChip pre={'駅'} label={fromStationChip ? `${fromStationChip}分以内` : null}/>
+                        <ResultChip label={detailItemChip.includes('キャンセル無料期間あり') ? 'キャンセル無料期間あり' : null}/>
+                        <ResultChip label={RangeLabel({min: priceChip.min, max: priceChip.max, unit: '円'})}/>
                         {
-                            lineChip.length > 0 && lineChip.map((item) =>
-                                <Chip size='small' key={item} label={item.name} className={classes.chip}/>)
+                            [...reserveOptions, ...studioFacilityOptions].map((option) =>
+                                detailItemChip.includes(option) && <ResultChip key={option} label={option}/>
+                            )
                         }
+                        <ResultChip label={detailItemChip.includes('鏡2面') ? '鏡2面' : null}/>
+                        <ResultChip pre={'鏡'} label={RangeLabel({min: mirrorChip.min, max: mirrorChip.max, unit: 'm'})}/>
                         {
-                            stationChip.length > 0 && stationChip.map((item) =>
-                                <Chip size='small' key={item} label={item.name} className={classes.chip}/>)
+                            [...floorMaterialOptions, ...roomFacilityOptions].map((option) =>
+                                detailItemChip.includes(option) && <ResultChip key={option} label={option}/>
+                            )
                         }
                     </div>
                     <StudioResultDialog/>

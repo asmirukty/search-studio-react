@@ -1,21 +1,9 @@
 import React from 'react';
-import {createStyles, makeStyles, withStyles} from "@material-ui/core/styles";
+import {createStyles, makeStyles} from "@material-ui/core/styles";
 import {useRecoilState} from "recoil";
 import {dateChipState} from "./atom";
 import DateTimeConvert from "../../atoms/dateTimeConvert";
-import MuiChip from "@material-ui/core/Chip";
-
-const Chip = withStyles({
-    root: {
-        textTransform: 'none',
-        color: '#5A4628',
-        backgroundColor: '#e7e1d8',
-        marginRight: 4,
-    },
-    deleteIcon: {
-        color: '#9B8C7D'
-    }
-})(MuiChip);
+import SearchChip from "../../atoms/searchChip";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -40,8 +28,8 @@ export default function DateDialogChip() {
             {
                 dateChip.length > 0 &&
                     dateChip.map((item, index) =>
-                        item.date !== null &&
-                            <Chip size='small'
+                        item.date &&
+                            <SearchChip
                                   label={DateTimeConvert({date: item.date, startTime: item.startTime, endTime: item.endTime})}
                                   onDelete={dateChipDelete(index)}/>)
              }
