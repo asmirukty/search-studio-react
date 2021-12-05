@@ -102,7 +102,7 @@ export default function StudioResult() {
             [...prevState, unixToDate({unix: item.split(/and|or/), match: item.includes('and')})]
         )
     )
-    setDateMatch(date.includes(' '))
+    setDateMatch(date && date.includes(' '))
 
     setFromStationChip(Number(query.get('from_station_max')))
     query.get('price_min') || query.get('price_max') &&

@@ -63,7 +63,7 @@ export const queryState = selector({
         area.max && query.push(`area_max=${area.max}`)
         people.min && query.push(`people_min=${people.min}`)
         people.max && query.push(`people_max=${people.max}`)
-        date.length > 0 && dateMatch ? query.push(`date=${date.join(' ')}`) : query.push(`date=${date}`)
+        date.length > 0 && (dateMatch ? query.push(`date=${date.join(' ')}`) : query.push(`date=${date}`))
         fromStation && query.push(`from_station_max=${fromStation}`)
         detailItem.includes('キャンセル無料期間あり') && query.push(`free_cancel=true`)
         price.min && query.push(`price_min=${price.min}`)

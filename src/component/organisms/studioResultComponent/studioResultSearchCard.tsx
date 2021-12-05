@@ -25,7 +25,10 @@ const useStyles = makeStyles(() =>
         },
         card: {
             color: "#5A4628",
-            padding: '12px 16px 8px'
+            padding: '12px 16px 8px',
+            '&:last-child': {
+                paddingBottom: 8
+            }
         },
         wrapChip: {
             overflow: 'scroll',
