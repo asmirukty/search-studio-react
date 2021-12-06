@@ -1,4 +1,5 @@
 import {atom} from "recoil";
+import {initialSearchResult, SearchResult} from "../studioResultComponent/seachResultType";
 
 export const placeOpenState = atom<boolean>({
     key: "placeOpen",
@@ -34,9 +35,9 @@ export const stationChipState = atom<{name: string, id: string}[]|any[]>({
     default: [],
 });
 
-export const studioNameState = atom<string|null>({
+export const studioNameState = atom<string>({
     key: "studioName",
-    default: null,
+    default: '',
 });
 
 export const spaceOpenState = atom<boolean>({
@@ -153,3 +154,8 @@ export const detailItemChipState = atom<string[]|any[]>({
     key: "detailItemChip",
     default: [],
 });
+
+export const studioSearchResultState = atom<SearchResult>({
+    key: "studioSearchResult",
+    default: initialSearchResult
+})

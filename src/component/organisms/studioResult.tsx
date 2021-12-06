@@ -1,14 +1,13 @@
-import React, {useState, useEffect} from "react";
+import React, {useEffect} from "react";
 import axios from 'axios';
 import {useLocation} from 'react-router-dom';
-import {initialSearchResult} from "./studioResultComponent/seachResultType";
 import StudioResultSearchCard from "./studioResultComponent/studioResultSearchCard";
 import StudioResultCard from "./studioResultComponent/studioResultCard";
-import {useSetRecoilState} from "recoil";
+import {useRecoilState, useSetRecoilState} from "recoil";
 import {
     areaChipState, cityChipState, dateChipState, dateMatchState, detailItemChipState,
     fromStationChipState, lineChipState, mirrorChipState, peopleChipState,
-    prefectureChipState, priceChipState, stationChipState, studioNameState
+    prefectureChipState, priceChipState, stationChipState, studioNameState, studioSearchResultState
 } from "./searchCardComponent/atom";
 import {prefItems} from "./searchCardComponent/itemsAndOptions/prefItems";
 import {lineItems} from "./searchCardComponent/itemsAndOptions/lineItems";
@@ -36,7 +35,7 @@ function unixToDate(props: {unix: number[], match: boolean}) {
 export default function StudioResult() {
     const search = useLocation().search;
     const query = new URLSearchParams(search);
-    const [searchResult, setSearchResult] = useState(initialSearchResult);
+    const [searchResult, setSearchResult] = useRecoilState(studioSearchResultState);
     const setPrefectureChip = useSetRecoilState(prefectureChipState);
     const setCityChip = useSetRecoilState(cityChipState);
     const setLineChip = useSetRecoilState(lineChipState);
@@ -67,8 +66,8 @@ export default function StudioResult() {
     const roomFArray: any[] = roomF ? roomF.split(',') : []
     const floorArray: any[] = floor ? floor.split(',') : []
 
-    setPrefectureChip([])
-    setCityChip([])
+    setPrefectureChip([]);
+    setCityChip([]);
     prefItems.map((prefItem) =>
         prefItem.items.map((item) =>
             prefName && prefName.split(',').map((id) => id === item.pref.id).includes(true) ?
@@ -78,9 +77,10 @@ export default function StudioResult() {
                         setCityChip(prevState => [...prevState, city])
                 )
         )
-    )
-    setLineChip([])
-    setStationChip([])
+    );
+
+    setLineChip([]);
+    setStationChip([]);
     lineItems.map((lineItem) =>
         lineItem.items.map((item) =>
             lineName && lineName.split(',').map((id) => id === item.line.id).includes(true) ?
@@ -90,33 +90,38 @@ export default function StudioResult() {
                     setStationChip(prevState => [...prevState, station])
                 )
         )
-    )
-    setStudioName(query.get('studio_name'))
+    );
 
-    setAreaChip({min: Number(query.get('area_min')), max: Number(query.get('area_max'))})
-    setPeopleChip({min: Number(query.get('people_min')), max: Number(query.get('people_max'))})
+    setStudioName(query.get('studio_name') ? `${query.get('studio_name')}` : '');
 
-    setDateChip([])
+    setAreaChip({min: Number(query.get('area_min')), max: Number(query.get('area_max'))});
+
+    setPeopleChip({min: Number(query.get('people_min')), max: Number(query.get('people_max'))});
+
+    setDateChip([]);
     dateArray.length > 0 && dateArray.map((item) =>
         setDateChip(prevState =>
             [...prevState, unixToDate({unix: item.split(/and|or/), match: item.includes('and')})]
         )
-    )
-    setDateMatch(date && date.includes(' '))
+    );
 
-    setFromStationChip(Number(query.get('from_station_max')))
-    query.get('price_min') || query.get('price_max') &&
-        setPriceChip({min: Number(query.get('price_min')), max: Number(query.get('price_max'))})
-    query.get('mirror_min') || query.get('mirror_max') &&
-        setMirrorChip({min: Number(query.get('mirror_min')), max: Number(query.get('mirror_max'))})
-    setDetailItemChip([])
-    query.get('free_cancel') && setDetailItemChip(prevState => [...prevState, 'キャンセル無料期間あり'])
-    query.get('half_hour_slot') && setDetailItemChip(prevState => [...prevState, reserveOptions[0]])
-    query.get('from_half_hour') && setDetailItemChip(prevState => [...prevState, reserveOptions[1]])
+    setDateMatch(date && date.includes(' '));
+
+    setFromStationChip(Number(query.get('from_station_max')));
+
+    (query.get('price_min') || query.get('price_max')) &&
+        setPriceChip({min: Number(query.get('price_min')), max: Number(query.get('price_max'))});
+
+    (query.get('mirror_min') || query.get('mirror_max')) &&
+        setMirrorChip({min: Number(query.get('mirror_min')), max: Number(query.get('mirror_max'))});
+
+    setDetailItemChip([]);
+    query.get('free_cancel') && setDetailItemChip(prevState => [...prevState, 'キャンセル無料期間あり']);
+    query.get('half_hour_slot') && setDetailItemChip(prevState => [...prevState, reserveOptions[0]]);
+    query.get('from_half_hour') && setDetailItemChip(prevState => [...prevState, reserveOptions[1]]);
     setDetailItemChip(prevState =>
         [...prevState, ...reservationArray, ...studioFArray, ...roomFArray, ...floorArray]
-    )
-
+    );
 
     useEffect(() => {
         axios.get('http://localhost:5000/studios/' + search)
@@ -133,9 +138,9 @@ export default function StudioResult() {
                 <div style={{fontSize: 12}}>全{searchResult.total_pages}件</div>
             </h3>
             {
-                searchResult.studios.map((row, index) => (
-                    <StudioResultCard studio={row} key={index}/>
-                ))
+                searchResult.studios.map((s, index) =>
+                    <StudioResultCard index={index} key={index}/>
+                )
             }
         </div>
     )

@@ -30,7 +30,7 @@ const useStyles = makeStyles(() =>
 
 export default function StudioName() {
     const classes = useStyles();
-    const [studioName, setStudioName] = useRecoilState<string|null>(studioNameState)
+    const [studioName, setStudioName] = useRecoilState<string>(studioNameState)
 
     const textChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setStudioName(event.target.value)

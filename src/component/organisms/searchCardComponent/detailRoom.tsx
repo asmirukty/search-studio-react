@@ -55,7 +55,7 @@ export default function DetailRoom() {
                     {title: '音響・映像', options: soundAndMovieOptions},
                     {title: 'その他設備・備品', options: amenityOptions}
                 ].map((item, index) =>
-                    <div style={{paddingTop: 12}}>
+                    <div style={{paddingTop: 12}} key={index}>
                         <DetailCheckbox key={index} title={item.title} options={item.options} detailCheck={detailItem} check={checkDetailItem} unCheck={unCheckDetailItem}/>
                     </div>
                 )

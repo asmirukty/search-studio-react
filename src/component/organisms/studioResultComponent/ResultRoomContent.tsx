@@ -34,11 +34,11 @@ interface RoomContentProps {
     }[],
     minReserveMinutes: number;
     slots: {
-    workload: number,
-    time_begin: number,
-    time_end: number,
-    price: number,
-    count: number,
+        workload: number,
+        time_begin: number,
+        time_end: number,
+        price: number,
+        count: number,
     }[];
 }
 

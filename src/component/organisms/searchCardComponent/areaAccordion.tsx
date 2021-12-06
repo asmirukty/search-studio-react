@@ -38,9 +38,9 @@ export default function AreaAccordion() {
                 prefItems.map((areaItem) =>
                     <StudioPlaceAccordion area={areaItem.area} key={areaItem.area}>
                         {
-                            areaItem.items.map((item) =>
+                            areaItem.items.map((item, index) =>
                                 <NewStudioPlaceCheckAccordion
-                                    items={prefectureCity} parentItem={item.pref} childItems={item.cities}
+                                    key={index} items={prefectureCity} parentItem={item.pref} childItems={item.cities}
                                     checkedParent={checkPref} checkedChild={checkCity}
                                     unCheckedParent={unCheckPref} unCheckedChild={unCheckCity}/>
                             )

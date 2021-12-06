@@ -8,7 +8,9 @@ export default function DateMatchRadio() {
     const dateChip = useRecoilValue(dateChipState);
 
     useEffect(() => {
-        dateChip.length < 2 && setDateMatch(false)
+        if (dateChip.length < 2) {
+            setDateMatch(false)
+        }
     }, [dateChip])
 
     const handleChange = () => {

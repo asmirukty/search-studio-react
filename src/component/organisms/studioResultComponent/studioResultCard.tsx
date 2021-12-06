@@ -4,7 +4,9 @@ import {makeStyles, createStyles} from "@material-ui/core/styles";
 import StudioTitle from "./studioTitle";
 import ResultRoomContent from "./ResultRoomContent";
 import {Link} from 'react-router-dom';
-import {Studio} from "./seachResultType";
+import {SearchResult} from "./seachResultType";
+import {useRecoilValue} from "recoil";
+import {studioSearchResultState} from "../searchCardComponent/atom";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -35,9 +37,13 @@ const useStyles = makeStyles(() =>
         }
     }))
 
-export default function StudioResultCard(props: {studio: Studio}) {
-    const {studio} = props;
+export default function StudioResultCard(props: {index: number}) {
+    const {index} = props;
     const classes = useStyles();
+    const result = useRecoilValue<SearchResult>(studioSearchResultState);
+    const studio = result.studios[index];
+
+    //propsで{studio: Studio}渡すのとどっちがいいんだろ
 
     return (
         <Card style={{marginBottom: 24}}>
@@ -48,15 +54,13 @@ export default function StudioResultCard(props: {studio: Studio}) {
                     {
                         studio.rooms.map((room, index) =>
                             <ResultRoomContent key={index} room={room.room_name} floorArea={room.floor_area}
-                                               roomImg={room.room_img} minReserveMinutes={room.min_reserve_minutes} slots={room.slots}/>
+                                               roomImg={room.room_img} minReserveMinutes={room.min_reserve_minutes}
+                                               slots={room.slots}/>
                         )
                     }
                     <div className={classes.spaceBetween}>
                         <Typography component={'span'} variant={'caption'} className={classes.fontBold}>
-                            {
-                                studio.room_count - studio.rooms.length > 0 ?
-                                    `他${studio.room_count - studio.rooms.length}部屋` : null
-                            }
+                            {studio.room_count - studio.rooms.length > 0 ? `他${studio.room_count - studio.rooms.length}部屋` : null}
                         </Typography>
                         <div className={classes.btn}>詳細を見る {'>'}</div>
                     </div>

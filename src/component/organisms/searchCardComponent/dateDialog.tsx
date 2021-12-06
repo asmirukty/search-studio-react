@@ -90,7 +90,9 @@ export default function DateDialog() {
                           dialogContent={
                                  <div style={{padding: '20px 24px'}}>
                                      {
-                                         [0, 1, 2, 3, 4].map((i) => addDateOpen[i] && <DateSelect index={i}/>)
+                                         [0, 1, 2, 3, 4].map((i) =>
+                                             addDateOpen[i] && <DateSelect key={i} index={i}/>
+                                         )
                                      }
                                  </div>
                              }/>
