@@ -2,7 +2,7 @@ import React from "react";
 import {Card, CardContent, Typography} from "@material-ui/core";
 import {makeStyles, createStyles} from "@material-ui/core/styles";
 import StudioResultDialog from "./studioResultDialog";
-import StudioResultChip from "./atudioResultChip";
+import StudioResultChip from "./studioResultChip";
 
 const useStyles = makeStyles(() =>
     createStyles({

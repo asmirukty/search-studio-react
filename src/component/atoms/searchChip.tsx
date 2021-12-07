@@ -24,8 +24,7 @@ export default function SearchChip(props: SearchChipProps) {
     return (
         <div>
             {
-                label && <Chip size='small' onDelete={onDelete}
-                               label={pre ? `${pre}${label}` : label}/>
+                label && <Chip size='small' onDelete={onDelete} label={pre ? `${pre}${label}` : label}/>
             }
         </div>
     )

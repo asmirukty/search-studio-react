@@ -2,8 +2,9 @@ import React from 'react';
 import {createStyles, makeStyles} from "@material-ui/core/styles";
 import {useRecoilState} from "recoil";
 import {dateChipState} from "./atom";
-import DateTimeConvert from "../../atoms/dateTimeConvert";
 import SearchChip from "../../atoms/searchChip";
+import DateConvert from "../../atoms/dateConvert";
+import RangeLabel from "../../atoms/rangeLabel";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -28,10 +29,14 @@ export default function DateDialogChip() {
             {
                 dateChip.length > 0 &&
                     dateChip.map((item, index) =>
-                        item.date &&
+                        item.date && (
+                            (!item.startTime && !item.endTime) ?
+                            <SearchChip label={DateConvert(item.date)} onDelete={dateChipDelete(index)}/>
+                            :
                             <SearchChip
-                                  label={DateTimeConvert({date: item.date, startTime: item.startTime, endTime: item.endTime})}
+                                  label={DateConvert(item.date) + RangeLabel({min: item.startTime, max: item.endTime})}
                                   onDelete={dateChipDelete(index)}/>)
+                    )
              }
         </div>
     )

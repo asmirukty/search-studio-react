@@ -7,10 +7,8 @@ import {
 } from "../searchCardComponent/atom";
 import RangeLabel from "../../atoms/rangeLabel";
 import ResultChip from "../../atoms/resultChip";
-import DateTimeConvert from "../../atoms/dateTimeConvert";
-import {
-    floorMaterialOptions, reserveOptions, roomFacilityOptions, studioFacilityOptions
-} from "../searchCardComponent/itemsAndOptions/detailOptions";
+import {floorMaterialOptions, reserveOptions, roomFacilityOptions, studioFacilityOptions} from "../searchCardComponent/itemsAndOptions/detailOptions";
+import DateConvert from "../../atoms/dateConvert";
 
 
 const useStyles = makeStyles(() =>
@@ -49,7 +47,11 @@ export default function StudioResultChip() {
             {
                 dateChip.length > 0 &&
                 dateChip.map((item, index) =>
-                    item.date && <ResultChip key={index} label={DateTimeConvert({date: item.date, startTime: item.startTime, endTime: item.endTime})}/>
+                    item.date && (
+                        (!item.startTime && !item.endTime) ?
+                            <ResultChip label={DateConvert(item.date)}/>
+                            :
+                            <ResultChip label={DateConvert(item.date) + RangeLabel({min: item.startTime, max: item.endTime})}/>)
                 )
             }
             <ResultChip pre={'駅'} label={fromStationChip ? `${fromStationChip}分以内` : null}/>
