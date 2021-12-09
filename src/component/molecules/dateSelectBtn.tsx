@@ -1,7 +1,7 @@
 import React from 'react';
 import {createStyles, makeStyles} from "@material-ui/core/styles";
 import {useSetRecoilState, useRecoilState} from "recoil";
-import {addDateOpenState, dateState} from "../organisms/searchCardComponent/atom";
+import {addDateOpenState, dateState} from "../atom";
 import SearchOutlineButton from "../atoms/searchOutlineButton";
 
 const useStyles = makeStyles(() =>
@@ -20,7 +20,7 @@ interface DateSelectBtnProps {
 export default function DateSelectBtn(props: DateSelectBtnProps) {
     const classes = useStyles();
     const {index} = props;
-    const setDate = useSetRecoilState<{date: Date|null, startTime: string|null, endTime: string|null, matchTime: boolean}[]>(dateState);
+    const setDate = useSetRecoilState<{date: Date, startTime: string|null, endTime: string|null, matchTime: boolean}[]>(dateState);
     const [addDateOpen, setAddDateOpen] = useRecoilState<boolean[]>(addDateOpenState);
 
     const reset = () => {

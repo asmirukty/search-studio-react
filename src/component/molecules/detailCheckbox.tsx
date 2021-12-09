@@ -1,51 +1,27 @@
-import {createStyles, makeStyles} from "@material-ui/core/styles";
-import {Typography} from "@material-ui/core";
 import SearchCheckbox from "../atoms/searchCheckbox";
+import {useRecoilState} from "recoil";
+import {detailItemState} from "../atom";
 
-const useStyles = makeStyles(() =>
-    createStyles({
-        one: {
-            paddingTop: 16
-        },
-        two: {},
-        typ: {
-            color: "#5A4628",
-            fontWeight: 'bold',
-            marginRight: 12
-        },
-        checkArray: {
-            display: 'flex',
-            flexWrap: 'wrap',
-        }
-    }));
+export default function DetailCheckbox(props: {options: any[]}) {
+    const [detailItem, setDetailItem] = useRecoilState<string[]|any[]>(detailItemState);
 
-interface DetailCheckboxProps {
-    title: string,
-    one?: boolean,
-    options: any[],
-    detailCheck: any[],
-    check: (event: any) => void;
-    unCheck: (event: any) => void;
-}
+    const checkDetailItem = (item: string) => {
+        setDetailItem(prevState => [...prevState, item]);
+    };
 
-export default function DetailCheckbox(props: DetailCheckboxProps) {
-    const classes = useStyles()
+    const unCheckDetailItem = (item: string) => {
+        setDetailItem(prevState => prevState.filter((element) => element !== item));
+    };
 
     return (
-        <div className={props.one ? classes.one : classes.two}>
-            <Typography className={classes.typ} variant={props.one ? 'subtitle1' : 'subtitle2'}>
-                {props.title}
-            </Typography>
-            <div className={classes.checkArray}>
-                {
-                    props.options.map((option) => (
-                        <SearchCheckbox item={option} itemName={option === '鏡2面' ? '2面' : option} key={option}
-                                           checked={props.detailCheck.includes(option)}
-                                           itemChecked={props.check} itemUnChecked={props.unCheck}/>
-                    ))
-                }
-            </div>
-
+        <div style={{display: 'flex', flexWrap: 'wrap'}}>
+            {
+                props.options.map((option) => (
+                    <SearchCheckbox item={option} itemName={option === '鏡2面' ? '2面' : option} key={option}
+                                       checked={detailItem.includes(option)}
+                                       itemChecked={checkDetailItem} itemUnChecked={unCheckDetailItem}/>
+                ))
+            }
         </div>
     )
 }

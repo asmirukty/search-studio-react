@@ -14,17 +14,20 @@ const Chip = withStyles({
 })(MuiChip);
 
 interface SearchChipProps {
-    label: string|null,
+    label: any|null,
     pre?: string,
+    after?: string|null,
     onDelete: (value: any) => void;
 }
 export default function SearchChip(props: SearchChipProps) {
-    const {label, pre, onDelete} = props;
+    const {label, pre, after, onDelete} = props;
 
     return (
         <div>
             {
-                label && <Chip size='small' onDelete={onDelete} label={pre ? `${pre}${label}` : label}/>
+                label ?
+                    <Chip size='small' onDelete={onDelete} label={`${pre ? pre : ''}${label}${after ? after : ''}`}/>
+                    : null
             }
         </div>
     )

@@ -1,6 +1,6 @@
 import React from 'react';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
-import MenuTabBar from "../molecules/menuTabBar";
+import MenuTab from "../molecules/menuTab";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -28,14 +28,15 @@ interface TopMenuTabProps {
 
 export default function TopMenuTab(props: TopMenuTabProps) {
     const classes = useStyles();
+
     return (
         <div className={classes.root}>
-            <MenuTabBar labels={["スタジオ", "レッスン・練習会", "ナンバー・イベント"]}
-                        barStyle={classes.tabBar}
-                        tabStyle={classes.tabs}
-                        contentStyle={classes.content}>
+            <MenuTab labels={["スタジオ", "レッスン・練習会", "ナンバー・イベント"]}
+                     barStyle={classes.tabBar}
+                     tabStyle={classes.tabs}
+                     contentStyle={classes.content}>
                 {props.children}
-            </MenuTabBar>
+            </MenuTab>
         </div>
     );
 }

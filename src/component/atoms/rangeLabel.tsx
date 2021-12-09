@@ -6,13 +6,13 @@ interface RangeLabelProps {
 export default function RangeLabel(props: RangeLabelProps) {
     const {min, max, unit} = props;
 
-    return (
-            (!min && !max) ? null :
-                  unit ?
-                      (min && max) ? `${min}~${max}${unit}` : (
-                          (min) ? `${min}${unit}~` : `~${max}${unit}`)
-                      :
-                      (min && max) ? `${min}~${max}` : (
-                          (min) ? `${min}~` : `~${max}`)
-    )
+    if (!min && !max) {
+        return null
+    } else if (min && max) {
+        return `${min}~${max}${unit ? unit : ''}`
+    } else if (min) {
+        return `${min}${unit ? unit : ''}~`
+    } else {
+        return `~${max}${unit ? unit : ''}`
+    }
 }

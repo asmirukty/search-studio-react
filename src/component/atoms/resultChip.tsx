@@ -11,17 +11,17 @@ const Chip = withStyles({
 })(MuiChip);
 
 interface ResultChipProps {
-    label: string|null,
+    label: string|number|null,
     pre?: string,
+    after?: string|null,
 }
 export default function ResultChip(props: ResultChipProps) {
-    const {label, pre} = props;
+    const {label, pre, after} = props;
 
     return (
         <div>
             {
-                label && <Chip size='small'
-                               label={pre ? `${pre}${label}` : label}/>
+                label ? <Chip size='small' label={`${pre ? pre : ''}${label}${after ? after : ''}`}/> : null
             }
         </div>
     )
