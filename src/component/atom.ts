@@ -1,5 +1,4 @@
 import {atom, selector} from "recoil";
-import {initialSearchResult, SearchResult} from "./atoms/seachResultType";
 import {
     floorMaterialOptions,
     reservationOptions,
@@ -218,11 +217,6 @@ export const floorMaterialChipState = selector({
 
         return floorMaterial;
     }
-})
-
-export const studioSearchResultState = atom<SearchResult>({
-    key: "studioSearchResult",
-    default: initialSearchResult
 })
 
 export const studioSearchCardOpenState = atom<boolean>({

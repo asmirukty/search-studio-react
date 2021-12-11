@@ -49,8 +49,8 @@ export default function StudioResultCard(props: {studio: Studio}) {
                                              exit={studio.address.exit.name} fromStation={studio.address.minutes_from_station}/>
                     {
                         studio.rooms.map((room, index) =>
-                            <div style={{padding: '0 8px'}}>
-                                <RoomTop key={index} room={room.room_name} floorArea={room.floor_area}/>
+                            <div key={index} style={{padding: '0 8px'}}>
+                                <RoomTop room={room.room_name} floorArea={room.floor_area}/>
                                 <ImgCarousel img={room.room_img}/>
                                 <SlotTable slots={room.slots}/>
                                 <SlotTime minutes={room.min_reserve_minutes}/>

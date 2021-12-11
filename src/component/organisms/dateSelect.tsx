@@ -21,7 +21,7 @@ export default function DateSelect(props: {index: number}) {
         setStartTimeValue(date[index] ? date[index].startTime : null);
         setEndTimeValue(date[index] ? date[index].endTime : null);
         setMatchValue(date[index] ? date[index].matchTime : false);
-    }, [date])
+    }, [date, index])
 
     const changeDate = (newDate: Date|null) => {
         //すでにdate[index]があれば変える、なければ付け足す

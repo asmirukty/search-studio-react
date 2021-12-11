@@ -38,20 +38,20 @@ export default function StudioResultChip() {
 
     const detailLabel = (item: string) => {
         return detailItemChip.includes(item) ? item : null
-    }
+    };
 
     return (
         <div className={classes.wrapChip}>
             {
-                placeChip.map((item) => <ResultChip key={item} label={item.name}/>)
+                placeChip.map((item) => item && <ResultChip key={item.name} label={item.name}/>)
             }
             <ResultChip label={studioName}/>
             <ResultChip label={RangeLabel({min: areaChip.min, max: areaChip.max, unit: 'm²'})}/>
             <ResultChip label={RangeLabel({min: peopleChip.min, max: peopleChip.max, unit: '人'})}/>
             {
                 dateChip.map((item, index) =>
-                    <ResultChip key={index} label={DateConvert(item.date)}
-                                after={RangeLabel({min: item.startTime, max: item.endTime})}/>
+                    item && <ResultChip key={index} label={DateConvert(item.date)}
+                                        after={RangeLabel({min: item.startTime, max: item.endTime})}/>
                 )
             }
             <ResultChip pre={'駅'} label={fromStationChip} after={'分以内'}/>
@@ -64,11 +64,13 @@ export default function StudioResultChip() {
                     ...reservationChip,
                     ...studioFacilityChip,
                     detailLabel('鏡2面')
-                ].map((item) => <ResultChip key={item} label={item}/>)
+                ].map((item) => item && <ResultChip key={item} label={item}/>)
             }
             <ResultChip pre={'鏡'} label={RangeLabel({min: mirrorChip.min, max: mirrorChip.max, unit: 'm'})}/>
             {
-                [...floorMaterialChip, ...roomFacilityChip].map((item) => <ResultChip key={item} label={item}/>)
+                [...floorMaterialChip, ...roomFacilityChip].map((item) =>
+                    item && <ResultChip key={item} label={item}/>
+                )
             }
         </div>
     );

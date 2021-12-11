@@ -72,22 +72,22 @@ export default function PlaceButton() {
             <div className={classes.wrapChip}>
                 {
                     prefectureChip.map((item) =>
-                        <SearchChip label={item.name} onDelete={prefectureChipDelete(item)}/>
+                        <SearchChip key={item.id} label={item.name} onDelete={prefectureChipDelete(item)}/>
                     )
                 }
                 {
                     cityChip.map((item) =>
-                        <SearchChip label={item.name} onDelete={cityChipDelete(item)}/>
+                        <SearchChip key={item.id} label={item.name} onDelete={cityChipDelete(item)}/>
                     )
                 }
                 {
                     lineChip.map((item) =>
-                        <SearchChip label={item.name} onDelete={lineChipDelete(item)}/>
+                        <SearchChip key={item.id} label={item.name} onDelete={lineChipDelete(item)}/>
                     )
                 }
                 {
                     stationChip.map((item) =>
-                        <SearchChip label={item.name} onDelete={stationChipDelete(item)}/>
+                        <SearchChip key={item.id} label={item.name} onDelete={stationChipDelete(item)}/>
                     )
                 }
             </div>

@@ -1,7 +1,5 @@
 import {createStyles, makeStyles} from "@material-ui/core/styles";
 import {Typography} from "@material-ui/core";
-import {useRecoilValue} from "recoil";
-import {studioSearchResultState} from "../atom";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -13,13 +11,12 @@ const useStyles = makeStyles(() =>
     })
 )
 
-export default function PageNumber() {
+export default function PageNumber(props: {pages: number}) {
     const classes = useStyles();
-    const searchResult = useRecoilValue(studioSearchResultState);
 
     return (
         <Typography variant={'subtitle2'} className={classes.title}>
-            全{searchResult.total_pages}件
+            全{props.pages}件
         </Typography>
     );
 }

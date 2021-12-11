@@ -5,6 +5,7 @@ import StudioResultDialog from "./studioResultDialog";
 import StudioResultChip from "../molecules/studioResultChip";
 import StudioResultSearchCardTitle from "../atoms/studioResultSearchCardTitle";
 import StudioResultSearchCardButton from "../atoms/studioResultSearchCardButton";
+import {QueryToState} from "../atoms/queryToState";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -32,6 +33,8 @@ const useStyles = makeStyles(() =>
 export default function StudioResultSearchCard() {
     const classes = useStyles();
 
+    QueryToState();
+
     return (
         <Card className={classes.topCard}>
             <CardContent className={classes.card}>
@@ -43,5 +46,5 @@ export default function StudioResultSearchCard() {
                 </div>
             </CardContent>
         </Card>
-    )
+    );
 }

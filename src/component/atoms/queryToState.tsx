@@ -1,4 +1,3 @@
-import React from "react";
 import {useLocation} from 'react-router-dom';
 import {useSetRecoilState} from "recoil";
 import {
@@ -9,6 +8,7 @@ import {
 import {prefItem} from "./itemsAndOptions/prefItems";
 import {lineItem} from "./itemsAndOptions/lineItems";
 import {reserveOptions} from "./itemsAndOptions/detailOptions";
+import {useEffect} from "react";
 
 function unixToDate(props: {unix: number[], match: boolean}) {
     const start = new Date(props.unix[0] * 1000);
@@ -27,7 +27,7 @@ function unixToDate(props: {unix: number[], match: boolean}) {
     return (
         {date: start, startTime: startTime, endTime: endTime, matchTime: props.match}
     )
-};
+}
 
 export const QueryToState = () => {
     const search = useLocation().search;
@@ -62,59 +62,62 @@ export const QueryToState = () => {
     const roomFArray: any[] = roomF ? roomF.split(',') : [];
     const floorArray: any[] = floor ? floor.split(',') : [];
 
-    setPrefectureChip([]);
-    setCityChip([]);
-    prefItem.map((item) =>
-        prefName && prefName.split(',').map((id) => id === item.pref.id).includes(true) ?
-            setPrefectureChip(prevState => [...prevState, item.pref])
-            :
-            item.cities.map((city) =>
-                cityName && cityName.split(',').map((id) => id === city.id).includes(true) &&
+    useEffect(() => {
+        setPrefectureChip([]);
+        setCityChip([]);
+        prefItem.map((item) =>
+            prefName && prefName.split(',').map((id) => id === item.pref.id).includes(true) ?
+                setPrefectureChip(prevState => [...prevState, item.pref])
+                :
+                item.cities.map((city) =>
+                    cityName && cityName.split(',').map((id) => id === city.id).includes(true) &&
                     setCityChip(prevState => [...prevState, city])
+                )
+        );
+
+        setLineChip([]);
+        setStationChip([]);
+        lineItem.map((item) =>
+            lineName && lineName.split(',').map((id) => id === item.line.id).includes(true) ?
+                setLineChip(prevState => [...prevState, item.line])
+                :
+                item.stations.map((station) =>
+                    stationName && stationName.split(',').map((id) => id === station.id).includes(true) &&
+                    setStationChip(prevState =>
+                        !prevState.map((item) => item.id).includes(station.id) ? [...prevState, station] : prevState
+                    )
+                )
+        );
+
+        setStudioName(query.get('studio_name') ? `${query.get('studio_name')}` : '');
+
+        setAreaChip({min: Number(query.get('area_min')), max: Number(query.get('area_max'))});
+
+        setPeopleChip({min: Number(query.get('people_min')), max: Number(query.get('people_max'))});
+
+        setDateChip([]);
+        dateArray.length > 0 && dateArray.map((item) =>
+            setDateChip(prevState =>
+                [...prevState, unixToDate({unix: item.split(/and|or/), match: item.includes('and')})]
             )
-    );
+        );
 
-    setLineChip([]);
-    setStationChip([]);
-    lineItem.map((item) =>
-        lineName && lineName.split(',').map((id) => id === item.line.id).includes(true) ?
-            setLineChip(prevState => [...prevState, item.line])
-            :
-            item.stations.map((station) =>
-                stationName && stationName.split(',').map((id) => id === station.id).includes(true) &&
-                    setStationChip(prevState => [...prevState, station])
-            )
-    );
+        setDateMatch(date && date.includes(' '));
 
-    setStudioName(query.get('studio_name') ? `${query.get('studio_name')}` : '');
+        setFromStationChip(Number(query.get('from_station_max')));
 
-    setAreaChip({min: Number(query.get('area_min')), max: Number(query.get('area_max'))});
+        (query.get('price_min') || query.get('price_max')) &&
+        setPriceChip({min: Number(query.get('price_min')), max: Number(query.get('price_max'))});
 
-    setPeopleChip({min: Number(query.get('people_min')), max: Number(query.get('people_max'))});
+        (query.get('mirror_min') || query.get('mirror_max')) &&
+        setMirrorChip({min: Number(query.get('mirror_min')), max: Number(query.get('mirror_max'))});
 
-    setDateChip([]);
-    dateArray.length > 0 && dateArray.map((item) =>
-        setDateChip(prevState =>
-            [...prevState, unixToDate({unix: item.split(/and|or/), match: item.includes('and')})]
-        )
-    );
-
-    setDateMatch(date && date.includes(' '));
-
-    setFromStationChip(Number(query.get('from_station_max')));
-
-    (query.get('price_min') || query.get('price_max')) &&
-    setPriceChip({min: Number(query.get('price_min')), max: Number(query.get('price_max'))});
-
-    (query.get('mirror_min') || query.get('mirror_max')) &&
-    setMirrorChip({min: Number(query.get('mirror_min')), max: Number(query.get('mirror_max'))});
-
-    setDetailItemChip([]);
-    query.get('free_cancel') && setDetailItemChip(prevState => [...prevState, 'キャンセル無料期間あり']);
-    query.get('half_hour_slot') && setDetailItemChip(prevState => [...prevState, reserveOptions[0]]);
-    query.get('from_half_hour') && setDetailItemChip(prevState => [...prevState, reserveOptions[1]]);
-    setDetailItemChip(prevState =>
-        [...prevState, ...reservationArray, ...studioFArray, ...roomFArray, ...floorArray]
-    );
-
+        setDetailItemChip([]);
+        query.get('free_cancel') && setDetailItemChip(prevState => [...prevState, 'キャンセル無料期間あり']);
+        query.get('half_hour_slot') && setDetailItemChip(prevState => [...prevState, reserveOptions[0]]);
+        query.get('from_half_hour') && setDetailItemChip(prevState => [...prevState, reserveOptions[1]]);
+        setDetailItemChip(prevState =>
+            [...prevState, ...reservationArray, ...studioFArray, ...roomFArray, ...floorArray]
+        );
+    })
 }

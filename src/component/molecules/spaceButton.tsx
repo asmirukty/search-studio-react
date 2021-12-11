@@ -1,6 +1,6 @@
 import React from 'react';
 import {createStyles, makeStyles} from "@material-ui/core/styles";
-import {useRecoilState} from "recoil";
+import {useRecoilState, useSetRecoilState} from "recoil";
 import StudioSearchCardButton from "../atoms/studioSearchCardButton";
 import {areaChipState, maxAreaState, maxPeopleState, minAreaState, minPeopleState, peopleChipState, spaceOpenState} from "../atom";
 import SearchChip from "../atoms/searchChip";
@@ -18,11 +18,11 @@ const useStyles = makeStyles(() =>
 
 export default function SpaceButton() {
     const classes = useStyles();
-    const [spaceOpen, setSpaceOpen] = useRecoilState<boolean>(spaceOpenState);
-    const [minArea, setMinArea] = useRecoilState<number|null>(minAreaState);
-    const [maxArea, setMaxArea] = useRecoilState<number|null>(maxAreaState);
-    const [minPeople, setMinPeople] = useRecoilState<number|null>(minPeopleState);
-    const [maxPeople, setMaxPeople] = useRecoilState<number|null>(maxPeopleState);
+    const setSpaceOpen = useSetRecoilState<boolean>(spaceOpenState);
+    const setMinArea = useSetRecoilState<number|null>(minAreaState);
+    const setMaxArea = useSetRecoilState<number|null>(maxAreaState);
+    const setMinPeople = useSetRecoilState<number|null>(minPeopleState);
+    const setMaxPeople = useSetRecoilState<number|null>(maxPeopleState);
     const [areaChip, setAreaChip] = useRecoilState<{min: number|null, max: number|null}>(areaChipState);
     const [peopleChip, setPeopleChip] = useRecoilState<{min: number|null, max: number|null}>(peopleChipState);
 

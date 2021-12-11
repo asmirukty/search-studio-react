@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {lineItem, lineItems} from "../atoms/itemsAndOptions/lineItems";
 import PlaceAccordion from "../molecules/placeAccordion";
 import {useRecoilState,} from "recoil";
@@ -8,44 +8,63 @@ import PlaceCheckAccordion from "../molecules/placeCheckAcoordion";
 export default function LineAccordion() {
     const [lineStation, setLineStation] = useRecoilState<{name: string, id: string}[]|any[]>(lineStationState);
 
-    useEffect(() => {
-        lineItem.map((item) => {
-            !lineStation.includes(item.line) ? //item.lineが入っていなかったら
-                //item.stationsが全て入っていたらitem.line入れる
-                !(item.stations.map((s) =>
-                    lineStation.map((item) => item.id).includes(s.id)
-                ).includes(false)) && setLineStation(prevState => [...prevState, item.line])
-                : //item.lineが入っていてitem.stationsが入っていないのがあればitem.line消す
-                item.stations.map((station) =>
-                    lineStation.map((item) => item.id).includes(station.id) //含む
-                ).includes(false) && setLineStation(prevState =>
-                    prevState.filter((element) => element !== item.line))
-        });
-    }, [lineStation])
+    const idArray = (array: {name: string, id: string}[]) => {
+        return array.map((item) => item.id)
+    };
 
-    const checkLine = (stations: {name: string, id: string}[]) => (item: {name: string, id: string}) => {
-        setLineStation(prevState => [...prevState, item]);
+    const checkLine = (stations: {name: string, id: string}[]) => (newLine: {name: string, id: string}) => {
+        setLineStation(prevState => [...prevState, newLine]);
         //stationsまだだったら入れる
         stations.map((station) =>
-            !lineStation.map((item) => item.id).includes(station.id) && //含まない
-            setLineStation(prevState => [...prevState, station])
+            !idArray(lineStation).includes(station.id) && setLineStation(prevState =>[...prevState, station])
+        );
+        //item.lineが入っていなくてitem.stationsが全て入っていたらitem.line入れる
+        lineItem.map((item) =>
+            ![newLine, ...lineStation].includes(item.line) &&
+                !(item.stations.map((station) =>
+                   idArray([...stations, ...lineStation]).includes(station.id)
+                ).includes(false)) && setLineStation(prevState => [...prevState, item.line])
         );
     };
 
-    const checkStation = () => (item: {name: string, id: string}) => {
-        setLineStation(prevState => [...prevState, item]);
+    const checkStation = () => (newStation: {name: string, id: string}) => {
+        setLineStation(prevState => [...prevState, newStation]);
+        //item.lineが入っていなくてitem.stationsが全て入っていたらitem.line入れる
+        lineItem.map((item) =>
+            !lineStation.includes(item.line) &&
+                !(item.stations.map((station) =>
+                    idArray([newStation, ...lineStation]).includes(station.id)
+                ).includes(false)) && setLineStation(prevState => [...prevState, item.line])
+        );
     };
 
-    const unCheckLine = (stations: {name: string, id: string}[]) => (item: {name: string, id: string}) => {
+    const unCheckLine = (stations: {name: string, id: string}[]) => (newLine: {name: string, id: string}) => {
         setLineStation(prevState =>
             prevState.filter((element) =>
-                element !== item && !stations.map((station) => station.id).includes(element.id))
+                element !== newLine && !idArray(stations).includes(element.id)
+            )
+        );
+        //item.lineが入っていてitem.stationsにstationsと同じものがあればitem.line消す
+        lineItem.map((item) =>
+            lineStation.includes(item.line) &&
+                item.stations.map((station) => idArray(stations).includes(station.id)).includes(true) &&
+                    setLineStation(prevState =>
+                        prevState.filter((element) => element !== item.line)
+                    )
         );
     };
 
-    const unCheckStation = (line: {name: string, id: string}) => (item: {name: string, id: string}) => {
+    const unCheckStation = () => (newStation: {name: string, id: string}) => {
         setLineStation(prevState =>
-            prevState.filter((element) => element.id !== item.id && element !== line)
+            prevState.filter((element) => element.id !== newStation.id)
+        );
+        //item.lineが入っていてitem.stationsにitemがあればitem.line消す
+
+        lineItem.map((item) =>
+            lineStation.includes(item.line) && idArray(item.stations).includes(newStation.id) &&
+                setLineStation(prevState =>
+                    prevState.filter((element) => element !== item.line)
+                )
         );
     };
 

@@ -43,8 +43,8 @@ export default function SearchRadio(props: SearchRadioProps) {
             <FormControl component="fieldset" style={{marginRight: 8}}>
                 <RadioGroup row aria-label="dateMatch" name="dateMatch" value={props.value} onChange={props.handleChange}>
                     {
-                        props.options.map((option) =>
-                            <FormControlLabel value={option}
+                        props.options.map((option, index) =>
+                            <FormControlLabel key={index} value={option}
                                               control={<Radio className={classes.root} color={'primary'} size={'small'}/>}
                                               label={<Typography variant="body2">{option}</Typography>}
                                               className={classes.label}

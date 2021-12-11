@@ -11,7 +11,7 @@ export default function DateMatchRadio() {
         if (dateChip.length < 2) {
             setDateMatch(false)
         }
-    }, [dateChip])
+    }, [dateChip, setDateMatch])
 
     const handleChange = () => {
         setDateMatch(prevState => !prevState);
