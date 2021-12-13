@@ -1,15 +1,10 @@
 import React from "react";
 import {makeStyles, createStyles} from "@material-ui/core/styles";
-import {useRecoilValue} from "recoil";
-import {
-    areaChipState, dateChipState, detailItemChipState, floorMaterialChipState, fromStationChipState,
-    mirrorChipState, peopleChipState, placeChipState, priceChipState, reservationChipState,
-    roomFacilityChipState, studioFacilityChipState, studioNameState
-} from "../atom";
 import RangeLabel from "../atoms/rangeLabel";
 import ResultChip from "../atoms/resultChip";
 import {reserveOptions} from "../atoms/itemsAndOptions/detailOptions";
 import DateConvert from "../atoms/dateConvert";
+import {FromQuery} from "../atoms/fromQuery";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -22,53 +17,43 @@ const useStyles = makeStyles(() =>
 
 export default function StudioResultChip() {
     const classes = useStyles();
-    const placeChip = useRecoilValue(placeChipState);
-    const studioName = useRecoilValue(studioNameState);
-    const areaChip = useRecoilValue(areaChipState);
-    const peopleChip = useRecoilValue(peopleChipState);
-    const dateChip = useRecoilValue(dateChipState);
-    const fromStationChip = useRecoilValue(fromStationChipState);
-    const priceChip = useRecoilValue(priceChipState);
-    const mirrorChip = useRecoilValue(mirrorChipState);
-    const detailItemChip = useRecoilValue(detailItemChipState);
-    const reservationChip = useRecoilValue(reservationChipState);
-    const studioFacilityChip = useRecoilValue(studioFacilityChipState);
-    const roomFacilityChip = useRecoilValue(roomFacilityChipState);
-    const floorMaterialChip = useRecoilValue(floorMaterialChipState);
 
-    const detailLabel = (item: string) => {
-        return detailItemChip.includes(item) ? item : null
-    };
+    const query = FromQuery();
+    const placeQuery = [...query.prefecture, ...query.city, ...query.line, ...query.station];
 
     return (
         <div className={classes.wrapChip}>
             {
-                placeChip.map((item) => item && <ResultChip key={item.name} label={item.name}/>)
+                placeQuery.map((item) => item && <ResultChip key={item.id} label={item.name}/>)
             }
-            <ResultChip label={studioName}/>
-            <ResultChip label={RangeLabel({min: areaChip.min, max: areaChip.max, unit: 'm²'})}/>
-            <ResultChip label={RangeLabel({min: peopleChip.min, max: peopleChip.max, unit: '人'})}/>
+            <ResultChip label={query.studioName}/>
+            <ResultChip label={RangeLabel({min: query.areaMin, max: query.areaMax, unit: 'm²'})}/>
+            <ResultChip label={RangeLabel({min: query.peopleMin, max: query.peopleMax, unit: '人'})}/>
             {
-                dateChip.map((item, index) =>
+                query.date.map((item, index) =>
                     item && <ResultChip key={index} label={DateConvert(item.date)}
                                         after={RangeLabel({min: item.startTime, max: item.endTime})}/>
                 )
             }
-            <ResultChip pre={'駅'} label={fromStationChip} after={'分以内'}/>
+            <ResultChip pre={'駅'} label={query.fromStation} after={'分以内'}/>
             {
-                [
-                    detailLabel('キャンセル無料期間あり'),
-                    RangeLabel({min: priceChip.min, max: priceChip.max, unit: '円'}),
-                    detailLabel(reserveOptions[0]),
-                    detailLabel(reserveOptions[1]),
-                    ...reservationChip,
-                    ...studioFacilityChip,
-                    detailLabel('鏡2面')
-                ].map((item) => item && <ResultChip key={item} label={item}/>)
+                query.freeCancel && <ResultChip label={'キャンセル無料期間あり'}/>
             }
-            <ResultChip pre={'鏡'} label={RangeLabel({min: mirrorChip.min, max: mirrorChip.max, unit: 'm'})}/>
+            <ResultChip label={RangeLabel({min: query.priceMin, max: query.priceMax, unit: '円'})}/>
             {
-                [...floorMaterialChip, ...roomFacilityChip].map((item) =>
+                query.halfHourSlot && <ResultChip label={reserveOptions[0]}/>
+            }
+            {
+                query.fromHalfHour && <ResultChip label={reserveOptions[1]}/>
+            }
+            {
+                [...query.reservation, ...query.studioFacility].map((item) =>
+                    item && <ResultChip key={item} label={item}/>
+                )
+            }
+            <ResultChip pre={'鏡'} label={RangeLabel({min: query.mirrorMin, max: query.mirrorMax, unit: 'm'})}/>
+            {
+                [...query.floorMaterial, ...query.roomFacility].map((item) =>
                     item && <ResultChip key={item} label={item}/>
                 )
             }

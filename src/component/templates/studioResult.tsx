@@ -9,13 +9,13 @@ import {initialSearchResult, SearchResult} from "../atoms/seachResultType";
 
 export default function StudioResult() {
     const search = useLocation().search;
-    const [searchResult, setSearchResult] = useState<SearchResult>(initialSearchResult)
+    const [searchResult, setSearchResult] = useState<SearchResult>(initialSearchResult);
 
     useEffect(() => {
         axios.get('http://localhost:5000/studios/' + search)
             .then(response => {
                 setSearchResult(response.data)
-            })
+            });
     })
 
     return (
