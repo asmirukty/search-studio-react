@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {AppBar, Paper, Tab, Tabs} from "@material-ui/core";
+import {useMedia} from "use-media";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -35,6 +36,8 @@ interface TabBarProps {
 }
 
 export default function MenuTab(props: TabBarProps) {
+    const isSmall = useMedia({ maxWidth: "370px" });
+    const isWide = useMedia({ minWidth: "800px" });
     const [value, setValue] = useState(0);
 
     const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
@@ -49,7 +52,16 @@ export default function MenuTab(props: TabBarProps) {
                       value={value} onChange={handleChange} aria-label="menuTabs">
                     {
                         props.labels.map((label, index) =>
-                            <Tab label={label} key={index} {...a11yProps(index)} style={{flexGrow: 1, fontWeight: 'bold'}}/>
+                            isSmall ?
+                                <Tab label={label} key={index} {...a11yProps(index)} wrapped
+                                     style={{flexGrow: 1, fontWeight: 'bold', fontSize: 12, padding: 6}}/>
+                                :
+                                isWide ?
+                                    <Tab label={label} key={index} {...a11yProps(index)}
+                                         style={{flexGrow: 1, fontWeight: 'bold', maxWidth: 600}}/>
+                                    :
+                                    <Tab label={label} key={index} {...a11yProps(index)}
+                                         style={{flexGrow: 1, fontWeight: 'bold'}}/>
                         )
                     }
                 </Tabs>

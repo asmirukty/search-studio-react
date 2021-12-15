@@ -6,8 +6,7 @@ const useStyles = makeStyles(() =>
     createStyles({
         select: {
             display: 'flex',
-            alignItems: 'baseline',
-            justifyContent: 'center'
+            alignItems: 'baseline'
         }
     }));
 

@@ -7,6 +7,7 @@ const Chip = withStyles({
         color: '#5A4628',
         backgroundColor: '#e7e1d8',
         marginRight: 4,
+        marginBottom: 2
     },
     deleteIcon: {
         color: '#9B8C7D'

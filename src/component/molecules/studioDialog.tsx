@@ -11,7 +11,7 @@ const useStyles = makeStyles(() =>
             backgroundColor: '#F9F5F0',
             padding: '4px 8px',
             display: 'flex',
-            justifyContent: 'space-between',
+            justifyContent: 'space-between'
         },
         content: {
             color: "#5A4628",
@@ -32,7 +32,7 @@ export default function StudioDialog(props: StudioDialogProps) {
     const classes = useStyles();
 
     return (
-        <Dialog PaperProps={{style: {margin: 12, flexGrow: 1}}} keepMounted open={props.open} aria-labelledby="studioDialog">
+        <Dialog PaperProps={{style: {minWidth: 300, maxWidth: 480}}} keepMounted open={props.open} aria-labelledby="studioDialog">
             <DialogActions className={classes.action}>
                 <DialogCloseButton onClick={props.handleCancel}/>
                 <DialogOkButton onClick={props.handleOk}/>

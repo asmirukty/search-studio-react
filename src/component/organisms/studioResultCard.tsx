@@ -10,6 +10,7 @@ import SlotTable from "../molecules/slotTable";
 import StudioResultCardDetail from "../atoms/studioResultCardDetail";
 import RoomNumber from "../atoms/roomNumber";
 import SlotTime from "../molecules/slotTime";
+import {useMedia} from "use-media";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -40,9 +41,10 @@ const useStyles = makeStyles(() =>
 export default function StudioResultCard(props: {studio: Studio}) {
     const {studio} = props;
     const classes = useStyles();
+    const isWide = useMedia({ minWidth: "800px" });
 
     return (
-        <Card style={{marginBottom: 24}}>
+        <Card style={isWide ? {minWidth: 360, maxWidth: 800, margin: '0 0 24px 36px', flexGrow: 1} : {margin: '0 auto 24px'}}>
             <CardActionArea component={Link} to={{pathname: `/studios/${studio.studio_name}`}}>
                 <CardContent className={classes.card}>
                     <StudioResultStudioTitle studio={studio.studio_name} station={studio.address.station.name}

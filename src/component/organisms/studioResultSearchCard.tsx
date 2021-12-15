@@ -1,7 +1,6 @@
 import React from "react";
 import {Card, CardContent} from "@material-ui/core";
 import {makeStyles, createStyles} from "@material-ui/core/styles";
-import StudioResultDialog from "./studioResultDialog";
 import StudioResultChip from "../molecules/studioResultChip";
 import StudioResultSearchCardTitle from "../atoms/studioResultSearchCardTitle";
 import StudioResultSearchCardButton from "../atoms/studioResultSearchCardButton";
@@ -9,10 +8,11 @@ import StudioResultSearchCardButton from "../atoms/studioResultSearchCardButton"
 const useStyles = makeStyles(() =>
     createStyles({
         topCard: {
-            margin: '0 8px',
+            margin: '0 auto',
             zIndex: 1100,
             position:'sticky',
-            top: 108
+            top: 108,
+            maxWidth: 320
         },
         card: {
             color: "#5A4628",
@@ -39,7 +39,6 @@ export default function StudioResultSearchCard() {
                 <div className={classes.spaceBetween}>
                     <StudioResultChip/>
                     <StudioResultSearchCardButton/>
-                    <StudioResultDialog/>
                 </div>
             </CardContent>
         </Card>

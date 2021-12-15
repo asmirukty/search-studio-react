@@ -16,22 +16,30 @@ import DetailChip from "../molecules/detailChip";
 import DateMatchRadio from "../atoms/dateMatchRadio";
 import StudioSearchButton from "../atoms/studioSearchButton";
 
-export default function StudioSearchCard(props: {close?: (value?: any) => void;}) {
+export default function StudioSearchWideCard() {
     const dateChip = useRecoilValue(dateChipState);
 
     return (
-        <Card style={{minWidth: 260, maxWidth: 400, margin: 'auto'}}>
-            <CardContent>
+        <Card style={{minWidth: 560, maxWidth: 800, margin: 'auto'}}>
+            <CardContent style={{padding: '16px 24px 24px'}}>
                 <StudioSearchCardTitle label={'場所 ※'}/>
-                <PlaceButton/>
+                <div style={{display: 'flex', alignItems: 'center', paddingBottom: 8}}>
+                    <div style={{flexGrow: 1, width: '100%', paddingRight: 12}}><PlaceButton/></div>
+                    <div style={{flexGrow: 1, width: '100%'}}><StudioName/></div>
+                </div>
                 <PlaceDialog/>
-                <StudioName/>
-                <StudioSearchCardTitle label={'広さ'}/>
-                <SpaceButton/>
-                <SpaceDialog/>
-                <StudioSearchCardTitle label={'日時'}/>
-                <DateButton/>
-                <DateDialog/>
+                <div style={{display: 'flex', paddingBottom: 8}}>
+                    <div style={{flexGrow: 1, width: '100%', paddingRight: 16}}>
+                        <StudioSearchCardTitle label={'広さ'}/>
+                        <SpaceButton/>
+                        <SpaceDialog/>
+                    </div>
+                    <div style={{flexGrow: 1, width: '100%'}}>
+                        <StudioSearchCardTitle label={'日時'}/>
+                        <DateButton/>
+                        <DateDialog/>
+                    </div>
+                </div>
                 {
                     dateChip.length > 1 && <DateMatchRadio/>
                 }
@@ -41,7 +49,7 @@ export default function StudioSearchCard(props: {close?: (value?: any) => void;}
                 </div>
                 <DetailDialog/>
                 <div style={{display: 'flex'}}>
-                    <StudioSearchButton close={props.close}/>
+                    <StudioSearchButton/>
                 </div>
             </CardContent>
         </Card>

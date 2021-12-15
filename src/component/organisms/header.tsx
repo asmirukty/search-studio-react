@@ -9,6 +9,7 @@ const useStyles = makeStyles(() =>
             backgroundColor:'#1D356A',
             justifyContent: 'space-between',
             color: '#F9F5F0',
+            minWidth: 280
         }
     })
 );

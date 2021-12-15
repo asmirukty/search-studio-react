@@ -14,7 +14,7 @@ const useStyles = makeStyles(() =>
             color: '#9B8C7D',
             fontSize: '14px',
             justifyContent: 'start',
-            padding: '0 5px'
+            padding: '0 4px'
         }
     })
 );

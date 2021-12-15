@@ -15,7 +15,7 @@ const useStyles = makeStyles(() =>
         wrapChip: {
             overflow: 'scroll',
             display: 'flex',
-            padding: 5
+            padding: 4
         }
     })
 );
