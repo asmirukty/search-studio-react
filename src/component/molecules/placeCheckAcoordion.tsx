@@ -82,7 +82,7 @@ export default function PlaceCheckAccordion(props: PlaceCheckAccordionProps) {
             <AccordionDetails>
                 {
                     childItems.map((childItem) => (
-                        <SearchCheckbox item={childItem} itemName={childItem.name} key={childItem.id}
+                        <SearchCheckbox item={childItem} itemName={childItem.name} key={childItem.id} city
                                         checked={items.map((item) => item.id).includes(childItem.id)}
                                         itemChecked={checkedChild(parentItem, childItems)}
                                         itemUnChecked={unCheckedChild(parentItem)}/>

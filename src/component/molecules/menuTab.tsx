@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {AppBar, Paper, Tab, Tabs} from "@material-ui/core";
-import {useMedia} from "use-media";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -29,15 +28,16 @@ interface TabBarProps {
     labels: string[];
     divStyle?: any;
     barStyle?: any;
-    tabStyle?: any;
+    tabsStyle?: any;
+    tabFontSize?: number;
+    tabFlexGrow: number;
+    tabMinHeight: number;
     paperStyle?: any;
     contentStyle?: any;
     children: React.ReactNode[];
 }
 
 export default function MenuTab(props: TabBarProps) {
-    const isSmall = useMedia({ maxWidth: "370px" });
-    const isWide = useMedia({ minWidth: "800px" });
     const [value, setValue] = useState(0);
 
     const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
@@ -47,21 +47,14 @@ export default function MenuTab(props: TabBarProps) {
     return (
         <div className={props.divStyle}>
             <AppBar className={props.barStyle}>
-                <Tabs className={props.tabStyle}
+                <Tabs className={props.tabsStyle}
                       TabIndicatorProps={{style: {backgroundColor: '#1D356A'}}}
                       value={value} onChange={handleChange} aria-label="menuTabs">
                     {
                         props.labels.map((label, index) =>
-                            isSmall ?
-                                <Tab label={label} key={index} {...a11yProps(index)} wrapped
-                                     style={{flexGrow: 1, fontWeight: 'bold', fontSize: 12, padding: 6}}/>
-                                :
-                                isWide ?
-                                    <Tab label={label} key={index} {...a11yProps(index)}
-                                         style={{flexGrow: 1, fontWeight: 'bold', maxWidth: 600}}/>
-                                    :
-                                    <Tab label={label} key={index} {...a11yProps(index)}
-                                         style={{flexGrow: 1, fontWeight: 'bold'}}/>
+                            <Tab label={label} key={index} {...a11yProps(index)} wrapped
+                                 style={{fontSize: props.tabFontSize, flexGrow: props.tabFlexGrow, minHeight: props.tabMinHeight,
+                                     fontWeight: 'bold', padding: 6, maxWidth: 600}}/>
                         )
                     }
                 </Tabs>

@@ -1,5 +1,4 @@
 import React from 'react';
-import {createStyles, makeStyles} from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import {useRecoilValue, useSetRecoilState} from "recoil";
 import {
@@ -7,20 +6,7 @@ import {
     maxMirrorState, maxPriceState, minMirrorState, minPriceState, mirrorChipState, priceChipState
 } from "../atom";
 
-const useStyles = makeStyles(() =>
-    createStyles({
-        detailBtn: {
-            color: '#5A4628',
-            fontSize: 14,
-            padding: '0 4px',
-            margin: '2px 0 8px',
-            right: 0
-        }
-    })
-);
-
-export default function DetailButton() {
-    const classes = useStyles();
+export default function StudioDetailButton() {
     const setDetailOpen = useSetRecoilState<boolean>(detailOpenState);
     const setFromStation = useSetRecoilState<number|null>(fromStationState);
     const setMinPrice = useSetRecoilState<number|null>(minPriceState);
@@ -44,7 +30,7 @@ export default function DetailButton() {
     };
 
     return (
-        <Button className={classes.detailBtn} onClick={detailDialogOpen}>
+        <Button style={{padding: '0 6px'}} onClick={detailDialogOpen}>
             もっとしぼり込む {'>'}
         </Button>
     );

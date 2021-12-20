@@ -1,6 +1,7 @@
 import React from 'react';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import MenuTab from "../molecules/menuTab";
+import {useMedia} from "use-media";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -8,21 +9,23 @@ const useStyles = makeStyles(() =>
             minHeight: '100vh',
             backgroundColor: '#F9F5F0',
             color: '#5A4628',
-            minWidth: 280
+            minWidth: 320
         },
         div: {
-            minWidth: 300
+            minWidth: 320,
+            position: 'sticky',
+            top: 56,
         },
         tabBar: {
-            marginTop: 56,
-            position: 'fixed',
+            minWidth: 320,
+            position: 'sticky',
+            top: 56,
+            boxShadow: '0px .2px 8px rgba(0, 0, 0, .2)'
         },
         tabs: {
             backgroundColor: '#F9F5F0',
-            color: '#5A4628'
-        },
-        content: {
-            paddingTop: 108
+            color: '#5A4628',
+            minHeight: 40,
         }
 }));
 
@@ -31,6 +34,7 @@ interface TopMenuTabProps {
 }
 
 export default function TopMenuTab(props: TopMenuTabProps) {
+    const isSmall = useMedia({ maxWidth: "370px" });
     const classes = useStyles();
 
     return (
@@ -38,8 +42,8 @@ export default function TopMenuTab(props: TopMenuTabProps) {
             <MenuTab labels={["スタジオ", "レッスン・練習会", "ナンバー・イベント"]}
                      divStyle={classes.div}
                      barStyle={classes.tabBar}
-                     tabStyle={classes.tabs}
-                     contentStyle={classes.content}>
+                     tabsStyle={classes.tabs}
+                     tabFontSize={isSmall ? 12 : 14} tabFlexGrow={1/3} tabMinHeight={isSmall ? 40 : 48}>
                 {props.children}
             </MenuTab>
         </div>

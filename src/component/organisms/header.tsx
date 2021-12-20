@@ -1,6 +1,5 @@
 import {createStyles, makeStyles} from "@material-ui/core/styles";
-import {AppBar, Toolbar} from "@material-ui/core";
-import HeaderTitle from "../atoms/headerTitle";
+import {AppBar, Toolbar, Typography} from "@material-ui/core";
 import LoginButton from "../atoms/loginButton";
 
 const useStyles = makeStyles(() =>
@@ -9,7 +8,7 @@ const useStyles = makeStyles(() =>
             backgroundColor:'#1D356A',
             justifyContent: 'space-between',
             color: '#F9F5F0',
-            minWidth: 280
+            minHeight: 56
         }
     })
 );
@@ -18,9 +17,9 @@ export default function Header() {
     const classes = useStyles();
 
     return (
-            <AppBar position="fixed">
+            <AppBar position="sticky" style={{minWidth: 320}}>
                 <Toolbar className={classes.bar}>
-                    <HeaderTitle/>
+                    <Typography variant="h6">Dance Search</Typography>
                     <LoginButton/>
                 </Toolbar>
             </AppBar>

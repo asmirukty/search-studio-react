@@ -4,8 +4,8 @@ import ImgCarousel from "../atoms/imgCarousel";
 import SlotTable from "../molecules/slotTable";
 import SlotTime from "../molecules/slotTime";
 import StudioRoomContentTop from "../molecules/studioRoomContentTop";
-import ResultChip from "../atoms/resultChip";
 import StudioReserveButton from "../atoms/studioReserveButton";
+import SearchChip from "../atoms/searchChip";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -73,12 +73,12 @@ export default function StudioRoomContent(props: {room: Room}) {
             <div className={classes.flex}>
                 {
                     room.room_facilities.map((facility, index) => (
-                        <ResultChip key={index} label={facility.name}/>
+                        <SearchChip key={index} label={facility.name}/>
                     ))
                 }
                 {
                     room.amenities.map((amenity, index) => (
-                        <ResultChip key={index} label={amenity.name}/>
+                        <SearchChip key={index} label={amenity.name}/>
                     ))
                 }
             </div>

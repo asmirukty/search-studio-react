@@ -7,7 +7,6 @@ const useStyles = makeStyles(() =>
         btn: {
             borderColor: '#D7D2C8',
             color: '#5A4628',
-            fontSize: '14px',
             padding: 0,
             margin: 4
         }

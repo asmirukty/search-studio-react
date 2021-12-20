@@ -1,49 +1,27 @@
 import React from "react";
 import {Card, CardContent} from "@material-ui/core";
-import StudioName from "../atoms/studioName";
-import SpaceDialog from "./spaceDialog";
-import PlaceDialog from "./placeDialog";
-import DateDialog from "./dateDialog";
-import DetailDialog from "./detailDialog";
-import {useRecoilValue} from "recoil";
-import {dateChipState} from "../atom";
-import StudioSearchCardTitle from "../atoms/studioSearchCardTitle";
-import PlaceButton from "../molecules/placeButton";
-import SpaceButton from "../molecules/spaceButton";
-import DateButton from "../molecules/dateButton";
-import DetailButton from "../atoms/detailButton";
-import DetailChip from "../molecules/detailChip";
-import DateMatchRadio from "../atoms/dateMatchRadio";
 import StudioSearchButton from "../atoms/studioSearchButton";
+import StudioPlace from "../molecules/studioPlace";
+import StudioSpace from "../molecules/studioSpace";
+import StudioDate from "../molecules/studioDate";
+import StudioDetail from "../molecules/studioDetail";
 
-export default function StudioSearchCard(props: {close?: (value?: any) => void;}) {
-    const dateChip = useRecoilValue(dateChipState);
-
+export default function StudioSearchCard(props: {isWide?: boolean, close?: (value?: any) => void;}) {
+    const {isWide} = props;
     return (
-        <Card style={{minWidth: 260, maxWidth: 400, margin: 'auto'}}>
-            <CardContent>
-                <StudioSearchCardTitle label={'場所 ※'}/>
-                <PlaceButton/>
-                <PlaceDialog/>
-                <StudioName/>
-                <StudioSearchCardTitle label={'広さ'}/>
-                <SpaceButton/>
-                <SpaceDialog/>
-                <StudioSearchCardTitle label={'日時'}/>
-                <DateButton/>
-                <DateDialog/>
-                {
-                    dateChip.length > 1 && <DateMatchRadio/>
-                }
-                <DetailChip/>
-                <div style={{textAlign: 'right'}}>
-                    <DetailButton/>
+            <div style={
+                isWide ? {backgroundColor: 'white', borderRadius: 4, minWidth: 520, maxWidth: 800, margin: 'auto', padding: '20px 24px 24px'}
+                : {boxShadow:'4px 4px 4px #F9F5F0', backgroundColor: 'white', borderRadius: 4, minWidth: 200, maxWidth: 400, margin: 'auto', padding: '16px 16px 20px'}
+                }>
+                <StudioPlace isWide={isWide}/>
+                <div style={isWide ? {display: 'flex', marginBottom: 8} : {}}>
+                    <StudioSpace isWide={isWide}/>
+                    <StudioDate isWide={isWide}/>
                 </div>
-                <DetailDialog/>
-                <div style={{display: 'flex'}}>
+                <StudioDetail isWide={isWide}/>
+                <div style={{margin: '8px auto 0', width: 'fit-content'}}>
                     <StudioSearchButton close={props.close}/>
                 </div>
-            </CardContent>
-        </Card>
+            </div>
     )
 }

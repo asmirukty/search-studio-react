@@ -218,8 +218,3 @@ export const floorMaterialChipState = selector({
         return floorMaterial;
     }
 })
-
-export const studioSearchCardOpenState = atom<boolean>({
-    key: "studioSearchCardOpen",
-    default: false,
-});

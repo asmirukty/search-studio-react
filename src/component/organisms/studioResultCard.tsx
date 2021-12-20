@@ -44,7 +44,7 @@ export default function StudioResultCard(props: {studio: Studio}) {
     const isWide = useMedia({ minWidth: "800px" });
 
     return (
-        <Card style={isWide ? {minWidth: 360, maxWidth: 800, margin: '0 0 24px 36px', flexGrow: 1} : {margin: '0 auto 24px'}}>
+        <Card style={isWide ? {boxShadow: 'none', minWidth: 360, maxWidth: 800, margin: '12px auto', flexGrow: 1} : {boxShadow: 'none', minWidth: 250, maxWidth: 600, margin: '12px auto'}}>
             <CardActionArea component={Link} to={{pathname: `/studios/${studio.studio_name}`}}>
                 <CardContent className={classes.card}>
                     <StudioResultStudioTitle studio={studio.studio_name} station={studio.address.station.name}

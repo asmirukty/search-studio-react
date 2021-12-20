@@ -1,5 +1,4 @@
 import React from 'react';
-import {createStyles, makeStyles} from "@material-ui/core/styles";
 import {useRecoilState, useRecoilValue} from "recoil";
 import {
     detailItemChipState, floorMaterialChipState, fromStationChipState, mirrorChipState,
@@ -9,18 +8,7 @@ import SearchChip from "../atoms/searchChip";
 import {reserveOptions} from "../atoms/itemsAndOptions/detailOptions";
 import RangeLabel from "../atoms/rangeLabel";
 
-const useStyles = makeStyles(() =>
-    createStyles({
-        detailChip: {
-            marginTop: 8,
-            display: 'flex',
-            flexWrap: 'wrap'
-        }
-    })
-);
-
 export default function DetailChip() {
-    const classes = useStyles();
     const [fromStationChip, setFromStationChip] = useRecoilState<number|null>(fromStationChipState);
     const [priceChip, setPriceChip] = useRecoilState<{min: number|null, max: number|null}>(priceChipState);
     const [mirrorChip, setMirrorChip] = useRecoilState<{min: number|null, max: number|null}>(mirrorChipState);
@@ -53,7 +41,7 @@ export default function DetailChip() {
     };
 
     return (
-        <div className={classes.detailChip}>
+        <div style={{display: 'flex', flexWrap: 'wrap'}}>
             <SearchChip pre={'駅'} label={fromStationChip} after={'分以内'} onDelete={fromStationChipDelete}/>
             <SearchChip label={detailLabel('キャンセル無料期間あり')}
                         onDelete={detailItemChipDelete('キャンセル無料期間あり')}/>

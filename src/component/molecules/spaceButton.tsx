@@ -1,23 +1,11 @@
 import React from 'react';
-import {createStyles, makeStyles} from "@material-ui/core/styles";
 import {useRecoilState, useSetRecoilState} from "recoil";
-import StudioSearchCardButton from "../atoms/studioSearchCardButton";
+import SearchCardButton from "../atoms/searchCardButton";
 import {areaChipState, maxAreaState, maxPeopleState, minAreaState, minPeopleState, peopleChipState, spaceOpenState} from "../atom";
 import SearchChip from "../atoms/searchChip";
 import RangeLabel from "../atoms/rangeLabel";
 
-const useStyles = makeStyles(() =>
-    createStyles({
-        wrapChip: {
-            overflow: 'scroll',
-            display: 'flex',
-            padding: 4
-        }
-    })
-);
-
 export default function SpaceButton() {
-    const classes = useStyles();
     const setSpaceOpen = useSetRecoilState<boolean>(spaceOpenState);
     const setMinArea = useSetRecoilState<number|null>(minAreaState);
     const setMaxArea = useSetRecoilState<number|null>(maxAreaState);
@@ -43,14 +31,12 @@ export default function SpaceButton() {
     };
 
     return (
-        <StudioSearchCardButton dialogOpen={spaceDialogOpen} label={'面積/人数を選択'}
-                                chipDisplay={!(!areaChip.min && !areaChip.max && !peopleChip.min && !peopleChip.max)}>
-            <div className={classes.wrapChip}>
+        <SearchCardButton dialogOpen={spaceDialogOpen} label={'面積/人数'}
+                          chipDisplay={!(!areaChip.min && !areaChip.max && !peopleChip.min && !peopleChip.max)}>
                 <SearchChip label={RangeLabel({min: areaChip.min, max: areaChip.max, unit: 'm²'})}
                             onDelete={areaChipDelete}/>
                 <SearchChip label={RangeLabel({min: peopleChip.min, max: peopleChip.max, unit: '人'})}
                             onDelete={peopleChipDelete}/>
-            </div>
-        </StudioSearchCardButton>
+        </SearchCardButton>
     )
 }

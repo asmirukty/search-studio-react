@@ -1,23 +1,12 @@
 import React from 'react';
 import {useRecoilState, useSetRecoilState} from "recoil";
-import {createStyles, makeStyles} from "@material-ui/core/styles";
-import StudioSearchCardButton from "../atoms/studioSearchCardButton";
+import SearchCardButton from "../atoms/searchCardButton";
 import {addDateOpenState, dateChipState, dateOpenState, dateState} from "../atom";
 import SearchChip from "../atoms/searchChip";
 import DateConvert from "../atoms/dateConvert";
 import RangeLabel from "../atoms/rangeLabel";
 
-const useStyles = makeStyles(() =>
-    createStyles({
-        wrapChip: {
-            overflow: 'scroll',
-            display: 'flex',
-            padding: 4
-        }
-    }));
-
 export default function DateButton() {
-    const classes = useStyles();
     const setDateOpen = useSetRecoilState<boolean>(dateOpenState);
     const setAddDateOpen = useSetRecoilState<boolean[]>(addDateOpenState);
     const setDate = useSetRecoilState<{date: Date, startTime: string|null, endTime: string|null, matchTime: boolean}[]>(dateState);
@@ -39,16 +28,14 @@ export default function DateButton() {
     };
 
     return (
-        <StudioSearchCardButton dialogOpen={dateDialogOpen} label={'日時を選択'} chipDisplay={dateChip.length > 0}>
-            <div className={classes.wrapChip}>
-                {
-                    dateChip.map((item, index) =>
-                        <SearchChip label={DateConvert(item.date)} key={index}
-                                    after={RangeLabel({min: item.startTime, max: item.endTime})}
-                                    onDelete={dateChipDelete(index)}/>
-                    )
-                }
-            </div>
-        </StudioSearchCardButton>
+        <SearchCardButton dialogOpen={dateDialogOpen} label={'日時'} chipDisplay={dateChip.length > 0}>
+            {
+                dateChip.map((item, index) =>
+                    <SearchChip label={DateConvert(item.date)} key={index}
+                                after={RangeLabel({min: item.startTime, max: item.endTime})}
+                                onDelete={dateChipDelete(index)}/>
+                )
+            }
+        </SearchCardButton>
     );
 }

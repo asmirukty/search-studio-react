@@ -1,17 +1,17 @@
 import React from "react";
 import {makeStyles, createStyles} from "@material-ui/core/styles";
 import RangeLabel from "../atoms/rangeLabel";
-import ResultChip from "../atoms/resultChip";
 import {reserveOptions} from "../atoms/itemsAndOptions/detailOptions";
 import DateConvert from "../atoms/dateConvert";
 import {FromQuery} from "../atoms/fromQuery";
+import SearchChip from "../atoms/searchChip";
 
 const useStyles = makeStyles(() =>
     createStyles({
         wrapChip: {
             overflow: 'scroll',
             display: 'flex',
-            padding: 6
+            padding: 4,
         }
     }))
 
@@ -24,37 +24,37 @@ export default function StudioResultChip() {
     return (
         <div className={classes.wrapChip}>
             {
-                placeQuery.map((item) => item && <ResultChip key={item.id} label={item.name}/>)
+                placeQuery.map((item) => item && <SearchChip key={item.id} label={item.name}/>)
             }
-            <ResultChip label={query.studioName}/>
-            <ResultChip label={RangeLabel({min: query.areaMin, max: query.areaMax, unit: 'm²'})}/>
-            <ResultChip label={RangeLabel({min: query.peopleMin, max: query.peopleMax, unit: '人'})}/>
+            <SearchChip label={query.studioName}/>
+            <SearchChip label={RangeLabel({min: query.areaMin, max: query.areaMax, unit: 'm²'})}/>
+            <SearchChip label={RangeLabel({min: query.peopleMin, max: query.peopleMax, unit: '人'})}/>
             {
                 query.date.map((item, index) =>
-                    item && <ResultChip key={index} label={DateConvert(item.date)}
+                    item && <SearchChip key={index} label={DateConvert(item.date)}
                                         after={RangeLabel({min: item.startTime, max: item.endTime})}/>
                 )
             }
-            <ResultChip pre={'駅'} label={query.fromStation} after={'分以内'}/>
+            <SearchChip pre={'駅'} label={query.fromStation} after={'分以内'}/>
             {
-                query.freeCancel && <ResultChip label={'キャンセル無料期間あり'}/>
+                query.freeCancel && <SearchChip label={'キャンセル無料期間あり'}/>
             }
-            <ResultChip label={RangeLabel({min: query.priceMin, max: query.priceMax, unit: '円'})}/>
+            <SearchChip label={RangeLabel({min: query.priceMin, max: query.priceMax, unit: '円'})}/>
             {
-                query.halfHourSlot && <ResultChip label={reserveOptions[0]}/>
+                query.halfHourSlot && <SearchChip label={reserveOptions[0]}/>
             }
             {
-                query.fromHalfHour && <ResultChip label={reserveOptions[1]}/>
+                query.fromHalfHour && <SearchChip label={reserveOptions[1]}/>
             }
             {
                 [...query.reservation, ...query.studioFacility].map((item) =>
-                    item && <ResultChip key={item} label={item}/>
+                    item && <SearchChip key={item} label={item}/>
                 )
             }
-            <ResultChip pre={'鏡'} label={RangeLabel({min: query.mirrorMin, max: query.mirrorMax, unit: 'm'})}/>
+            <SearchChip pre={'鏡'} label={RangeLabel({min: query.mirrorMin, max: query.mirrorMax, unit: 'm'})}/>
             {
                 [...query.floorMaterial, ...query.roomFacility].map((item) =>
-                    item && <ResultChip key={item} label={item}/>
+                    item && <SearchChip key={item} label={item}/>
                 )
             }
         </div>

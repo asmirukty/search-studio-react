@@ -10,11 +10,10 @@ const useStyles = makeStyles(() =>
     createStyles({
         searchBtn: {
             fontSize: 16,
-            padding: '6px 36px',
+            padding: '6px 32px',
             fontWeight: 'bold',
             color: '#F9F5F0',
             backgroundColor: '#1D356A',
-            margin: 'auto',
             '&.Mui-disabled': {
                 color: '#F9F5F0',
                 opacity: .6

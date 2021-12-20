@@ -1,27 +1,15 @@
 import React from 'react';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
-import StudioSearchCardButton from "../atoms/studioSearchCardButton";
+import SearchCardButton from "../atoms/searchCardButton";
 import {
     cityChipState, lineChipState, lineStationState, placeChipState, placeOpenState,
     prefectureChipState, prefectureCityState, stationChipState
 } from "../atom";
-import {createStyles, makeStyles} from "@material-ui/core/styles";
 import {lineItem} from "../atoms/itemsAndOptions/lineItems";
 import {prefItem} from "../atoms/itemsAndOptions/prefItems";
 import SearchChip from "../atoms/searchChip";
 
-const useStyles = makeStyles(() =>
-    createStyles({
-        wrapChip: {
-            overflow: 'scroll',
-            display: 'flex',
-            padding: 4
-        }
-    })
-);
-
 export default function PlaceButton() {
-    const classes = useStyles();
     const setPlaceOpen = useSetRecoilState<boolean>(placeOpenState);
     const setPrefectureCity = useSetRecoilState<{name: string, id: string}[]|any[]>(prefectureCityState);
     const [prefectureChip, setPrefectureChip] = useRecoilState<{name: string, id: string}[]|any[]>(prefectureChipState);
@@ -67,9 +55,7 @@ export default function PlaceButton() {
     }
 
     return (
-        <StudioSearchCardButton dialogOpen={placeDialogOpen} label={'エリア/沿線、駅を選択'}
-                                chipDisplay={placeChip.length > 0}>
-            <div className={classes.wrapChip}>
+        <SearchCardButton dialogOpen={placeDialogOpen} label={'エリア/沿線、駅'} chipDisplay={placeChip.length > 0}>
                 {
                     prefectureChip.map((item) =>
                         <SearchChip key={item.id} label={item.name} onDelete={prefectureChipDelete(item)}/>
@@ -90,7 +76,6 @@ export default function PlaceButton() {
                         <SearchChip key={item.id} label={item.name} onDelete={stationChipDelete(item)}/>
                     )
                 }
-            </div>
-        </StudioSearchCardButton>
+        </SearchCardButton>
     );
 }

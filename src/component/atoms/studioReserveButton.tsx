@@ -5,7 +5,6 @@ import Button from "@material-ui/core/Button";
 const useStyles = makeStyles(() =>
     createStyles({
         reserveBtn: {
-            fontSize: 16,
             fontWeight: 'bold',
             color: '#F9F5F0',
             backgroundColor: '#1D356A',

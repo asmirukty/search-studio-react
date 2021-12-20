@@ -15,8 +15,7 @@ const useStyles = makeStyles(() =>
         },
         content: {
             color: "#5A4628",
-            padding: 0,
-            boxShadow: '0px 4px 8px -2px rgba(0, 0, 0, 0.1)inset'
+            padding: 0
         }
     })
 );

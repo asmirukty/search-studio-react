@@ -22,12 +22,13 @@ const useStyles = makeStyles(() =>
         },
         appBar: {
             borderColor: "#5A4628",
-            position: 'static'
+            position: 'sticky',
         },
         tabs: {
             borderColor: "#5A4628",
             backgroundColor: '#F9F5F0',
             color: "#5A4628",
+            minHeight: 24
         }
     })
 );
@@ -71,7 +72,9 @@ export default function PlaceDialog() {
 
     return (
         <StudioDialog open={placeOpen} handleCancel={placeCancel} handleOk={placeOk}>
-            <MenuTab labels={["エリア", "沿線・駅"]} divStyle={classes.root} barStyle={classes.appBar} tabStyle={classes.tabs}>
+            <MenuTab labels={["エリア", "沿線・駅"]}
+                     divStyle={classes.root} barStyle={classes.appBar} tabsStyle={classes.tabs}
+                     tabFontSize={14} tabFlexGrow={.5} tabMinHeight={32}>
                 <PrefAccordion/>
                 <LineAccordion/>
             </MenuTab>

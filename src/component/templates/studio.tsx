@@ -27,6 +27,10 @@ const useStyles = makeStyles(() =>
             backgroundColor: '#FFF',
             color: '#5A4628',
         },
+        tab: {
+            flexGrow: .5,
+            fontWeight: 'bold'
+        },
         paper: {
             minHeight: 580,
             maxHeight: 580,
@@ -45,7 +49,7 @@ export default function Studio() {
             </div>
             <div className={classes.root}>
                 <MenuTab labels={["空き部屋", "スタジオ情報"]} divStyle={classes.tabBar} barStyle={classes.tabBar}
-                         tabStyle={classes.tabs} paperStyle={classes.paper}>
+                         tabsStyle={classes.tabs} tabFlexGrow={.5} tabMinHeight={24} paperStyle={classes.paper}>
                     {
                         studio.rooms.map((room,index) =>
                             <StudioRoomContent room={room} key={index}/>

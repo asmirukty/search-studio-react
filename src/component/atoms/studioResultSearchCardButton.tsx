@@ -1,8 +1,6 @@
 import React from "react";
 import {Button} from "@material-ui/core";
 import {makeStyles, createStyles} from "@material-ui/core/styles";
-import {useSetRecoilState} from "recoil";
-import {studioSearchCardOpenState} from "../atom";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -25,10 +23,8 @@ const useStyles = makeStyles(() =>
 
 export default function StudioResultSearchCardButton() {
     const classes = useStyles();
-    const setOpen = useSetRecoilState(studioSearchCardOpenState);
 
     const handleClickOpen = () => {
-        setOpen(true);
     };
 
     return (

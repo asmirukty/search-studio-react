@@ -1,29 +1,29 @@
 import React, {useEffect, useState} from "react";
 import axios from 'axios';
 import {useLocation} from 'react-router-dom';
-import StudioResultSearchCard from "../organisms/studioResultSearchCard";
 import StudioResultCard from "../organisms/studioResultCard";
-import StudioResultTitle from "../atoms/studioResultTitle";
-import PageNumber from "../atoms/pageNumber";
 import {initialSearchResult, SearchResult} from "../atoms/seachResultType";
 import {useMedia} from "use-media";
-import StudioSearchCard from "../organisms/studioSearchCard";
-import {useRecoilValue, useSetRecoilState} from "recoil";
+import {useSetRecoilState} from "recoil";
 import {
     areaChipState, cityChipState, dateChipState, dateMatchState, detailItemChipState,
     fromStationChipState, lineChipState, mirrorChipState, peopleChipState,
-    prefectureChipState, priceChipState, stationChipState, studioNameState, studioSearchCardOpenState
+    prefectureChipState, priceChipState, stationChipState, studioNameState
 } from "../atom";
 import {FromQuery} from "../atoms/fromQuery";
 import {reserveOptions} from "../atoms/itemsAndOptions/detailOptions";
-import StudioResultSearchCardTitle from "../atoms/studioResultSearchCardTitle";
+import StudioReSearchCard from "../organisms/studioReSearchCard";
+import PlaceDialog from "../organisms/placeDialog";
+import SpaceDialog from "../organisms/spaceDialog";
+import DateDialog from "../organisms/dateDialog";
+import DetailDialog from "../organisms/detailDialog";
+import PageTitle from "../atoms/PageTitle";
+import NormalSubTitle from "../atoms/NormalSubTitle";
 
 export default function StudioResult() {
     const search = useLocation().search;
-    const isSmall = useMedia({ maxWidth: "370px" });
     const isWide = useMedia({ minWidth: "800px" });
     const [searchResult, setSearchResult] = useState<SearchResult>(initialSearchResult);
-    const open = useRecoilValue(studioSearchCardOpenState);
 
     const setPrefectureChip = useSetRecoilState(prefectureChipState);
     const setCityChip = useSetRecoilState(cityChipState);
@@ -68,40 +68,27 @@ export default function StudioResult() {
     })
 
     return (
-        <div>
-            {
-                isWide ?
-                    <div style={{padding: '24px 36px'}}>
-                        <StudioResultTitle/>
-                        <PageNumber pages={searchResult.total_pages}/>
-                        <div style={{display: 'flex', justifyContent: 'space-around'}}>
-                            <div>
-                                <div style={{margin: '8px auto', textAlign: 'center'}}>
-                                    <StudioResultSearchCardTitle/>
-                                </div>
-                                <StudioSearchCard/>
-                            </div>
-                            {
-                                searchResult.studios.map((studio, index) =>
-                                    <StudioResultCard studio={studio} key={index}/>
-                                )
-                            }
-                        </div>
+        <>
+            <div style={isWide ? {padding: '24px 36px'} : {padding: '24px'}}>
+                <div style={isWide ? {display: 'flex'} : {}}>
+                    <div style={isWide ? {flexGrow: 1, position: 'static', margin: '44px 20px 0 0'} : {position: 'sticky', top: 112, zIndex: 1100}}>
+                        <StudioReSearchCard isWide={isWide}/>
                     </div>
-                    :
-                    <div style={isSmall ? {padding: '24px 16px'} : {padding: '24px'}}>
+                    <div style={isWide ? {flexGrow: 4, marginTop: 24, textAlign: 'center'} : {marginTop: 24, textAlign: 'center'}}>
+                        <PageTitle>検索結果</PageTitle>
+                        <NormalSubTitle>全{searchResult.total_pages}件</NormalSubTitle>
                         {
-                            open ? <StudioSearchCard/> : <StudioResultSearchCard/>
+                            searchResult.studios.map((studio, index) =>
+                                <StudioResultCard studio={studio} key={index}/>
+                            )
                         }
-                        <StudioResultTitle/>
-                        <PageNumber pages={searchResult.total_pages}/>
-                            {
-                                searchResult.studios.map((studio, index) =>
-                                    <StudioResultCard studio={studio} key={index}/>
-                                )
-                            }
                     </div>
-            }
-        </div>
+                </div>
+            </div>
+            <PlaceDialog/>
+            <SpaceDialog/>
+            <DateDialog/>
+            <DetailDialog/>
+        </>
     );
 }
