@@ -4,7 +4,7 @@ import {areaChipState, maxAreaState, maxPeopleState, minAreaState, minPeopleStat
 import StudioDialog from "../molecules/studioDialog";
 import MinMaxSelect from "../molecules/minMaxSelect";
 import {maxAreaOptions, maxPeopleOptions, minAreaOptions, minPeopleOptions} from "../atoms/itemsAndOptions/spaceOptions";
-import DialogTitle from "../atoms/dialogTitle";
+import NormalTitle from "../atoms/NormalTitle";
 
 export default function SpaceDialog() {
     const [spaceOpen, setSpaceOpen] = useRecoilState<boolean>(spaceOpenState);
@@ -43,15 +43,17 @@ export default function SpaceDialog() {
 
     return (
         <StudioDialog open={spaceOpen} handleCancel={spaceCancel} handleOk={spaceOk}>
-            <div style={{padding: '4px 24px 20px'}}>
-                <DialogTitle title={'面積'}/>
+            <div style={{padding: 20}}>
+                <NormalTitle>面積</NormalTitle>
                 <MinMaxSelect min={minArea} max={maxArea}
                               minOptions={minAreaOptions} maxOptions={maxAreaOptions} unit={'m²'} disableEqual
                               minNullIndex={0} maxNullIndex={0} changeMin={changeMinArea} changeMax={changeMaxArea}/>
-                <DialogTitle title={'人数'}/>
-                <MinMaxSelect min={minPeople} max={maxPeople}
-                              minOptions={minPeopleOptions} maxOptions={maxPeopleOptions}　unit={'人'}
-                              minNullIndex={0} maxNullIndex={0} changeMin={changeMinPeople} changeMax={changeMaxPeople}/>
+                <div style={{paddingTop: 8}}>
+                    <NormalTitle>人数</NormalTitle>
+                    <MinMaxSelect min={minPeople} max={maxPeople}
+                                  minOptions={minPeopleOptions} maxOptions={maxPeopleOptions}　unit={'人'}
+                                  minNullIndex={0} maxNullIndex={0} changeMin={changeMinPeople} changeMax={changeMaxPeople}/>
+                </div>
             </div>
         </StudioDialog>
     );

@@ -5,9 +5,15 @@ import {
     maxMirrorState, maxPriceState, minMirrorState, minPriceState, mirrorChipState, priceChipState
 } from "../atom";
 import StudioDialog from "../molecules/studioDialog";
-import DetailContent from "./detailContent";
+import DetailFromStation from "../molecules/detailFromStation";
+import DetailPrice from "../molecules/detailPrice";
+import DetailReservation from "../molecules/detailReservation";
+import DetailStudioFacilities from "../molecules/DetailStudioFacilities";
+import DetailRoomFacilities from "../molecules/detailRoomFacilities";
+import {useMedia} from "use-media";
 
 export default function DetailDialog() {
+    const isMedium = useMedia({ minWidth: 420, maxWidth: 532 });
     const [detailOpen, setDetailOpen] = useRecoilState<boolean>(detailOpenState);
     const fromStation = useRecoilValue<number|null>(fromStationState);
     const minPrice = useRecoilValue<number|null>(minPriceState);
@@ -34,9 +40,13 @@ export default function DetailDialog() {
 
     return (
         <StudioDialog open={detailOpen} handleCancel={detailCancel} handleOk={detailOk}>
-             <div style={{padding: '4px 24px 20px'}}>
-                 <DetailContent/>
+             <div style={isMedium ? {padding: '24px 36px'} : {padding: 20}}>
+                 <DetailFromStation/>
+                 <DetailPrice/>
+                 <DetailReservation/>
+                 <DetailStudioFacilities/>
+                 <DetailRoomFacilities/>
              </div>
         </StudioDialog>
-    )
+    );
 }

@@ -6,7 +6,7 @@ import {FormControl, InputLabel} from "@material-ui/core";
 const useStyles = makeStyles(() =>
     createStyles({
         formControl: {
-            margin: 4,
+            margin: '0 4px',
             minWidth: 120,
         },
         label: {
@@ -14,7 +14,7 @@ const useStyles = makeStyles(() =>
         },
         selectEmpty: {
             color: "#5A4628",
-            fontSize: "14px",
+            fontSize: 14,
             padding: '2px 7px'
         },
         menuPaper: {
@@ -31,7 +31,7 @@ interface SelectOptionProps {
 }
 
 export default function SelectOption(props: SelectOptionProps) {
-    const classes = useStyles()
+    const classes = useStyles();
 
     return (
         <FormControl className={classes.formControl}>

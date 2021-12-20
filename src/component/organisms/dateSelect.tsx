@@ -7,6 +7,7 @@ import {dateState} from "../atom";
 import SearchDatePicker from "../atoms/searchDatePicker";
 import DateSelectBtn from "../molecules/dateSelectBtn";
 import DialogTitle from "../atoms/dialogTitle";
+import NormalTitle from "../atoms/NormalTitle";
 
 export default function DateSelect(props: {index: number}) {
     const {index} = props;
@@ -84,8 +85,8 @@ export default function DateSelect(props: {index: number}) {
     };
 
     return (
-        <div>
-            <DialogTitle title={`日時${index+1}`}/>
+        <div style={{paddingTop: 16}}>
+            <NormalTitle>日時{index+1}</NormalTitle>
             <SearchDatePicker value={dateValue} changeDate={changeDate}/>
             <MinMaxSelect minLabel={'開始時間'} maxLabel={'終了時間'} min={startTimeValue} max={endTimeValue}
                           minOptions={startTimeOptions} maxOptions={endTimeOptions}
