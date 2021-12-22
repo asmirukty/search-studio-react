@@ -6,19 +6,18 @@ const useStyles = makeStyles(() =>
     createStyles({
         dialogOk: {
             color: '#5A4628',
-            fontSize: 14,
             fontWeight: 'bold',
             minWidth: 20,
-            padding: '0 4px'
+            padding: '0 6px'
         }
     }));
 
-export default function DialogOkButton(props: { onClick: () => void }) {
-    const classes = useStyles()
+export default function BoldButton(props: {label: any, onClick: () => void}) {
+    const classes = useStyles();
 
     return (
-        <Button autoFocus onClick={props.onClick} className={classes.dialogOk}>
-            決定
+        <Button onClick={props.onClick} className={classes.dialogOk}>
+            {props.label}
         </Button>
 
     )

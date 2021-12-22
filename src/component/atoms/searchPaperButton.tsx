@@ -34,7 +34,7 @@ interface SearchCardButtonProps {
     children: React.ReactNode;
 }
 
-export default function SearchCardButton(props: SearchCardButtonProps) {
+export default function SearchPaperButton(props: SearchCardButtonProps) {
     const classes = useStyles();
 
     return (

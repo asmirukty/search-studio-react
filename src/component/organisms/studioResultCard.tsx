@@ -38,13 +38,12 @@ const useStyles = makeStyles(() =>
     })
 );
 
-export default function StudioResultCard(props: {studio: Studio}) {
+export default function StudioResultCard(props: {studio: Studio, isWide: boolean}) {
     const {studio} = props;
     const classes = useStyles();
-    const isWide = useMedia({ minWidth: "800px" });
 
     return (
-        <Card style={isWide ? {boxShadow: 'none', minWidth: 360, maxWidth: 800, margin: '12px auto', flexGrow: 1} : {boxShadow: 'none', minWidth: 250, maxWidth: 600, margin: '12px auto'}}>
+        <Card style={props.isWide ? {boxShadow: 'none', minWidth: 420, maxWidth: 800, margin: '12px auto'} : {boxShadow: 'none', minWidth: 250, maxWidth: 600, margin: '12px auto'}}>
             <CardActionArea component={Link} to={{pathname: `/studios/${studio.studio_name}`}}>
                 <CardContent className={classes.card}>
                     <StudioResultStudioTitle studio={studio.studio_name} station={studio.address.station.name}

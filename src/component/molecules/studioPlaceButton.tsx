@@ -1,6 +1,6 @@
 import React from 'react';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
-import SearchCardButton from "../atoms/searchCardButton";
+import SearchPaperButton from "../atoms/searchPaperButton";
 import {
     cityChipState, lineChipState, lineStationState, placeChipState, placeOpenState,
     prefectureChipState, prefectureCityState, stationChipState
@@ -9,7 +9,7 @@ import {lineItem} from "../atoms/itemsAndOptions/lineItems";
 import {prefItem} from "../atoms/itemsAndOptions/prefItems";
 import SearchChip from "../atoms/searchChip";
 
-export default function PlaceButton() {
+export default function StudioPlaceButton() {
     const setPlaceOpen = useSetRecoilState<boolean>(placeOpenState);
     const setPrefectureCity = useSetRecoilState<{name: string, id: string}[]|any[]>(prefectureCityState);
     const [prefectureChip, setPrefectureChip] = useRecoilState<{name: string, id: string}[]|any[]>(prefectureChipState);
@@ -55,7 +55,7 @@ export default function PlaceButton() {
     }
 
     return (
-        <SearchCardButton dialogOpen={placeDialogOpen} label={'エリア/沿線、駅'} chipDisplay={placeChip.length > 0}>
+        <SearchPaperButton dialogOpen={placeDialogOpen} label={'エリア/沿線、駅'} chipDisplay={placeChip.length > 0}>
                 {
                     prefectureChip.map((item) =>
                         <SearchChip key={item.id} label={item.name} onDelete={prefectureChipDelete(item)}/>
@@ -76,6 +76,6 @@ export default function PlaceButton() {
                         <SearchChip key={item.id} label={item.name} onDelete={stationChipDelete(item)}/>
                     )
                 }
-        </SearchCardButton>
+        </SearchPaperButton>
     );
 }

@@ -12,13 +12,9 @@ import {
 } from "../atom";
 import {FromQuery} from "../atoms/fromQuery";
 import {reserveOptions} from "../atoms/itemsAndOptions/detailOptions";
-import StudioReSearchCard from "../organisms/studioReSearchCard";
-import PlaceDialog from "../organisms/placeDialog";
-import SpaceDialog from "../organisms/spaceDialog";
-import DateDialog from "../organisms/dateDialog";
-import DetailDialog from "../organisms/detailDialog";
 import PageTitle from "../atoms/PageTitle";
-import NormalSubTitle from "../atoms/NormalSubTitle";
+import BoldTypography from "../atoms/boldTypography";
+import StudioQueryChange from "../organisms/studioQueryChange";
 
 export default function StudioResult() {
     const search = useLocation().search;
@@ -68,27 +64,17 @@ export default function StudioResult() {
     })
 
     return (
-        <>
-            <div style={isWide ? {padding: '24px 36px'} : {padding: '24px'}}>
-                <div style={isWide ? {display: 'flex'} : {}}>
-                    <div style={isWide ? {flexGrow: 1, position: 'static', margin: '44px 20px 0 0'} : {position: 'sticky', top: 112, zIndex: 1100}}>
-                        <StudioReSearchCard isWide={isWide}/>
-                    </div>
-                    <div style={isWide ? {flexGrow: 4, marginTop: 24, textAlign: 'center'} : {marginTop: 24, textAlign: 'center'}}>
-                        <PageTitle>検索結果</PageTitle>
-                        <NormalSubTitle>全{searchResult.total_pages}件</NormalSubTitle>
-                        {
-                            searchResult.studios.map((studio, index) =>
-                                <StudioResultCard studio={studio} key={index}/>
-                            )
-                        }
-                    </div>
-                </div>
+        <div style={isWide ? {display: 'flex', padding: '24px 36px'} : {padding: 24}}>
+            <StudioQueryChange isWide={isWide}/>
+            <div style={isWide ? {flexGrow: 3} : {}}>
+                <PageTitle margin={'24px 0 0'}>検索結果</PageTitle>
+                <BoldTypography sub center>全{searchResult.total_pages}件</BoldTypography>
+                {
+                    searchResult.studios.map((studio, index) =>
+                        <StudioResultCard studio={studio} isWide={isWide} key={index}/>
+                    )
+                }
             </div>
-            <PlaceDialog/>
-            <SpaceDialog/>
-            <DateDialog/>
-            <DetailDialog/>
-        </>
+        </div>
     );
 }

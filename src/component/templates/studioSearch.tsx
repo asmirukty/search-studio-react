@@ -1,25 +1,22 @@
+import React, {useEffect} from "react";
 import PageTitle from "../atoms/PageTitle";
-import StudioSearchCard from "../organisms/studioSearchCard";
+import StudioSearchPaper from "../organisms/studioSearchPaper";
 import {useMedia} from "use-media";
-import PlaceDialog from "../organisms/placeDialog";
-import React from "react";
-import SpaceDialog from "../organisms/spaceDialog";
-import DateDialog from "../organisms/dateDialog";
-import DetailDialog from "../organisms/detailDialog";
+import {useSetRecoilState} from "recoil";
+import {prefectureChipState} from "../atom";
 
 export default function StudioSearch() {
     const isWide = useMedia({ minWidth: "620px" });
+    const setPrefectureChip = useSetRecoilState(prefectureChipState);
+
+    useEffect(() => {
+        setPrefectureChip([])
+    })
 
     return (
         <div style={isWide ? {padding: 32} : {padding: 24}}>
-            <div style={{margin: '16px 0'}}>
-                <PageTitle>スタジオを検索</PageTitle>
-            </div>
-            <StudioSearchCard isWide={isWide}/>
-            <PlaceDialog/>
-            <SpaceDialog/>
-            <DateDialog/>
-            <DetailDialog/>
+            <PageTitle margin={'16px 0'}>スタジオを検索</PageTitle>
+            <StudioSearchPaper isWide={isWide}/>
         </div>
     );
 }

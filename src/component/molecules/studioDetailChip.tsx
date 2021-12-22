@@ -8,7 +8,7 @@ import SearchChip from "../atoms/searchChip";
 import {reserveOptions} from "../atoms/itemsAndOptions/detailOptions";
 import RangeLabel from "../atoms/rangeLabel";
 
-export default function DetailChip() {
+export default function StudioDetailChip() {
     const [fromStationChip, setFromStationChip] = useRecoilState<number|null>(fromStationChipState);
     const [priceChip, setPriceChip] = useRecoilState<{min: number|null, max: number|null}>(priceChipState);
     const [mirrorChip, setMirrorChip] = useRecoilState<{min: number|null, max: number|null}>(mirrorChipState);

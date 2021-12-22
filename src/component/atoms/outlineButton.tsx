@@ -18,7 +18,7 @@ interface SearchOutlineButtonProps {
     disabled?: boolean
 }
 
-export default function SearchOutlineButton(props: SearchOutlineButtonProps) {
+export default function OutlineButton(props: SearchOutlineButtonProps) {
     const classes = useStyles();
 
     return (

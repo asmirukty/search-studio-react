@@ -1,6 +1,5 @@
 import {createStyles, makeStyles} from "@material-ui/core/styles";
-import {AppBar, Toolbar, Typography} from "@material-ui/core";
-import LoginButton from "../atoms/loginButton";
+import {AppBar, Button, Toolbar, Typography} from "@material-ui/core";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -20,7 +19,7 @@ export default function Header() {
             <AppBar position="sticky" style={{minWidth: 320}}>
                 <Toolbar className={classes.bar}>
                     <Typography variant="h6">Dance Search</Typography>
-                    <LoginButton/>
+                    <Button color="inherit">Login</Button>
                 </Toolbar>
             </AppBar>
     );

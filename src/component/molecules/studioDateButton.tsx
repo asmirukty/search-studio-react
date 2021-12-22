@@ -1,12 +1,12 @@
 import React from 'react';
 import {useRecoilState, useSetRecoilState} from "recoil";
-import SearchCardButton from "../atoms/searchCardButton";
+import SearchPaperButton from "../atoms/searchPaperButton";
 import {addDateOpenState, dateChipState, dateOpenState, dateState} from "../atom";
 import SearchChip from "../atoms/searchChip";
-import DateConvert from "../atoms/dateConvert";
 import RangeLabel from "../atoms/rangeLabel";
+import DateConvert from "../atoms/dateConvert";
 
-export default function DateButton() {
+export default function StudioDateButton() {
     const setDateOpen = useSetRecoilState<boolean>(dateOpenState);
     const setAddDateOpen = useSetRecoilState<boolean[]>(addDateOpenState);
     const setDate = useSetRecoilState<{date: Date, startTime: string|null, endTime: string|null, matchTime: boolean}[]>(dateState);
@@ -28,7 +28,7 @@ export default function DateButton() {
     };
 
     return (
-        <SearchCardButton dialogOpen={dateDialogOpen} label={'日時'} chipDisplay={dateChip.length > 0}>
+        <SearchPaperButton dialogOpen={dateDialogOpen} label={'日時'} chipDisplay={dateChip.length > 0}>
             {
                 dateChip.map((item, index) =>
                     <SearchChip label={DateConvert(item.date)} key={index}
@@ -36,6 +36,6 @@ export default function DateButton() {
                                 onDelete={dateChipDelete(index)}/>
                 )
             }
-        </SearchCardButton>
+        </SearchPaperButton>
     );
 }

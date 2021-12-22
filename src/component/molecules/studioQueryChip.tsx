@@ -1,28 +1,16 @@
 import React from "react";
-import {makeStyles, createStyles} from "@material-ui/core/styles";
 import RangeLabel from "../atoms/rangeLabel";
 import {reserveOptions} from "../atoms/itemsAndOptions/detailOptions";
-import DateConvert from "../atoms/dateConvert";
 import {FromQuery} from "../atoms/fromQuery";
 import SearchChip from "../atoms/searchChip";
+import DateConvert from "../atoms/dateConvert";
 
-const useStyles = makeStyles(() =>
-    createStyles({
-        wrapChip: {
-            overflow: 'scroll',
-            display: 'flex',
-            padding: 4,
-        }
-    }))
-
-export default function StudioResultChip() {
-    const classes = useStyles();
-
+export default function StudioQueryChip() {
     const query = FromQuery();
     const placeQuery = [...query.prefecture, ...query.city, ...query.line, ...query.station];
 
     return (
-        <div className={classes.wrapChip}>
+        <div style={{display: 'flex', padding: 2}}>
             {
                 placeQuery.map((item) => item && <SearchChip key={item.id} label={item.name}/>)
             }

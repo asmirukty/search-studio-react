@@ -2,7 +2,7 @@ import React from 'react';
 import {createStyles, makeStyles} from "@material-ui/core/styles";
 import {useSetRecoilState, useRecoilState} from "recoil";
 import {addDateOpenState, dateState} from "../atom";
-import SearchOutlineButton from "../atoms/searchOutlineButton";
+import OutlineButton from "../atoms/outlineButton";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -35,10 +35,10 @@ export default function DateSelectBtn(props: DateSelectBtnProps) {
 
     return (
             <div className={classes.buttons}>
-                <SearchOutlineButton label={'× 削除'} onClick={reset}/>
+                <OutlineButton label={'× 削除'} onClick={reset}/>
                 {
                     index !== 4 &&
-                    <SearchOutlineButton label={'+ 追加'} onClick={addDate} disabled={props.date || addDateOpen[index+1]}/>
+                    <OutlineButton label={'+ 追加'} onClick={addDate} disabled={props.date || addDateOpen[index+1]}/>
                 }
             </div>
     );

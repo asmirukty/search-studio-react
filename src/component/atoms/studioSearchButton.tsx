@@ -27,20 +27,15 @@ const useStyles = makeStyles(() =>
     })
 );
 
-export default function StudioSearchButton(props: {close?: (value?: any) => void;}) {
+export default function StudioSearchButton() {
     const classes = useStyles();
     const placeChip = useRecoilValue(placeChipState);
     const studioName = useRecoilValue<string|null>(studioNameState);
     const query = useRecoilValue<string[]>(queryState);
 
-    const handleClose = () => {
-        props.close && props.close()
-    }
-
     return (
         <Button className={classes.searchBtn}
                 disabled={placeChip.length === 0 && !studioName}
-                onClick={handleClose}
                 component={Link}
                 to={{
                     pathname: '/studios/',

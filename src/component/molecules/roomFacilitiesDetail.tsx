@@ -7,18 +7,9 @@ import {
     maxMirrorOptions, minMirrorOptions, soundAndMovieOptions
 } from "../atoms/itemsAndOptions/detailOptions";
 import DetailCheckbox from "../molecules/detailCheckbox";
-import NormalTitle from "../atoms/NormalTitle";
-import NormalSubTitle from "../atoms/NormalSubTitle";
+import BoldTypography from "../atoms/boldTypography";
 
-function SubTitle(props: {children: string}) {
-    return (
-        <div style={{paddingTop: 8}}>
-            <NormalSubTitle>{props.children}</NormalSubTitle>
-        </div>
-    );
-}
-
-export default function DetailRoomFacilities() {
+export default function RoomFacilitiesDetail() {
     const [minMirror, setMinMirror] = useRecoilState<number|null>(minMirrorState);
     const [maxMirror, setMaxMirror] = useRecoilState<number|null>(maxMirrorState);
 
@@ -31,21 +22,20 @@ export default function DetailRoomFacilities() {
     };
 
     return (
-        <div style={{paddingTop: 12}}>
-            <NormalTitle>部屋設備・備品</NormalTitle>
-            <NormalSubTitle>鏡</NormalSubTitle>
+        <>
+            <BoldTypography sub>鏡</BoldTypography>
             <DetailCheckbox options={['鏡2面']}/>
             <MinMaxSelect minLabel={'横幅'} min={minMirror} max={maxMirror}
-                          minOptions={minMirrorOptions} maxOptions={maxMirrorOptions} unit={'m'} disableEqual
+                          minOptions={minMirrorOptions} maxOptions={maxMirrorOptions} unit={'m'}
                           minNullIndex={0} maxNullIndex={0} changeMin={changeMinMirror} changeMax={changeMaxMirror}/>
-            <SubTitle>床材</SubTitle>
+            <BoldTypography sub margin={'8px 0 0'}>床材</BoldTypography>
             <DetailCheckbox options={floorMaterialOptions}/>
-            <SubTitle>照明・撮影</SubTitle>
+            <BoldTypography sub margin={'8px 0 0'}>照明・撮影</BoldTypography>
             <DetailCheckbox options={lightAndFilmingOptions}/>
-            <SubTitle>音響・映像</SubTitle>
+            <BoldTypography sub margin={'8px 0 0'}>音響・映像</BoldTypography>
             <DetailCheckbox options={soundAndMovieOptions}/>
-            <SubTitle>その他設備・備品</SubTitle>
+            <BoldTypography sub margin={'8px 0 0'}>その他設備・備品</BoldTypography>
             <DetailCheckbox options={amenityOptions}/>
-        </div>
+        </>
     );
 }

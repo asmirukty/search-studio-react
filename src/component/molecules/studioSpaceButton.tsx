@@ -1,11 +1,11 @@
 import React from 'react';
 import {useRecoilState, useSetRecoilState} from "recoil";
-import SearchCardButton from "../atoms/searchCardButton";
+import SearchPaperButton from "../atoms/searchPaperButton";
 import {areaChipState, maxAreaState, maxPeopleState, minAreaState, minPeopleState, peopleChipState, spaceOpenState} from "../atom";
 import SearchChip from "../atoms/searchChip";
 import RangeLabel from "../atoms/rangeLabel";
 
-export default function SpaceButton() {
+export default function StudioSpaceButton() {
     const setSpaceOpen = useSetRecoilState<boolean>(spaceOpenState);
     const setMinArea = useSetRecoilState<number|null>(minAreaState);
     const setMaxArea = useSetRecoilState<number|null>(maxAreaState);
@@ -31,12 +31,12 @@ export default function SpaceButton() {
     };
 
     return (
-        <SearchCardButton dialogOpen={spaceDialogOpen} label={'面積/人数'}
-                          chipDisplay={!(!areaChip.min && !areaChip.max && !peopleChip.min && !peopleChip.max)}>
+        <SearchPaperButton dialogOpen={spaceDialogOpen} label={'面積/人数'}
+                           chipDisplay={!(!areaChip.min && !areaChip.max && !peopleChip.min && !peopleChip.max)}>
                 <SearchChip label={RangeLabel({min: areaChip.min, max: areaChip.max, unit: 'm²'})}
                             onDelete={areaChipDelete}/>
                 <SearchChip label={RangeLabel({min: peopleChip.min, max: peopleChip.max, unit: '人'})}
                             onDelete={peopleChipDelete}/>
-        </SearchCardButton>
+        </SearchPaperButton>
     )
 }

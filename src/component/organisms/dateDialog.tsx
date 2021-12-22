@@ -21,14 +21,12 @@ export default function DateDialog() {
     };
 
     return (
-        <StudioDialog open={dateOpen} handleCancel={dateCancel} handleOk={dateOk}>
-            <div style={{padding: '4px 20px 20px'}}>
-                {
-                    [0, 1, 2, 3, 4].map((i) =>
-                        addDateOpen[i] && <DateSelect key={i} index={i}/>
-                    )
-                }
-            </div>
+        <StudioDialog open={dateOpen} handleCancel={dateCancel} handleOk={dateOk} padding={'4px 20px 20px'}>
+            {
+                [0, 1, 2, 3, 4].map((i) =>
+                    addDateOpen[i] && <DateSelect key={i} index={i}/>
+                )
+            }
         </StudioDialog>
     );
 }

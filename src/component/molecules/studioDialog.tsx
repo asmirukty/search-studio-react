@@ -2,8 +2,8 @@ import React from 'react';
 import {createStyles, makeStyles} from "@material-ui/core/styles";
 import {Dialog, DialogContent} from "@material-ui/core";
 import DialogActions from "@material-ui/core/DialogActions";
-import DialogCloseButton from "../atoms/dialogCloseButton";
-import DialogOkButton from "../atoms/dialogOkButton";
+import {Close} from "@material-ui/icons";
+import BoldButton from "../atoms/boldButton";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -14,7 +14,6 @@ const useStyles = makeStyles(() =>
             justifyContent: 'space-between'
         },
         content: {
-            color: "#5A4628",
             padding: 0
         }
     })
@@ -24,6 +23,7 @@ interface StudioDialogProps {
     open: boolean;
     handleCancel: () => void;
     handleOk: () => void;
+    padding: any;
     children: React.ReactNode;
 }
 
@@ -33,10 +33,10 @@ export default function StudioDialog(props: StudioDialogProps) {
     return (
         <Dialog PaperProps={{style: {minWidth: 300, maxWidth: 480}}} keepMounted open={props.open} aria-labelledby="studioDialog">
             <DialogActions className={classes.action}>
-                <DialogCloseButton onClick={props.handleCancel}/>
-                <DialogOkButton onClick={props.handleOk}/>
+                <BoldButton label={<Close fontSize='small'/>} onClick={props.handleCancel}/>
+                <BoldButton label={'決定'} onClick={props.handleOk}/>
             </DialogActions>
-            <DialogContent className={classes.content}>
+            <DialogContent style={{padding: props.padding}}>
                 {props.children}
             </DialogContent>
         </Dialog>

@@ -71,7 +71,7 @@ export default function PlaceDialog() {
     };
 
     return (
-        <StudioDialog open={placeOpen} handleCancel={placeCancel} handleOk={placeOk}>
+        <StudioDialog open={placeOpen} handleCancel={placeCancel} handleOk={placeOk} padding={0}>
             <MenuTab labels={["エリア", "沿線・駅"]}
                      divStyle={classes.root} barStyle={classes.appBar} tabsStyle={classes.tabs}
                      tabFontSize={14} tabFlexGrow={.5} tabMinHeight={32}>

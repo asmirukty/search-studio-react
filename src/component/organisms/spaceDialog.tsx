@@ -4,7 +4,7 @@ import {areaChipState, maxAreaState, maxPeopleState, minAreaState, minPeopleStat
 import StudioDialog from "../molecules/studioDialog";
 import MinMaxSelect from "../molecules/minMaxSelect";
 import {maxAreaOptions, maxPeopleOptions, minAreaOptions, minPeopleOptions} from "../atoms/itemsAndOptions/spaceOptions";
-import NormalTitle from "../atoms/NormalTitle";
+import BoldTypography from "../atoms/boldTypography";
 
 export default function SpaceDialog() {
     const [spaceOpen, setSpaceOpen] = useRecoilState<boolean>(spaceOpenState);
@@ -42,19 +42,15 @@ export default function SpaceDialog() {
     };
 
     return (
-        <StudioDialog open={spaceOpen} handleCancel={spaceCancel} handleOk={spaceOk}>
-            <div style={{padding: 20}}>
-                <NormalTitle>面積</NormalTitle>
-                <MinMaxSelect min={minArea} max={maxArea}
-                              minOptions={minAreaOptions} maxOptions={maxAreaOptions} unit={'m²'} disableEqual
-                              minNullIndex={0} maxNullIndex={0} changeMin={changeMinArea} changeMax={changeMaxArea}/>
-                <div style={{paddingTop: 8}}>
-                    <NormalTitle>人数</NormalTitle>
-                    <MinMaxSelect min={minPeople} max={maxPeople}
-                                  minOptions={minPeopleOptions} maxOptions={maxPeopleOptions}　unit={'人'}
-                                  minNullIndex={0} maxNullIndex={0} changeMin={changeMinPeople} changeMax={changeMaxPeople}/>
-                </div>
-            </div>
+        <StudioDialog open={spaceOpen} handleCancel={spaceCancel} handleOk={spaceOk} padding={20}>
+            <BoldTypography>面積</BoldTypography>
+            <MinMaxSelect min={minArea} max={maxArea}
+                          minOptions={minAreaOptions} maxOptions={maxAreaOptions} unit={'m²'}
+                          minNullIndex={0} maxNullIndex={0} changeMin={changeMinArea} changeMax={changeMaxArea}/>
+            <BoldTypography margin={'8px 0 0'}>人数</BoldTypography>
+            <MinMaxSelect min={minPeople} max={maxPeople}
+                          minOptions={minPeopleOptions} maxOptions={maxPeopleOptions}　unit={'人'}
+                          minNullIndex={0} maxNullIndex={0} changeMin={changeMinPeople} changeMax={changeMaxPeople}/>
         </StudioDialog>
     );
 }
