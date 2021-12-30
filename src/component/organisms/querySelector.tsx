@@ -4,8 +4,8 @@ import {
     fromStationChipState, lineChipState, mirrorChipState, peopleChipState, prefectureChipState, priceChipState,
     reservationChipState, roomFacilityChipState, stationChipState, studioFacilityChipState, studioNameState
 } from "../atom";
-import {reserveOptions} from "../atoms/itemsAndOptions/detailOptions";
-import {endTimeOptions} from "../atoms/itemsAndOptions/timeOptions";
+import {reserveOptions} from "../itemsAndOptions/detailOptions";
+import {endTimeOptions} from "../itemsAndOptions/timeOptions";
 
 function dateConvert (date: {date: Date|null, startTime: string|null, endTime: string|null, matchTime: boolean}) {
     const startHour = date.startTime ? date.startTime.split(':')[0] : 0 ;

@@ -1,5 +1,5 @@
 import React from 'react';
-import {lineItem, lineItems} from "../atoms/itemsAndOptions/lineItems";
+import {lineItem, lineItems} from "../itemsAndOptions/lineItems";
 import PlaceAccordion from "../molecules/placeAccordion";
 import {useRecoilState,} from "recoil";
 import {lineStationState} from "../atom";

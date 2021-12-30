@@ -1,6 +1,6 @@
 import React from 'react';
 import PlaceAccordion from "../molecules/placeAccordion";
-import {prefItems} from "../atoms/itemsAndOptions/prefItems";
+import {prefItems} from "../itemsAndOptions/prefItems";
 import {useRecoilState,} from "recoil";
 import {prefectureCityState} from "../atom";
 import PlaceCheckAccordion from "../molecules/placeCheckAcoordion";

@@ -5,8 +5,8 @@ import {
     cityChipState, lineChipState, lineStationState, placeChipState, placeOpenState,
     prefectureChipState, prefectureCityState, stationChipState
 } from "../atom";
-import {lineItem} from "../atoms/itemsAndOptions/lineItems";
-import {prefItem} from "../atoms/itemsAndOptions/prefItems";
+import {lineItem} from "../itemsAndOptions/lineItems";
+import {prefItem} from "../itemsAndOptions/prefItems";
 import SearchChip from "../atoms/searchChip";
 
 export default function StudioPlaceButton() {
@@ -56,26 +56,26 @@ export default function StudioPlaceButton() {
 
     return (
         <SearchPaperButton dialogOpen={placeDialogOpen} label={'エリア/沿線、駅'} chipDisplay={placeChip.length > 0}>
-                {
-                    prefectureChip.map((item) =>
-                        <SearchChip key={item.id} label={item.name} onDelete={prefectureChipDelete(item)}/>
-                    )
-                }
-                {
-                    cityChip.map((item) =>
-                        <SearchChip key={item.id} label={item.name} onDelete={cityChipDelete(item)}/>
-                    )
-                }
-                {
-                    lineChip.map((item) =>
-                        <SearchChip key={item.id} label={item.name} onDelete={lineChipDelete(item)}/>
-                    )
-                }
-                {
-                    stationChip.map((item) =>
-                        <SearchChip key={item.id} label={item.name} onDelete={stationChipDelete(item)}/>
-                    )
-                }
+            {
+                prefectureChip.map((item) =>
+                    <SearchChip key={item.id} label={item.name} onDelete={prefectureChipDelete(item)}/>
+                )
+            }
+            {
+                cityChip.map((item) =>
+                    <SearchChip key={item.id} label={item.name} onDelete={cityChipDelete(item)}/>
+                )
+            }
+            {
+                lineChip.map((item) =>
+                    <SearchChip key={item.id} label={item.name} onDelete={lineChipDelete(item)}/>
+                )
+            }
+            {
+                stationChip.map((item) =>
+                    <SearchChip key={item.id} label={item.name} onDelete={stationChipDelete(item)}/>
+                )
+            }
         </SearchPaperButton>
     );
 }

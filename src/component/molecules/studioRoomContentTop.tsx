@@ -2,7 +2,7 @@ import React from "react";
 import {createStyles, makeStyles} from "@material-ui/core/styles";
 import {Typography} from "@material-ui/core";
 import {People} from "@material-ui/icons";
-import RangeLabel from "../atoms/rangeLabel";
+import RangeLabel from "../rangeLabel";
 
 const useStyles = makeStyles(() =>
     createStyles({

@@ -3,7 +3,7 @@ import {useRecoilState, useSetRecoilState} from "recoil";
 import SearchPaperButton from "../atoms/searchPaperButton";
 import {areaChipState, maxAreaState, maxPeopleState, minAreaState, minPeopleState, peopleChipState, spaceOpenState} from "../atom";
 import SearchChip from "../atoms/searchChip";
-import RangeLabel from "../atoms/rangeLabel";
+import RangeLabel from "../rangeLabel";
 
 export default function StudioSpaceButton() {
     const setSpaceOpen = useSetRecoilState<boolean>(spaceOpenState);

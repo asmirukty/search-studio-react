@@ -8,10 +8,10 @@ import StudioDialog from "../molecules/studioDialog";
 import RoomFacilitiesDetail from "../molecules/roomFacilitiesDetail";
 import {useMedia} from "use-media";
 import BoldTypography from "../atoms/boldTypography";
-import DetailCheckbox from "../molecules/detailCheckbox";
+import StudioDetailCheckbox from "../molecules/studioDetailCheckbox";
 import {
     fromStationOptions, maxPriceOptions, minPriceOptions, reserveOptions, studioFacilityOptions
-} from "../atoms/itemsAndOptions/detailOptions";
+} from "../itemsAndOptions/detailOptions";
 import SelectOption from "../molecules/selectOption";
 import MinMaxSelect from "../molecules/minMaxSelect";
 
@@ -60,14 +60,14 @@ export default function DetailDialog() {
                 <SelectOption value={fromStation} options={fromStationOptions} nullIndex={0} unit={'分以内'} onChange={changeFromStation}/>
             </div>
             <BoldTypography margin={'12px 0 0'}>料金</BoldTypography>
-            <DetailCheckbox options={['キャンセル無料期間あり']}/>
+            <StudioDetailCheckbox options={['キャンセル無料期間あり']}/>
             <MinMaxSelect minLabel={'30分あたり'} min={minPrice} max={maxPrice}
                           minOptions={minPriceOptions} maxOptions={maxPriceOptions} unit={'円'}
                           minNullIndex={0} maxNullIndex={0} changeMin={changeMinPrice} changeMax={changeMaxPrice}/>
             <BoldTypography margin={'12px 0 0'}>予約</BoldTypography>
-            <DetailCheckbox options={reserveOptions}/>
+            <StudioDetailCheckbox options={reserveOptions}/>
             <BoldTypography margin={'12px 0 0'}>スタジオ設備</BoldTypography>
-            <DetailCheckbox options={studioFacilityOptions}/>
+            <StudioDetailCheckbox options={studioFacilityOptions}/>
             <BoldTypography margin={'12px 0 0'}>部屋設備・備品</BoldTypography>
             <RoomFacilitiesDetail/>
         </StudioDialog>

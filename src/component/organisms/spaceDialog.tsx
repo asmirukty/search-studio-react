@@ -3,7 +3,7 @@ import {useRecoilState, useSetRecoilState} from "recoil";
 import {areaChipState, maxAreaState, maxPeopleState, minAreaState, minPeopleState, peopleChipState, spaceOpenState} from "../atom";
 import StudioDialog from "../molecules/studioDialog";
 import MinMaxSelect from "../molecules/minMaxSelect";
-import {maxAreaOptions, maxPeopleOptions, minAreaOptions, minPeopleOptions} from "../atoms/itemsAndOptions/spaceOptions";
+import {maxAreaOptions, maxPeopleOptions, minAreaOptions, minPeopleOptions} from "../itemsAndOptions/spaceOptions";
 import BoldTypography from "../atoms/boldTypography";
 
 export default function SpaceDialog() {

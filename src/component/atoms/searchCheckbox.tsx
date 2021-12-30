@@ -29,8 +29,8 @@ function count (str:string) {
 interface SearchCheckboxProps{
     item: any;
     itemName: string;
-    pref?: boolean;
-    city?: boolean;
+    parent?: boolean;
+    child?: boolean;
     open?: boolean;
     checked: boolean;
     itemChecked: (value: any) => void;
@@ -38,7 +38,7 @@ interface SearchCheckboxProps{
 }
 
 export default function SearchCheckbox(props: SearchCheckboxProps) {
-    const {item, itemName, pref, city, checked: checkedProp, itemChecked, itemUnChecked} = props;
+    const {item, itemName, parent, child, checked: checkedProp, itemChecked, itemUnChecked} = props;
     const [checked, setChecked] = useState(false)
 
     useEffect(() => {
@@ -51,30 +51,17 @@ export default function SearchCheckbox(props: SearchCheckboxProps) {
     };
 
     return (
-        <div>
-            {(pref) ?
-                (<FormControlLabel
-                    onClick={(event) => event.stopPropagation()}
-                    onFocus={(event) => event.stopPropagation()}
-                    control={
-                        <Checkbox style={{padding: 4}} size='small' checked={checked}
-                                  onChange={handleChange} value={item} color="primary"/>
-                    }
-                    label={itemName}
-                />)
-                :
-                (<FormControlLabel
-                    style={
-                        (city && count(itemName) < 5) ? {width: 100}
-                        : (count(itemName) < 8 ? {width: 140} : {width: 280})
-                    }
-                    control={
-                        <Checkbox style={{padding: 4}} size='small' checked={checked}
-                                  onChange={handleChange} value={item} color="primary"/>
-                    }
-                    label={itemName}
-                />)
-            }
-        </div>
+        <FormControlLabel onClick={parent ? (event) => event.stopPropagation() : ()=>{}}
+                          onFocus={parent ? (event) => event.stopPropagation() : ()=>{}}
+                          style={
+                              parent ? {} :
+                                  (child && count(itemName) < 5) ? {width: 100}
+                                      : (count(itemName) < 8 ? {width: 140} : {width: 280})
+                          }
+                          control={
+                              <Checkbox style={{padding: 4}} size='small' checked={checked}
+                                        onChange={handleChange} value={item} color="primary"/>
+                          }
+                          label={itemName}/>
     );
 }

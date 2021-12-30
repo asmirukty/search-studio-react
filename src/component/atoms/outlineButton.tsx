@@ -13,7 +13,7 @@ const useStyles = makeStyles(() =>
     }));
 
 interface SearchOutlineButtonProps {
-    label: string;
+    children: string;
     onClick: () => void;
     disabled?: boolean
 }
@@ -23,7 +23,7 @@ export default function OutlineButton(props: SearchOutlineButtonProps) {
 
     return (
         <Button onClick={props.onClick} disabled={props.disabled} className={classes.btn} variant="outlined">
-            {props.label}
+            {props.children}
         </Button>
     )
 }

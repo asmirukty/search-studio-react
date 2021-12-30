@@ -1,11 +1,12 @@
 import React, {useEffect} from "react";
-import {Button, Paper} from "@material-ui/core";
+import {Paper} from "@material-ui/core";
 import {makeStyles, createStyles} from "@material-ui/core/styles";
 import StudioQueryChip from "../molecules/studioQueryChip";
 import OutlineButton from "../atoms/outlineButton";
 import {useRecoilState, useRecoilValue} from "recoil";
 import {dateOpenState, detailOpenState, placeOpenState, spaceOpenState, studioSearchPaperOpenState} from "../atom";
 import BoldTypography from "../atoms/boldTypography";
+import BlueButton from "../atoms/blueButton";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -25,28 +26,6 @@ const useStyles = makeStyles(() =>
         },
         typography: {
             minWidth: 60,
-        },
-        chip: {
-            overflow: 'scroll',
-            width: '100%',
-            margin: '0 4px'
-        },
-        btn: {
-            padding: 0,
-            margin: 4,
-            minWidth: 48,
-            fontWeight: 'bold',
-            color: '#F9F5F0',
-            backgroundColor: '#1D356A',
-            '&.Mui-disabled': {
-                color: '#F9F5F0',
-                opacity: .6
-            },
-            '&:hover': {
-                color: '#F9F5F0',
-                backgroundColor: '#1D356A',
-                opacity: .8
-            }
         }
     })
 );
@@ -66,11 +45,11 @@ export default function StudioQueryPaper(props: {isWide?: boolean}) {
         } else {
             setOpen(false)
         }
-    }, [isWide])
+    }, [isWide]);
 
     const handleClick = () => {
         setOpen(prevState => !prevState)
-    }
+    };
 
     return (
         <Paper className={classes.paper}>
@@ -78,13 +57,11 @@ export default function StudioQueryPaper(props: {isWide?: boolean}) {
                 <div className={classes.typography}>
                     <BoldTypography sub center>検索条件</BoldTypography>
                 </div>
-                <div className={classes.chip}>
-                    <StudioQueryChip/>
-                </div>
+                <StudioQueryChip/>
                 {
                     !props.isWide &&
-                    (open ? <OutlineButton label={'閉じる'} onClick={handleClick}/>
-                        : <Button className={classes.btn} onClick={handleClick}>変更</Button>)
+                    (open ? <OutlineButton onClick={handleClick}>閉じる</OutlineButton>
+                        : <BlueButton padding={0} margin={4} onClick={handleClick}>変更</BlueButton>)
                 }
             </div>
         </Paper>

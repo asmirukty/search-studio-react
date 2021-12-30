@@ -1,6 +1,6 @@
-import {Chip, TableContainer, Paper, Table, TableBody, TableRow, TableCell, TableHead} from "@material-ui/core";
+import {Chip, TableContainer, Table, TableBody, TableRow, TableCell, TableHead} from "@material-ui/core";
 import {makeStyles, createStyles} from "@material-ui/core/styles";
-import DateConvert from "../atoms/dateConvert";
+import DateConvert from "../dateConvert";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -18,7 +18,8 @@ const useStyles = makeStyles(() =>
             maxWidth: 20,
             color: '#5A4628',
             padding: '4px 0',
-            borderRight: '1px solid #D7D2C8'
+            borderRight: '1px solid #D7D2C8',
+            zIndex: 1
         },
         cellChip: {
             position: 'absolute',
@@ -54,7 +55,7 @@ export default function SlotTable(props: SlotTableProps) {
     const classes = useStyles();
 
     return (
-        <TableContainer component={Paper} style={{margin: 4}}>
+        <TableContainer style={{margin: 4, overflow: 'scroll'}}>
             <Table>
                 <TableHead>
                     <TableRow>

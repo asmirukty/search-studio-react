@@ -3,8 +3,8 @@ import {useRecoilState, useSetRecoilState} from "recoil";
 import SearchPaperButton from "../atoms/searchPaperButton";
 import {addDateOpenState, dateChipState, dateOpenState, dateState} from "../atom";
 import SearchChip from "../atoms/searchChip";
-import RangeLabel from "../atoms/rangeLabel";
-import DateConvert from "../atoms/dateConvert";
+import RangeLabel from "../rangeLabel";
+import DateConvert from "../dateConvert";
 
 export default function StudioDateButton() {
     const setDateOpen = useSetRecoilState<boolean>(dateOpenState);

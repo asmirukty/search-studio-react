@@ -1,26 +1,10 @@
 import React from "react";
-import {createStyles, makeStyles} from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
-
-const useStyles = makeStyles(() =>
-    createStyles({
-        reserveBtn: {
-            fontWeight: 'bold',
-            color: '#F9F5F0',
-            backgroundColor: '#1D356A',
-            display: 'flex',
-            margin: 'auto',
-            padding: '6px 12px'
-        }
-    })
-);
+import BlueButton from "./blueButton";
 
 export default function StudioReserveButton() {
-    const classes = useStyles();
-
     return (
-        <Button className={classes.reserveBtn}>
+        <BlueButton fontSize={16} padding={'6px 12px'} margin={'8px auto 0'}>
             予約画面へ
-        </Button>
+        </BlueButton>
     );
 }

@@ -72,7 +72,7 @@ export default function MenuTab(props: TabBarProps) {
                     <div className={props.contentStyle}>
                         {
                             props.children.map((child,index) =>
-                            <TabPanel value={value} index={index} key={index}>{child}</TabPanel>
+                                <TabPanel value={value} index={index} key={index}>{child}</TabPanel>
                             )
                         }
                     </div>

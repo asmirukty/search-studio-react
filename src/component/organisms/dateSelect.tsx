@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {useRecoilState} from "recoil";
 import MinMaxSelect from "../molecules/minMaxSelect";
-import {endTimeOptions, startTimeOptions} from "../atoms/itemsAndOptions/timeOptions";
+import {endTimeOptions, startTimeOptions} from "../itemsAndOptions/timeOptions";
 import SearchRadio from "../atoms/searchRadio";
 import {dateState} from "../atom";
 import SearchDatePicker from "../atoms/searchDatePicker";
-import DateSelectBtn from "../molecules/dateSelectBtn";
+import DateAddResetButtons from "../molecules/dateAddResetButtons";
 import BoldTypography from "../atoms/boldTypography";
 
 export default function DateSelect(props: {index: number}) {
@@ -84,8 +84,8 @@ export default function DateSelect(props: {index: number}) {
     };
 
     return (
-        <div style={{paddingTop: 16}}>
-            <BoldTypography>日時{index+1}</BoldTypography>
+        <>
+            <BoldTypography margin={'16px 0 0'}>日時{index+1}</BoldTypography>
             <SearchDatePicker value={dateValue} changeDate={changeDate}/>
             <MinMaxSelect minLabel={'開始時間'} maxLabel={'終了時間'} min={startTimeValue} max={endTimeValue}
                           minOptions={startTimeOptions} maxOptions={endTimeOptions}
@@ -95,7 +95,7 @@ export default function DateSelect(props: {index: number}) {
                     <SearchRadio beforeTyp={'指定時間の'} options={['一部', '全時間']} afterTyp={'で空いている'}
                                  value={matchTimeValue ? '全時間' : '一部'} handleChange={changeMatchTime}/>
             }
-            <DateSelectBtn index={index} date={!dateValue}/>
-        </div>
+            <DateAddResetButtons index={index} date={!dateValue}/>
+        </>
     );
 }

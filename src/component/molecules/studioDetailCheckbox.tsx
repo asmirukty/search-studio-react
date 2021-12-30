@@ -2,7 +2,7 @@ import SearchCheckbox from "../atoms/searchCheckbox";
 import {useRecoilState} from "recoil";
 import {detailItemState} from "../atom";
 
-export default function DetailCheckbox(props: {options: any[]}) {
+export default function StudioDetailCheckbox(props: {options: any[]}) {
     const [detailItem, setDetailItem] = useRecoilState<string[]|any[]>(detailItemState);
 
     const checkDetailItem = (item: string) => {

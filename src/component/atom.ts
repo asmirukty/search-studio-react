@@ -1,10 +1,5 @@
 import {atom, selector} from "recoil";
-import {
-    floorMaterialOptions,
-    reservationOptions,
-    roomFacilityOptions,
-    studioFacilityOptions
-} from "./atoms/itemsAndOptions/detailOptions";
+import {floorMaterialOptions, reservationOptions, roomFacilityOptions, studioFacilityOptions} from "./itemsAndOptions/detailOptions";
 
 export const placeOpenState = atom<boolean>({
     key: "placeOpen",

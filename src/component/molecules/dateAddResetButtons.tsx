@@ -1,24 +1,14 @@
 import React from 'react';
-import {createStyles, makeStyles} from "@material-ui/core/styles";
 import {useSetRecoilState, useRecoilState} from "recoil";
 import {addDateOpenState, dateState} from "../atom";
 import OutlineButton from "../atoms/outlineButton";
 
-const useStyles = makeStyles(() =>
-    createStyles({
-        buttons: {
-            display: 'flex',
-            justifyContent: 'center'
-        }
-    }));
-
-interface DateSelectBtnProps {
+interface DateButtonsProps {
     index: number,
     date: boolean
 }
 
-export default function DateSelectBtn(props: DateSelectBtnProps) {
-    const classes = useStyles();
+export default function DateAddResetButtons(props: DateButtonsProps) {
     const {index} = props;
     const setDate = useSetRecoilState<{date: Date, startTime: string|null, endTime: string|null, matchTime: boolean}[]>(dateState);
     const [addDateOpen, setAddDateOpen] = useRecoilState<boolean[]>(addDateOpenState);
@@ -34,11 +24,11 @@ export default function DateSelectBtn(props: DateSelectBtnProps) {
     }
 
     return (
-            <div className={classes.buttons}>
-                <OutlineButton label={'× 削除'} onClick={reset}/>
+            <div style={{display: 'flex', justifyContent: 'center'}}>
+                <OutlineButton onClick={reset}>× 削除</OutlineButton>
                 {
                     index !== 4 &&
-                    <OutlineButton label={'+ 追加'} onClick={addDate} disabled={props.date || addDateOpen[index+1]}/>
+                    <OutlineButton onClick={addDate} disabled={props.date || addDateOpen[index+1]}>+ 追加</OutlineButton>
                 }
             </div>
     );

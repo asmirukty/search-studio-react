@@ -5,8 +5,8 @@ import {
     lineChipState, stationChipState, lineStationState
 } from "../atom";
 import StudioDialog from "../molecules/studioDialog";
-import {prefItem} from "../atoms/itemsAndOptions/prefItems";
-import {lineItem} from "../atoms/itemsAndOptions/lineItems";
+import {prefItem} from "../itemsAndOptions/prefItems";
+import {lineItem} from "../itemsAndOptions/lineItems";
 import {createStyles, makeStyles} from "@material-ui/core/styles";
 import MenuTab from "../molecules/menuTab";
 import PrefAccordion from "./prefAccordion";

@@ -3,7 +3,7 @@ import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
 import {dateState, dateChipState, dateOpenState, addDateOpenState} from "../atom";
 import StudioDialog from "../molecules/studioDialog";
 import DateSelect from "./dateSelect";
-import {sortDate} from "../atoms/sortDate";
+import {sortDate} from "../sortDate";
 
 export default function DateDialog() {
     const [dateOpen, setDateOpen] = useRecoilState<boolean>(dateOpenState);

@@ -5,8 +5,8 @@ import {
     priceChipState, reservationChipState, roomFacilityChipState, studioFacilityChipState
 } from "../atom";
 import SearchChip from "../atoms/searchChip";
-import {reserveOptions} from "../atoms/itemsAndOptions/detailOptions";
-import RangeLabel from "../atoms/rangeLabel";
+import {reserveOptions} from "../itemsAndOptions/detailOptions";
+import RangeLabel from "../rangeLabel";
 
 export default function StudioDetailChip() {
     const [fromStationChip, setFromStationChip] = useRecoilState<number|null>(fromStationChipState);

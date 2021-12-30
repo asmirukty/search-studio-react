@@ -1,47 +1,24 @@
 import React from "react";
-import {createStyles, makeStyles} from "@material-ui/core/styles";
-import {Button} from "@material-ui/core";
 import {Link} from "react-router-dom";
 import {useRecoilValue} from "recoil";
 import {placeChipState, studioNameState} from "../atom";
 import {queryState} from "../organisms/querySelector";
-
-const useStyles = makeStyles(() =>
-    createStyles({
-        searchBtn: {
-            fontSize: 16,
-            padding: '6px 32px',
-            fontWeight: 'bold',
-            color: '#F9F5F0',
-            backgroundColor: '#1D356A',
-            '&.Mui-disabled': {
-                color: '#F9F5F0',
-                opacity: .6
-            },
-            '&:hover': {
-                color: '#F9F5F0',
-                backgroundColor: '#1D356A',
-                opacity: .8
-            }
-        }
-    })
-);
+import BlueButton from "./blueButton";
 
 export default function StudioSearchButton() {
-    const classes = useStyles();
     const placeChip = useRecoilValue(placeChipState);
     const studioName = useRecoilValue<string|null>(studioNameState);
     const query = useRecoilValue<string[]>(queryState);
 
     return (
-        <Button className={classes.searchBtn}
-                disabled={placeChip.length === 0 && !studioName}
-                component={Link}
-                to={{
-                    pathname: '/studios/',
-                    search: `${query.join('&')}`
-                }}>
+        <BlueButton disabled={placeChip.length === 0 && !studioName}
+                    fontSize={16} padding={'6px 32px'} margin={'8px auto 0'}
+                    component={Link}
+                    to={{
+                        pathname: '/studios/',
+                        search: `${query.join('&')}`
+                    }}>
             検 索
-        </Button>
+        </BlueButton>
     )
 }

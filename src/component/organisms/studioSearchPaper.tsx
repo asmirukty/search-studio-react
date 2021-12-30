@@ -32,10 +32,6 @@ const useStyles = makeStyles(() =>
             display: 'flex',
             marginBottom: 8
         },
-        btnWrap: {
-            margin: '8px auto 0',
-            width: 'fit-content'
-        },
         none: {}
     })
 );
@@ -52,9 +48,7 @@ export default function StudioSearchPaper(props: {isWide?: boolean}) {
                     <StudioDate isWide={isWide}/>
                 </div>
                 <StudioDetail isWide={isWide}/>
-                <div className={classes.btnWrap}>
-                    <StudioSearchButton/>
-                </div>
+                <StudioSearchButton/>
                 <PlaceDialog/>
                 <SpaceDialog/>
                 <DateDialog/>

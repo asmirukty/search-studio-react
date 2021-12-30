@@ -74,15 +74,14 @@ export default function PlaceCheckAccordion(props: PlaceCheckAccordionProps) {
             <AccordionSummary expandIcon={<ExpandMoreIcon />}
                               aria-controls={`panel-${parentItem.id}-content`}
                               id={`panel-${parentItem.id}-header`}>
-                <SearchCheckbox item={parentItem} itemName={parentItem.name} key={parentItem.id} pref
+                <SearchCheckbox item={parentItem} itemName={parentItem.name} key={parentItem.id} parent
                                 checked={items.includes(parentItem)}
                                 itemChecked={checkedParent(childItems)} itemUnChecked={unCheckedParent(childItems)}/>
-
             </AccordionSummary>
             <AccordionDetails>
                 {
                     childItems.map((childItem) => (
-                        <SearchCheckbox item={childItem} itemName={childItem.name} key={childItem.id} city
+                        <SearchCheckbox item={childItem} itemName={childItem.name} key={childItem.id} child
                                         checked={items.map((item) => item.id).includes(childItem.id)}
                                         itemChecked={checkedChild(parentItem, childItems)}
                                         itemUnChecked={unCheckedChild(parentItem)}/>

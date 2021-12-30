@@ -1,6 +1,7 @@
 import React from "react";
 import {makeStyles, createStyles} from "@material-ui/core/styles";
 import Carousel from 'react-material-ui-carousel';
+import {useMedia} from "use-media";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -8,7 +9,7 @@ const useStyles = makeStyles(() =>
             backgroundColor: '#5A4628',
             opacity: 0.8,
             padding: 2,
-            margin: 0,
+            margin: 8,
         },
         navIndicator: {
             color: '#5A4628',
@@ -27,10 +28,18 @@ const useStyles = makeStyles(() =>
             opacity: 1
         },
         img: {
-            margin: 'auto',
-            paddingTop: 50,
-            height: 100,
-            textAlign: 'center'
+            backgroundColor: '#F9F5F0',
+            height: 250,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+        },
+        smallImg: {
+            backgroundColor: '#F9F5F0',
+            height: 150,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
         }
     }))
 
@@ -45,6 +54,7 @@ interface ImgCarouselProps {
 
 export default function ImgCarousel(props: ImgCarouselProps) {
     const classes = useStyles();
+    const isSmall = useMedia({ maxWidth: "560px" });
 
     return (
         <Carousel fullHeightHover={false} autoPlay={false}
@@ -54,7 +64,7 @@ export default function ImgCarousel(props: ImgCarouselProps) {
                   activeIndicatorIconButtonProps={{className: classes.navActiveIndicator}}>
             {
                 props.img.map((img, index) => (
-                    <div className={classes.img} key={index}>
+                    <div className={isSmall ? classes.smallImg : classes.img} key={index}>
                         <img alt={'img' + index} src={img.path}/>
                     </div>
                 ))
