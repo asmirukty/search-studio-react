@@ -7,9 +7,10 @@ import PageTitle from "../atoms/pageTitle";
 import {useMedia} from "use-media";
 import VacantRoomPaper from "../organisms/vacantRoomPaper";
 import StudioMenuTab from "../organisms/studioMenuTab";
-import {useLocation} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 import axios from "axios";
 import {initialStudio, StudioType} from "../seachResultType";
+import BlueButton from "../atoms/blueButton";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -17,7 +18,9 @@ const useStyles = makeStyles(() =>
             position: 'sticky',
             top: 100,
             zIndex: 1000,
-            padding: 16
+            padding: 16,
+            display: 'flex',
+            justifyContent: 'space-between'
         },
         blurImg: {
             position: 'sticky',
@@ -44,12 +47,14 @@ const useStyles = makeStyles(() =>
 export default function Studio() {
     const search = useLocation().search;
     const [studio, setStudio] = useState<StudioType>(initialStudio);
+    const isSmall = useMedia({ maxWidth: "500px" });
     const isWide = useMedia({ minWidth: "800px" });
     const classes = useStyles();
     const [imgTop, setImgTop] = React.useState<number>(window.innerWidth < 321 ? -27 : 80 - window.innerWidth / 3)
     const [barTop, setBarTop] = React.useState<number>(window.innerWidth < 321 ? 182 : 75 + window.innerWidth / 3)
 
     useEffect(() => {
+        console.log(search.substring(0, search.indexOf('&studio_id=')))
         axios.get('http://localhost:5000/studios/' + search)
             .then(response => {
                 setStudio(response.data)
@@ -96,7 +101,12 @@ export default function Studio() {
     return (
         <>
             <div className={classes.title}>
-                <PageTitle>{studio.studio_name}</PageTitle>
+                <PageTitle>M{studio.studio_name}</PageTitle>
+                <BlueButton component={Link}
+                            to={{pathname: `/studios/${search.substring(0, search.indexOf('&studio_id='))}`}}
+                            padding={isSmall ? '3px 6px' : '6px 8px'} margin={isWide ? '4px 20px' : 0}>
+                    検索画面へ
+                </BlueButton>
             </div>
             {
                 isWide ?

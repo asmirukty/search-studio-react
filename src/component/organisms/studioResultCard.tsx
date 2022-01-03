@@ -51,7 +51,7 @@ export default function StudioResultCard(props: StudioResultCardProps) {
 
     return (
         <Card style={props.isWide ? {boxShadow: 'none', minWidth: 420, maxWidth: 800, margin: '12px auto'} : {boxShadow: 'none', minWidth: 250, maxWidth: 600, margin: '12px auto'}}>
-            <CardActionArea component={Link} to={{pathname: `/studios/${studio.studio_name}${props.search}`}}>
+            <CardActionArea component={Link} to={{pathname: `/studios/${studio.studio_name}${props.search}&studio_id=${studio.studio_id}`}}>
                 <CardContent className={classes.card}>
                     <StudioResultCardTop studio={studio.studio_name} station={studio.address.station.name}
                                          exit={studio.address.exit.name} fromStation={studio.address.minutes_from_station}/>
