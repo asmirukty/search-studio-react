@@ -3,7 +3,7 @@ import {createStyles, makeStyles} from "@material-ui/core/styles";
 import ImgCarousel from "../atoms/imgCarousel";
 import SlotTable from "../molecules/slotTable";
 import SlotTime from "../molecules/slotTime";
-import StudioRoomContentTop from "../molecules/studioRoomContentTop";
+import VacantRoomTop from "../molecules/vacantRoomTop";
 import StudioReserveButton from "../atoms/studioReserveButton";
 import SearchChip from "../atoms/searchChip";
 
@@ -14,7 +14,8 @@ const useStyles = makeStyles(() =>
             color: '#5A4628'
         },
         flex: {
-            display: 'flex'
+            display: 'flex',
+            marginBottom: 4
         },
         reserveBtn: {
             fontSize: 16,
@@ -62,30 +63,24 @@ type Room = {
             "reserve_url": string
         }
 
-export default function StudioRoomContent(props: {room: Room}) {
+export default function VacantRoom(props: {room: Room}) {
     const classes = useStyles();
-    const {room} =props;
+    const {room} = props;
+    const items = [...room.room_facilities, ...room.amenities];
 
     return (
         <div className={classes.root}>
-            <StudioRoomContentTop name={room.room_name} area={room.floor_area}
-                                  minPeople={room.min_people} maxPeople={room.max_people} floor={room.floor_material}/>
+            <VacantRoomTop name={room.room_name} area={room.floor_area}
+                           minPeople={room.min_people} maxPeople={room.max_people} floor={room.floor_material}/>
             <div className={classes.flex}>
                 {
-                    room.room_facilities.map((facility, index) => (
-                        <SearchChip key={index} label={facility.name}/>
-                    ))
-                }
-                {
-                    room.amenities.map((amenity, index) => (
-                        <SearchChip key={index} label={amenity.name}/>
-                    ))
+                    items.map((item, index) => <SearchChip key={index} label={item.name}/>)
                 }
             </div>
             <ImgCarousel img={room.room_img}/>
             <SlotTable slots={room.slots}/>
             <SlotTime minutes={room.min_reserve_minutes}/>
-            <div className={classes.flex}>
+            <div style={{display: 'flex'}}>
                 <StudioReserveButton/>
             </div>
         </div>

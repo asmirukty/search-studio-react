@@ -4,7 +4,7 @@ import {makeStyles, createStyles} from "@material-ui/core/styles";
 import StudioResultCardTop from "../molecules/studioResultCardTop";
 import RoomTop from "../molecules/roomTop";
 import {Link} from 'react-router-dom';
-import {Studio} from "../seachResultType";
+import {StudioType} from "../seachResultType";
 import ImgCarousel from "../atoms/imgCarousel";
 import SlotTable from "../molecules/slotTable";
 import StudioResultCardDetail from "../atoms/studioResultCardDetail";
@@ -37,15 +37,21 @@ const useStyles = makeStyles(() =>
     })
 );
 
-export default function StudioResultCard(props: {studio: Studio, isWide: boolean}) {
+interface StudioResultCardProps {
+    studio: StudioType,
+    search: string,
+    isWide: boolean
+}
+
+export default function StudioResultCard(props: StudioResultCardProps) {
     const {studio} = props;
     const classes = useStyles();
 
-    const restRoom =  studio.room_count - studio.rooms.length
+    const restRoom = studio.room_count - studio.rooms.length
 
     return (
         <Card style={props.isWide ? {boxShadow: 'none', minWidth: 420, maxWidth: 800, margin: '12px auto'} : {boxShadow: 'none', minWidth: 250, maxWidth: 600, margin: '12px auto'}}>
-            <CardActionArea component={Link} to={{pathname: `/studios/${studio.studio_name}`}}>
+            <CardActionArea component={Link} to={{pathname: `/studios/${studio.studio_name}${props.search}`}}>
                 <CardContent className={classes.card}>
                     <StudioResultCardTop studio={studio.studio_name} station={studio.address.station.name}
                                          exit={studio.address.exit.name} fromStation={studio.address.minutes_from_station}/>

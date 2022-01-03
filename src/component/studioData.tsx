@@ -1,4 +1,4 @@
-export const studio = {
+export const sampleStudio = {
     "studio_id": "99999999",
     "studio_name": "Mission",
     "address": {

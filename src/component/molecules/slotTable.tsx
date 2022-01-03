@@ -1,39 +1,53 @@
 import {Chip, TableContainer, Table, TableBody, TableRow, TableCell, TableHead} from "@material-ui/core";
 import {makeStyles, createStyles} from "@material-ui/core/styles";
 import DateConvert from "../dateConvert";
+import SearchChip from "../atoms/searchChip";
 
 const useStyles = makeStyles(() =>
     createStyles({
-        headCell: {
+        timeCell: {
             color: '#5A4628',
             fontSize: 8,
             padding: 0
         },
         tableRow: {
+            height: 28,
             border: '1px solid #D7D2C8'
         },
-        cell: {
-            position: 'relative',
-            minWidth: 20,
-            maxWidth: 20,
-            color: '#5A4628',
-            padding: '4px 0',
-            borderRight: '1px solid #D7D2C8',
-            zIndex: 1
-        },
-        cellChip: {
-            position: 'absolute',
-            left: 2,
-            color: '#5A4628',
-            backgroundColor: '#e7e1d8',
-            zIndex: 10,
-        },
-        cellTitle: {
+        dateCell: {
             fontSize: 12,
+            textAlign: 'center',
             minWidth: 60,
+            width: 60,
+            maxWidth: 60,
             color: '#5A4628',
             padding: 4,
             borderRight: '1px solid #D7D2C8'
+        },
+        cell: {
+            minWidth: 20,
+            width: 20,
+            zIndex: 100,
+            color: '#5A4628',
+            padding: 0,
+            borderRight: '1px solid #D7D2C8',
+            '&:last-child': {
+                paddingRight: 0
+            }
+        },
+        chipCell: {
+            position: 'relative',
+            width: 20,
+            zIndex: 10
+        },
+        normalCell: {
+            display: 'flex',
+            alignItems: 'center',
+            width: '100%'
+        },
+        hr: {
+            width: '100%',
+            zIndex: 1
         }
     }))
 
@@ -59,38 +73,38 @@ export default function SlotTable(props: SlotTableProps) {
             <Table>
                 <TableHead>
                     <TableRow>
-                        <TableCell className={classes.headCell} align='left' size='small'> </TableCell>
+                        <TableCell size='small'> </TableCell>
                         {
                             times.map((time) =>
-                                <TableCell className={classes.headCell} key={time} colSpan={2} align='left' size='small'>{time}</TableCell>
+                                <TableCell className={classes.timeCell} key={time} colSpan={2} align='left' size='small'>
+                                    {time}
+                                </TableCell>
                             )
                         }
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     <TableRow className={classes.tableRow}>
-                        <TableCell className={classes.cellTitle} size='small'>
+                        <TableCell className={classes.dateCell} size='small'>
                             {DateConvert(props.slots[0].time_begin * 1000)}
                         </TableCell>
                         {
                             props.slots.map((slot, index, array) =>
                                 <TableCell className={classes.cell} key={index} size='small'>
-                                    <div style={{display: 'flex', alignItems: 'center'}}>
                                 {
                                     (!array[index-1] || slot.price !== array[index-1].price) ?
-                                        <Chip size="small" key={index} label={`${slot.price}円`} className={classes.cellChip}/>
+                                        <div className={classes.chipCell}>
+                                            <SearchChip key={index} label={slot.price} after={'円'}/>
+                                        </div>
                                         :
-                                         ((!array[index+1] || slot.price !== array[index+1].price) ?
-                                            <div style={{display: 'flex', alignItems: 'center'}}>
-                                                <hr color='#5A4628'/>
-                                                <div style={{padding: 0}}>▶︎</div>
-                                             </div>
-                                            :
-                                            <div style={{zIndex: 1, margin: 0, flexGrow: 1}}>
-                                                <hr color='#5A4628'/>
-                                            </div>)
+                                        <div className={classes.normalCell}>
+                                            <hr color='#5A4628' className={classes.hr}/>
+                                            {
+                                                (!array[index+1] || slot.price !== array[index+1].price) &&
+                                                <div style={{marginLeft: -4}}>▶︎</div>
+                                            }
+                                        </div>
                                 }
-                                    </div>
                                 </TableCell>
                             )
                         }

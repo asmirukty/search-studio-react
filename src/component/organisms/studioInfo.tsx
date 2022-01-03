@@ -16,7 +16,7 @@ const useStyles = makeStyles(() =>
     })
 );
 
-interface StudioInfoProps {
+export interface StudioInfoProps {
     intro: string,
     facilities: { "name": string, "count": number, "price": number }[],
     address: {

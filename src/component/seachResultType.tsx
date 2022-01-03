@@ -33,7 +33,7 @@ interface Station {
     name: string,
 }
 
-let initialStation: Station= {
+let initialStation: Station = {
     id: '',
     name: '',
 }
@@ -132,7 +132,7 @@ let initialSlot: Slot = {
     count: 0,
 }
 
-interface Room {
+export interface Room {
     room_name: string,
     floor_area: number,
     mirror_length: number,
@@ -174,18 +174,32 @@ let initialRoom: Room = {
     reserve_url: '',
 }
 
-export interface Studio {
+export interface StudioType {
     studio_id: string,
     studio_name: string,
+    studio_img: {
+        name: string,
+        description: string,
+        path: string,
+    }[],
+    studio_introduction: string,
+    studio_precaution: string,
+    homepage_url: string,
     address: Address,
     studio_facilities: StudioFacility[],
     room_count: number,
     rooms: Room[]
 }
 
-let initialStudio: Studio = {
+export let initialStudio: StudioType = {
     studio_id: '',
     studio_name: '',
+    studio_img: [
+        {name: '', description: '', path: ''}
+    ],
+    studio_introduction: '',
+    studio_precaution: '',
+    homepage_url: '',
     address: initialAddress,
     studio_facilities: [
         initialStudioFacility,
@@ -198,7 +212,7 @@ let initialStudio: Studio = {
 
 export interface SearchResult {
     total_pages: number,
-    studios: Studio[],
+    studios: StudioType[],
 }
 
 export let initialSearchResult: SearchResult = {

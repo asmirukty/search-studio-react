@@ -3,13 +3,13 @@ import {createStyles, makeStyles} from "@material-ui/core/styles";
 import {Typography} from "@material-ui/core";
 import {People} from "@material-ui/icons";
 import RangeLabel from "../rangeLabel";
+import BoldTypography from "../atoms/boldTypography";
 
 const useStyles = makeStyles(() =>
     createStyles({
         roomTop: {
             display: 'flex',
-            alignItems: 'center',
-            marginBottom: 4
+            alignItems: 'center'
         },
         people:{
             margin: '0px 8px',
@@ -18,14 +18,15 @@ const useStyles = makeStyles(() =>
         },
         floor: {
             border: '1px solid #D7D2C8',
+            borderRadius: 2,
             fontSize: 12,
-            padding: 2,
+            padding: '2px 3px',
             margin: '0 8px'
         }
     })
 );
 
-interface StudioRoomContentTopProps {
+interface VacantRoomTopProps {
     name: string;
     area: number;
     minPeople: number;
@@ -33,12 +34,12 @@ interface StudioRoomContentTopProps {
     floor: string;
 }
 
-export default function StudioRoomContentTop(props: StudioRoomContentTopProps) {
+export default function VacantRoomTop(props: VacantRoomTopProps) {
     const classes = useStyles();
 
     return (
         <div className={classes.roomTop}>
-            <Typography variant={'body1'} style={{fontWeight: 'bold'}}>{props.name}</Typography>
+            <BoldTypography>{props.name}</BoldTypography>
             <Typography variant='body2' style={{margin: '0px 8px'}}>⊿ {props.area}m²</Typography>
             {
                 (props.minPeople > 0 || props.maxPeople > 0) &&

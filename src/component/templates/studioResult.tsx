@@ -71,7 +71,7 @@ export default function StudioResult() {
                 <BoldTypography sub center>全{searchResult.total_pages}件</BoldTypography>
                 {
                     searchResult.studios.map((studio, index) =>
-                        <StudioResultCard studio={studio} isWide={isWide} key={index}/>
+                        <StudioResultCard studio={studio} search={search} isWide={isWide} key={index}/>
                     )
                 }
             </div>

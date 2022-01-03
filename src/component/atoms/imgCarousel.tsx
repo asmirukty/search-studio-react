@@ -29,14 +29,14 @@ const useStyles = makeStyles(() =>
         },
         img: {
             backgroundColor: '#F9F5F0',
-            height: 250,
+            //height: 250,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center'
         },
         smallImg: {
             backgroundColor: '#F9F5F0',
-            height: 150,
+            //height: 150,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center'
@@ -65,7 +65,7 @@ export default function ImgCarousel(props: ImgCarouselProps) {
             {
                 props.img.map((img, index) => (
                     <div className={isSmall ? classes.smallImg : classes.img} key={index}>
-                        <img alt={'img' + index} src={img.path}/>
+                        <img style={{width: '100%'}} alt={'img' + index} src={"https://placehold.jp/300x200.png"}/>
                     </div>
                 ))
             }

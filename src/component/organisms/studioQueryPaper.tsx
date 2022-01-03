@@ -17,10 +17,12 @@ const useStyles = makeStyles(() =>
             minWidth: 240,
             maxWidth: 360,
             height: 34,
+            display: 'flex',
+            alignItems: 'center',
             boxShadow:'4px 4px 4px #F9F5F0',
         },
         content: {
-            minWidth: 240,
+            width: '100%',
             display: 'flex',
             alignItems: 'center'
         },
